@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Student Login | The Blueprint</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: #102a56;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #f4c542;
+}
+
+.back-link {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    min-height: calc(100vh - 75px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.login-box {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.login-box h1 {
+    text-align: center;
+    color: #102a56;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #657084;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d5dbe5;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1f4b91;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #f4c542;
+    color: #172033;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.register-note {
+    text-align: center;
+    margin-top: 20px;
+    color: #657084;
+    font-size: 14px;
+}
+
+.register-note a {
+    color: #1f4b91;
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        THE <span>BLUEPRINT</span>
+    </div>
+
+    <a href="index.html" class="back-link">
+        ← Home
+    </a>
+
+</header>
+
+<div class="container">
+
+    <div class="login-box">
+
+        <h1>Student Login</h1>
+
+        <p class="subtitle">
+            Welcome back to The Blueprint.
+        </p>
+
+        <form>
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div class="register-note">
+
+            Don't have an account?
+            <a href="register.html">Register here</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
