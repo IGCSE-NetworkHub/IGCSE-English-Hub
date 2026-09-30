@@ -224,8 +224,7 @@ alert("Username entered: [" + username + "]");
         .from("students")
         .select("email")
         .eq("username", username)
-        .single();
-
+       .maybeSingle();
    if (studentError || !student) {
     alert(studentError ? studentError.message : "Student not found.");
     return;
