@@ -224,11 +224,10 @@ loginForm.addEventListener("submit", async function(event) {
         .eq("username", username)
         .single();
 
-    if (studentError || !student) {
-        alert("Username not found.");
-        return;
-    }
-
+   if (studentError || !student) {
+    alert(studentError ? studentError.message : "Student not found.");
+    return;
+}
     const { error } = await supabaseClient.auth.signInWithPassword({
         email: student.email,
         password: password
