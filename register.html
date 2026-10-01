@@ -338,15 +338,15 @@ if (authError) {
 const { data, error } = await supabaseClient
     .from("students")
     .insert([
-            {
-                student_name: studentName,
-                parent_phone: parentPhone,
-                email: email,
-                grade: grade
-            }
-        ])
-        .select();
-
+        {
+            student_name: studentName,
+            parent_phone: parentPhone,
+            email: email,
+            username: username,
+            grade: grade
+        }
+    ])
+    .select();
     if (error) {
 
         console.error(error);
