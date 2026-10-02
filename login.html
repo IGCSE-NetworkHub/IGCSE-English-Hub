@@ -219,22 +219,31 @@ loginForm.addEventListener("submit", async function(event) {
 
     const password = document.getElementById("password").value;
 
-    const { data: student, error: studentError } = await supabaseClient
+    const { data: students, error: studentError } = await supabaseClient
         .from("students")
         .select("email")
         .eq("username", username)
-       .maybeSingle();
-   if (studentError || !student) {
-    alert(studentError ? studentError.message : "Student not found.");
-    return;
-}
+        .limit(1);
+
+    if (studentError) {
+        alert(studentError.message);
+        return;
+    }
+
+    if (!students || students.length === 0) {
+        alert("Student not found.");
+        return;
+    }
+
+    const student = students[0];
+
     const { error } = await supabaseClient.auth.signInWithPassword({
         email: student.email,
         password: password
     });
 
     if (error) {
-        alert("Incorrect password.");
+        alert(error.message);
         return;
     }
 
