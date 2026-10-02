@@ -217,7 +217,6 @@ loginForm.addEventListener("submit", async function(event) {
 
     const username = document.getElementById("username").value.trim();
 
-alert("Username entered: [" + username + "]");
     const password = document.getElementById("password").value;
 
     const { data: student, error: studentError } = await supabaseClient
