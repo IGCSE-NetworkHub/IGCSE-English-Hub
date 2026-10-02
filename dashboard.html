@@ -145,7 +145,17 @@
 <footer>
     © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
+<script>
 
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+
+}
+
+</script>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
