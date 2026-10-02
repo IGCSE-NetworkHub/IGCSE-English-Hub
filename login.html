@@ -250,7 +250,7 @@ loginForm.addEventListener("submit", async function(event) {
     window.location.href = "dashboard.html";
 
 });
-
+alert("Supabase test: " + (await supabaseClient.from("students").select("username").eq("username", "test6").limit(1)).data?.length);
 </script>
 </body>
 </html>
