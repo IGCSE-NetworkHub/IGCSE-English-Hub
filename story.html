@@ -53,22 +53,22 @@ header p {
 /* NAVIGATION */
 
 .lesson-nav {
-    position: fixed;
-    left: 20px;
-    top: 120px;
-    width: 220px;
-    max-height: calc(100vh - 80px);
-    overflow-y: auto;
+    position: fixed !important;
+    left: 20px !important;
+    top: 100px !important;
+    width: 250px !important;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
 
     background: white;
     padding: 18px;
     border-radius: 16px;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,.10);
+    box-shadow: 0 5px 20px rgba(0,0,0,.12);
 
-    z-index: 1000;
+    z-index: 9999 !important;
 }
-.lesson-nav h3 {
+    .lesson-nav h3 {
     margin-top: 0;
     color: #102a56;
 }
