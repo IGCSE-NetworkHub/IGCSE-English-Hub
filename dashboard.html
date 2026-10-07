@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>My Learning Hub - IGCSE English Hub</title>
 
     <style>
@@ -15,47 +16,82 @@
 
         header {
             background: #ffffff;
-            padding: 25px;
+            padding: 30px 20px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
         header h1 {
             margin: 0;
+            color: #102a56;
+        }
+
+        header p {
+            margin-top: 10px;
+            color: #666;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 900px;
+            margin: 50px auto;
             padding: 20px;
         }
 
         .container h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            color: #102a56;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
 
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 40px 25px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
         }
 
         .card-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 55px;
+            margin-bottom: 15px;
         }
 
         .card h3 {
-            margin: 10px 0;
+            margin: 10px 0 15px;
+            color: #102a56;
+            font-size: 24px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .card a {
+            text-decoration: none;
+        }
+
+        .logout {
+            display: block;
+            margin: 40px auto 20px;
+            padding: 12px 28px;
+            background: #102a56;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
         footer {
@@ -75,89 +111,56 @@
 
 <div class="container">
 
-    <h2>What You Can Learn</h2>
+    <h2>Choose Your Course</h2>
 
     <div class="cards">
 
         <div class="card">
-            <div class="card-icon">📖</div>
-           <a href="reading.html">
-    <h3>Reading</h3>
-</a>
-            <p>Build comprehension skills and learn how to answer IGCSE-style reading questions.</p>
+
+            <div class="card-icon">📘</div>
+
+            <a href="my-course.html">
+                <h3>My Course</h3>
+            </a>
+
+            <p>
+                Access your Year course, Units,
+                Vocabulary, Grammar, Writing and
+                End of Unit Tests.
+            </p>
+
         </div>
 
         <div class="card">
-            <div class="card-icon">✍️</div>
-         <a href="writing.html">
-    <h3>Writing</h3>
-</a>
-            <p>Develop your writing skills for different IGCSE tasks.</p>
-        </div>
 
-        <div class="card">
-            <div class="card-icon">🎧</div>
-           <a href="listening.html">
-    <h3>Listening</h3>
-</a>
-            <p>Improve your listening skills through regular practice.</p>
-        </div>
+            <div class="card-icon">🎓</div>
 
-        <div class="card">
-            <div class="card-icon">📚</div>
-           <a href="vocabulary.html">
-    <h3>Vocabulary</h3>
-</a>
-            <p>Build your vocabulary and use new words confidently.</p>
-        </div>
+            <a href="checkpoint.html">
+                <h3>Cambridge Checkpoint Course</h3>
+            </a>
 
-        <div class="card">
-            <div class="card-icon">🔤</div>
-           <a href="grammar.html">
-    <h3>Grammar</h3>
-</a>
-            <p>Strengthen your grammar through focused practice.</p>
-        </div>
+            <p>
+                Prepare for Cambridge Checkpoint
+                through General Preparation,
+                Classified Papers, Past Papers
+                and Test Yourself.
+            </p>
 
-        <div class="card">
-            <div class="card-icon">📊</div>
-            <a href="tests.html">
-    <h3>Progress & Tests</h3>
-</a>
-            <p>Track your progress and practise with exam-style tests.</p>
         </div>
 
     </div>
 
 </div>
-<button onclick="logout()" style="
-    display:block;
-    margin:30px auto;
-    padding:12px 25px;
-    background:#102a56;
-    color:white;
-    border:none;
-    border-radius:7px;
-    cursor:pointer;
-">
+
+<button class="logout" onclick="logout()">
     Logout
 </button>
+
 <footer>
     © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
-<script>
 
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href = "login.html";
-
-}
-
-</script>
-</body>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
@@ -181,7 +184,17 @@ async function checkLogin() {
 
 }
 
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+
+}
+
 checkLogin();
 
 </script>
+
+</body>
 </html>
