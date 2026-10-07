@@ -139,7 +139,7 @@
 
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const SUPABASE_ANON_KEY = "USER'S CURRENT PUBLISHABLE KEY";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
@@ -157,14 +157,8 @@ async function loadCourse() {
         return;
     }
 
-    const email = session.user.email;
-
     const { data: student, error: studentError } =
-        await supabaseClient
-            .from("students")
-            .select("student_name, grade")
-            .eq("email", email)
-            .limit(1);
+        await supabaseClient.rpc("get_my_student");
 
     if (studentError) {
         document.getElementById("loading").style.display = "none";
