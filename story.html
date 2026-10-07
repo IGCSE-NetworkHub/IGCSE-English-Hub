@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Story Chapter - IGCSE English Hub</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        header {
+            background: #17365d;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .story-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .story-card h2 {
+            color: #17365d;
+            margin-top: 0;
+        }
+
+        .story-card p {
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            background: #17365d;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background: #0f2744;
+        }
+
+        #error {
+            color: #b00020;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            background: #17365d;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1 id="chapterTitle">Loading...</h1>
+    <p>Year 6 Story</p>
+</header>
+
+<div class="container">
+
+    <div class="story-card">
+
+        <h2 id="title">Loading...</h2>
+
+        <p id="description">
+            Loading chapter information...
+        </p>
+
+        <div id="content">
+        </div>
+
+        <p id="error"></p>
+
+        <a href="my-course.html" class="back">
+            ← Back to My Course
+        </a>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+async function loadChapter() {
+
+    const { data: { session } } =
+        await supabaseClient.auth.getSession();
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const chapterId =
+        params.get("id");
+
+
+    if (!chapterId) {
+
+        showError("Chapter not found.");
+
+        return;
+    }
+
+
+    const { data: chapter, error } =
+        await supabaseClient
+
+        .from("story_chapters")
+
+        .select(
+            "id, chapter_number, title, description, content_url"
+        )
+
+        .eq("id", chapterId)
+
+        .single();
+
+
+    if (error) {
+
+        showError(error.message);
+
+        return;
+    }
+
+
+    if (!chapter) {
+
+        showError("Chapter not found.");
+
+        return;
+    }
+
+
+    document.getElementById("chapterTitle")
+        .textContent =
+        chapter.title;
+
+    document.getElementById("title")
+        .textContent =
+        chapter.title;
+
+
+    document.getElementById("description")
+        .textContent =
+        chapter.description ||
+        "This chapter will contain the story content.";
+
+
+    if (chapter.content_url) {
+
+        document.getElementById("content")
+            .innerHTML = `
+
+                <p>
+                    <a href="${chapter.content_url}"
+                       target="_blank">
+                        Open Chapter Content
+                    </a>
+                </p>
+
+            `;
+    }
+
+}
+
+
+function showError(message) {
+
+    const error =
+        document.getElementById("error");
+
+    error.style.display = "block";
+
+    error.textContent = message;
+}
+
+
+loadChapter();
+
+</script>
+
+</body>
+</html>
