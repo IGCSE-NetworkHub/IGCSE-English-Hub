@@ -71,47 +71,55 @@ header p {
 }
 
 /* ============================= */
-/* MAIN CONTENT */
-/* ============================= */
-
-.container {
-    max-width: 1050px;
-    margin: 35px auto;
-    padding: 0 20px;
-
-    /* Space for fixed menu */
-    margin-left: 310px;
-    margin-right: 30px;
-}
-
-/* ============================= */
-/* FIXED CHAPTER MENU */
+/* CHAPTER MENU */
 /* ============================= */
 
 .lesson-nav {
-    position: fixed !important;
-    left: 15px !important;
-    top: 90px !important;
+    position: fixed;
+    left: 18px;
+    top: 105px;
 
-    width: 270px !important;
-    height: calc(100vh - 110px) !important;
+    width: 265px;
+    height: calc(100vh - 125px);
 
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-    background: #ffffff !important;
+    background: #ffffff;
 
-    padding: 18px !important;
+    padding: 18px;
 
-    border-radius: 16px !important;
+    border-radius: 16px;
 
-    box-shadow: 0 6px 25px rgba(0,0,0,.15) !important;
+    border: 1px solid #dfe6ef;
 
-    border: 1px solid #e1e7ef !important;
+    box-shadow: 0 8px 28px rgba(16,42,86,.16);
 
-    z-index: 999999 !important;
+    z-index: 10000;
+
+    animation: menuSlide .5s ease;
+
+    /* Prevent any parent layout from affecting it */
+    margin: 0;
+
+    flex: none;
 }
-    /* Menu scrollbar */
+
+.lesson-nav h3 {
+    margin: 0 0 18px 0;
+
+    color: #102a56;
+
+    font-size: 19px;
+
+    padding-bottom: 14px;
+
+    border-bottom: 2px solid #edf1f6;
+
+    text-align: center;
+}
+
+/* MENU SCROLLBAR */
 
 .lesson-nav::-webkit-scrollbar {
     width: 7px;
@@ -131,40 +139,22 @@ header p {
     background: #1d4f91;
 }
 
-.lesson-nav h3 {
-
-    margin: 0 0 18px 0;
-
-    color: #102a56;
-
-    font-size: 19px;
-
-    padding-bottom: 14px;
-
-    border-bottom: 2px solid #edf1f6;
-}
-
 /* ============================= */
 /* MENU BUTTONS */
 /* ============================= */
 
 .nav-buttons {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 9px;
 }
 
 .nav-buttons a {
-
     display: flex;
 
     align-items: center;
 
     width: 100%;
-
     min-height: 43px;
 
     text-decoration: none;
@@ -191,20 +181,32 @@ header p {
 }
 
 .nav-buttons a:hover {
-
     background: #102a56;
-
     color: white;
 
     transform: translateX(5px);
 
-    box-shadow:
-        0 5px 12px rgba(16,42,86,.18);
+    box-shadow: 0 5px 12px rgba(16,42,86,.18);
 }
 
 .nav-buttons a:active {
-
     transform: translateX(2px) scale(.98);
+}
+
+/* ============================= */
+/* MAIN CONTENT */
+/* ============================= */
+
+.container {
+    width: calc(100% - 335px);
+
+    max-width: 1050px;
+
+    margin-top: 35px;
+    margin-right: 30px;
+    margin-left: 315px;
+
+    padding: 0 20px;
 }
 
 /* ============================= */
@@ -212,21 +214,18 @@ header p {
 /* ============================= */
 
 @keyframes menuSlide {
-
     from {
         opacity: 0;
-        transform: translateX(-20px);
+        transform: translateX(-25px);
     }
 
     to {
         opacity: 1;
         transform: translateX(0);
     }
-
 }
 
 @keyframes fadeUp {
-
     from {
         opacity: 0;
         transform: translateY(15px);
@@ -236,11 +235,9 @@ header p {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 @keyframes openAnswer {
-
     from {
         opacity: 0;
         transform: translateY(-5px);
@@ -250,7 +247,6 @@ header p {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 /* ============================= */
@@ -258,7 +254,6 @@ header p {
 /* ============================= */
 
 .section {
-
     background: white;
 
     margin-bottom: 25px;
@@ -276,7 +271,6 @@ header p {
 }
 
 .section-title {
-
     padding: 22px 25px;
 
     background:
@@ -286,14 +280,11 @@ header p {
 }
 
 .section-title h2 {
-
     margin: 0;
-
     font-size: 24px;
 }
 
 .section-content {
-
     padding: 28px;
 }
 
@@ -302,24 +293,20 @@ header p {
 /* ============================= */
 
 .story-text {
-
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
     font-size: 19px;
-
     line-height: 1.9;
 }
 
 .story-text p {
-
     margin-bottom: 24px;
 }
 
 .quote {
-
     border-left: 5px solid #1d4f91;
 
     background: #f1f6fc;
@@ -336,7 +323,6 @@ header p {
 }
 
 .quote:hover {
-
     transform: translateX(4px);
 
     background: #eaf2fb;
@@ -347,7 +333,6 @@ header p {
 /* ============================= */
 
 .cards {
-
     display: grid;
 
     grid-template-columns:
@@ -357,7 +342,6 @@ header p {
 }
 
 .card {
-
     background: #f7f9fc;
 
     border: 1px solid #e1e7ef;
@@ -372,7 +356,6 @@ header p {
 }
 
 .card:hover {
-
     transform: translateY(-5px);
 
     box-shadow:
@@ -380,16 +363,12 @@ header p {
 }
 
 .card-icon {
-
     font-size: 30px;
-
     margin-bottom: 10px;
 }
 
 .card h3 {
-
     color: #102a56;
-
     margin-top: 0;
 }
 
@@ -398,7 +377,6 @@ header p {
 /* ============================= */
 
 .vocab-card {
-
     background: #f8fbff;
 
     border-left: 5px solid #1d4f91;
@@ -413,7 +391,6 @@ header p {
 }
 
 .vocab-card:hover {
-
     transform: translateX(4px);
 
     box-shadow:
@@ -421,7 +398,6 @@ header p {
 }
 
 .vocab-card strong {
-
     color: #102a56;
 }
 
@@ -430,7 +406,6 @@ header p {
 /* ============================= */
 
 .accordion {
-
     border: 1px solid #e1e7ef;
 
     border-radius: 12px;
@@ -443,13 +418,11 @@ header p {
 }
 
 .accordion:hover {
-
     box-shadow:
         0 4px 12px rgba(0,0,0,.06);
 }
 
 .accordion button {
-
     width: 100%;
 
     border: 0;
@@ -472,12 +445,10 @@ header p {
 }
 
 .accordion button:hover {
-
     background: #eaf1fa;
 }
 
 .answer {
-
     display: none;
 
     padding: 18px;
@@ -490,7 +461,6 @@ header p {
 }
 
 .answer.show {
-
     display: block;
 
     animation: openAnswer .3s ease;
@@ -502,9 +472,7 @@ header p {
 
 ol li,
 ul li {
-
     margin-bottom: 12px;
-
     line-height: 1.6;
 }
 
@@ -513,7 +481,6 @@ ul li {
 /* ============================= */
 
 .comment-card {
-
     background: #fafafa;
 
     border: 1px solid #e0e5ec;
@@ -528,7 +495,6 @@ ul li {
 }
 
 .comment-card:hover {
-
     box-shadow:
         0 5px 15px rgba(0,0,0,.07);
 
@@ -536,21 +502,16 @@ ul li {
 }
 
 .comment-card .quote {
-
     margin-top: 0;
 }
 
 .comment-row {
-
     margin: 8px 0;
-
     line-height: 1.6;
 }
 
 .comment-label {
-
     font-weight: bold;
-
     color: #102a56;
 }
 
@@ -559,7 +520,6 @@ ul li {
 /* ============================= */
 
 .quiz-card {
-
     background:
         linear-gradient(
             135deg,
@@ -577,19 +537,15 @@ ul li {
 }
 
 .quiz-card h3 {
-
     color: #102a56;
 }
 
 .marks {
-
     color: #777;
-
     font-weight: bold;
 }
 
 .quiz-note {
-
     background: #fff8df;
 
     border-left: 5px solid #e2b400;
@@ -606,7 +562,6 @@ ul li {
 /* ============================= */
 
 .back-button {
-
     display: inline-block;
 
     text-decoration: none;
@@ -627,7 +582,6 @@ ul li {
 }
 
 .back-button:hover {
-
     background: #0b1d3d;
 
     transform: translateY(-2px);
@@ -641,12 +595,13 @@ ul li {
 /* ============================= */
 
 footer {
-
     text-align: center;
 
     padding: 30px;
 
     color: #666;
+
+    margin-left: 300px;
 }
 
 /* ============================= */
@@ -655,20 +610,23 @@ footer {
 
 @media(max-width:1000px) {
 
-    .container {
-
-        margin-left: 295px;
-
-        margin-right: 20px;
-    }
-
     .lesson-nav {
-
-        width: 250px;
-
-        left: 15px;
+        width: 235px;
+        left: 12px;
     }
 
+    .container {
+        width: calc(100% - 275px);
+
+        margin-left: 260px;
+        margin-right: 15px;
+
+        padding: 0 15px;
+    }
+
+    footer {
+        margin-left: 240px;
+    }
 }
 
 /* ============================= */
@@ -678,38 +636,26 @@ footer {
 @media(max-width:700px) {
 
     header {
-
         padding: 40px 15px;
     }
 
     header h1 {
-
         font-size: 31px;
     }
 
     header p {
-
         font-size: 18px;
     }
 
-    .container {
-
-        margin: 20px auto;
-
-        padding: 0 15px;
-    }
-
-    /* Mobile menu */
+    /* MENU BECOMES NORMAL MOBILE BLOCK */
 
     .lesson-nav {
-
         position: relative;
 
         left: auto;
-
         top: auto;
 
-        width: 100%;
+        width: calc(100% - 30px);
 
         height: auto;
 
@@ -717,13 +663,17 @@ footer {
 
         overflow: visible;
 
-        margin-bottom: 25px;
+        margin: 20px 15px 25px;
 
         padding: 18px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 5px 18px rgba(0,0,0,.10);
     }
 
     .nav-buttons {
-
         display: grid;
 
         grid-template-columns:
@@ -733,7 +683,6 @@ footer {
     }
 
     .nav-buttons a {
-
         justify-content: center;
 
         text-align: center;
@@ -747,33 +696,38 @@ footer {
         font-size: 13px;
     }
 
-    .section-content {
+    .container {
+        width: auto;
 
+        margin: 20px auto;
+
+        padding: 0 15px;
+    }
+
+    .section-content {
         padding: 20px;
     }
 
     .story-text {
-
         font-size: 17px;
-
         line-height: 1.8;
     }
 
     .section-title {
-
         padding: 19px 20px;
     }
 
     .section-title h2 {
-
         font-size: 21px;
     }
 
     .cards {
-
         grid-template-columns: 1fr;
     }
 
+    footer {
+        margin-left: 0;
+    }
 }
 
 /* ============================= */
@@ -783,12 +737,10 @@ footer {
 @media(max-width:430px) {
 
     .nav-buttons {
-
         grid-template-columns: 1fr;
     }
 
     .nav-buttons a {
-
         justify-content: flex-start;
 
         text-align: left;
@@ -797,15 +749,12 @@ footer {
     }
 
     header h1 {
-
         font-size: 28px;
     }
 
     header p {
-
         font-size: 16px;
     }
-
 }
 
 </style>
@@ -813,7 +762,6 @@ footer {
 </head>
 
 <body>
-
 
 <!-- ============================= -->
 <!-- HEADER -->
@@ -834,11 +782,9 @@ footer {
 </header>
 
 
-<div class="container">
-
-
 <!-- ============================= -->
 <!-- CHAPTER MENU -->
+<!-- IMPORTANT: OUTSIDE CONTAINER -->
 <!-- ============================= -->
 
 <div class="lesson-nav">
@@ -878,6 +824,13 @@ footer {
     </div>
 
 </div>
+
+
+<!-- ============================= -->
+<!-- MAIN CONTAINER -->
+<!-- ============================= -->
+
+<div class="container">
 
 
 <!-- ============================= -->
