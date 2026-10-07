@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Unit - IGCSE English Hub</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        header {
+            background: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #102a56;
+        }
+
+        header p {
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #102a56;
+            margin: 10px 0;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card a {
+            text-decoration: none;
+        }
+
+        .back {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 20px;
+            padding: 12px 25px;
+            background: #102a56;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        #loading {
+            text-align: center;
+            color: #666;
+        }
+
+        #error {
+            display: none;
+            text-align: center;
+            color: #b00020;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1 id="unitTitle">Loading...</h1>
+
+    <p>
+        Vocabulary, Grammar, Writing and End of Unit Test
+    </p>
+
+</header>
+
+<div class="container">
+
+    <p id="loading">
+        Loading unit content...
+    </p>
+
+    <p id="error"></p>
+
+    <div class="items" id="itemsContainer"></div>
+
+    <a href="my-course.html" class="back">
+        ← Back to My Course
+    </a>
+
+</div>
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+async function loadUnit() {
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const unitId =
+        params.get("id");
+
+    if (!unitId) {
+
+        showError("Unit not found.");
+
+        return;
+    }
+
+    const { data: unit, error: unitError } =
+        await supabaseClient
+            .from("course_units")
+            .select("id, title, year_group, unit_number")
+            .eq("id", unitId)
+            .limit(1);
+
+    if (unitError) {
+
+        showError(unitError.message);
+
+        return;
+    }
+
+    if (!unit || unit.length === 0) {
+
+        showError("Unit not found.");
+
+        return;
+    }
+
+    document.getElementById("unitTitle").textContent =
+        unit[0].title;
+
+    const { data: items, error: itemsError } =
+        await supabaseClient
+            .from("course_items")
+            .select(
+                "id, title, item_type, description, content_url"
+            )
+            .eq("unit_id", unitId)
+            .order("id", { ascending: true });
+
+    document.getElementById("loading").style.display =
+        "none";
+
+    if (itemsError) {
+
+        showError(itemsError.message);
+
+        return;
+    }
+
+    if (!items || items.length === 0) {
+
+        showError(
+            "No content has been added to this unit yet."
+        );
+
+        return;
+    }
+
+    const container =
+        document.getElementById("itemsContainer");
+
+    items.forEach(function(item) {
+
+        let icon = "📘";
+
+        if (item.item_type === "Vocabulary") {
+            icon = "📚";
+        }
+
+        if (item.item_type === "Grammar") {
+            icon = "📝";
+        }
+
+        if (item.item_type === "Writing") {
+            icon = "✍️";
+        }
+
+        if (item.item_type === "Test") {
+            icon = "🧪";
+        }
+
+        let link = "#";
+
+        if (item.content_url) {
+            link = item.content_url;
+        }
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+
+            <div class="icon">
+                ${icon}
+            </div>
+
+            <a href="${link}">
+                <h3>${item.title}</h3>
+            </a>
+
+            <p>
+                ${item.description || ""}
+            </p>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+function showError(message) {
+
+    document.getElementById("loading").style.display =
+        "none";
+
+    const error =
+        document.getElementById("error");
+
+    error.style.display = "block";
+
+    error.textContent = message;
+}
+
+loadUnit();
+
+</script>
+
+</body>
+</html>
