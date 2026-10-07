@@ -10,8 +10,16 @@
 
 <style>
 
+/* ============================= */
+/* GENERAL */
+/* ============================= */
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -21,17 +29,35 @@ body {
     color: #222;
 }
 
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
 header {
     background: linear-gradient(135deg, #102a56, #1d4f91);
     color: white;
     text-align: center;
     padding: 55px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    right: -100px;
+    top: -120px;
 }
 
 header .book {
     font-size: 18px;
     opacity: .9;
     margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 header h1 {
@@ -44,310 +70,747 @@ header p {
     margin-top: 12px;
 }
 
+/* ============================= */
+/* MAIN CONTENT */
+/* ============================= */
+
 .container {
     max-width: 1050px;
     margin: 35px auto;
     padding: 0 20px;
-    margin-left: 270px;
+
+    /* Space for fixed menu */
+    margin-left: 310px;
+    margin-right: 30px;
 }
-/* NAVIGATION */
+
+/* ============================= */
+/* FIXED CHAPTER MENU */
+/* ============================= */
 
 .lesson-nav {
-    position: fixed !important;
-    left: 20px !important;
-    top: 100px !important;
-    width: 250px !important;
-    max-height: calc(100vh - 120px) !important;
-    overflow-y: auto !important;
 
-    background: white;
-    padding: 18px;
-    border-radius: 16px;
+    position: fixed;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,.12);
+    left: 20px;
+    top: 100px;
 
-    z-index: 9999 !important;
+    width: 260px;
+
+    height: calc(100vh - 125px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: rgba(255,255,255,.98);
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.12);
+
+    border: 1px solid #e4eaf2;
+
+    z-index: 9999;
+
+    animation: menuSlide .5s ease;
 }
-    .lesson-nav h3 {
-    margin-top: 0;
+
+/* Menu scrollbar */
+
+.lesson-nav::-webkit-scrollbar {
+    width: 7px;
+}
+
+.lesson-nav::-webkit-scrollbar-track {
+    background: #f1f4f8;
+    border-radius: 10px;
+}
+
+.lesson-nav::-webkit-scrollbar-thumb {
+    background: #b9c7da;
+    border-radius: 10px;
+}
+
+.lesson-nav::-webkit-scrollbar-thumb:hover {
+    background: #1d4f91;
+}
+
+.lesson-nav h3 {
+
+    margin: 0 0 18px 0;
+
     color: #102a56;
+
+    font-size: 19px;
+
+    padding-bottom: 14px;
+
+    border-bottom: 2px solid #edf1f6;
 }
+
+/* ============================= */
+/* MENU BUTTONS */
+/* ============================= */
 
 .nav-buttons {
+
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+
+    flex-direction: column;
+
+    gap: 9px;
 }
 
 .nav-buttons a {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 43px;
+
     text-decoration: none;
+
     color: #102a56;
+
     background: #edf3fb;
-    padding: 9px 13px;
-    border-radius: 20px;
+
+    padding: 10px 13px;
+
+    border-radius: 11px;
+
     font-size: 14px;
-    transition: .2s;
+
+    line-height: 1.3;
+
+    white-space: nowrap;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
 }
 
 .nav-buttons a:hover {
+
     background: #102a56;
+
     color: white;
+
+    transform: translateX(5px);
+
+    box-shadow:
+        0 5px 12px rgba(16,42,86,.18);
 }
 
-/* SECTIONS */
+.nav-buttons a:active {
 
-.section {
-    background: white;
-    margin-bottom: 25px;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,.07);
-    animation: fadeUp .6s ease;
+    transform: translateX(2px) scale(.98);
+}
+
+/* ============================= */
+/* ANIMATIONS */
+/* ============================= */
+
+@keyframes menuSlide {
+
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
 }
 
 @keyframes fadeUp {
+
     from {
         opacity: 0;
         transform: translateY(15px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
-}
 
-.section-title {
-    padding: 22px 25px;
-    background: linear-gradient(90deg, #102a56, #1d4f91);
-    color: white;
-}
-
-.section-title h2 {
-    margin: 0;
-    font-size: 24px;
-}
-
-.section-content {
-    padding: 28px;
-}
-
-/* READING */
-
-.story-text {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 19px;
-    line-height: 1.9;
-}
-
-.story-text p {
-    margin-bottom: 24px;
-}
-
-.quote {
-    border-left: 5px solid #1d4f91;
-    background: #f1f6fc;
-    padding: 18px 22px;
-    margin: 20px 0;
-    font-style: italic;
-}
-
-/* CARDS */
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-}
-
-.card {
-    background: #f7f9fc;
-    border: 1px solid #e1e7ef;
-    border-radius: 14px;
-    padding: 20px;
-    transition: .25s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 7px 18px rgba(0,0,0,.09);
-}
-
-.card-icon {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.card h3 {
-    color: #102a56;
-    margin-top: 0;
-}
-
-/* VOCAB */
-
-.vocab-card {
-    background: #f8fbff;
-    border-left: 5px solid #1d4f91;
-    padding: 16px 18px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-}
-
-.vocab-card strong {
-    color: #102a56;
-}
-
-/* ACCORDION */
-
-.accordion {
-    border: 1px solid #e1e7ef;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    overflow: hidden;
-}
-
-.accordion button {
-    width: 100%;
-    border: 0;
-    background: #f5f8fc;
-    padding: 17px;
-    text-align: left;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #102a56;
-}
-
-.accordion button:hover {
-    background: #eaf1fa;
-}
-
-.answer {
-    display: none;
-    padding: 18px;
-    line-height: 1.7;
-    background: white;
-    border-top: 1px solid #e5e9ef;
-}
-
-.answer.show {
-    display: block;
-    animation: openAnswer .3s ease;
 }
 
 @keyframes openAnswer {
+
     from {
         opacity: 0;
         transform: translateY(-5px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
+/* ============================= */
+/* SECTIONS */
+/* ============================= */
+
+.section {
+
+    background: white;
+
+    margin-bottom: 25px;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 16px rgba(0,0,0,.07);
+
+    animation: fadeUp .6s ease;
+
+    scroll-margin-top: 25px;
+}
+
+.section-title {
+
+    padding: 22px 25px;
+
+    background:
+        linear-gradient(90deg,#102a56,#1d4f91);
+
+    color: white;
+}
+
+.section-title h2 {
+
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.section-content {
+
+    padding: 28px;
+}
+
+/* ============================= */
+/* READING */
+/* ============================= */
+
+.story-text {
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 19px;
+
+    line-height: 1.9;
+}
+
+.story-text p {
+
+    margin-bottom: 24px;
+}
+
+.quote {
+
+    border-left: 5px solid #1d4f91;
+
+    background: #f1f6fc;
+
+    padding: 18px 22px;
+
+    margin: 20px 0;
+
+    font-style: italic;
+
+    border-radius: 0 10px 10px 0;
+
+    transition: .25s;
+}
+
+.quote:hover {
+
+    transform: translateX(4px);
+
+    background: #eaf2fb;
+}
+
+/* ============================= */
+/* CARDS */
+/* ============================= */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap: 16px;
+}
+
+.card {
+
+    background: #f7f9fc;
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 9px 22px rgba(0,0,0,.10);
+}
+
+.card-icon {
+
+    font-size: 30px;
+
+    margin-bottom: 10px;
+}
+
+.card h3 {
+
+    color: #102a56;
+
+    margin-top: 0;
+}
+
+/* ============================= */
+/* VOCABULARY */
+/* ============================= */
+
+.vocab-card {
+
+    background: #f8fbff;
+
+    border-left: 5px solid #1d4f91;
+
+    padding: 16px 18px;
+
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+
+    transition: .2s;
+}
+
+.vocab-card:hover {
+
+    transform: translateX(4px);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.06);
+}
+
+.vocab-card strong {
+
+    color: #102a56;
+}
+
+/* ============================= */
+/* ACCORDION */
+/* ============================= */
+
+.accordion {
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+
+    overflow: hidden;
+
+    transition: .2s;
+}
+
+.accordion:hover {
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.06);
+}
+
+.accordion button {
+
+    width: 100%;
+
+    border: 0;
+
+    background: #f5f8fc;
+
+    padding: 17px;
+
+    text-align: left;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    color: #102a56;
+
+    transition: .2s;
+}
+
+.accordion button:hover {
+
+    background: #eaf1fa;
+}
+
+.answer {
+
+    display: none;
+
+    padding: 18px;
+
+    line-height: 1.7;
+
+    background: white;
+
+    border-top: 1px solid #e5e9ef;
+}
+
+.answer.show {
+
+    display: block;
+
+    animation: openAnswer .3s ease;
+}
+
+/* ============================= */
 /* LISTS */
+/* ============================= */
 
 ol li,
 ul li {
+
     margin-bottom: 12px;
+
     line-height: 1.6;
 }
 
+/* ============================= */
 /* COMMENT QUESTIONS */
+/* ============================= */
 
 .comment-card {
+
     background: #fafafa;
+
     border: 1px solid #e0e5ec;
+
     border-radius: 14px;
+
     padding: 20px;
+
     margin-bottom: 18px;
+
+    transition: .2s;
+}
+
+.comment-card:hover {
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.07);
+
+    transform: translateY(-2px);
 }
 
 .comment-card .quote {
+
     margin-top: 0;
 }
 
 .comment-row {
+
     margin: 8px 0;
+
+    line-height: 1.6;
 }
 
 .comment-label {
+
     font-weight: bold;
+
     color: #102a56;
 }
 
+/* ============================= */
 /* QUIZ */
+/* ============================= */
 
 .quiz-card {
-    background: linear-gradient(135deg, #f7faff, #eef4fb);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7faff,
+            #eef4fb
+        );
+
     border: 1px solid #dbe5f0;
+
     border-radius: 14px;
+
     padding: 22px;
+
     margin-bottom: 18px;
 }
 
 .quiz-card h3 {
+
     color: #102a56;
 }
 
 .marks {
+
     color: #777;
+
     font-weight: bold;
 }
 
 .quiz-note {
+
     background: #fff8df;
+
     border-left: 5px solid #e2b400;
+
     padding: 15px;
+
     margin-bottom: 20px;
+
+    border-radius: 0 8px 8px 0;
 }
 
-/* BUTTON */
+/* ============================= */
+/* BACK BUTTON */
+/* ============================= */
 
 .back-button {
+
     display: inline-block;
+
     text-decoration: none;
+
     background: #102a56;
+
     color: white;
+
     padding: 14px 24px;
+
     border-radius: 10px;
+
     font-weight: bold;
+
     margin: 10px 0 40px;
+
+    transition: .2s;
 }
 
 .back-button:hover {
+
     background: #0b1d3d;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.15);
 }
 
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
 footer {
+
     text-align: center;
+
     padding: 30px;
+
     color: #666;
 }
 
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media(max-width:1000px) {
+
+    .container {
+
+        margin-left: 295px;
+
+        margin-right: 20px;
+    }
+
+    .lesson-nav {
+
+        width: 250px;
+
+        left: 15px;
+    }
+
+}
+
+/* ============================= */
 /* MOBILE */
+/* ============================= */
 
 @media(max-width:700px) {
 
+    header {
+
+        padding: 40px 15px;
+    }
+
     header h1 {
+
         font-size: 31px;
     }
 
     header p {
+
         font-size: 18px;
     }
 
+    .container {
+
+        margin: 20px auto;
+
+        padding: 0 15px;
+    }
+
+    /* Mobile menu */
+
+    .lesson-nav {
+
+        position: relative;
+
+        left: auto;
+
+        top: auto;
+
+        width: 100%;
+
+        height: auto;
+
+        max-height: none;
+
+        overflow: visible;
+
+        margin-bottom: 25px;
+
+        padding: 18px;
+    }
+
+    .nav-buttons {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+        gap: 8px;
+    }
+
+    .nav-buttons a {
+
+        justify-content: center;
+
+        text-align: center;
+
+        white-space: normal;
+
+        min-height: 44px;
+
+        padding: 10px 7px;
+
+        font-size: 13px;
+    }
+
     .section-content {
+
         padding: 20px;
     }
 
     .story-text {
+
         font-size: 17px;
+
+        line-height: 1.8;
     }
 
-    .lesson-nav {
-        position: relative;
-        top: 0;
+    .section-title {
+
+        padding: 19px 20px;
+    }
+
+    .section-title h2 {
+
+        font-size: 21px;
+    }
+
+    .cards {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* ============================= */
+/* VERY SMALL SCREENS */
+/* ============================= */
+
+@media(max-width:430px) {
+
+    .nav-buttons {
+
+        grid-template-columns: 1fr;
+    }
+
+    .nav-buttons a {
+
+        justify-content: flex-start;
+
+        text-align: left;
+
+        padding-left: 15px;
+    }
+
+    header h1 {
+
+        font-size: 28px;
+    }
+
+    header p {
+
+        font-size: 16px;
     }
 
 }
@@ -356,9 +819,12 @@ footer {
 
 </head>
 
-
 <body>
 
+
+<!-- ============================= -->
+<!-- HEADER -->
+<!-- ============================= -->
 
 <header>
 
@@ -378,7 +844,9 @@ footer {
 <div class="container">
 
 
-<!-- NAVIGATION -->
+<!-- ============================= -->
+<!-- CHAPTER MENU -->
+<!-- ============================= -->
 
 <div class="lesson-nav">
 
@@ -387,18 +855,31 @@ footer {
     <div class="nav-buttons">
 
         <a href="#reading">📖 Read</a>
+
         <a href="#writer">👤 Writer</a>
+
         <a href="#summary">📘 Summary</a>
+
         <a href="#setting">🌴 Setting</a>
+
         <a href="#themes">🎯 Themes</a>
+
         <a href="#plot">📈 Plot</a>
+
         <a href="#characters">👥 Characters</a>
+
         <a href="#vocabulary">📚 Vocabulary</a>
+
         <a href="#brief">📝 Brief Summary</a>
+
         <a href="#questions">❓ Questions</a>
+
         <a href="#fill">✏️ Fill in</a>
+
         <a href="#comments">💬 Comments</a>
+
         <a href="#quiz1">🧠 Quiz 1</a>
+
         <a href="#quiz2">🧠 Quiz 2</a>
 
     </div>
@@ -406,284 +887,288 @@ footer {
 </div>
 
 
+<!-- ============================= -->
 <!-- READING -->
+<!-- ============================= -->
 
 <div class="section" id="reading">
 
-    <div class="section-title">
-        <h2>📖 Read the Chapter</h2>
-    </div>
+<div class="section-title">
 
-    <div class="section-content story-text">
-
-
-        <p>
-            The storm had continued for seven days. Our ship was leaking
-            and far off course. We had no idea where we were. The crew was
-            losing heart as the water rushed in on us.
-        </p>
-
-        <p>
-            Every man on board tried to think of some way to survive.
-            My spirits sank as I looked at my wife and four young sons.
-            They were overpowered by terror. "Dear children," I said,
-            "we must trust in God. He can save us from this danger."
-            We knelt down, praying together. Our hearts were soothed by
-            the comfort of prayer. The horror of our situation seemed less
-            overwhelming.
-        </p>
-
-        <p>
-            Then I suddenly heard someone cry, "Land, land!" In the next
-            moment, the ship slammed into something hard. Dreadful sounds
-            told us that the ship was breaking up. The roaring waters poured
-            in on all sides. Then the captain shouted, "Lower away the boats!
-            We are lost!" In minutes, the last of the crew pushed off in the
-            rowboats.
-        </p>
-
-        <p>
-            They must have forgotten about us! As I called to them for help,
-            my voice was drowned out by the deafening howls of the storm.
-        </p>
-
-        <p>
-            Looking around, I saw that our position was by no means hopeless.
-            The part of the ship that held our cabin was jammed between two
-            high rocks. Luckily, it was partly raised above the waves.
-            Through clouds of mist and rain, I could see a rocky, rugged coast.
-            I told my frightened family that as soon as the storm ended,
-            we would make our way to the shore.
-        </p>
-
-        <p>
-            These few words revived the spirits of the boys and gave them
-            confidence that we would be safe. My wife, however, understood
-            our real situation. The danger was by no means over. That night,
-            as the three youngest boys slept, my wife and I kept watch.
-            Fritz, our eldest son at 15, kept watch with us.
-        </p>
-
-        <p>
-            The storm finally ended at dawn. Fritz helped me make something
-            we could use as a boat. We cut four barrels in half. Then we
-            used long strips of wood to bind them together.
-        </p>
-
-        <p>
-            While we were doing that, my wife and the other boys completed
-            some chores. The animals stored on the ship needed to be fed.
-            They were frightened and hungry, having been neglected during
-            the storm.
-        </p>
-
-        <p>
-            The two large dogs in the captain's cabin were thrilled when
-            Jack let them out at last. The following useful animals were also
-            on the ship: a cow, a donkey, two goats, six sheep, a ram and a
-            fine pig. We found that we also had ten hens and two roosters,
-            as well as some ducks, geese and pigeons.
-        </p>
-
-        <div class="quote">
-            "Oh, Father, they'll be of good use, I'm sure! They'll help us
-            hunt for game when we reach the shore!"
-        </div>
-
-        <p>
-            So it was decided that we would take all the animals.
-            Using rollers made from a long mast, we launched our barrel raft.
-            It floated very well. Of course, we had attached it to the ship
-            by a rope. Otherwise, it would have floated away.
-        </p>
-
-        <p>
-            We took supplies from the ship's stores, including canvas to make
-            a tent. The boys found some carpenter's tools, guns, pistols,
-            powder, bullets, fishing supplies and an iron pot. We also
-            salvaged some biscuits and canned soup.
-        </p>
-
-        <p>
-            Then we all piled into the barrels. My 8-year-old son Franz,
-            the youngest, sat next to my wife. Fritz sat in the next barrel.
-            The centre tubs held our supplies, and Ernest and Jack sat toward
-            the back with me.
-        </p>
-
-        <p>
-            With some difficulty, we learned how to steer our raft with its
-            oars. We followed our geese and ducks to a small bay where it
-            was safe to land. The dogs, who had already swum to shore,
-            greeted us with loud barking and a wild show of delight.
-        </p>
-
-        <p>
-            We quickly set up a tent where we could pass the night.
-            The boys collected moss and grass to spread in the tent as our
-            beds. I made a fireplace with some large flat stones from a
-            nearby brook. Soon we had a pot of water boiling.
-            My wife started to make some soup for her hungry family.
-        </p>
-
-        <p>
-            The boys left to explore the area. Soon Jack came back with a
-            big red lobster. We added it to the pot. But how were we to eat
-            the soup? We had no bowls or spoons!
-        </p>
-
-        <p>
-            Ernest reported that he'd seen some oysters among the rocks,
-            so he went to get some. When he returned, I showed the boys
-            how to open oysters. When we placed them on the fire, the shells
-            opened immediately. After eating the oysters, we used the shells
-            as spoons. We ate our soup right from the pot.
-            Later, we would find some coconuts and use the empty shells
-            as bowls.
-        </p>
-
-        <p>
-            Night fell quickly. There was little or no twilight—which meant
-            that we were near the equator. I was grateful for the tent,
-            for the night was as cold as the day was hot.
-        </p>
-
-        <p>
-            Our roosters woke us at dawn and we had more soup for breakfast.
-            Then Fritz and I left the fire to explore the island.
-            We each took a gun and a game bag, and I carried a small hatchet.
-            Turk, one of the dogs, came with us.
-        </p>
-
-        <p>
-            We hoped to find some of the ship's sailors, but we could see
-            no trace of them.
-        </p>
-
-        <p>
-            We found that our island was a tropical paradise! It had forests
-            of towering trees and fields of sugar cane. There were rolling
-            hills of grass, leafy green plants and fragrant flowers.
-            We saw brightly coloured birds and playful monkeys.
-        </p>
-
-        <p>
-            As we sat down under some palm trees to eat our simple lunch,
-            I had a good idea. "Watch, Fritz," I said.
-            "I'm going to put those monkeys to work."
-        </p>
-
-        <p>
-            With that, I began throwing stones at the tree tops.
-            This made the monkeys angry. They began throwing coconuts down
-            at us. Laughing at the success of my plan, Fritz opened up some
-            of the coconuts with the hatchet.
-        </p>
-
-        <p>
-            We drank the milk, agreeing that it was refreshing, but not
-            very tasty.
-        </p>
-
-        <p>
-            Late that afternoon, we headed back to the tent. We carried a
-            sack of coconuts and a large bundle of sugar cane. We also had
-            a collection of plates, bowls and spoons that we'd made out
-            of gourds.
-        </p>
-
-        <p>
-            On the way, we had another incident with the monkeys.
-            Turk attacked a female monkey.
-        </p>
-
-        <p>
-            "No, Turk!" Fritz called out—but it was too late!
-            Turk had already killed the monkey.
-        </p>
-
-        <p>
-            His victim was the mother of a tiny little monkey.
-            It had jumped off her back when Turk attacked.
-            At first, the baby monkey hid in the grass, but then it jumped
-            up on Fritz's shoulder.
-        </p>
-
-        <p>
-            We decided to take the monkey home as a pet.
-            Because our dog had killed its mother, we felt responsible
-            for its welfare.
-        </p>
-
-        <p>
-            As we arrived back at our campsite, our dear ones came running
-            to meet us.
-        </p>
-
-        <div class="quote">
-            "A monkey! A monkey! Oh, how splendid! Where did Fritz find him?
-            What should we feed him?"
-        </div>
-
-        <p>
-            Finally, I was able to say a few words.
-            "I'm happy to see you all safe and sound. Sadly, though,
-            we found no trace of our shipmates."
-        </p>
-
-        <div class="quote">
-            "If it is God's will for us to be alone on this island,
-            let us be content. We should at least be happy that we are all
-            together in safety."
-        </div>
-
-        <p>
-            Dinner that night was a feast. We had several fine fish,
-            cooked on a spit over the fire. We also had goose, roasted over
-            a large shell that caught the gravy dripping from it.
-            In addition, we had cheese, which we'd brought from the ship,
-            along with the last of the soup.
-        </p>
-
-        <p>
-            We sat down for our delicious meal, using gourds as plates for
-            the first time. We had coconut for dessert.
-        </p>
-
-        <p>
-            Fritz laughed as the baby monkey eagerly sucked the corner of
-            a handkerchief he had dipped in coconut milk.
-        </p>
-
-        <p>
-            The sun set quickly and we decided to go to sleep.
-            We weren't asleep for very long, though. A loud barking woke us.
-            Jackals were close, hoping to kill and eat some of our poultry.
-        </p>
-
-        <p>
-            Turk and Juno, our brave dogs, were surrounded by a dozen or
-            more of the wild creatures. We saw that the dogs had already
-            killed four of the jackals, but the others kept fighting.
-        </p>
-
-        <p>
-            Fritz and I shot our guns in the air and the rest ran off.
-            Turk and Juno chased after them and killed one more jackal.
-        </p>
-
-        <p>
-            Fritz dragged one of the dead jackals toward the tent.
-            He wanted to show it to his brothers in the morning.
-            Once more we returned to our beds.
-        </p>
-
-    </div>
+<h2>📖 Read the Chapter</h2>
 
 </div>
 
+<div class="section-content story-text">
 
+<p>
+The storm had continued for seven days. Our ship was leaking
+and far off course. We had no idea where we were. The crew was
+losing heart as the water rushed in on us.
+</p>
+
+<p>
+Every man on board tried to think of some way to survive.
+My spirits sank as I looked at my wife and four young sons.
+They were overpowered by terror. "Dear children," I said,
+"we must trust in God. He can save us from this danger."
+We knelt down, praying together. Our hearts were soothed by
+the comfort of prayer. The horror of our situation seemed less
+overwhelming.
+</p>
+
+<p>
+Then I suddenly heard someone cry, "Land, land!" In the next
+moment, the ship slammed into something hard. Dreadful sounds
+told us that the ship was breaking up. The roaring waters poured
+in on all sides. Then the captain shouted, "Lower away the boats!
+We are lost!" In minutes, the last of the crew pushed off in
+the rowboats.
+</p>
+
+<p>
+They must have forgotten about us! As I called to them for help,
+my voice was drowned out by the deafening howls of the storm.
+</p>
+
+<p>
+Looking around, I saw that our position was by no means hopeless.
+The part of the ship that held our cabin was jammed between two
+high rocks. Luckily, it was partly raised above the waves.
+Through clouds of mist and rain, I could see a rocky, rugged coast.
+I told my frightened family that as soon as the storm ended,
+we would make our way to the shore.
+</p>
+
+<p>
+These few words revived the spirits of the boys and gave them
+confidence that we would be safe. My wife, however, understood
+our real situation. The danger was by no means over. That night,
+as the three youngest boys slept, my wife and I kept watch.
+Fritz, our eldest son at 15, kept watch with us.
+</p>
+
+<p>
+The storm finally ended at dawn. Fritz helped me make something
+we could use as a boat. We cut four barrels in half. Then we
+used long strips of wood to bind them together.
+</p>
+
+<p>
+While we were doing that, my wife and the other boys completed
+some chores. The animals stored on the ship needed to be fed.
+They were frightened and hungry, having been neglected during the
+storm.
+</p>
+
+<p>
+The two large dogs in the captain's cabin were thrilled when
+Jack let them out at last. The following useful animals were also
+on the ship: a cow, a donkey, two goats, six sheep, a ram and a
+fine pig. We found that we also had ten hens and two roosters,
+as well as some ducks, geese and pigeons.
+</p>
+
+<div class="quote">
+"Oh, Father, they'll be of good use, I'm sure! They'll help us
+hunt for game when we reach the shore!"
+</div>
+
+<p>
+So it was decided that we would take all the animals.
+Using rollers made from a long mast, we launched our barrel raft.
+It floated very well. Of course, we had attached it to the ship
+by a rope. Otherwise, it would have floated away.
+</p>
+
+<p>
+We took supplies from the ship's stores, including canvas to make
+a tent. The boys found some carpenter's tools, guns, pistols,
+powder, bullets, fishing supplies and an iron pot. We also
+salvaged some biscuits and canned soup.
+</p>
+
+<p>
+Then we all piled into the barrels. My 8-year-old son Franz,
+the youngest, sat next to my wife. Fritz sat in the next barrel.
+The centre tubs held our supplies, and Ernest and Jack sat toward
+the back with me.
+</p>
+
+<p>
+With some difficulty, we learned how to steer our raft with its
+oars. We followed our geese and ducks to a small bay where it
+was safe to land. The dogs, who had already swum to shore,
+greeted us with loud barking and a wild show of delight.
+</p>
+
+<p>
+We quickly set up a tent where we could pass the night.
+The boys collected moss and grass to spread in the tent as our
+beds. I made a fireplace with some large flat stones from a
+nearby brook. Soon we had a pot of water boiling.
+My wife started to make some soup for her hungry family.
+</p>
+
+<p>
+The boys left to explore the area. Soon Jack came back with a
+big red lobster. We added it to the pot. But how were we to eat
+the soup? We had no bowls or spoons!
+</p>
+
+<p>
+Ernest reported that he'd seen some oysters among the rocks,
+so he went to get some. When he returned, I showed the boys
+how to open oysters. When we placed them on the fire, the shells
+opened immediately. After eating the oysters, we used the shells
+as spoons. We ate our soup right from the pot.
+Later, we would find some coconuts and use the empty shells
+as bowls.
+</p>
+
+<p>
+Night fell quickly. There was little or no twilight—which meant
+that we were near the equator. I was grateful for the tent,
+for the night was as cold as the day was hot.
+</p>
+
+<p>
+Our roosters woke us at dawn and we had more soup for breakfast.
+Then Fritz and I left the fire to explore the island.
+We each took a gun and a game bag, and I carried a small hatchet.
+Turk, one of the dogs, came with us.
+</p>
+
+<p>
+We hoped to find some of the ship's sailors, but we could see
+no trace of them.
+</p>
+
+<p>
+We found that our island was a tropical paradise! It had forests
+of towering trees and fields of sugar cane. There were rolling
+hills of grass, leafy green plants and fragrant flowers.
+We saw brightly coloured birds and playful monkeys.
+</p>
+
+<p>
+As we sat down under some palm trees to eat our simple lunch,
+I had a good idea. "Watch, Fritz," I said.
+"I'm going to put those monkeys to work."
+</p>
+
+<p>
+With that, I began throwing stones at the tree tops.
+This made the monkeys angry. They began throwing coconuts down
+at us. Laughing at the success of my plan, Fritz opened up some
+of the coconuts with the hatchet.
+</p>
+
+<p>
+We drank the milk, agreeing that it was refreshing, but not
+very tasty.
+</p>
+
+<p>
+Late that afternoon, we headed back to the tent. We carried a
+sack of coconuts and a large bundle of sugar cane. We also had
+a collection of plates, bowls and spoons that we'd made out
+of gourds.
+</p>
+
+<p>
+On the way, we had another incident with the monkeys.
+Turk attacked a female monkey.
+</p>
+
+<p>
+"No, Turk!" Fritz called out—but it was too late!
+Turk had already killed the monkey.
+</p>
+
+<p>
+His victim was the mother of a tiny little monkey.
+It had jumped off her back when Turk attacked.
+At first, the baby monkey hid in the grass, but then it jumped
+up on Fritz's shoulder.
+</p>
+
+<p>
+We decided to take the monkey home as a pet.
+Because our dog had killed its mother, we felt responsible
+for its welfare.
+</p>
+
+<p>
+As we arrived back at our campsite, our dear ones came running
+to meet us.
+</p>
+
+<div class="quote">
+"A monkey! A monkey! Oh, how splendid! Where did Fritz find him?
+What should we feed him?"
+</div>
+
+<p>
+Finally, I was able to say a few words.
+"I'm happy to see you all safe and sound. Sadly, though,
+we found no trace of our shipmates."
+</p>
+
+<div class="quote">
+"If it is God's will for us to be alone on this island,
+let us be content. We should at least be happy that we are all
+together in safety."
+</div>
+
+<p>
+Dinner that night was a feast. We had several fine fish,
+cooked on a spit over the fire. We also had goose, roasted over
+a large shell that caught the gravy dripping from it.
+In addition, we had cheese, which we'd brought from the ship,
+along with the last of the soup.
+</p>
+
+<p>
+We sat down for our delicious meal, using gourds as plates for
+the first time. We had coconut for dessert.
+</p>
+
+<p>
+Fritz laughed as the baby monkey eagerly sucked the corner of
+a handkerchief he had dipped in coconut milk.
+</p>
+
+<p>
+The sun set quickly and we decided to go to sleep.
+We weren't asleep for very long, though. A loud barking woke us.
+Jackals were close, hoping to kill and eat some of our poultry.
+</p>
+
+<p>
+Turk and Juno, our brave dogs, were surrounded by a dozen or
+more of the wild creatures. We saw that the dogs had already
+killed four of the jackals, but the others kept fighting.
+</p>
+
+<p>
+Fritz and I shot our guns in the air and the rest ran off.
+Turk and Juno chased after them and killed one more jackal.
+</p>
+
+<p>
+Fritz dragged one of the dead jackals toward the tent.
+He wanted to show it to his brothers in the morning.
+Once more we returned to our beds.
+</p>
+
+</div>
+</div>
+
+
+<!-- ============================= -->
 <!-- ABOUT WRITER -->
+<!-- ============================= -->
 
 <div class="section" id="writer">
 
@@ -715,7 +1200,9 @@ focused more strongly on family, survival skills, faith and moral values.
 </div>
 
 
+<!-- ============================= -->
 <!-- SUMMARY -->
+<!-- ============================= -->
 
 <div class="section" id="summary">
 
@@ -753,7 +1240,9 @@ Jack remain on the island, which they proudly call New Switzerland.
 </div>
 
 
+<!-- ============================= -->
 <!-- SETTING -->
+<!-- ============================= -->
 
 <div class="section" id="setting">
 
@@ -766,39 +1255,53 @@ Jack remain on the island, which they proudly call New Switzerland.
 <div class="cards">
 
 <div class="card">
+
 <div class="card-icon">🌍</div>
+
 <h3>Geographical Setting</h3>
+
 <p>
 A deserted tropical island somewhere in the South Seas, apparently near
 the equator.
 </p>
+
 </div>
 
 <div class="card">
+
 <div class="card-icon">⏳</div>
+
 <h3>Historical Setting</h3>
+
 <p>
 The early nineteenth century, around the time the novel was written and
 published.
 </p>
+
 </div>
 
 <div class="card">
+
 <div class="card-icon">🌳</div>
+
 <h3>Natural Environment</h3>
+
 <p>
 Forests, mountains, valleys, rivers, caves, beaches, fields and dangerous
 swamps and cliffs.
 </p>
-</div>
 
 </div>
 
 </div>
+
+</div>
 </div>
 
 
+<!-- ============================= -->
 <!-- THEMES -->
+<!-- ============================= -->
 
 <div class="section" id="themes">
 
@@ -869,7 +1372,9 @@ new life.
 </div>
 
 
+<!-- ============================= -->
 <!-- PLOT -->
+<!-- ============================= -->
 
 <div class="section" id="plot">
 
@@ -923,7 +1428,9 @@ Some family members leave while others remain in New Switzerland.
 </div>
 
 
+<!-- ============================= -->
 <!-- CHARACTERS -->
+<!-- ============================= -->
 
 <div class="section" id="characters">
 
@@ -995,7 +1502,9 @@ Some family members leave while others remain in New Switzerland.
 </div>
 
 
+<!-- ============================= -->
 <!-- VOCABULARY -->
+<!-- ============================= -->
 
 <div class="section" id="vocabulary">
 
@@ -1039,7 +1548,9 @@ Some family members leave while others remain in New Switzerland.
 </div>
 
 
+<!-- ============================= -->
 <!-- BRIEF SUMMARY -->
+<!-- ============================= -->
 
 <div class="section" id="brief">
 
@@ -1075,7 +1586,9 @@ The family realizes that survival depends on teamwork, courage and creativity.
 </div>
 
 
+<!-- ============================= -->
 <!-- QUESTIONS -->
+<!-- ============================= -->
 
 <div class="section" id="questions">
 
@@ -1090,7 +1603,9 @@ The family realizes that survival depends on teamwork, courage and creativity.
 </p>
 
 <script>
+
 const questions = [
+
 ["Q1: What caused the shipwreck?",
 "A violent storm lasting seven days pushed the ship off course and caused it to leak and crash onto rocks."],
 
@@ -1195,25 +1710,36 @@ const questions = [
 
 ["Q35: Write a diary entry from the point of view of one of the sons after the first night on land.",
 "Dear Diary, I can't believe we survived. The tent Father made kept us safe, and the soup tasted better than ever. I miss the ship, but I'm glad we are all together. Turk and Juno are amazing. We even found a monkey! I think we'll be okay."]
+
 ];
 
 questions.forEach((q, i) => {
+
     document.write(`
         <div class="accordion">
-            <button onclick="toggleAnswer(${i})">${q[0]} ⬇️</button>
+
+            <button onclick="toggleAnswer(${i})">
+                ${q[0]} ⬇️
+            </button>
+
             <div class="answer" id="answer-${i}">
                 ${q[1]}
             </div>
+
         </div>
     `);
+
 });
+
 </script>
 
 </div>
 </div>
 
 
+<!-- ============================= -->
 <!-- FILL IN -->
+<!-- ============================= -->
 
 <div class="section" id="fill">
 
@@ -1270,7 +1796,9 @@ questions.forEach((q, i) => {
 </div>
 
 
+<!-- ============================= -->
 <!-- COMMENTS -->
+<!-- ============================= -->
 
 <div class="section" id="comments">
 
@@ -1374,7 +1902,7 @@ const comments = [
 
 ];
 
-comments.forEach((c, i) => {
+comments.forEach((c) => {
 
     document.write(`
         <div class="comment-card">
@@ -1412,7 +1940,9 @@ comments.forEach((c, i) => {
 </div>
 
 
+<!-- ============================= -->
 <!-- QUIZ 1 -->
+<!-- ============================= -->
 
 <div class="section" id="quiz1">
 
@@ -1423,8 +1953,11 @@ comments.forEach((c, i) => {
 <div class="section-content">
 
 <div class="quiz-note">
+
 <strong>Total: 15 marks</strong><br>
+
 Answer all questions. Marks are shown next to each question.
+
 </div>
 
 <div class="quiz-card">
@@ -1433,24 +1966,44 @@ Answer all questions. Marks are shown next to each question.
 
 <ol>
 
-<li>What gave the family hope when they were terrified on the ship? <span class="marks">(1)</span></li>
+<li>
+What gave the family hope when they were terrified on the ship?
+<span class="marks">(1)</span>
+</li>
 
-<li>Describe the family's first meal on the island. <span class="marks">(2)</span></li>
+<li>
+Describe the family's first meal on the island.
+<span class="marks">(2)</span>
+</li>
 
-<li>Why did the family collect coconuts and sugarcane? <span class="marks">(1)</span></li>
+<li>
+Why did the family collect coconuts and sugarcane?
+<span class="marks">(1)</span>
+</li>
 
-<li>How did the father trick the monkeys into giving them coconuts? <span class="marks">(1)</span></li>
+<li>
+How did the father trick the monkeys into giving them coconuts?
+<span class="marks">(1)</span>
+</li>
 
-<li>What was the father's reaction when he saw no sign of the other shipmates? <span class="marks">(1)</span></li>
+<li>
+What was the father's reaction when he saw no sign of the other shipmates?
+<span class="marks">(1)</span>
+</li>
 
-<li>What clue told the family that they might be near the equator? <span class="marks">(1)</span></li>
+<li>
+What clue told the family that they might be near the equator?
+<span class="marks">(1)</span>
+</li>
 
-<li>What animals did the family find and decide to take with them? <span class="marks">(1)</span></li>
+<li>
+What animals did the family find and decide to take with them?
+<span class="marks">(1)</span>
+</li>
 
 </ol>
 
 </div>
-
 
 <div class="quiz-card">
 
@@ -1458,20 +2011,34 @@ Answer all questions. Marks are shown next to each question.
 
 <ol start="8">
 
-<li>The raft was made from ____________ barrels and tied together. <span class="marks">(1)</span></li>
+<li>
+The raft was made from ____________ barrels and tied together.
+<span class="marks">(1)</span>
+</li>
 
-<li>Fritz and the father used a ____________ to open coconuts. <span class="marks">(1)</span></li>
+<li>
+Fritz and the father used a ____________ to open coconuts.
+<span class="marks">(1)</span>
+</li>
 
-<li>The baby monkey jumped on ____________'s shoulder. <span class="marks">(1)</span></li>
+<li>
+The baby monkey jumped on ____________'s shoulder.
+<span class="marks">(1)</span>
+</li>
 
-<li>The family made ____________ from large flat stones near a brook. <span class="marks">(1)</span></li>
+<li>
+The family made ____________ from large flat stones near a brook.
+<span class="marks">(1)</span>
+</li>
 
-<li>The boys found ____________ tools, guns and bullets on the ship. <span class="marks">(1)</span></li>
+<li>
+The boys found ____________ tools, guns and bullets on the ship.
+<span class="marks">(1)</span>
+</li>
 
 </ol>
 
 </div>
-
 
 <div class="quiz-card">
 
@@ -1491,7 +2058,9 @@ Who said this? To whom? Where? On what occasion?
 </div>
 
 
+<!-- ============================= -->
 <!-- QUIZ 2 -->
+<!-- ============================= -->
 
 <div class="section" id="quiz2">
 
@@ -1502,8 +2071,11 @@ Who said this? To whom? Where? On what occasion?
 <div class="section-content">
 
 <div class="quiz-note">
+
 <strong>Total: 15 marks</strong><br>
+
 Answer all questions. Marks are shown next to each question.
+
 </div>
 
 <div class="quiz-card">
@@ -1512,22 +2084,39 @@ Answer all questions. Marks are shown next to each question.
 
 <ol>
 
-<li>Why did the ship crew abandon the narrator and his family? <span class="marks">(1)</span></li>
+<li>
+Why did the ship crew abandon the narrator and his family?
+<span class="marks">(1)</span>
+</li>
 
-<li>What materials did the narrator and Fritz use to make the raft? <span class="marks">(1)</span></li>
+<li>
+What materials did the narrator and Fritz use to make the raft?
+<span class="marks">(1)</span>
+</li>
 
-<li>What roles did each family member play during the raft-building and packing process? <span class="marks">(2)</span></li>
+<li>
+What roles did each family member play during the raft-building and packing process?
+<span class="marks">(2)</span>
+</li>
 
-<li>Why did the narrator decide to keep the big dogs, despite their size? <span class="marks">(1)</span></li>
+<li>
+Why did the narrator decide to keep the big dogs, despite their size?
+<span class="marks">(1)</span>
+</li>
 
-<li>How did the family use oyster shells during their first meal? <span class="marks">(1)</span></li>
+<li>
+How did the family use oyster shells during their first meal?
+<span class="marks">(1)</span>
+</li>
 
-<li>What were the first signs of wild danger the family faced on the island? <span class="marks">(1)</span></li>
+<li>
+What were the first signs of wild danger the family faced on the island?
+<span class="marks">(1)</span>
+</li>
 
 </ol>
 
 </div>
-
 
 <div class="quiz-card">
 
@@ -1535,20 +2124,34 @@ Answer all questions. Marks are shown next to each question.
 
 <ol start="7">
 
-<li>The family's ship crashed between two high ____________. <span class="marks">(1)</span></li>
+<li>
+The family's ship crashed between two high ____________.
+<span class="marks">(1)</span>
+</li>
 
-<li>The narrator and Fritz each took a gun and a ____________ bag for their island walk. <span class="marks">(1)</span></li>
+<li>
+The narrator and Fritz each took a gun and a ____________ bag for their island walk.
+<span class="marks">(1)</span>
+</li>
 
-<li>The boys found gourds and used them to make ____________ and bowls. <span class="marks">(1)</span></li>
+<li>
+The boys found gourds and used them to make ____________ and bowls.
+<span class="marks">(1)</span>
+</li>
 
-<li>____________ and Juno were the names of the two big dogs. <span class="marks">(1)</span></li>
+<li>
+____________ and Juno were the names of the two big dogs.
+<span class="marks">(1)</span>
+</li>
 
-<li>The narrator made a ____________ from flat stones near a brook. <span class="marks">(1)</span></li>
+<li>
+The narrator made a ____________ from flat stones near a brook.
+<span class="marks">(1)</span>
+</li>
 
 </ol>
 
 </div>
-
 
 <div class="quiz-card">
 
@@ -1569,33 +2172,44 @@ Who said this? To whom? Where? On what occasion?
 </div>
 
 
-<!-- BACK -->
+<!-- ============================= -->
+<!-- BACK BUTTON -->
+<!-- ============================= -->
 
 <a href="my-course.html" class="back-button">
 ← Back to My Course
 </a>
 
-
 </div>
 
 
+<!-- ============================= -->
+<!-- FOOTER -->
+<!-- ============================= -->
+
 <footer>
+
 © 2026 IGCSE English Hub — All Rights Reserved
+
 </footer>
 
+
+<!-- ============================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================= -->
 
 <script>
 
 function toggleAnswer(index) {
 
-    const answer = document.getElementById("answer-" + index);
+    const answer =
+        document.getElementById("answer-" + index);
 
     answer.classList.toggle("show");
 
 }
 
 </script>
-
 
 </body>
 
