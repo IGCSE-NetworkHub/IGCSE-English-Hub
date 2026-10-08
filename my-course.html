@@ -457,11 +457,20 @@ async function loadCourse() {
                     📖
                 </div>
 
-                <div class="chapter-number">
-                    Chapter ${chapter.chapter_number}
-                </div>
+               <div class="chapter-number">
+    ${String(chapter.chapter_number).padStart(2, "0")}
+</div>
 
-                <a
+<a
+    href="${link}"
+    target="_self"
+>
+
+    <h3>
+        ${chapter.title}
+    </h3>
+
+</a>
                     href="${link}"
                     target="_self"
                 >
