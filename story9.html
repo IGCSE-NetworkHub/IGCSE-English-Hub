@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chapter 9 - The Death of a Monster | IGCSE English Hub</title>
+
+<style>
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #1d2939;
+    line-height: 1.7;
+}
+header {
+    background: linear-gradient(135deg, #102a56, #1d4f91);
+    color: white;
+    text-align: center;
+    padding: 42px 20px;
+    margin-left: 255px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+}
+header h1 { margin: 0; font-size: 34px; letter-spacing: .5px; }
+header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
+
+.lesson-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 255px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: 3px 0 15px rgba(0,0,0,.08);
+    padding: 25px 15px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.lesson-nav h2 {
+    text-align: center;
+    color: #102a56;
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.nav-buttons a {
+    text-decoration: none;
+    color: #102a56;
+    background: #eef3f9;
+    padding: 10px 13px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: .25s ease;
+}
+.nav-buttons a:hover {
+    background: #dce8f7;
+    transform: translateX(4px);
+}
+.nav-buttons a.active {
+    background: #102a56;
+    color: white;
+    transform: translateX(5px);
+    box-shadow: 0 5px 12px rgba(16,42,86,.18);
+}
+
+.container {
+    margin-left: 255px;
+    padding: 35px;
+    max-width: 1250px;
+}
+.section {
+    background: white;
+    margin-bottom: 30px;
+    padding: 32px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    scroll-margin-top: 25px;
+    animation: fadeUp .6s ease;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.section h2 {
+    color: #102a56;
+    margin-top: 0;
+    border-bottom: 3px solid #dbe7f5;
+    padding-bottom: 10px;
+}
+.section h3 { color: #1d4f91; }
+
+.story-text {
+    background: #f8fbff;
+    border-left: 5px solid #1d4f91;
+    padding: 25px;
+    border-radius: 12px;
+    font-size: 17px;
+}
+.story-text p { margin-bottom: 20px; }
+.highlight {
+    background: #fff3cd;
+    border-left: 5px solid #e0a800;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.quote {
+    background: #eef5ff;
+    border-left: 5px solid #102a56;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-style: italic;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+}
+.info-card {
+    background: #f7faff;
+    border: 1px solid #dce6f2;
+    padding: 20px;
+    border-radius: 14px;
+    transition: .25s ease;
+}
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+.info-card h3 { margin-top: 0; }
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+}
+.vocab-item {
+    background: #f8fbff;
+    border: 1px solid #dce6f2;
+    padding: 17px;
+    border-radius: 12px;
+}
+.vocab-item strong { color: #102a56; }
+
+.question {
+    background: #f8fafc;
+    border: 1px solid #e1e8f0;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 12px;
+}
+.question strong { color: #102a56; }
+.answer-btn,
+.show-answer {
+    display: block;
+    border: none;
+    background: #1d4f91;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.answer-btn:hover,
+.show-answer:hover { background: #102a56; }
+.answer {
+    display: none;
+    margin-top: 12px;
+    background: #eaf4ea;
+    border-left: 4px solid #3d8b40;
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+.answer.show { display: block; }
+
+.fill-item {
+    background: #f8fbff;
+    border: 1px solid #dfe7f0;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+.fill-number {
+    color: #102a56;
+    font-weight: bold;
+}
+.fill-answer {
+    display: none;
+    margin-top: 10px;
+    background: #eaf4ea;
+    border-left: 4px solid #3d8b40;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #102a56;
+}
+
+.quote-card {
+    background: #f8fbff;
+    border: 1px solid #dce6f2;
+    padding: 22px;
+    margin: 18px 0;
+    border-radius: 14px;
+}
+.quote-card blockquote {
+    margin: 0 0 15px;
+    padding: 15px;
+    background: #eef5ff;
+    border-left: 5px solid #102a56;
+    border-radius: 8px;
+    font-style: italic;
+    font-size: 17px;
+}
+.quote-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+.quote-details div {
+    background: white;
+    border: 1px solid #e0e7ef;
+    padding: 10px;
+    border-radius: 8px;
+}
+.quote-details strong { color: #102a56; }
+.quote-answer {
+    display: none;
+    margin-top: 15px;
+    background: #eaf4ea;
+    border-left: 4px solid #3d8b40;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.quiz-title {
+    background: linear-gradient(135deg, #102a56, #1d4f91);
+    color: white;
+    padding: 18px 22px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+.quiz-question {
+    background: #f8fafc;
+    border: 1px solid #dde5ee;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 10px;
+}
+.answer-line {
+    border-bottom: 1px solid #7d8997;
+    min-height: 35px;
+    margin-top: 12px;
+}
+
+.back-button {
+    display: inline-block;
+    text-decoration: none;
+    background: #102a56;
+    color: white;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: .25s ease;
+}
+.back-button:hover {
+    background: #1d4f91;
+    transform: translateY(-2px);
+}
+
+footer {
+    margin-left: 255px;
+    text-align: center;
+    background: #102a56;
+    color: white;
+    padding: 22px;
+    margin-top: 30px;
+}
+
+@media (max-width: 850px) {
+    .lesson-nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+    .nav-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .container {
+        margin-left: 0;
+        padding: 18px;
+    }
+    footer { margin-left: 0; }
+    header { margin-left: 0; }
+    header h1 { font-size: 27px; }
+    .section { padding: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Chapter 9</h1>
+    <p>The Death of a Monster</p>
+</header>
+
+<nav class="lesson-nav">
+    <h2>📚 Chapter 9</h2>
+    <div class="nav-buttons">
+        <a href="#reading">📖 Reading</a>
+        <a href="#summary">📝 Summary</a>
+        <a href="#characters">👨‍👩‍👦 Characters</a>
+        <a href="#theme">💡 Main Theme</a>
+        <a href="#vocabulary">📚 Vocabulary</a>
+        <a href="#questions">❓ Questions</a>
+        <a href="#fill">✏️ Fill in the Blanks</a>
+        <a href="#comments">💬 Comment Questions</a>
+        <a href="#quiz1">🧠 Quiz 1</a>
+        <a href="#quiz2">🧠 Quiz 2</a>
+        <a href="#back">↩️ Back</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<section class="section" id="reading">
+<h2>📖 Reading — The Death of a Monster</h2>
+<div class="story-text">
+
+<p>I was seated with Fritz and my wife on the porch in front of Rock House. We were chatting pleasantly when Fritz suddenly got up. He looked off in the distance and exclaimed, “What’s that over there, Father? First it seems to coil on the ground like a cable. Then it rises up as if it were a little mast. Then it sinks and the coils move along again. It’s coming this way!”</p>
+
+<p>I took my spyglass and looked through it. Just as I feared, it was an enormous snake! “It’s coming this way,” I cried. “Thank God, we’re here at Rock House. Get everyone inside, Fritz, including the animals. Then we’ll look for a chance to kill this enemy.”</p>
+
+<p>I watched as the snake came closer. From time to time, it raised its head some three metres in the air and looked about. It must have been searching for prey. As the snake crossed Family Bridge, I got inside the cave with my family. We closed the door and all the windows. Our hearts beat fast as we waited.</p>
+
+<p>Soon the snake was in front of the cave. We opened one window and began shooting, but all of our shots missed. Startled by the noise, the monster slipped into the reedy marsh and disappeared.</p>
+
+<p>I knew then that the snake must be a boa constrictor. It was huge — about nine metres in length! I was horrified that this monster was so close to us! I told my family that we would all have to stay inside the cave. It was not safe to go outside.</p>
+
+<p>For three days, we were kept in suspense and fear. I started to wonder if the boa had left the area. But the strange way our geese and ducks were acting proved otherwise. I watched them swimming anxiously about. They cackled and flapped their wings to show how nervous they were.</p>
+
+<p>Hiding in the cave was very frustrating. We had work to do outside. And our animals didn’t like being locked up indoors. Still, for the sake of safety, we had to stay in. It was Grizzle, our faithful donkey, who finally saved us. Unfortunately, it was at great cost to him.</p>
+
+<p>By the third day, we needed more hay for the animals. We never kept much in the cave. All of the animals’ food was at the farm. I decided to send the animals to the farm under Fritz’s guidance. After I tied them all together, Fritz would lead them away.</p>
+
+<p>The next morning, I began tying the animals in a line. My wife opened the door before I was finished. Grizzle was eager to get out. He suddenly ran out of the cave and galloped straight for the marsh!</p>
+
+<p>We called him back in vain. Fritz would have rushed after him, had I not held him back. In another moment, the snake reared up and spotted Grizzle. The dark, deadly jaws opened wide. Poor Grizzle’s fate was sealed.</p>
+
+<p>Swift and straight, the boa was upon him. It wound around him several times, squeezing the poor donkey tighter and tighter. All the while, the giant reptile avoided the kicks of the agonised animal.</p>
+
+<p>“Shoot him, Father! Shoot him now! Save our poor Grizzle!” the boys cried out.</p>
+
+<p>“It is impossible, dear children! I’m afraid that Grizzle is lost to us forever. But I still have hopes that we can kill the snake!”</p>
+
+<p>“But surely the snake is not going to swallow a whole donkey all at once, Father? That would be impossible!”</p>
+
+<p>“Snakes have no teeth, only fangs,” I explained. “Since they cannot chew their food, they must swallow it whole. First the boa squeezes its victim into a shapeless mass, crushing the bones. Then it begins to swallow its prey. But once it swallows Grizzle’s body, the boa will be unable to move. For some time, it will use its energy for digestion. That’s when we can kill him.”</p>
+
+<p>We watched in horror as the snake killed and ate Grizzle. It took the boa five hours to get Grizzle’s body down its throat! Then the swollen snake lay stiff and still along the edge of the marsh.</p>
+
+<p>The time for attack was now or never! My sons and I crept out of our cave. We shot the snake dead.</p>
+
+<p>“Can we eat that snake?” Franz asked. “Of course not!” cried his mother. “Why, don’t you know that snakes are poisonous, child? It would be too dangerous.”</p>
+
+<p>“No, my dear wife,” I said. “The boa is not poisonous. It kills its prey by crushing it. But even if it were poisonous, we could still eat it. We would just have to throw away the head, where the poison is stored.”</p>
+
+<p>The rest of that sad afternoon was spent recovering Grizzle’s remains. We were determined to give our faithful donkey a proper burial. After all, he had saved our lives at the cost of his own.</p>
+
+<p>The sun was going down as we skinned and stuffed the boa. We put the skin in the cave by the entrance to our library. Over the door, we wrote these words: <strong>No donkeys admitted here.</strong></p>
+
+<p>The double meaning of this sentence pleased us all.</p>
+
+</div>
+</section>
+
+<section class="section" id="summary">
+<h2>📝 Summary</h2>
+<div class="story-text">
+<p>The family is sitting outside Rock House when Fritz notices a strange movement in the distance. The narrator uses his spyglass and discovers that it is a huge boa constrictor moving towards them. He quickly orders everyone, including the animals, to go inside the cave. The family closes the door and windows and waits for the snake to pass.</p>
+
+<p>The snake eventually disappears into the reedy marsh, but the family remains afraid because they know it may still be nearby. For three days, they stay inside the cave. The nervous behaviour of the ducks and geese confirms that the snake is still in the area.</p>
+
+<p>On the third day, the family needs more hay from the farm. While the narrator is preparing the animals, Grizzle the donkey suddenly runs out of the cave and heads towards the marsh. The boa attacks him, wraps around him, and squeezes him tightly. The family is horrified, but the narrator knows that the snake will become weak and unable to move after swallowing its prey.</p>
+
+<p>The boa takes five hours to swallow Grizzle. When the snake becomes swollen and still, the narrator and his sons leave the cave and shoot it. After killing the snake, the family gives Grizzle a proper burial because he has saved their lives at the cost of his own.</p>
+
+<p>Finally, they skin and stuff the boa and place its skin near the entrance to their library. They write <strong>“No donkeys admitted here”</strong> above the door. The sentence has a humorous double meaning and helps the family end a tragic experience with a small moment of humour.</p>
+</div>
+</section>
+
+<section class="section" id="characters">
+<h2>👨‍👩‍👦 Characters</h2>
+<div class="info-grid">
+
+<div class="info-card">
+<h3>👨 Narrator / Father</h3>
+<p>The family leader who stays calm, makes careful decisions and leads the plan to kill the boa.</p>
+</div>
+
+<div class="info-card">
+<h3>👦 Fritz</h3>
+<p>The son who first notices the snake and helps guide the animals.</p>
+</div>
+
+<div class="info-card">
+<h3>👩 Mother</h3>
+<p>She supports the family and shows concern for their safety and the animals.</p>
+</div>
+
+<div class="info-card">
+<h3>🫏 Grizzle</h3>
+<p>The faithful donkey whose death becomes a sacrifice that helps save the family.</p>
+</div>
+
+<div class="info-card">
+<h3>👦 Franz</h3>
+<p>The child who asks whether the family can eat the snake after it is killed.</p>
+</div>
+
+<div class="info-card">
+<h3>👦 Jack and Ernest</h3>
+<p>The sons who share the danger and help their father kill the boa.</p>
+</div>
+
+<div class="info-card">
+<h3>🐍 Boa Constrictor</h3>
+<p>A huge snake that threatens the family and kills Grizzle by squeezing him.</p>
+</div>
+
+</div>
+</section>
+
+<section class="section" id="theme">
+<h2>💡 Main Themes</h2>
+
+<div class="info-card">
+<h3>1. Courage in the Face of Danger</h3>
+<p>The family remains calm and makes careful decisions while facing a deadly snake.</p>
+</div>
+
+<div class="info-card">
+<h3>2. Sacrifice and Loyalty</h3>
+<p>Grizzle becomes a symbol of sacrifice. His actions ultimately help protect the family.</p>
+</div>
+
+<div class="info-card">
+<h3>3. The Power of Nature</h3>
+<p>The boa shows how powerful and unpredictable the natural world can be.</p>
+</div>
+
+<div class="info-card">
+<h3>4. Loss and Respect for Life</h3>
+<p>The family mourns Grizzle and gives him a proper burial to show their respect and gratitude.</p>
+</div>
+
+<div class="info-card">
+<h3>5. Humour in Tragedy</h3>
+<p>The words “No donkeys admitted here” create a humorous double meaning after a tragic event.</p>
+</div>
+
+</section>
+
+<section class="section" id="vocabulary">
+<h2>📚 Vocabulary</h2>
+<div class="vocab-grid">
+
+<div class="vocab-item"><strong>coiled</strong><br>Twisted into loops or spirals.</div>
+<div class="vocab-item"><strong>spyglass</strong><br>A small telescope used for seeing distant objects.</div>
+<div class="vocab-item"><strong>boa constrictor</strong><br>A large non-poisonous snake that kills its prey by squeezing it.</div>
+<div class="vocab-item"><strong>prey</strong><br>An animal hunted or killed by another animal for food.</div>
+<div class="vocab-item"><strong>suspense</strong><br>A feeling of excitement or anxious uncertainty.</div>
+<div class="vocab-item"><strong>agony / agonized</strong><br>Extreme physical or mental pain.</div>
+<div class="vocab-item"><strong>shapeless mass</strong><br>Something with no clear or normal shape.</div>
+<div class="vocab-item"><strong>reared up</strong><br>Raised the front part of the body upright.</div>
+<div class="vocab-item"><strong>swollen</strong><br>Made larger or puffed up, usually because of pressure or injury.</div>
+<div class="vocab-item"><strong>fangs</strong><br>Long, sharp teeth, especially in snakes or other animals.</div>
+<div class="vocab-item"><strong>burial</strong><br>The act of placing a dead body in the ground.</div>
+<div class="vocab-item"><strong>double meaning</strong><br>A phrase that has two different interpretations.</div>
+<div class="vocab-item"><strong>skinned</strong><br>Had the skin removed from an animal.</div>
+<div class="vocab-item"><strong>marsh</strong><br>An area of wet, soft land, often covered with grass or reeds.</div>
+<div class="vocab-item"><strong>faithful</strong><br>Loyal and dependable.</div>
+<div class="vocab-item"><strong>galloped</strong><br>Ran very fast, especially like a horse.</div>
+<div class="vocab-item"><strong>frustrated</strong><br>Upset or annoyed because something cannot be done.</div>
+<div class="vocab-item"><strong>digestion</strong><br>The process of breaking down food inside the body.</div>
+<div class="vocab-item"><strong>remains</strong><br>What is left of something after it has been destroyed or after death.</div>
+<div class="vocab-item"><strong>admitted</strong><br>Allowed to enter a place.</div>
+
+</div>
+</section>
+
+<section class="section" id="questions">
+<h2>❓ Comprehension Questions & Answers</h2>
+
+<h3>A. Short Answer Questions</h3>
+
+<div class="question"><strong>1. Where was the family sitting when they first saw the snake?</strong><button class="show-answer" onclick="toggleAnswer(1)">👁️ Show Answer</button><div class="answer" id="answer-1">They were sitting on the porch in front of Rock House.</div></div>
+
+<div class="question"><strong>2. What unusual shape did Fritz see moving in the distance?</strong><button class="show-answer" onclick="toggleAnswer(2)">👁️ Show Answer</button><div class="answer" id="answer-2">He saw something that seemed to coil on the ground like a cable and rise like a little mast.</div></div>
+
+<div class="question"><strong>3. How did the narrator identify the creature?</strong><button class="show-answer" onclick="toggleAnswer(3)">👁️ Show Answer</button><div class="answer" id="answer-3">He used his spyglass and recognised it as a giant snake, a boa constrictor.</div></div>
+
+<div class="question"><strong>4. How did the narrator describe the snake’s movement as it approached?</strong><button class="show-answer" onclick="toggleAnswer(4)">👁️ Show Answer</button><div class="answer" id="answer-4">It raised its head about three metres into the air from time to time and moved along in coils.</div></div>
+
+<div class="question"><strong>5. What immediate actions did the family take once the snake was spotted?</strong><button class="show-answer" onclick="toggleAnswer(5)">👁️ Show Answer</button><div class="answer" id="answer-5">They got everyone, including the animals, into the cave and closed the door and windows.</div></div>
+
+<div class="question"><strong>6. Why did the family’s gunfire fail to stop the snake?</strong><button class="show-answer" onclick="toggleAnswer(6)">👁️ Show Answer</button><div class="answer" id="answer-6">All their shots missed, and the noise only startled the snake into escaping into the marsh.</div></div>
+
+<div class="question"><strong>7. Where did the snake go after being shot at?</strong><button class="show-answer" onclick="toggleAnswer(7)">👁️ Show Answer</button><div class="answer" id="answer-7">It disappeared into the reedy marsh.</div></div>
+
+<div class="question"><strong>8. What kind of snake was it, and how long was it?</strong><button class="show-answer" onclick="toggleAnswer(8)">👁️ Show Answer</button><div class="answer" id="answer-8">It was a boa constrictor, about nine metres long.</div></div>
+
+<div class="question"><strong>9. Why did the narrator insist that the family stay inside for three days?</strong><button class="show-answer" onclick="toggleAnswer(9)">👁️ Show Answer</button><div class="answer" id="answer-9">Because the snake was still nearby and it was not safe to go outside.</div></div>
+
+<div class="question"><strong>10. What did the behaviour of the ducks and geese suggest?</strong><button class="show-answer" onclick="toggleAnswer(10)">👁️ Show Answer</button><div class="answer" id="answer-10">It suggested that the snake was still hiding nearby.</div></div>
+
+<div class="question"><strong>11. Why did the narrator eventually need to send the animals to the farm?</strong><button class="show-answer" onclick="toggleAnswer(11)">👁️ Show Answer</button><div class="answer" id="answer-11">They needed more hay, and the animals’ food was stored at the farm.</div></div>
+
+<div class="question"><strong>12. What mistake allowed Grizzle to run off?</strong><button class="show-answer" onclick="toggleAnswer(12)">👁️ Show Answer</button><div class="answer" id="answer-12">The door was opened before the narrator had finished tying the animals.</div></div>
+
+<div class="question"><strong>13. What did Fritz try to do when Grizzle escaped, and what stopped him?</strong><button class="show-answer" onclick="toggleAnswer(13)">👁️ Show Answer</button><div class="answer" id="answer-13">He tried to rush after Grizzle, but his father held him back.</div></div>
+
+<div class="question"><strong>14. How did the boa attack Grizzle?</strong><button class="show-answer" onclick="toggleAnswer(14)">👁️ Show Answer</button><div class="answer" id="answer-14">It reared up, attacked him, wound around him and squeezed him tightly.</div></div>
+
+<div class="question"><strong>15. Why didn’t the narrator shoot the snake during the attack?</strong><button class="show-answer" onclick="toggleAnswer(15)">👁️ Show Answer</button><div class="answer" id="answer-15">He knew Grizzle could not be saved and wanted to wait until the boa became helpless after feeding.</div></div>
+
+<div class="question"><strong>16. How do boas eat their prey, according to the narrator?</strong><button class="show-answer" onclick="toggleAnswer(16)">👁️ Show Answer</button><div class="answer" id="answer-16">They crush their prey and then swallow it whole because they cannot chew.</div></div>
+
+<div class="question"><strong>17. How long did it take the boa to swallow Grizzle?</strong><button class="show-answer" onclick="toggleAnswer(17)">👁️ Show Answer</button><div class="answer" id="answer-17">It took five hours.</div></div>
+
+<div class="question"><strong>18. What happened to the snake after it finished eating?</strong><button class="show-answer" onclick="toggleAnswer(18)">👁️ Show Answer</button><div class="answer" id="answer-18">It became swollen and lay stiff and still beside the marsh.</div></div>
+
+<div class="question"><strong>19. When and how was the snake finally killed?</strong><button class="show-answer" onclick="toggleAnswer(19)">👁️ Show Answer</button><div class="answer" id="answer-19">The narrator and his sons crept out of the cave and shot it while it was still and helpless.</div></div>
+
+<div class="question"><strong>20. Why did the family decide to bury Grizzle?</strong><button class="show-answer" onclick="toggleAnswer(20)">👁️ Show Answer</button><div class="answer" id="answer-20">Because he was faithful and had saved their lives at the cost of his own.</div></div>
+
+<div class="question"><strong>21. What did Franz ask after the boa was killed?</strong><button class="show-answer" onclick="toggleAnswer(21)">👁️ Show Answer</button><div class="answer" id="answer-21">He asked if they could eat the snake.</div></div>
+
+<div class="question"><strong>22. Why did the narrator disagree with his wife about eating the snake?</strong><button class="show-answer" onclick="toggleAnswer(22)">👁️ Show Answer</button><div class="answer" id="answer-22">His wife thought the snake was poisonous, but the narrator explained that the boa was not poisonous and killed by crushing its prey.</div></div>
+
+<div class="question"><strong>23. Where did the family place the boa’s skin?</strong><button class="show-answer" onclick="toggleAnswer(23)">👁️ Show Answer</button><div class="answer" id="answer-23">They placed it in the cave by the entrance to their library.</div></div>
+
+<div class="question"><strong>24. What humorous sentence did they write above the library door?</strong><button class="show-answer" onclick="toggleAnswer(24)">👁️ Show Answer</button><div class="answer" id="answer-24">“No donkeys admitted here.”</div></div>
+
+<div class="question"><strong>25. Why was the sentence above the library door considered a joke?</strong><button class="show-answer" onclick="toggleAnswer(25)">👁️ Show Answer</button><div class="answer" id="answer-25">It had a double meaning, referring humorously to Grizzle while also sounding like a rule about who could enter the library.</div></div>
+
+<h3>B. Inference and Analytical Questions</h3>
+
+<div class="question"><strong>26. What does the narrator’s leadership during the snake threat reveal about his character?</strong><button class="show-answer" onclick="toggleAnswer(26)">👁️ Show Answer</button><div class="answer" id="answer-26">It shows that he is calm, rational and able to make careful decisions during danger.</div></div>
+
+<div class="question"><strong>27. How does the family’s behaviour show teamwork and unity during the crisis?</strong><button class="show-answer" onclick="toggleAnswer(27)">👁️ Show Answer</button><div class="answer" id="answer-27">They followed instructions, stayed together, protected one another and worked together to defeat the snake.</div></div>
+
+<div class="question"><strong>28. In what ways is Grizzle shown as a heroic animal?</strong><button class="show-answer" onclick="toggleAnswer(28)">👁️ Show Answer</button><div class="answer" id="answer-28">He is shown as faithful and brave, and his actions ultimately help protect the family.</div></div>
+
+<div class="question"><strong>29. How does the family show respect and gratitude to Grizzle after his death?</strong><button class="show-answer" onclick="toggleAnswer(29)">👁️ Show Answer</button><div class="answer" id="answer-29">They give him a proper burial and remember his sacrifice.</div></div>
+
+<div class="question"><strong>30. How does the chapter build suspense?</strong><button class="show-answer" onclick="toggleAnswer(30)">👁️ Show Answer</button><div class="answer" id="answer-30">It uses the slow approach of the snake, the family’s three-day wait, the nervous animals and the dramatic attack on Grizzle.</div></div>
+
+<div class="question"><strong>31. What does the narrator’s explanation about eating snakes reveal about his knowledge and practicality?</strong><button class="show-answer" onclick="toggleAnswer(31)">👁️ Show Answer</button><div class="answer" id="answer-31">It shows that he is knowledgeable, practical and able to use facts to solve survival problems.</div></div>
+
+<div class="question"><strong>32. How do the children show maturity and courage during the crisis?</strong><button class="show-answer" onclick="toggleAnswer(32)">👁️ Show Answer</button><div class="answer" id="answer-32">They follow their father’s instructions, remain with the family and show concern for Grizzle.</div></div>
+
+<div class="question"><strong>33. What values are shown by the family during and after the attack?</strong><button class="show-answer" onclick="toggleAnswer(33)">👁️ Show Answer</button><div class="answer" id="answer-33">Courage, unity, respect for life, loyalty, gratitude and practical thinking.</div></div>
+
+<div class="question"><strong>34. How is humour used at the end of the chapter to ease tension?</strong><button class="show-answer" onclick="toggleAnswer(34)">👁️ Show Answer</button><div class="answer" id="answer-34">The family uses the double meaning of “No donkeys admitted here” to create a light moment after the tragedy.</div></div>
+
+<div class="question"><strong>35. What deeper meaning might lie in placing the snake’s skin near the library?</strong><button class="show-answer" onclick="toggleAnswer(35)">👁️ Show Answer</button><div class="answer" id="answer-35">It can represent survival, the family’s experience and the memory of Grizzle’s sacrifice.</div></div>
+
+</section>
+
+<section class="section" id="fill">
+<h2>✏️ Fill in the Blanks</h2>
+<p><strong>Instructions:</strong> Fill in each blank with the most suitable word.</p>
+
+<div class="fill-item"><span class="fill-number">1.</span> Fritz suddenly got up and exclaimed, “What’s that over there, Father? First it seems to _______ on the ground like a cable.”<button class="show-answer" onclick="toggleFill(1)">👁️ Show Answer</button><div class="fill-answer" id="fill-1">coil</div></div>
+<div class="fill-item"><span class="fill-number">2.</span> The snake raised its head some three metres in the air and looked about, clearly _______ for prey.<button class="show-answer" onclick="toggleFill(2)">👁️ Show Answer</button><div class="fill-answer" id="fill-2">searching</div></div>
+<div class="fill-item"><span class="fill-number">3.</span> “Get everyone inside, Fritz, including the _______,” said the father.<button class="show-answer" onclick="toggleFill(3)">👁️ Show Answer</button><div class="fill-answer" id="fill-3">animals</div></div>
+<div class="fill-item"><span class="fill-number">4.</span> The family closed all the doors and _______ once they were inside Rock House.<button class="show-answer" onclick="toggleFill(4)">👁️ Show Answer</button><div class="fill-answer" id="fill-4">windows</div></div>
+<div class="fill-item"><span class="fill-number">5.</span> The narrator used his _______ to look more closely at the moving object.<button class="show-answer" onclick="toggleFill(5)">👁️ Show Answer</button><div class="fill-answer" id="fill-5">spyglass</div></div>
+<div class="fill-item"><span class="fill-number">6.</span> The family waited in fear as the snake _______ into the reedy marsh.<button class="show-answer" onclick="toggleFill(6)">👁️ Show Answer</button><div class="fill-answer" id="fill-6">disappeared</div></div>
+<div class="fill-item"><span class="fill-number">7.</span> The father believed the creature was a _______ constrictor.<button class="show-answer" onclick="toggleFill(7)">👁️ Show Answer</button><div class="fill-answer" id="fill-7">boa</div></div>
+<div class="fill-item"><span class="fill-number">8.</span> The family stayed in the cave for _______ days, afraid of the snake.<button class="show-answer" onclick="toggleFill(8)">👁️ Show Answer</button><div class="fill-answer" id="fill-8">three</div></div>
+<div class="fill-item"><span class="fill-number">9.</span> The ducks and geese flapped their wings and cackled in _______.<button class="show-answer" onclick="toggleFill(9)">👁️ Show Answer</button><div class="fill-answer" id="fill-9">alarm</div></div>
+<div class="fill-item"><span class="fill-number">10.</span> It was Grizzle, the faithful _______ who ultimately saved the family.<button class="show-answer" onclick="toggleFill(10)">👁️ Show Answer</button><div class="fill-answer" id="fill-10">donkey</div></div>
+<div class="fill-item"><span class="fill-number">11.</span> The snake reared up and opened its dark, deadly _______.<button class="show-answer" onclick="toggleFill(11)">👁️ Show Answer</button><div class="fill-answer" id="fill-11">jaws</div></div>
+<div class="fill-item"><span class="fill-number">12.</span> The boa _______ around Grizzle several times, squeezing him tightly.<button class="show-answer" onclick="toggleFill(12)">👁️ Show Answer</button><div class="fill-answer" id="fill-12">wound</div></div>
+<div class="fill-item"><span class="fill-number">13.</span> The snake cannot chew its food and must _______ it whole.<button class="show-answer" onclick="toggleFill(13)">👁️ Show Answer</button><div class="fill-answer" id="fill-13">swallow</div></div>
+<div class="fill-item"><span class="fill-number">14.</span> Grizzle was _______ to get out and ran toward the marsh.<button class="show-answer" onclick="toggleFill(14)">👁️ Show Answer</button><div class="fill-answer" id="fill-14">eager</div></div>
+<div class="fill-item"><span class="fill-number">15.</span> It took the snake nearly five hours to _______ Grizzle’s body.<button class="show-answer" onclick="toggleFill(15)">👁️ Show Answer</button><div class="fill-answer" id="fill-15">swallow</div></div>
+<div class="fill-item"><span class="fill-number">16.</span> Once the snake had eaten, it lay _______ and still.<button class="show-answer" onclick="toggleFill(16)">👁️ Show Answer</button><div class="fill-answer" id="fill-16">stiff</div></div>
+<div class="fill-item"><span class="fill-number">17.</span> The family crept out of the cave and _______ the snake dead.<button class="show-answer" onclick="toggleFill(17)">👁️ Show Answer</button><div class="fill-answer" id="fill-17">shot</div></div>
+<div class="fill-item"><span class="fill-number">18.</span> The boa is not a _______ snake; it kills by squeezing, not by poison.<button class="show-answer" onclick="toggleFill(18)">👁️ Show Answer</button><div class="fill-answer" id="fill-18">poisonous</div></div>
+<div class="fill-item"><span class="fill-number">19.</span> They gave Grizzle a proper _______ to honour his sacrifice.<button class="show-answer" onclick="toggleFill(19)">👁️ Show Answer</button><div class="fill-answer" id="fill-19">burial</div></div>
+<div class="fill-item"><span class="fill-number">20.</span> The family _______ and stuffed the snake for display.<button class="show-answer" onclick="toggleFill(20)">👁️ Show Answer</button><div class="fill-answer" id="fill-20">skinned</div></div>
+<div class="fill-item"><span class="fill-number">21.</span> The snake skin was placed near the entrance of their _______.<button class="show-answer" onclick="toggleFill(21)">👁️ Show Answer</button><div class="fill-answer" id="fill-21">library</div></div>
+<div class="fill-item"><span class="fill-number">22.</span> Over the door they wrote: “No donkeys _______ here.”<button class="show-answer" onclick="toggleFill(22)">👁️ Show Answer</button><div class="fill-answer" id="fill-22">admitted</div></div>
+<div class="fill-item"><span class="fill-number">23.</span> The narrator explained that snakes have no teeth, only _______.<button class="show-answer" onclick="toggleFill(23)">👁️ Show Answer</button><div class="fill-answer" id="fill-23">fangs</div></div>
+<div class="fill-item"><span class="fill-number">24.</span> The snake crushed the donkey’s bones into a _______ mass before swallowing.<button class="show-answer" onclick="toggleFill(24)">👁️ Show Answer</button><div class="fill-answer" id="fill-24">shapeless</div></div>
+<div class="fill-item"><span class="fill-number">25.</span> The monster was about _______ metres in length.<button class="show-answer" onclick="toggleFill(25)">👁️ Show Answer</button><div class="fill-answer" id="fill-25">nine</div></div>
+<div class="fill-item"><span class="fill-number">26.</span> The snake’s swallowing process required great energy for _______.<button class="show-answer" onclick="toggleFill(26)">👁️ Show Answer</button><div class="fill-answer" id="fill-26">digestion</div></div>
+<div class="fill-item"><span class="fill-number">27.</span> The father watched through the _______ as the snake moved closer.<button class="show-answer" onclick="toggleFill(27)">👁️ Show Answer</button><div class="fill-answer" id="fill-27">spyglass</div></div>
+<div class="fill-item"><span class="fill-number">28.</span> The snake’s appearance created a mood of suspense and _______ inside the cave.<button class="show-answer" onclick="toggleFill(28)">👁️ Show Answer</button><div class="fill-answer" id="fill-28">fear</div></div>
+<div class="fill-item"><span class="fill-number">29.</span> The family remained _______ for several days, hiding from danger.<button class="show-answer" onclick="toggleFill(29)">👁️ Show Answer</button><div class="fill-answer" id="fill-29">indoors</div></div>
+<div class="fill-item"><span class="fill-number">30.</span> The phrase “No donkeys admitted here” is an example of dark _______.<button class="show-answer" onclick="toggleFill(30)">👁️ Show Answer</button><div class="fill-answer" id="fill-30">humour</div></div>
+<div class="fill-item"><span class="fill-number">31.</span> The father taught his sons the importance of _______ even in hard times.<button class="show-answer" onclick="toggleFill(31)">👁️ Show Answer</button><div class="fill-answer" id="fill-31">courage</div></div>
+<div class="fill-item"><span class="fill-number">32.</span> Grizzle acted on instinct, possibly sensing the snake’s _______.<button class="show-answer" onclick="toggleFill(32)">👁️ Show Answer</button><div class="fill-answer" id="fill-32">presence</div></div>
+<div class="fill-item"><span class="fill-number">33.</span> The children were _______ as they watched Grizzle being attacked.<button class="show-answer" onclick="toggleFill(33)">👁️ Show Answer</button><div class="fill-answer" id="fill-33">horrified</div></div>
+<div class="fill-item"><span class="fill-number">34.</span> The snake’s body lay motionless, making it _______ to kill.<button class="show-answer" onclick="toggleFill(34)">👁️ Show Answer</button><div class="fill-answer" id="fill-34">easy</div></div>
+<div class="fill-item"><span class="fill-number">35.</span> In the end, the family managed to overcome the _______ and restore safety.<button class="show-answer" onclick="toggleFill(35)">👁️ Show Answer</button><div class="fill-answer" id="fill-35">threat</div></div>
+
+</section>
+
+<section class="section" id="comments">
+<h2>💬 Comment Questions</h2>
+
+<div class="quote-card">
+<blockquote>“What’s that over there, Father? First it seems to coil on the ground like a cable. Then it rises up as if it were a little mast.”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> Fritz</div>
+<div><strong>To whom:</strong> His father</div>
+<div><strong>Place:</strong> On the porch of Rock House</div>
+<div><strong>Occasion:</strong> Upon spotting the strange movement of the boa constrictor in the distance</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(1)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-1">Fritz said this to his father when he first noticed the strange creature approaching Rock House. His words create suspense because the family does not yet know exactly what the creature is.</div>
+</div>
+
+<div class="quote-card">
+<blockquote>“Get everyone inside, Fritz, including the animals. Then we’ll look for a chance to kill this enemy.”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> The father (narrator)</div>
+<div><strong>To whom:</strong> Fritz</div>
+<div><strong>Place:</strong> Outside Rock House</div>
+<div><strong>Occasion:</strong> After identifying the strange movement as a giant boa constrictor</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(2)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-2">The father says this after recognising the snake. He immediately takes responsibility for protecting the family and animals.</div>
+</div>
+
+<div class="quote-card">
+<blockquote>“Shoot him, Father! Shoot him now! Save our poor Grizzle!”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> The boys</div>
+<div><strong>To whom:</strong> Their father</div>
+<div><strong>Place:</strong> Inside Rock House, watching the attack</div>
+<div><strong>Occasion:</strong> While the boa is attacking and squeezing Grizzle</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(3)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-3">The boys are desperate to save Grizzle. The quotation shows their love for the animal and the emotional intensity of the scene.</div>
+</div>
+
+<div class="quote-card">
+<blockquote>“Surely the snake is not going to swallow a whole donkey all at once, Father? That would be impossible!”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> One of the sons</div>
+<div><strong>To whom:</strong> His father</div>
+<div><strong>Place:</strong> Inside Rock House</div>
+<div><strong>Occasion:</strong> While watching the boa prepare to swallow Grizzle</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(4)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-4">The son is shocked by the idea that the snake could swallow a whole donkey. The quotation leads to the father’s explanation of how boas feed.</div>
+</div>
+
+<div class="quote-card">
+<blockquote>“No, my dear wife. The boa is not poisonous. It kills its prey by crushing it.”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> The father</div>
+<div><strong>To whom:</strong> His wife</div>
+<div><strong>Place:</strong> Near the snake’s body</div>
+<div><strong>Occasion:</strong> After killing the boa, when his wife says that snakes are poisonous</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(5)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-5">The father corrects his wife and explains that the boa kills by constriction rather than poison. This shows his practical knowledge.</div>
+</div>
+
+<div class="quote-card">
+<blockquote>“No donkeys admitted here.”</blockquote>
+<div class="quote-details">
+<div><strong>Speaker:</strong> The narrator / the family</div>
+<div><strong>To whom:</strong> A humorous sign for anyone entering the library</div>
+<div><strong>Place:</strong> Above the library door</div>
+<div><strong>Occasion:</strong> After the family skins and stuffs the boa and buries Grizzle</div>
+</div>
+<button class="show-answer" onclick="toggleQuote(6)">👁️ Show Answer</button>
+<div class="quote-answer" id="quote-6">The sentence is a humorous double meaning. It remembers Grizzle while also sounding like a normal rule about who may enter the library.</div>
+</div>
+
+</section>
+
+<section class="section" id="quiz1">
+<h2 class="quiz-title">🧠 Quiz 1 — Chapter 9</h2>
+
+<div class="quiz-question"><strong>1. What did Fritz see in the distance that alarmed him? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-1')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-1">He saw a strange creature moving like a coiled cable and rising like a mast.</div></div>
+
+<div class="quiz-question"><strong>2. How did the narrator confirm what the creature was? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-2')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-2">He used his spyglass.</div></div>
+
+<div class="quiz-question"><strong>3. What immediate action did the family take to protect themselves? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-3')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-3">They went inside the cave with the animals and closed the door and windows.</div></div>
+
+<div class="quiz-question"><strong>4. Where did the snake go after being shot at the first time? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-4')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-4">It disappeared into the reedy marsh.</div></div>
+
+<div class="quiz-question"><strong>5. How did the geese and ducks alert the family that the snake was still around? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-5')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-5">They swam anxiously, cackled and flapped their wings nervously.</div></div>
+
+<div class="quiz-question"><strong>6. Why did the narrator send the animals to the farm? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-6')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-6">They needed more hay because the animals’ food was at the farm.</div></div>
+
+<div class="quiz-question"><strong>7. What made Grizzle run out of the cave suddenly? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-7')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-7">The door was opened before the narrator had finished tying the animals, and Grizzle was eager to get out.</div></div>
+
+<div class="quiz-question"><strong>8. Fill in the blank: The family hid inside the ________ House for three days. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-8')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-8">Rock</div></div>
+
+<div class="quiz-question"><strong>9. Fill in the blank: The snake crossed ________ Bridge before reaching the cave. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-9')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-9">Family</div></div>
+
+<div class="quiz-question"><strong>10. Fill in the blank: The narrator used his ________ to watch the snake closely. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-10')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-10">Spyglass</div></div>
+
+<div class="quiz-question"><strong>11. Comment on the quotation: “Shoot him, Father! Shoot him now! Save our poor Grizzle!” (2)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-11')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-11">The boys said this to their father while Grizzle was being attacked. They desperately wanted to save the faithful donkey.</div></div>
+
+<div class="quiz-question"><strong>12. What does Grizzle’s death reveal about the relationship between the family and their animals? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-12')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-12">The family cares deeply about their animals and respects Grizzle’s sacrifice.</div></div>
+
+<div class="quiz-question"><strong>13. Why did the narrator wait for the snake to eat before attacking it? (3)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz1-answer-13')">👁️ Show Answer</button><div class="answer" id="quiz1-answer-13">He knew that after eating the donkey, the boa would be swollen, weak and unable to move easily. Waiting made the attack safer and more likely to succeed.</div></div>
+
+</section>
+
+<section class="section" id="quiz2">
+<h2 class="quiz-title">🧠 Quiz 2 — Chapter 9</h2>
+
+<div class="quiz-question"><strong>1. What was the snake doing as it approached the cave? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-1')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-1">It raised its head and looked around, searching for prey.</div></div>
+
+<div class="quiz-question"><strong>2. What did the narrator identify the snake as? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-2')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-2">A boa constrictor.</div></div>
+
+<div class="quiz-question"><strong>3. Why couldn’t Fritz go after Grizzle? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-3')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-3">His father held him back because it was too dangerous.</div></div>
+
+<div class="quiz-question"><strong>4. How did the snake kill its prey? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-4')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-4">It wrapped around the prey and squeezed it.</div></div>
+
+<div class="quiz-question"><strong>5. What did the family do after killing the snake? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-5')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-5">They recovered and buried Grizzle, then skinned and stuffed the boa.</div></div>
+
+<div class="quiz-question"><strong>6. Why did the family decide to bury Grizzle? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-6')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-6">Because he was faithful and had saved their lives at the cost of his own.</div></div>
+
+<div class="quiz-question"><strong>7. Fill in the blank: The boa raised its head ________ metres above the ground. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-7')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-7">Three</div></div>
+
+<div class="quiz-question"><strong>8. Fill in the blank: The snake crushed Grizzle’s ________ before swallowing him. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-8')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-8">Bones</div></div>
+
+<div class="quiz-question"><strong>9. Fill in the blank: It took the boa ________ hours to eat Grizzle. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-9')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-9">Five</div></div>
+
+<div class="quiz-question"><strong>10. Fill in the blank: They placed the snake’s skin near the ________ entrance. (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-10')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-10">Library</div></div>
+
+<div class="quiz-question"><strong>11. Comment on the quotation: “No donkeys admitted here.” (2)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-11')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-11">The family wrote this above the library door after Grizzle’s death. It has a double meaning and uses humour to ease the sadness of the tragedy.</div></div>
+
+<div class="quiz-question"><strong>12. What does the ending reveal about the family’s attitude towards difficult experiences? (1)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-12')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-12">They face difficult experiences bravely and can still find a little humour even after a painful loss.</div></div>
+
+<div class="quiz-question"><strong>13. What does Grizzle’s sacrifice teach us about animals and loyalty? (3)</strong><div class="answer-line"></div><button class="show-answer" onclick="toggleQuiz('quiz2-answer-13')">👁️ Show Answer</button><div class="answer" id="quiz2-answer-13">It shows that animals can be loyal, brave and valuable members of a family. Grizzle’s death is remembered because his actions helped protect the family.</div></div>
+
+</section>
+
+<section class="section" id="back">
+<h2>↩️ Back to My Course</h2>
+<a class="back-button" href="my-course.html">← Back to My Course</a>
+</section>
+
+</main>
+
+<footer>
+© 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script>
+function toggleAnswer(index) {
+    const answer = document.getElementById("answer-" + index);
+    answer.classList.toggle("show");
+}
+
+function toggleFill(index) {
+    const answer = document.getElementById("fill-" + index);
+    if (answer.style.display === "block") {
+        answer.style.display = "none";
+    } else {
+        answer.style.display = "block";
+    }
+}
+
+function toggleQuote(index) {
+    const answer = document.getElementById("quote-" + index);
+    if (answer.style.display === "block") {
+        answer.style.display = "none";
+    } else {
+        answer.style.display = "block";
+    }
+}
+
+function toggleQuiz(id) {
+    const answer = document.getElementById(id);
+    if (answer.style.display === "block") {
+        answer.style.display = "none";
+    } else {
+        answer.style.display = "block";
+    }
+}
+
+const sections = document.querySelectorAll(".section[id]");
+const menuLinks = document.querySelectorAll(".nav-buttons a");
+
+const observer = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                menuLinks.forEach(link => {
+                    link.classList.remove("active");
+                });
+
+                const activeLink = document.querySelector(
+                    `.nav-buttons a[href="#${entry.target.id}"]`
+                );
+
+                if (activeLink) {
+                    activeLink.classList.add("active");
+                }
+            }
+        });
+    },
+    { rootMargin: "-20% 0px -65% 0px" }
+);
+
+sections.forEach(section => observer.observe(section));
+
+if (menuLinks.length > 0) {
+    menuLinks[0].classList.add("active");
+}
+</script>
+
+</body>
+</html>
