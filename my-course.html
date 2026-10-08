@@ -128,8 +128,6 @@
             color: #666;
         }
 
-        /* ================= CHAPTER BADGE ================= */
-
         .chapter-number {
             display: inline-block;
             background: #eef5ff;
@@ -139,6 +137,18 @@
             font-size: 13px;
             font-weight: bold;
             margin-bottom: 8px;
+        }
+
+        .chapter-card a {
+            display: block;
+        }
+
+        .chapter-card h3 {
+            transition: color .2s ease;
+        }
+
+        .chapter-card a:hover h3 {
+            color: #174a8b;
         }
 
     </style>
@@ -217,10 +227,6 @@ const supabaseClient =
 
 async function loadCourse() {
 
-    /* =========================
-       CHECK LOGIN
-       ========================= */
-
     const {
         data: { session }
     } = await supabaseClient.auth.getSession();
@@ -271,15 +277,11 @@ async function loadCourse() {
         student[0].grade;
 
 
-    document.getElementById(
-        "welcome"
-    ).textContent =
+    document.getElementById("welcome").textContent =
         "Welcome, " + studentName;
 
 
-    document.getElementById(
-        "yearTitle"
-    ).textContent =
+    document.getElementById("yearTitle").textContent =
         yearGroup + " Course";
 
 
@@ -292,35 +294,23 @@ async function loadCourse() {
         error: unitsError
     } = await supabaseClient
         .from("course_units")
-        .select(
-            "id, title, unit_number"
-        )
-        .eq(
-            "year_group",
-            yearGroup
-        )
-        .order(
-            "unit_number",
-            {
-                ascending: true
-            }
-        );
+        .select("id, title, unit_number")
+        .eq("year_group", yearGroup)
+        .order("unit_number", {
+            ascending: true
+        });
 
 
     if (unitsError) {
 
-        showError(
-            unitsError.message
-        );
+        showError(unitsError.message);
 
         return;
     }
 
 
     const unitsContainer =
-        document.getElementById(
-            "unitsContainer"
-        );
+        document.getElementById("unitsContainer");
 
 
     if (!units || units.length === 0) {
@@ -330,46 +320,37 @@ async function loadCourse() {
 
     } else {
 
-        units.forEach(
-            function(unit) {
+        units.forEach(function(unit) {
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+            const card =
+                document.createElement("div");
 
-                card.className =
-                    "card";
+            card.className = "card";
 
+            card.innerHTML = `
 
-                card.innerHTML = `
+                <div class="card-icon">
+                    📘
+                </div>
 
-                    <div class="card-icon">
-                        📘
-                    </div>
+                <a href="unit.html?id=${unit.id}">
 
-                    <a href="unit.html?id=${unit.id}">
+                    <h3>
+                        ${unit.title}
+                    </h3>
 
-                        <h3>
-                            ${unit.title}
-                        </h3>
+                </a>
 
-                    </a>
+                <p>
+                    Vocabulary, Grammar,
+                    Writing and End of Unit Test.
+                </p>
 
-                    <p>
-                        Vocabulary, Grammar,
-                        Writing and End of Unit Test.
-                    </p>
+            `;
 
-                `;
+            unitsContainer.appendChild(card);
 
-
-                unitsContainer.appendChild(
-                    card
-                );
-
-            }
-        );
+        });
 
     }
 
@@ -384,34 +365,24 @@ async function loadCourse() {
     } = await supabaseClient
         .from("story_chapters")
         .select(
-            "id, chapter_number, title, description, content_url"
+            "id, chapter_number, title, description"
         )
-        .eq(
-            "year_group",
-            yearGroup
-        )
-        .order(
-            "chapter_number",
-            {
-                ascending: true
-            }
-        );
+        .eq("year_group", yearGroup)
+        .order("chapter_number", {
+            ascending: true
+        });
 
 
     if (chaptersError) {
 
-        showError(
-            chaptersError.message
-        );
+        showError(chaptersError.message);
 
         return;
     }
 
 
     const storyContainer =
-        document.getElementById(
-            "storyContainer"
-        );
+        document.getElementById("storyContainer");
 
 
     if (!chapters || chapters.length === 0) {
@@ -421,87 +392,102 @@ async function loadCourse() {
 
     } else {
 
-        chapters.forEach(
-            function(chapter) {
+        chapters.forEach(function(chapter) {
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+            const card =
+                document.createElement("div");
 
-                card.className =
-                    "chapter-card";
+            card.className = "chapter-card";
 
 
-                /* =====================================
-                   CHAPTER PAGE LINK
-                   
-                   Chapter 1  → story.html
-                   Chapter 2  → story2.html
-                   Chapter 3  → story3.html
-                   Chapter 4  → story4.html
-                   etc.
-                   ===================================== */
+            /* =====================================
+               FIXED CHAPTER LINKS
+               ===================================== */
 
-                let link;
+            let link = "story.html";
 
-                if (chapter.chapter_number === 1) {
-
-                    link = "story.html";
-
-                } else {
-
-                    link =
-                        "story" +
-                        chapter.chapter_number +
-                        ".html";
-
-                }
-
-
-                card.innerHTML = `
-
-                    <div class="card-icon">
-                        📖
-                    </div>
-
-                    <div class="chapter-number">
-                        Chapter ${chapter.chapter_number}
-                    </div>
-
-                    <a href="${link}">
-
-                        <h3>
-                            ${chapter.title}
-                        </h3>
-
-                    </a>
-
-                    <p>
-                        ${chapter.description ||
-                        "Read this chapter."}
-                    </p>
-
-                `;
-
-
-                storyContainer.appendChild(
-                    card
-                );
-
+            if (Number(chapter.chapter_number) === 2) {
+                link = "story2.html";
             }
-        );
+
+            else if (Number(chapter.chapter_number) === 3) {
+                link = "story3.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 4) {
+                link = "story4.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 5) {
+                link = "story5.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 6) {
+                link = "story6.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 7) {
+                link = "story7.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 8) {
+                link = "story8.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 9) {
+                link = "story9.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 10) {
+                link = "story10.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 11) {
+                link = "story11.html";
+            }
+
+            else if (Number(chapter.chapter_number) === 12) {
+                link = "story12.html";
+            }
+
+
+            card.innerHTML = `
+
+                <div class="card-icon">
+                    📖
+                </div>
+
+                <div class="chapter-number">
+                    Chapter ${chapter.chapter_number}
+                </div>
+
+                <a
+                    href="${link}"
+                    target="_self"
+                >
+
+                    <h3>
+                        ${chapter.title}
+                    </h3>
+
+                </a>
+
+                <p>
+                    ${chapter.description ||
+                    "Read this chapter."}
+                </p>
+
+            `;
+
+
+            storyContainer.appendChild(card);
+
+        });
 
     }
 
 
-    /* =========================
-       HIDE LOADING
-       ========================= */
-
-    document.getElementById(
-        "loading"
-    ).style.display =
+    document.getElementById("loading").style.display =
         "none";
 
 }
@@ -513,21 +499,14 @@ async function loadCourse() {
 
 function showError(message) {
 
-    document.getElementById(
-        "loading"
-    ).style.display =
+    document.getElementById("loading").style.display =
         "none";
 
-
     const error =
-        document.getElementById(
-            "error"
-        );
-
+        document.getElementById("error");
 
     error.style.display =
         "block";
-
 
     error.textContent =
         message;
