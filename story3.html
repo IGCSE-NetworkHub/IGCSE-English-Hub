@@ -1,444 +1,1493 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Chapter 3 - Building Projects | IGCSE English Hub</title>
+<title>Chapter 3 - Building Projects | IGCSE English Hub</title>
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #eef3f9, #dce6f2);
-            color: #1f2937;
-            line-height: 1.8;
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        header {
-            background: linear-gradient(135deg, #0f2f55, #174a7c);
-            color: white;
-            padding: 35px 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #243447;
+}
 
-        header .book-icon {
-            font-size: 45px;
-            margin-bottom: 8px;
-        }
+/* HEADER */
 
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-        }
+header {
+    background: linear-gradient(135deg, #102a56, #174a8b);
+    color: white;
+    padding: 25px 30px;
+    text-align: center;
+    margin-left: 255px;
+}
 
-        header h2 {
-            margin: 8px 0 0;
-            font-size: 22px;
-            font-weight: normal;
-            opacity: 0.95;
-        }
+header h1 {
+    margin: 0;
+    font-size: 32px;
+}
 
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: white;
-            color: #174a7c;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+header p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+}
 
-        .back-button:hover {
-            background: #e8f1fb;
-            transform: translateY(-2px);
-        }
+/* SIDE MENU */
 
-        .container {
-            max-width: 950px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+.lesson-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 255px;
+    height: 100vh;
+    background: white;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+    padding: 22px 15px;
+    overflow-y: auto;
+    z-index: 1000;
+}
 
-        .story-card {
-            background: white;
-            border-radius: 18px;
-            padding: 45px 50px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
-        }
+.lesson-nav h2 {
+    color: #102a56;
+    font-size: 20px;
+    margin: 0 0 18px;
+    text-align: center;
+}
 
-        .chapter-label {
-            text-align: center;
-            color: #174a7c;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
+.lesson-nav a {
+    display: block;
+    text-decoration: none;
+    color: #243447;
+    padding: 11px 14px;
+    margin-bottom: 6px;
+    border-radius: 9px;
+    font-size: 14px;
+    transition: 0.25s;
+}
 
-        .story-title {
-            text-align: center;
-            color: #0f2f55;
-            font-size: 34px;
-            margin: 0 0 35px;
-        }
+.lesson-nav a:hover {
+    background: #eaf2ff;
+    color: #174a8b;
+    transform: translateX(3px);
+}
 
-        .story-text p {
-            margin: 0 0 22px;
-            font-size: 18px;
-            text-align: justify;
-        }
+.lesson-nav a.active {
+    background: #174a8b;
+    color: white;
+}
 
-        .dialogue {
-            margin-left: 25px;
-            padding-left: 20px;
-            border-left: 4px solid #174a7c;
-            font-style: italic;
-        }
+/* MAIN */
 
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 35px;
-        }
+.container {
+    margin-left: 285px;
+    max-width: 1050px;
+    padding: 30px 25px 60px;
+}
 
-        .nav-button {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            padding: 13px 20px;
-            border-radius: 12px;
-            background: #174a7c;
-            color: white;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+/* SECTIONS */
 
-        .nav-button:hover {
-            background: #0f2f55;
-            transform: translateY(-2px);
-        }
+.section {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 28px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+}
 
-        footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-            background: #0f2f55;
-            color: white;
-            font-size: 14px;
-        }
+.section h2 {
+    color: #102a56;
+    margin-top: 0;
+    font-size: 26px;
+}
 
-        @media (max-width: 700px) {
+.section h3 {
+    color: #174a8b;
+}
 
-            .story-card {
-                padding: 30px 22px;
-            }
+/* STORY */
 
-            header h1 {
-                font-size: 26px;
-            }
+.story-text {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    line-height: 2;
+    color: #263746;
+}
 
-            header h2 {
-                font-size: 19px;
-            }
+.story-text p {
+    margin-bottom: 22px;
+}
 
-            .story-title {
-                font-size: 28px;
-            }
+.quote {
+    background: #eef5ff;
+    border-left: 5px solid #174a8b;
+    padding: 16px 20px;
+    margin: 22px 0;
+    border-radius: 8px;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+}
 
-            .story-text p {
-                font-size: 17px;
-                text-align: left;
-            }
+/* SUMMARY */
 
-            .navigation {
-                flex-direction: column;
-            }
+.highlight {
+    background: #eef5ff;
+    border-left: 5px solid #174a8b;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.8;
+}
 
-        }
+.highlight strong {
+    font-size: 20px;
+    color: #102a56;
+}
 
-    </style>
+/* INFO CARDS */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.info-card {
+    background: #f7faff;
+    border: 1px solid #dbe7f5;
+    border-radius: 14px;
+    padding: 20px;
+    transition: 0.25s;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.info-card h3 {
+    margin-top: 0;
+}
+
+/* VOCABULARY */
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.vocab-item {
+    background: #f7faff;
+    border: 1px solid #dbe7f5;
+    padding: 15px;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+.vocab-item strong {
+    color: #174a8b;
+    font-size: 17px;
+}
+
+/* QUESTIONS */
+
+.question {
+    background: #f8fafc;
+    border: 1px solid #dfe7ef;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.question strong {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.answer {
+    display: none;
+    background: #eaf7ee;
+    border-left: 4px solid #3a8f5b;
+    padding: 12px 15px;
+    margin-top: 10px;
+    border-radius: 7px;
+}
+
+.show-answer {
+    background: #174a8b;
+    color: white;
+    border: none;
+    padding: 8px 13px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.show-answer:hover {
+    opacity: 0.9;
+}
+
+/* FILL IN */
+
+.fill-item {
+    background: #f8fafc;
+    border: 1px solid #dfe7ef;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+}
+
+.fill-answer {
+    display: none;
+    color: #174a8b;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+/* QUOTATIONS */
+
+.quote-card {
+    border: 1px solid #dce5ef;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 18px;
+    background: #fbfdff;
+}
+
+.quote-card .quotation {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #102a56;
+    margin-bottom: 12px;
+}
+
+.quote-card p {
+    margin: 6px 0;
+}
+
+.quote-answer {
+    display: none;
+    background: #eef5ff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+/* QUIZ */
+
+.quiz-title {
+    background: linear-gradient(135deg, #102a56, #174a8b);
+    color: white;
+    padding: 20px;
+    border-radius: 13px;
+    margin-bottom: 22px;
+}
+
+.quiz-title h2 {
+    color: white;
+    margin: 0 0 5px;
+}
+
+.quiz-question {
+    border: 1px solid #dce5ef;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.answer-line {
+    border-bottom: 1px solid #999;
+    height: 35px;
+    margin-top: 10px;
+}
+
+/* BACK */
+
+.back-button {
+    display: inline-block;
+    background: #174a8b;
+    color: white;
+    text-decoration: none;
+    padding: 13px 22px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background: #102a56;
+}
+
+/* FOOTER */
+
+footer {
+    margin-left: 255px;
+    background: #102a56;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .lesson-nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+    }
+
+    header {
+        margin-left: 0;
+    }
+
+    .container {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    footer {
+        margin-left: 0;
+    }
+
+    .info-grid,
+    .vocab-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-<header>
+<!-- SIDE MENU -->
 
-    <div class="book-icon">📖</div>
+<nav class="lesson-nav">
+
+    <h2>📖 Chapter 3</h2>
+
+    <a href="#reading">📖 Reading</a>
+    <a href="#summary">📝 Summary</a>
+    <a href="#theme">🎯 Theme</a>
+    <a href="#characters">👥 Characters</a>
+    <a href="#vocabulary">📚 Vocabulary</a>
+    <a href="#questions">❓ Questions</a>
+    <a href="#fill">✏️ Fill in</a>
+    <a href="#quotations">💬 Quotations</a>
+    <a href="#quiz1">🧠 Quiz 1</a>
+    <a href="#quiz2">🧠 Quiz 2</a>
+    <a href="#back">↩️ Back</a>
+
+</nav>
+
+
+<!-- HEADER -->
+
+<header>
 
     <h1>Chapter 3</h1>
 
-    <h2>Building Projects</h2>
+    <p>Building Projects</p>
+
+</header>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+<!-- READING -->
+
+<section class="section" id="reading">
+
+    <h2>📖 Chapter 3: Building Projects</h2>
+
+    <div class="story-text">
+
+        <p>
+            It didn't take us as long as we'd thought to build the bridge. First, the animals helped us haul the wooden planks that had washed up from our wrecked ship. Then we used a pulley system to help the mule and cow pull the planks into place. Our new bridge seemed quite solid. The children could hardly contain their excitement. They danced to and fro on our wonderful bridge, singing and shouting.
+        </p>
+
+        <p>
+            The next morning, we loaded all of our supplies on the cow and the mule. Then, with each of us carrying a gun and a sack of goods, we were ready to go. The little monkey, which we had named Knips, rode on Turk's back. He made funny faces as he bounced along. All the other animals trailed behind us.
+        </p>
+
+        <p>
+            Once across the bridge, we passed through fields of high grass. The dogs ran ahead, only for us to soon hear them howling loudly—as if in pain.
+        </p>
+
+        <div class="quote">
+            "Father! Father! Come quickly!" he called. "It's a porcupine!"
+        </div>
+
+        <p>
+            Jack ran toward them to see what was wrong. Sure enough, the dogs had tried to attack a porcupine. Both dogs were badly hurt by the quills. Jack drew his pistol and shot the porcupine dead. Then he carefully wrapped his handkerchief around its neck and dragged it to where his mother was waiting. He was very proud of it.
+        </p>
+
+        <div class="quote">
+            "Look, Mother, I shot it! Do you think it's good to eat?" he said.
+        </div>
+
+        <p>
+            Smiling at the child's eagerness, I wrapped the porcupine in several folds of cloth. Then I piled it on top of the donkey's load. After that small excitement, we continued our march until we reached the site of our future home.
+        </p>
+
+        <p>
+            The grove of trees was truly wonderful. The trees seemed to be mangroves or wild figs. They had huge, arching roots that supported the main trunk above the soil. The calm beauty of the spot was just as splendid as my wife had told me. I promised her that our next house would be the safest and most charming place in the whole world!
+        </p>
+
+        <p>
+            We unloaded the mule and the cow. We secured them, as well as the sheep and goats, by loosely tying their front feet together. We set the doves and poultry free before we finally sat down to rest.
+        </p>
+
+        <p>
+            After a while, Ernest gathered some large, flat stones to build a fireplace. Franz went off in another direction to gather sticks for the fire. He soon came back, eating a fig.
+        </p>
+
+        <div class="quote">
+            "Where did you find that?" I asked.
+        </div>
+
+        <div class="quote">
+            "There are thousands of them lying in the grass over there!" Franz reported. "They're delicious. Look—the pigeons and the hens are already gobbling them up."
+        </div>
+
+        <div class="quote">
+            "Well, if birds and monkeys eat a fruit or vegetable, it's usually safe for humans, too. But in the future, please don't eat anything unless you show it to me first."
+        </div>
+
+        <p>
+            We ate porcupine for our dinner that night. Some we boiled and some we roasted. By boring holes at the ends of the porcupine's quills, I made some needles for my wife's sewing. I then thought about making a harness for our beasts of burden.
+        </p>
+
+        <p>
+            We had to build a ladder to reach the tallest branches of our tree. Ernest suggested that we use bamboo for the rungs of the ladder. That worked just fine. We attached the cut bamboo to rope until the ladder was long enough. How would I get it up to the highest branches? I had a good idea!
+        </p>
+
+        <p>
+            Using a bow and arrow, I shot the end of a ball of string over the branch. Then I tied one end of the string to the ladder. By pulling the other end of the string, I raised the ladder up to the branch. After scrambling up the tree trunk and out onto the branch, the boys tied the ladder tight. Then I climbed up the ladder to attach a pulley to the tree trunk. Now the pulley and our beasts of burden could help us haul timber up the tree!
+        </p>
+
+        <p>
+            We used wood from the shipwreck to build our house. The big tree we had chosen was perfect! Its branches grew very close together in a horizontal direction. We built a floor on the first level. On each side, we made a wall about 120 centimetres high out of planks. Two metres or so above the floor, we hung our hammocks in boughs. Then we threw the sail cloth over the higher branches to make a roof. Finally, we pulled the cloth down and nailed it to the wooden wall on two sides.
+        </p>
+
+        <p>
+            The tree trunk itself formed the back wall of our house. The front was left open to the fresh air. I built a big table at the foot of the tree. This was where we would eat our meals.
+        </p>
+
+        <p>
+            The next morning at breakfast I said, let's name our home and the different parts of the island. Everyone was excited. They thought that was a wonderful idea.
+        </p>
+
+        <div class="quote">
+            "How about a name for the bay where we first landed?" I asked.
+        </div>
+
+        <div class="quote">
+            "Let's call it Oyster Bay," Fritz suggested. "Remember all the oysters I found there?"
+        </div>
+
+        <div class="quote">
+            "No, it should be Lobster Bay," Jack shouted. "That's where I got the lobster."
+        </div>
+
+        <p>
+            My wife suggested the name Providence Bay.
+        </p>
+
+        <div class="quote">
+            "To thank God for getting all of us here safely," she said.
+        </div>
+
+        <p>
+            So, Providence Bay it was.
+        </p>
+
+        <p>
+            We called our first home Tent House and we named our tree house Falcon's Nest. The swamp, where many flamingos lived, was called Flamingo Marsh. The stream that divided the island was named Jackal River and we named our bridge Family Bridge. We also decided to name our island. We called it New Switzerland. Once we had decided on these names, we began to feel much more at home.
+        </p>
+
+        <p>
+            The following day, Ernest and I went fishing in Providence Bay. He caught a huge fish. We were on our way home when our dog, Juno, chased after a strange animal. The beast was making extraordinary jumps toward us! Ernest lifted his gun and shot the animal dead.
+        </p>
+
+        <div class="quote">
+            "Look at it!" Ernest cried. "He's the size of a sheep, but he has the tail of a tiger. His nose and hair look something like a mouse's, but his ears are like a rabbit's! His front legs are like those of a squirrel, but his back legs are like the tallest stilts! Whatever can it be?"
+        </div>
+
+        <div class="quote">
+            "I think it's a kangaroo, son," I said. "See the pouch on the front of its body? Its young hide there for safety."
+        </div>
+
+        <p>
+            We brought the fish and the kangaroo home. That night, we cooked the fish and part of the kangaroo, saving the rest for salting. Then, with thankful hearts, we went to bed and enjoyed a well-earned sleep.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- SUMMARY -->
+
+<section class="section" id="summary">
+
+    <h2>📘 Chapter 3 Summary</h2>
+
+    <p>
+        The family crosses the new bridge and travels with their animals and supplies to the grove where they plan to build their new home. Along the way, the dogs are badly injured when they attack a porcupine, and Jack kills the animal so the family can use it for food.
+    </p>
+
+    <p>
+        At the grove, the family begins preparing for their new life. They gather firewood and discover figs growing in the grass. They eat the porcupine and also make sewing needles from its quills.
+    </p>
+
+    <p>
+        The family then builds a long bamboo ladder and uses a pulley system to lift timber. They construct a tree house from wood taken from the shipwreck, using the tree branches, sail cloth and the trunk itself to create a safe and comfortable home.
+    </p>
+
+    <p>
+        The family names different parts of the island, including Providence Bay, Tent House, Falcon's Nest, Flamingo Marsh, Jackal River and Family Bridge. They also name their island New Switzerland.
+    </p>
+
+    <p>
+        Finally, Ernest catches a large fish and encounters a strange jumping animal. The family discovers that it is a kangaroo. They cook the fish and some of the kangaroo before going to bed, thankful for their successful new home.
+    </p>
+
+</section>
+
+
+<!-- THEME -->
+
+<section class="section" id="theme">
+
+    <h2>🎯 Theme</h2>
+
+    <div class="highlight">
+
+        <strong>Building, Cooperation and Adaptation</strong>
+
+        <p>
+            This chapter shows how the family uses teamwork, practical skills and creativity to build a safe new home and adapt to life on the island.
+        </p>
+
+        <p>
+            It also shows the family's growing sense of belonging as they name the places around them and begin to feel at home.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- CHARACTERS -->
+
+<section class="section" id="characters">
+
+    <h2>👥 Chapter 3 Characters</h2>
+
+    <div class="info-grid">
+
+        <div class="info-card">
+            <h3>👨 Father</h3>
+            <p>
+                The narrator. He leads the construction work, designs practical solutions and helps the family build their new home.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>👩 Mother</h3>
+            <p>
+                She helps the family settle into their new home and suggests the name Providence Bay.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>🧑 Fritz</h3>
+            <p>
+                He suggests the name Oyster Bay and takes an active part in the family's activities.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>🧒 Ernest</h3>
+            <p>
+                He gathers stones, catches a huge fish and helps identify the strange animal.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>👦 Jack</h3>
+            <p>
+                He kills the porcupine after it injures the dogs and suggests the name Lobster Bay.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>👦 Franz</h3>
+            <p>
+                He gathers sticks for the fire and discovers the figs growing in the grass.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>🐒 Knips</h3>
+            <p>
+                The little monkey rides on Turk's back as the family travels to their new home.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>🦘 Kangaroo</h3>
+            <p>
+                A strange jumping animal discovered by Ernest and later identified as a kangaroo.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- VOCABULARY -->
+
+<section class="section" id="vocabulary">
+
+    <h2>📚 Vocabulary</h2>
+
+    <div class="vocab-grid">
+
+        <div class="vocab-item">
+            <strong>Haul</strong><br>
+            To pull or carry something heavy.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Pulley</strong><br>
+            A wheel with a groove used with a rope to lift or move heavy things.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Porcupine</strong><br>
+            An animal covered with sharp quills.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Quills</strong><br>
+            Long, sharp spines covering the body of a porcupine.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Grove</strong><br>
+            A small group of trees growing together.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Poultry</strong><br>
+            Domestic birds such as chickens.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Rungs</strong><br>
+            The horizontal bars of a ladder.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Harness</strong><br>
+            Equipment used for controlling or attaching an animal.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Timber</strong><br>
+            Wood prepared for use in building.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Boughs</strong><br>
+            Large branches of a tree.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Horizontal</strong><br>
+            Going from side to side rather than up and down.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Providence</strong><br>
+            Divine care or protection.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Marsh</strong><br>
+            An area of wet, often grassy land.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Stilts</strong><br>
+            Long supports used to raise someone or something above the ground.
+        </div>
+
+        <div class="vocab-item">
+            <strong>Salting</strong><br>
+            Preserving food by treating it with salt.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUESTIONS -->
+
+<section class="section" id="questions">
+
+    <h2>❓ Questions & Answers</h2>
+
+    <div class="question">
+        <strong>1. What did the family build to cross the river?</strong>
+        <button class="show-answer" onclick="toggleAnswer(1)">Show Answer</button>
+        <div class="answer" id="answer1">
+            They built a bridge.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>2. What helped the mule and cow pull the wooden planks into place?</strong>
+        <button class="show-answer" onclick="toggleAnswer(2)">Show Answer</button>
+        <div class="answer" id="answer2">
+            A pulley system.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>3. What happened to the dogs when they attacked the porcupine?</strong>
+        <button class="show-answer" onclick="toggleAnswer(3)">Show Answer</button>
+        <div class="answer" id="answer3">
+            Both dogs were badly hurt by the porcupine's quills.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>4. Who shot the porcupine?</strong>
+        <button class="show-answer" onclick="toggleAnswer(4)">Show Answer</button>
+        <div class="answer" id="answer4">
+            Jack.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>5. What did Franz discover in the grass?</strong>
+        <button class="show-answer" onclick="toggleAnswer(5)">Show Answer</button>
+        <div class="answer" id="answer5">
+            He discovered thousands of figs.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>6. What did the family make from the porcupine's quills?</strong>
+        <button class="show-answer" onclick="toggleAnswer(6)">Show Answer</button>
+        <div class="answer" id="answer6">
+            The father made needles for his wife's sewing.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>7. What material did Ernest suggest using for the ladder rungs?</strong>
+        <button class="show-answer" onclick="toggleAnswer(7)">Show Answer</button>
+        <div class="answer" id="answer7">
+            Bamboo.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>8. How did the family raise the ladder to the branch?</strong>
+        <button class="show-answer" onclick="toggleAnswer(8)">Show Answer</button>
+        <div class="answer" id="answer8">
+            They used string, a bow and arrow, and pulled the string to raise the ladder.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>9. What did the pulley help the family do?</strong>
+        <button class="show-answer" onclick="toggleAnswer(9)">Show Answer</button>
+        <div class="answer" id="answer9">
+            It helped them haul timber up the tree.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>10. What materials did the family use to build their tree house?</strong>
+        <button class="show-answer" onclick="toggleAnswer(10)">Show Answer</button>
+        <div class="answer" id="answer10">
+            They used wood from the shipwreck, planks, hammocks and sail cloth, while the tree itself formed part of the structure.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>11. What did the family call their tree house?</strong>
+        <button class="show-answer" onclick="toggleAnswer(11)">Show Answer</button>
+        <div class="answer" id="answer11">
+            Falcon's Nest.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>12. What did they call the island?</strong>
+        <button class="show-answer" onclick="toggleAnswer(12)">Show Answer</button>
+        <div class="answer" id="answer12">
+            New Switzerland.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>13. What did Ernest catch in Providence Bay?</strong>
+        <button class="show-answer" onclick="toggleAnswer(13)">Show Answer</button>
+        <div class="answer" id="answer13">
+            A huge fish.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>14. What strange animal did Ernest shoot?</strong>
+        <button class="show-answer" onclick="toggleAnswer(14)">Show Answer</button>
+        <div class="answer" id="answer14">
+            A kangaroo.
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>15. Why did the family feel more at home after naming the places?</strong>
+        <button class="show-answer" onclick="toggleAnswer(15)">Show Answer</button>
+        <div class="answer" id="answer15">
+            Naming the places gave them a stronger sense of belonging to their new home.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- FILL IN -->
+
+<section class="section" id="fill">
+
+    <h2>✏️ Fill in the Blanks</h2>
+
+    <div class="fill-item">
+        <strong>1.</strong> It didn't take us as long as we'd thought to build the __________.
+        <button class="show-answer" onclick="toggleFill(1)">Show Answer</button>
+        <div class="fill-answer" id="fill1">bridge</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>2.</strong> We used a __________ system to help the mule and cow pull the planks.
+        <button class="show-answer" onclick="toggleFill(2)">Show Answer</button>
+        <div class="fill-answer" id="fill2">pulley</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>3.</strong> The dogs had tried to attack a __________.
+        <button class="show-answer" onclick="toggleFill(3)">Show Answer</button>
+        <div class="fill-answer" id="fill3">porcupine</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>4.</strong> Jack shot the porcupine and dragged it to where his __________ was waiting.
+        <button class="show-answer" onclick="toggleFill(4)">Show Answer</button>
+        <div class="fill-answer" id="fill4">mother</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>5.</strong> Franz discovered thousands of __________ lying in the grass.
+        <button class="show-answer" onclick="toggleFill(5)">Show Answer</button>
+        <div class="fill-answer" id="fill5">figs</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>6.</strong> The family ate __________ for dinner that night.
+        <button class="show-answer" onclick="toggleFill(6)">Show Answer</button>
+        <div class="fill-answer" id="fill6">porcupine</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>7.</strong> Ernest suggested using __________ for the rungs of the ladder.
+        <button class="show-answer" onclick="toggleFill(7)">Show Answer</button>
+        <div class="fill-answer" id="fill7">bamboo</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>8.</strong> They shot the end of a ball of __________ over the branch.
+        <button class="show-answer" onclick="toggleFill(8)">Show Answer</button>
+        <div class="fill-answer" id="fill8">string</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>9.</strong> The pulley helped them haul __________ up the tree.
+        <button class="show-answer" onclick="toggleFill(9)">Show Answer</button>
+        <div class="fill-answer" id="fill9">timber</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>10.</strong> The tree house was named __________.
+        <button class="show-answer" onclick="toggleFill(10)">Show Answer</button>
+        <div class="fill-answer" id="fill10">Falcon's Nest</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>11.</strong> The swamp where many flamingos lived was called __________ Marsh.
+        <button class="show-answer" onclick="toggleFill(11)">Show Answer</button>
+        <div class="fill-answer" id="fill11">Flamingo</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>12.</strong> The stream was named __________ River.
+        <button class="show-answer" onclick="toggleFill(12)">Show Answer</button>
+        <div class="fill-answer" id="fill12">Jackal</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>13.</strong> The island was called __________.
+        <button class="show-answer" onclick="toggleFill(13)">Show Answer</button>
+        <div class="fill-answer" id="fill13">New Switzerland</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>14.</strong> Ernest caught a huge __________ in Providence Bay.
+        <button class="show-answer" onclick="toggleFill(14)">Show Answer</button>
+        <div class="fill-answer" id="fill14">fish</div>
+    </div>
+
+    <div class="fill-item">
+        <strong>15.</strong> The strange animal was identified as a __________.
+        <button class="show-answer" onclick="toggleFill(15)">Show Answer</button>
+        <div class="fill-answer" id="fill15">kangaroo</div>
+    </div>
+
+</section>
+
+
+<!-- QUOTATIONS -->
+
+<section class="section" id="quotations">
+
+    <h2>💬 Quotations</h2>
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "Father! Father! Come quickly!"
+        </div>
+
+        <p><strong>Who said it?</strong> Jack</p>
+        <p><strong>Who was he speaking to?</strong> Father</p>
+        <p><strong>Where?</strong> In the fields</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "Look, Mother, I shot it! Do you think it's good to eat?"
+        </div>
+
+        <p><strong>Who said it?</strong> Jack</p>
+        <p><strong>Who was he speaking to?</strong> Mother</p>
+        <p><strong>Where?</strong> At the porcupine</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "Where did you find that?"
+        </div>
+
+        <p><strong>Who said it?</strong> Father</p>
+        <p><strong>Who was he speaking to?</strong> Franz</p>
+        <p><strong>Where?</strong> At the new home</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "There are thousands of them lying in the grass over there!"
+        </div>
+
+        <p><strong>Who said it?</strong> Franz</p>
+        <p><strong>Who was he speaking to?</strong> Father</p>
+        <p><strong>Where?</strong> At the new home</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "How about a name for the bay where we first landed?"
+        </div>
+
+        <p><strong>Who said it?</strong> Father</p>
+        <p><strong>Who was he speaking to?</strong> The family</p>
+        <p><strong>Where?</strong> At breakfast</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "Let's call it Oyster Bay."
+        </div>
+
+        <p><strong>Who said it?</strong> Fritz</p>
+        <p><strong>Who was he speaking to?</strong> The family</p>
+        <p><strong>Where?</strong> At breakfast</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "No, it should be Lobster Bay."
+        </div>
+
+        <p><strong>Who said it?</strong> Jack</p>
+        <p><strong>Who was he speaking to?</strong> The family</p>
+        <p><strong>Where?</strong> At breakfast</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "To thank God for getting all of us here safely."
+        </div>
+
+        <p><strong>Who said it?</strong> Mother</p>
+        <p><strong>Who was she speaking to?</strong> The family</p>
+        <p><strong>Where?</strong> At breakfast</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "Look at it!"
+        </div>
+
+        <p><strong>Who said it?</strong> Ernest</p>
+        <p><strong>Who was he speaking to?</strong> The family</p>
+        <p><strong>Where?</strong> On the way home</p>
+
+    </div>
+
+
+    <div class="quote-card">
+
+        <div class="quotation">
+            "I think it's a kangaroo, son."
+        </div>
+
+        <p><strong>Who said it?</strong> Father</p>
+
+        <p><strong>Who was he speaking to?</strong> Ernest</p>
+
+        <p><strong>Where?</strong> On the way home</p>
+
+    </div>
+
+</section>
+
+
+<!-- QUIZ 1 -->
+
+<section class="section" id="quiz1">
+
+    <div class="quiz-title">
+
+        <h2>🧠 Quiz 1</h2>
+
+        <p>
+            Test your understanding of Chapter 3.
+        </p>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            1. What did the family build to cross the river? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            2. What injured the two dogs? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            3. Why did Jack shoot the porcupine? (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            4. What did Franz find in the grass? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            5. What did the father make from the porcupine's quills? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            6. What material did Ernest suggest for the ladder rungs? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            7. How did the family get the ladder up to the tree branch? (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            8. What was the name of the tree house? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            9. Name two places on the island and explain what they were named after. (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            10. What strange animal did Ernest discover? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+</section>
+
+
+<!-- QUIZ 2 -->
+
+<section class="section" id="quiz2">
+
+    <div class="quiz-title">
+
+        <h2>🧠 Quiz 2</h2>
+
+        <p>
+            Challenge yourself with another Chapter 3 test.
+        </p>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            1. Why did the family feel excited about their new bridge? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            2. Who rode on Turk's back? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            3. Why did the father warn Franz not to eat anything without showing it to him first? (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            4. What was the purpose of the pulley attached to the tree trunk? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            5. How was sail cloth used in the construction of the tree house? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            6. What did the family call the swamp? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            7. What did the family call the stream that divided the island? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            8. Why did the family choose the name Providence Bay? (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            9. What did Ernest and the father bring home after fishing? (1 mark)
+        </strong>
+
+        <div class="answer-line"></div>
+
+    </div>
+
+
+    <div class="quiz-question">
+
+        <strong>
+            10. How did the family prepare the food from their final hunt? (2 marks)
+        </strong>
+
+        <div class="answer-line"></div>
+        <div class="answer-line"></div>
+
+    </div>
+
+</section>
+
+
+<!-- BACK -->
+
+<section class="section" id="back">
+
+    <h2>↩️ Back to My Course</h2>
+
+    <p>
+        Return to your Year 6 course and continue learning.
+    </p>
 
     <a href="my-course.html" class="back-button">
         ← Back to My Course
     </a>
 
-</header>
+</section>
 
-
-<div class="container">
-
-    <div class="story-card">
-
-        <div class="chapter-label">
-            CHAPTER 3
-        </div>
-
-        <h1 class="story-title">
-            Building Projects
-        </h1>
-
-
-        <div class="story-text">
-
-            <p>
-                It didn't take us as long as we'd thought to build the bridge.
-                First, the animals helped us haul the wooden planks that had
-                washed up from our wrecked ship. Then we used a pulley system
-                to help the mule and cow pull the planks into place. Our new
-                bridge seemed quite solid. The children could hardly contain
-                their excitement. They danced to and fro on our wonderful
-                bridge, singing and shouting.
-            </p>
-
-            <p>
-                The next morning, we loaded all of our supplies on the cow and
-                the mule. Then, with each of us carrying a gun and a sack of
-                goods, we were ready to go. The little monkey, which we had
-                named Knips, rode on Turk's back. He made funny faces as he
-                bounced along. All the other animals trailed behind us.
-            </p>
-
-            <p>
-                Once across the bridge, we passed through fields of high grass.
-                The dogs ran ahead, only for us to soon hear them howling
-                loudly—as if in pain.
-            </p>
-
-            <p class="dialogue">
-                "Father! Father! Come quickly!" he called.
-                "It's a porcupine!"
-            </p>
-
-            <p>
-                Jack ran toward them to see what was wrong. Sure enough, the
-                dogs had tried to attack a porcupine. Both dogs were badly hurt
-                by the quills. Jack drew his pistol and shot the porcupine dead.
-                Then he carefully wrapped his handkerchief around its neck and
-                dragged it to where his mother was waiting. He was very proud of it.
-            </p>
-
-            <p class="dialogue">
-                "Look, Mother, I shot it! Do you think it's good to eat?"
-                he said.
-            </p>
-
-            <p>
-                Smiling at the child's eagerness, I wrapped the porcupine in
-                several folds of cloth. Then I piled it on top of the donkey's
-                load. After that small excitement, we continued our march until
-                we reached the site of our future home.
-            </p>
-
-            <p>
-                The grove of trees was truly wonderful. The trees seemed to be
-                mangroves or wild figs. They had huge, arching roots that
-                supported the main trunk above the soil. The calm beauty of the
-                spot was just as splendid as my wife had told me. I promised her
-                that our next house would be the safest and most charming place
-                in the whole world!
-            </p>
-
-            <p>
-                We unloaded the mule and the cow. We secured them, as well as
-                the sheep and goats, by loosely tying their front feet together.
-                We set the doves and poultry free before we finally sat down to
-                rest.
-            </p>
-
-            <p>
-                After a while, Ernest gathered some large, flat stones to build
-                a fireplace. Franz went off in another direction to gather sticks
-                for the fire. He soon came back, eating a fig.
-            </p>
-
-            <p class="dialogue">
-                "Where did you find that?" I asked.
-            </p>
-
-            <p class="dialogue">
-                "There are thousands of them lying in the grass over there!"
-                Franz reported. "They're delicious. Look—the pigeons and the
-                hens are already gobbling them up."
-            </p>
-
-            <p class="dialogue">
-                "Well, if birds and monkeys eat a fruit or vegetable, it's usually
-                safe for humans, too. But in the future, please don't eat anything
-                unless you show it to me first."
-            </p>
-
-            <p>
-                We ate porcupine for our dinner that night. Some we boiled and
-                some we roasted. By boring holes at the ends of the porcupine's
-                quills, I made some needles for my wife's sewing. I then thought
-                about making a harness for our beasts of burden.
-            </p>
-
-            <p>
-                We had to build a ladder to reach the tallest branches of our tree.
-                Ernest suggested that we use bamboo for the rungs of the ladder.
-                That worked just fine. We attached the cut bamboo to rope until
-                the ladder was long enough. How would I get it up to the highest
-                branches? I had a good idea!
-            </p>
-
-            <p>
-                Using a bow and arrow, I shot the end of a ball of string over
-                the branch. Then I tied one end of the string to the ladder.
-                By pulling the other end of the string, I raised the ladder up
-                to the branch. After scrambling up the tree trunk and out onto
-                the branch, the boys tied the ladder tight.
-            </p>
-
-            <p>
-                Then I climbed up the ladder to attach a pulley to the tree trunk.
-                Now the pulley and our beasts of burden could help us haul timber
-                up the tree!
-            </p>
-
-            <p>
-                We used wood from the shipwreck to build our house. The big tree
-                we had chosen was perfect! Its branches grew very close together
-                in a horizontal direction.
-            </p>
-
-            <p>
-                We built a floor on the first level. On each side, we made a wall
-                about 120 centimetres high out of planks. Two metres or so above
-                the floor, we hung our hammocks in boughs. Then we threw the sail
-                cloth over the higher branches to make a roof. Finally, we pulled
-                the cloth down and nailed it to the wooden wall on two sides.
-            </p>
-
-            <p>
-                The tree trunk itself formed the back wall of our house. The front
-                was left open to the fresh air. I built a big table at the foot of
-                the tree. This was where we would eat our meals.
-            </p>
-
-            <p>
-                The next morning at breakfast I said, let's name our home and the
-                different parts of the island. Everyone was excited. They thought
-                that was a wonderful idea.
-            </p>
-
-            <p class="dialogue">
-                "How about a name for the bay where we first landed?" I asked.
-            </p>
-
-            <p class="dialogue">
-                "Let's call it Oyster Bay," Fritz suggested.
-                "Remember all the oysters I found there?"
-            </p>
-
-            <p class="dialogue">
-                "No, it should be Lobster Bay," Jack shouted.
-                "That's where I got the lobster."
-            </p>
-
-            <p>
-                My wife suggested the name Providence Bay.
-            </p>
-
-            <p class="dialogue">
-                "To thank God for getting all of us here safely,"
-                she said.
-            </p>
-
-            <p>
-                So, Providence Bay it was.
-            </p>
-
-            <p>
-                We called our first home Tent House and we named our tree house
-                Falcon's Nest. The swamp, where many flamingos lived, was called
-                Flamingo Marsh. The stream that divided the island was named
-                Jackal River and we named our bridge Family Bridge.
-            </p>
-
-            <p>
-                We also decided to name our island. We called it New Switzerland.
-                Once we had decided on these names, we began to feel much more
-                at home.
-            </p>
-
-            <p>
-                The following day, Ernest and I went fishing in Providence Bay.
-                He caught a huge fish. We were on our way home when our dog,
-                Juno, chased after a strange animal. The beast was making
-                extraordinary jumps toward us!
-            </p>
-
-            <p>
-                Ernest lifted his gun and shot the animal dead.
-            </p>
-
-            <p class="dialogue">
-                "Look at it!" Ernest cried.
-                "He's the size of a sheep, but he has the tail of a tiger.
-                His nose and hair look something like a mouse's, but his ears
-                are like a rabbit's! His front legs are like those of a squirrel,
-                but his back legs are like the tallest stilts! Whatever can it be?"
-            </p>
-
-            <p class="dialogue">
-                "I think it's a kangaroo, son," I said.
-                "See the pouch on the front of its body? Its young hide there
-                for safety."
-            </p>
-
-            <p>
-                We brought the fish and the kangaroo home. That night, we cooked
-                the fish and part of the kangaroo, saving the rest for salting.
-                Then, with thankful hearts, we went to bed and enjoyed a
-                well-earned sleep.
-            </p>
-
-        </div>
-
-
-        <div class="navigation">
-
-            <a href="story2.html" class="nav-button">
-                ← Previous Chapter
-            </a>
-
-            <a href="story4.html" class="nav-button">
-                Next Chapter →
-            </a>
-
-        </div>
-
-    </div>
 
 </div>
 
 
+<!-- FOOTER -->
+
 <footer>
+
     © 2026 IGCSE English Hub — All Rights Reserved
+
 </footer>
 
+
+<script>
+
+/* QUESTIONS */
+
+function toggleAnswer(number) {
+
+    const answer = document.getElementById("answer" + number);
+
+    if (answer.style.display === "block") {
+
+        answer.style.display = "none";
+
+    } else {
+
+        answer.style.display = "block";
+
+    }
+
+}
+
+
+/* FILL IN */
+
+function toggleFill(number) {
+
+    const answer = document.getElementById("fill" + number);
+
+    if (answer.style.display === "block") {
+
+        answer.style.display = "none";
+
+    } else {
+
+        answer.style.display = "block";
+
+    }
+
+}
+
+
+/* ACTIVE MENU */
+
+const sections = document.querySelectorAll(".section");
+
+const navLinks = document.querySelectorAll(".lesson-nav a");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop = section.offsetTop;
+
+        if (window.scrollY >= sectionTop - 150) {
+
+            current = section.getAttribute("id");
+
+        }
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>
