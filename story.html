@@ -76,32 +76,22 @@ header p {
 
 .lesson-nav {
     position: fixed;
-
     left: 0;
     top: 100px;
-    bottom: 0;
-
     width: 265px;
-
-    background: #ffffff;
-
-    padding: 20px 16px 25px;
-
-    border-top: 1px solid #dfe6ef;
-    border-right: 1px solid #dfe6ef;
-
-    border-radius: 0 18px 0 0;
-
-    box-shadow: 5px 0 22px rgba(16,42,86,.12);
-
+    height: calc(100vh - 100px);
     overflow-y: auto;
     overflow-x: hidden;
-
+    background: #ffffff;
+    padding: 18px 15px;
+    border: 0;
+    border-right: 1px solid #dfe6ef;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 4px 0 18px rgba(16,42,86,.10);
     z-index: 10000;
-
     animation: menuSlide .5s ease;
+    margin: 0;
 }
-
 /* MENU TITLE */
 
 .lesson-nav h3 {
