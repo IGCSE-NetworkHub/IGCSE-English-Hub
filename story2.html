@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Chapter 1 - Shipwrecked and Alone | IGCSE English Hub</title>
+<title>Chapter 2 - Returning to the Wreck | IGCSE English Hub</title>
 
 <style>
 
@@ -22,33 +20,32 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: #f5f7fb;
-    color: #243447;
-    line-height: 1.75;
+    color: #222;
 }
 
 /* ================= HEADER ================= */
 
 header {
-    background: linear-gradient(135deg, #102a56, #174a8b);
+    background: linear-gradient(135deg, #102a56, #1e4f91);
     color: white;
+    padding: 42px 20px;
     text-align: center;
-    padding: 55px 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
 }
 
 header h1 {
     margin: 0;
     font-size: 38px;
-    animation: fadeDown .8s ease;
+    letter-spacing: .5px;
 }
 
 header p {
-    margin: 12px 0 0;
-    font-size: 18px;
-    opacity: .92;
+    margin: 10px 0 0;
+    font-size: 20px;
+    opacity: .95;
 }
 
-/* ================= SIDE MENU ================= */
+/* ================= SIDEBAR ================= */
 
 .lesson-nav {
     position: fixed;
@@ -56,31 +53,19 @@ header p {
     top: 0;
     width: 255px;
     height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    background: #ffffff;
+    background: white;
+    border-right: 1px solid #d9e0ea;
     padding: 25px 15px;
-
-    border-right: 1px solid #dce4ef;
-
-    box-shadow: 5px 0 20px rgba(16,42,86,.12);
-
-    z-index: 10000;
-
-    animation: menuSlide .55s ease;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 3px 0 12px rgba(0,0,0,.05);
 }
 
 .lesson-nav h3 {
-    margin: 5px 0 20px;
-    padding-bottom: 15px;
-
     text-align: center;
-
     color: #102a56;
-    font-size: 19px;
-
-    border-bottom: 2px solid #e5ebf3;
+    margin: 5px 0 20px;
+    font-size: 20px;
 }
 
 .nav-buttons {
@@ -90,158 +75,97 @@ header p {
 }
 
 .nav-buttons a {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-
-    width: 100%;
-    min-height: 44px;
-
-    padding: 10px 12px;
-
-    border-radius: 10px;
-
     text-decoration: none;
-    color: #30445f;
-
-    background: #f7f9fc;
-
+    color: #102a56;
+    background: #eef3f9;
+    padding: 11px 13px;
+    border-radius: 9px;
     font-size: 14px;
-    font-weight: 600;
-
-    transition:
-        transform .2s ease,
-        background .2s ease,
-        color .2s ease,
-        box-shadow .2s ease;
+    font-weight: bold;
+    transition: .2s;
 }
 
 .nav-buttons a:hover {
-    transform: translateX(5px);
-    background: #e9f1ff;
-    color: #174a8b;
-    box-shadow: 0 4px 12px rgba(23,74,139,.12);
+    background: #dbe7f5;
+    transform: translateX(3px);
 }
 
 .nav-buttons a.active {
-    background: linear-gradient(135deg, #174a8b, #2563a8);
+    background: #102a56;
     color: white;
-    box-shadow: 0 5px 14px rgba(23,74,139,.25);
+    transform: translateX(5px);
+    box-shadow: 0 5px 12px rgba(16,42,86,.18);
 }
 
-/* ================= MAIN CONTENT ================= */
+/* ================= MAIN ================= */
+
+.main-content {
+    margin-left: 255px;
+    padding: 30px;
+}
 
 .container {
-    max-width: 1050px;
-
-    margin-top: 35px;
-    margin-right: 30px;
-    margin-bottom: 35px;
-    margin-left: 285px;
-
-    padding: 0 20px;
+    max-width: 1100px;
+    margin: auto;
 }
-
-/* ================= SECTION CARDS ================= */
 
 .section {
     background: white;
-
     margin-bottom: 28px;
     padding: 30px;
-
-    border-radius: 18px;
-
-    box-shadow: 0 8px 25px rgba(20,45,80,.08);
-
-    animation: fadeUp .7s ease;
-
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
     scroll-margin-top: 25px;
 }
 
 .section h2 {
     margin-top: 0;
-
     color: #102a56;
-
-    font-size: 27px;
-
-    border-bottom: 3px solid #e5edf7;
-
-    padding-bottom: 10px;
+    border-bottom: 3px solid #dbe7f5;
+    padding-bottom: 12px;
 }
 
 .section h3 {
-    color: #174a8b;
+    color: #1e4f91;
 }
-
-.highlight {
-    background: #eef5ff;
-    border-left: 5px solid #174a8b;
-
-    padding: 18px 20px;
-
-    border-radius: 10px;
-
-    margin: 18px 0;
-}
-
-/* ================= READING ================= */
 
 .story-text {
-    font-family: Georgia, "Times New Roman", serif;
-
-    font-size: 19px;
-    line-height: 2;
-
-    color: #283747;
+    font-size: 18px;
+    line-height: 1.85;
 }
 
 .story-text p {
-    margin-bottom: 22px;
+    margin-bottom: 20px;
 }
 
 .quote {
-    background: #f3f7fc;
-
-    border-left: 5px solid #174a8b;
-
-    padding: 15px 20px;
-
+    background: #f0f5fb;
+    border-left: 5px solid #1e4f91;
+    padding: 18px;
     margin: 20px 0;
-
-    font-style: italic;
-
     border-radius: 8px;
+    font-style: italic;
+}
+
+.highlight {
+    background: #fff7d6;
+    padding: 3px 7px;
+    border-radius: 5px;
 }
 
 /* ================= INFO CARDS ================= */
 
 .info-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
-
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 18px;
 }
 
 .info-card {
-    background: #f7f9fc;
-
-    border: 1px solid #e2e8f0;
-
-    border-radius: 14px;
-
+    background: #f6f8fc;
     padding: 20px;
-
-    transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.info-card:hover {
-    transform: translateY(-5px);
-
-    box-shadow: 0 10px 22px rgba(20,45,80,.10);
+    border-radius: 12px;
+    border: 1px solid #dce4ef;
 }
 
 .info-card h3 {
@@ -252,21 +176,15 @@ header p {
 
 .vocab-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(250px, 1fr));
-
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 15px;
 }
 
 .vocab-item {
-    background: #f8fafc;
-
-    border-left: 4px solid #174a8b;
-
-    padding: 14px 16px;
-
-    border-radius: 8px;
+    background: #f7f9fc;
+    border: 1px solid #dce4ef;
+    border-radius: 10px;
+    padding: 15px;
 }
 
 .vocab-item strong {
@@ -277,369 +195,177 @@ header p {
 
 .question {
     background: #f8fafc;
-
-    padding: 18px 20px;
-
+    border: 1px solid #dce4ef;
+    border-radius: 10px;
+    padding: 17px;
     margin-bottom: 14px;
-
-    border-radius: 12px;
-
-    border: 1px solid #e3e9f1;
-
-    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.question:hover {
-    transform: translateY(-2px);
-
-    box-shadow: 0 5px 15px rgba(20,45,80,.07);
-}
-
-.question-number {
-    font-weight: bold;
-    color: #174a8b;
+.question strong {
+    color: #102a56;
 }
 
 .answer {
-    margin-top: 12px;
-
-    padding: 12px 15px;
-
-    background: #eef6ee;
-
-    border-left: 4px solid #4d8b57;
-
-    border-radius: 8px;
-
-    display: none;
-}
-
-.answer.show {
-    display: block;
-
-    animation: answerReveal .3s ease;
+    margin-top: 10px;
+    background: #eef5ff;
+    border-left: 4px solid #1e4f91;
+    padding: 12px;
+    border-radius: 6px;
 }
 
 .answer-btn {
     margin-top: 10px;
-
     border: none;
-
-    background: #174a8b;
+    background: #102a56;
     color: white;
-
     padding: 8px 14px;
-
     border-radius: 7px;
-
     cursor: pointer;
-
-    font-weight: bold;
 }
 
 .answer-btn:hover {
-    background: #102a56;
+    background: #1e4f91;
 }
 
-/* ================= FILL IN ================= */
+/* ================= FILL ================= */
 
 .fill-item {
     background: #f8fafc;
-
-    padding: 16px 18px;
-
-    margin-bottom: 12px;
-
-    border-radius: 10px;
-
-    border: 1px solid #e3e9f1;
+    border: 1px solid #dce4ef;
+    border-radius: 9px;
+    padding: 15px;
+    margin-bottom: 10px;
 }
 
 /* ================= QUOTATIONS ================= */
 
 .quote-card {
     background: #f8fafc;
-
-    padding: 22px;
-
+    border: 1px solid #dce4ef;
+    border-radius: 12px;
+    padding: 20px;
     margin-bottom: 18px;
-
-    border-radius: 14px;
-
-    border-left: 5px solid #174a8b;
-
-    transition: transform .2s ease;
 }
 
-.quote-card:hover {
-    transform: translateX(4px);
-}
-
-.quote-text {
-    font-family: Georgia, serif;
-
-    font-size: 18px;
-
+.quote-card blockquote {
+    margin: 0 0 15px;
+    padding: 15px;
+    background: #eef5ff;
+    border-left: 5px solid #1e4f91;
+    border-radius: 7px;
     font-style: italic;
-
-    color: #102a56;
-
-    margin-bottom: 15px;
+    line-height: 1.7;
 }
 
 .quote-details {
-    display: grid;
+    line-height: 1.7;
+}
 
-    grid-template-columns:
-        repeat(auto-fit, minmax(190px, 1fr));
-
-    gap: 8px;
-
-    font-size: 14px;
+.quote-details strong {
+    color: #102a56;
 }
 
 /* ================= QUIZ ================= */
 
 .quiz-title {
-    background: linear-gradient(135deg, #102a56, #174a8b);
-
-    color: white;
-
-    padding: 18px 20px;
-
-    border-radius: 12px;
-
+    color: #102a56;
+    font-size: 25px;
     margin-bottom: 20px;
 }
 
-.quiz-title h2 {
-    color: white;
-
-    border: none;
-
-    padding: 0;
-
-    margin: 0;
-}
-
 .quiz-question {
-    background: #fafbfd;
-
+    background: #f8fafc;
+    border: 1px solid #dce4ef;
     padding: 18px;
-
-    border-radius: 10px;
-
-    border: 1px solid #e1e7ef;
-
     margin-bottom: 15px;
+    border-radius: 10px;
 }
 
 .answer-line {
-    border-bottom: 1px solid #b8c3d1;
-
-    height: 35px;
-
-    margin-top: 10px;
+    margin-top: 15px;
+    border-bottom: 1px solid #888;
+    height: 25px;
 }
 
-/* ================= BUTTON ================= */
+/* ================= BACK BUTTON ================= */
 
 .back-button {
     display: inline-block;
-
-    background: #174a8b;
-    color: white;
-
     text-decoration: none;
-
+    background: #102a56;
+    color: white;
     padding: 13px 22px;
-
-    border-radius: 10px;
-
+    border-radius: 9px;
     font-weight: bold;
-
-    transition: transform .2s ease, background .2s ease;
+    transition: .2s;
 }
 
 .back-button:hover {
-    background: #102a56;
-
-    transform: translateY(-3px);
+    background: #1e4f91;
+    transform: translateY(-2px);
 }
 
 /* ================= FOOTER ================= */
 
 footer {
-    margin-left: 285px;
-
+    margin-left: 255px;
     background: #102a56;
-
     color: white;
-
     text-align: center;
-
-    padding: 25px;
-
-    font-size: 14px;
-}
-
-/* ================= ANIMATIONS ================= */
-
-@keyframes fadeDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes menuSlide {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes answerReveal {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ================= TABLET ================= */
-
-@media (max-width: 1000px) {
-
-    .lesson-nav {
-        width: 225px;
-    }
-
-    .container {
-        margin-left: 245px;
-        margin-right: 10px;
-        padding: 0 15px;
-    }
-
-    footer {
-        margin-left: 225px;
-    }
-
+    padding: 22px;
 }
 
 /* ================= MOBILE ================= */
 
-@media (max-width: 700px) {
-
-    header {
-        padding: 40px 20px;
-    }
-
-    header h1 {
-        font-size: 30px;
-    }
+@media (max-width: 850px) {
 
     .lesson-nav {
         position: relative;
-
-        top: auto;
-        left: auto;
-
-        width: calc(100% - 30px);
-
+        width: 100%;
         height: auto;
-
-        margin: 20px 15px 25px;
-
-        padding: 18px;
-
-        border: 1px solid #dce4ef;
-
-        border-radius: 16px;
-
-        box-shadow: 0 8px 20px rgba(16,42,86,.10);
+        border-right: none;
+        border-bottom: 1px solid #d9e0ea;
     }
 
     .nav-buttons {
         display: grid;
-
         grid-template-columns: repeat(2, 1fr);
-
-        gap: 9px;
     }
 
-    .nav-buttons a {
-        min-height: 48px;
-
-        justify-content: center;
-
-        text-align: center;
-    }
-
-    .container {
-        width: auto;
-
-        margin: 20px auto;
-
-        padding: 0 15px;
-    }
-
-    .section {
-        padding: 22px;
+    .main-content {
+        margin-left: 0;
+        padding: 18px;
     }
 
     footer {
         margin-left: 0;
     }
 
+    header h1 {
+        font-size: 30px;
+    }
+
+    header p {
+        font-size: 18px;
+    }
 }
 
-/* ================= SMALL MOBILE ================= */
-
-@media (max-width: 430px) {
+@media (max-width: 500px) {
 
     .nav-buttons {
         grid-template-columns: 1fr;
     }
 
+    .section {
+        padding: 20px;
+    }
+
     .story-text {
-        font-size: 17px;
+        font-size: 16px;
     }
-
-    .section h2 {
-        font-size: 23px;
-    }
-
 }
 
 </style>
-
 </head>
 
 <body>
@@ -647,56 +373,38 @@ footer {
 <!-- ================= HEADER ================= -->
 
 <header>
-
-    <h1>📖 The Swiss Family Robinson</h1>
-
-    <p>
-        Chapter 1 — Shipwrecked and Alone
-    </p>
-
+    <h1>Chapter 2</h1>
+    <p>Returning to the Wreck</p>
 </header>
 
 
-<!-- ================= CHAPTER MENU ================= -->
+<!-- ================= SIDEBAR ================= -->
 
-<div class="lesson-nav">
+<nav class="lesson-nav">
 
-    <h3>📚 Chapter Menu</h3>
+    <h3>📖 Chapter 2</h3>
 
     <div class="nav-buttons">
 
-        <a href="#reading">📖 Read</a>
-
-        <a href="#writer">👤 Writer</a>
-
-        <a href="#summary">📘 Summary</a>
-
-        <a href="#setting">🌴 Setting</a>
-
-        <a href="#themes">🎯 Themes</a>
-
-        <a href="#plot">📈 Plot</a>
-
+        <a href="#reading">📖 Reading</a>
+        <a href="#summary">📝 Summary</a>
+        <a href="#theme">💡 Theme</a>
         <a href="#characters">👥 Characters</a>
-
         <a href="#vocabulary">📚 Vocabulary</a>
-
-        <a href="#brief">📝 Brief Summary</a>
-
         <a href="#questions">❓ Questions</a>
-
         <a href="#fill">✏️ Fill in</a>
-
-        <a href="#comments">💬 Comments</a>
-
+        <a href="#quotations">💬 Quotations</a>
         <a href="#quiz1">🧠 Quiz 1</a>
-
-        <a href="#quiz2">🧠 Quiz 2</a>
+        <a href="#quiz2">🏆 Quiz 2</a>
 
     </div>
 
-</div>
+</nav>
 
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
 
 <div class="container">
 
@@ -705,306 +413,189 @@ footer {
 
 <section class="section" id="reading">
 
-    <h2>📖 Chapter 1: Shipwrecked and Alone</h2>
+<h2>📖 Chapter 2: Returning to the Wreck</h2>
 
-    <div class="story-text">
+<div class="story-text">
 
-        <p>
-            The storm had continued for seven days. Our ship was leaking
-            and far off course. We had no idea where we were. The crew was
-            losing heart as the water rushed in on us.
-        </p>
+<p>
+My wife and I woke up early. We started to talk about the business of the day.
+</p>
 
-        <p>
-            Every man on board tried to think of some way to survive.
-            My spirits sank as I looked at my wife and four young sons.
-            They were overpowered by terror. "Dear children," I said,
-            "we must trust in God. He can save us from this danger."
-            We knelt down, praying together. Our hearts were soothed by
-            the comfort of prayer. The horror of our situation seemed less
-            overwhelming.
-        </p>
+<div class="quote">
+"I think Fritz and I should return to the wreck while the sea is still calm," I said.
+"We must save the poor animals that are still there. We also need to get more supplies
+from the ship. If we don't get to them now, we may lose them entirely."
+</div>
 
-        <p>
-            Then I suddenly heard someone cry, "Land, land!" In the next
-            moment, the ship slammed into something hard. Dreadful sounds
-            told us that the ship was breaking up. The roaring waters poured
-            in on all sides. Then the captain shouted, "Lower away the boats!
-            We are lost!" In minutes, the last of the crew pushed off in
-            the rowboats.
-        </p>
+<p>
+"Yes, by all means," my wife agreed. "While you're gone, the other boys and I will look
+for a better place to make our home. Come, let us wake the boys and get to work."
+</p>
 
-        <p>
-            They must have forgotten about us! As I called to them for help,
-            my voice was drowned out by the deafening howls of the storm.
-        </p>
+<p>
+Fritz was the first to get up. He ran outside to get his dead jackal. It was cold and stiff
+from the night air. He propped it on its legs by the tent. The dogs growled at it, but Fritz
+called them off.
+</p>
 
-        <p>
-            Looking around, I saw that our position was by no means hopeless.
-            The part of the ship that held our cabin was jammed between two
-            high rocks. Luckily, it was partly raised above the waves.
-            Through clouds of mist and rain, I could see a rocky, rugged coast.
-            I told my frightened family that as soon as the storm ended,
-            we would make our way to the shore.
-        </p>
+<div class="quote">
+"It's a yellow dog!" Franz cried.
+<br><br>
+"A wolf!" Jack exclaimed.
+<br><br>
+"No, it's a striped fox," Ernest said.
+</div>
 
-        <p>
-            These few words revived the spirits of the boys and gave them
-            confidence that we would be safe. My wife, however, understood
-            our real situation. The danger was by no means over. That night,
-            as the three youngest boys slept, my wife and I kept watch.
-            Fritz, our eldest son at 15, kept watch with us.
-        </p>
+<p>
+"You're all partly correct," I said. "This is a jackal. It's from the same family as the dog,
+the wolf and the fox."
+</p>
 
-        <p>
-            The storm finally ended at dawn. Fritz helped me make something
-            we could use as a boat. We cut four barrels in half. Then we
-            used long strips of wood to bind them together.
-        </p>
+<p>
+When the baby monkey saw the jackal, it hid itself in a heap of moss inside the tent.
+Jack soothed and comforted the little animal.
+</p>
 
-        <p>
-            While we were doing that, my wife and the other boys completed
-            some chores. The animals stored on the ship needed to be fed.
-            They were frightened and hungry, having been neglected during the
-            storm.
-        </p>
+<p>
+Then we sat down to a good breakfast of biscuits, butter and cheese. As we ate, I noticed
+that the dogs seemed very quiet. I soon discovered the cause. The night before, they'd
+been hurt in the fight with the jackals. They had several deep and painful wounds,
+especially on their necks. The dogs began to lick each other on the places they couldn't
+reach with their own tongues.
+</p>
 
-        <p>
-            The two large dogs in the captain's cabin were thrilled when
-            Jack let them out at last. The following useful animals were also
-            on the ship: a cow, a donkey, two goats, six sheep, a ram and a
-            fine pig. We found that we also had ten hens and two roosters,
-            as well as some ducks, geese and pigeons.
-        </p>
+<p>
+Suddenly Ernest had an idea. He said the dogs needed spiked collars and that he could
+make them. With spiked collars, he explained, they could avoid getting the same kinds
+of wounds again.
+</p>
 
-        <div class="quote">
-            "Oh, Father, they'll be of good use, I'm sure! They'll help us
-            hunt for game when we reach the shore!"
-        </div>
+<p>
+I told Ernest this sounded like a good idea and that he should try it. I suggested that he
+could make the collars from leather and use nails for the spikes. Maybe we could find
+supplies on the wreck.
+</p>
 
-        <p>
-            So it was decided that we would take all the animals.
-        </p>
+<p>
+I told Fritz that he and I would be visiting the wreck today. Next, I worked out a set of
+signals with my wife so we could communicate while Fritz and I were gone.
+</p>
 
-        <p>
-            Using rollers made from a long mast, we launched our barrel raft.
-            It floated very well. Of course, we had attached it to the ship
-            by a rope. Otherwise, it would have floated away.
-        </p>
+<p>
+I tied a wide strip of cloth on a pole and raised it high in the air. As long as all was well,
+I explained to my wife, the flag should stay up. If she needed us to return, she would
+lower the flag and fire three shots.
+</p>
 
-        <p>
-            We took supplies from the ship's stores, including canvas to make
-            a tent. The boys found some carpenter's tools, guns, pistols,
-            powder, bullets, fishing supplies and an iron pot. We also
-            salvaged some biscuits and canned soup.
-        </p>
+<p>
+Fritz and I soon left in our barrel boat, taking the monkey with us. Fritz wanted to get
+milk for it as soon as possible. The current quickly carried us toward the wreck.
+</p>
 
-        <p>
-            Then we all piled into the barrels. My 8-year-old son Franz,
-            the youngest, sat next to my wife. Fritz sat in the next barrel.
-            The centre tubs held our supplies, and Ernest and Jack sat toward
-            the back with me.
-        </p>
+<p>
+By the time we were on board, we could hear the animals greeting us. They weren't
+hungry, for they still had plenty of food. They were just happy to see us. When Fritz put
+the monkey by one of the goats, the little animal immediately helped himself to some
+goat milk.
+</p>
 
-        <p>
-            With some difficulty, we learned how to steer our raft with its
-            oars. We followed our geese and ducks to a small bay where it
-            was safe to land. The dogs, who had already swum to shore,
-            greeted us with loud barking and a wild show of delight.
-        </p>
+<p>
+Fritz and I then put a mast and a sail on our barrel boat.
+</p>
 
-        <p>
-            We quickly set up a tent where we could pass the night.
-            The boys collected moss and grass to spread in the tent as our
-            beds. I made a fireplace with some large flat stones from a
-            nearby brook. Soon we had a pot of water boiling.
-            My wife started to make some soup for her hungry family.
-        </p>
+<div class="quote">
+"The current that brought us here will not take us back. But that fresh breeze will!"
+I explained.
+</div>
 
-        <p>
-            The boys left to explore the area. Soon Jack came back with a
-            big red lobster. We added it to the pot. But how were we to eat
-            the soup? We had no bowls or spoons!
-        </p>
+<p>
+By the time we got the sail ready, it was getting late. We signalled our plan to stay on
+board for the night.
+</p>
 
-        <p>
-            Ernest reported that he'd seen some oysters among the rocks,
-            so he went to get some. When he returned, I showed the boys
-            how to open oysters. When we placed them on the fire, the shells
-            opened immediately. After eating the oysters, we used the shells
-            as spoons. We ate our soup right from the pot.
-            Later, we would find some coconuts and use the empty shells
-            as bowls.
-        </p>
+<p>
+The rest of the day was spent stowing supplies on the barrel boat. We took gunpowder,
+guns and a whole armful of swords, daggers and knives. We also took kitchen supplies,
+including more pots, knives and forks.
+</p>
 
-        <p>
-            Night fell quickly. There was little or no twilight—which meant
-            that we were near the equator. I was grateful for the tent,
-            for the night was as cold as the day was hot.
-        </p>
+<p>
+We packed canned meats, canned soups, hams, sausages, wheat and all the other seeds
+and vegetables we could find.
+</p>
 
-        <p>
-            Our roosters woke us at dawn and we had more soup for breakfast.
-            Then Fritz and I left the fire to explore the island.
-            We each took a gun and a game bag, and I carried a small hatchet.
-            Turk, one of the dogs, came with us.
-        </p>
+<p>
+We found some rope, nails, tools and farming supplies. Finally, nothing else could be
+squeezed into our little boat.
+</p>
 
-        <p>
-            We hoped to find some of the ship's sailors, but we could see
-            no trace of them.
-        </p>
+<p>
+Soon it was time to sleep. Fritz fell asleep easily, but I had trouble. For hours I tossed
+and turned. I was worried about my wife and children, alone and unprotected, except
+by the dogs.
+</p>
 
-        <p>
-            We found that our island was a tropical paradise! It had forests
-            of towering trees and fields of sugar cane. There were rolling
-            hills of grass, leafy green plants and fragrant flowers.
-            We saw brightly coloured birds and playful monkeys.
-        </p>
+<p>
+At last morning came. I looked toward shore and was happy to see my little flag still
+waving.
+</p>
 
-        <p>
-            As we sat down under some palm trees to eat our simple lunch,
-            I had a good idea. "Watch, Fritz," I said.
-            "I'm going to put those monkeys to work."
-        </p>
+<p>
+To get the animals to shore, we had to figure out a way to keep them afloat. So we made
+life jackets for them. Each life jacket was made of two empty barrels, one on either side
+of the animal. These were tied together by leather thongs. We tied a large cork underneath
+for buoyancy.
+</p>
 
-        <p>
-            With that, I began throwing stones at the tree tops.
-            This made the monkeys angry. They began throwing coconuts down
-            at us. Laughing at the success of my plan, Fritz opened up some
-            of the coconuts with the hatchet.
-        </p>
+<p>
+One by one, the animals were fitted into their jackets and pushed into the sea. As each
+animal bobbed back to the surface, it slowly began swimming toward the shore.
+</p>
 
-        <p>
-            We drank the milk, agreeing that it was refreshing, but not
-            very tasty.
-        </p>
+<p>
+On the way, we saw a shark trying to attack one of the sheep! Fritz quickly stopped the
+attack by firing two shots to the beast's head.
+</p>
 
-        <p>
-            Late that afternoon, we headed back to the tent. We carried a
-            sack of coconuts and a large bundle of sugar cane. We also had
-            a collection of plates, bowls and spoons that we'd made
-            out of gourds.
-        </p>
+<p>
+Leaving a bloody trail, the dying animal slowly turned in the water and swam away.
+</p>
 
-        <p>
-            On the way, we had another incident with the monkeys.
-            Turk attacked a female monkey.
-        </p>
+<p>
+At last we all reached land safely. My wife and the boys came running out to greet us.
+</p>
 
-        <div class="quote">
-            "No, Turk!"
-        </div>
+<p>
+That night we had a truly wonderful feast. This time my wife even used a tablecloth and
+silverware!
+</p>
 
-        <p>
-            Fritz called out—but it was too late!
-            Turk had already killed the monkey.
-        </p>
+<p>
+During dinner, she told me about her day. She and the boys had done some exploring,
+as they searched for a safer place.
+</p>
 
-        <p>
-            His victim was the mother of a tiny little monkey.
-            It had jumped off her back when Turk attacked.
-            At first, the baby monkey hid in the grass, but then it jumped
-            up on Fritz's shoulder.
-        </p>
+<p>
+She wanted to build a tree house among a grove of trees. High up in the air, we'd be safe
+from jackals and other dangerous animals. And there we'd also have shade, which would
+keep us cooler in the daytime.
+</p>
 
-        <p>
-            We decided to take the monkey home as a pet.
-            Because our dog had killed its mother, we felt responsible
-            for its welfare.
-        </p>
+<p>
+I agreed that this was a very good idea. Our next problem was moving. How would we
+transport all our supplies and animals to the new location?
+</p>
 
-        <p>
-            As we arrived back at our campsite, our dear ones came running
-            to meet us.
-        </p>
+<p>
+We'd have to cross a river to get to the grove of trees. The solution was simple-but it
+wouldn't be easy.
+</p>
 
-        <div class="quote">
-            "A monkey! A monkey! Oh, how splendid! Where did Fritz find him?
-            What should we feed him?"
-        </div>
+<div class="quote">
+<strong>First, we'd need to build a bridge!</strong>
+</div>
 
-        <p>
-            Finally, I was able to say a few words.
-            "I'm happy to see you all safe and sound. Sadly, though,
-            we found no trace of our shipmates."
-        </p>
-
-        <div class="quote">
-            "If it is God's will for us to be alone on this island,
-            let us be content. We should at least be happy that we are all
-            together in safety."
-        </div>
-
-        <p>
-            Dinner that night was a feast. We had several fine fish,
-            cooked on a spit over the fire. We also had goose, roasted over
-            a large shell that caught the gravy dripping from it.
-            In addition, we had cheese, which we'd brought from the ship,
-            along with the last of the soup.
-        </p>
-
-        <p>
-            We sat down for our delicious meal, using gourds as plates for
-            the first time. We had coconut for dessert.
-        </p>
-
-        <p>
-            Fritz laughed as the baby monkey eagerly sucked the corner of
-            a handkerchief he had dipped in coconut milk.
-        </p>
-
-        <p>
-            The sun set quickly and we decided to go to sleep.
-            We weren't asleep for very long, though. A loud barking woke us.
-            Jackals were close, hoping to kill and eat some of our poultry.
-        </p>
-
-        <p>
-            Turk and Juno, our brave dogs, were surrounded by a dozen or
-            more of the wild creatures. We saw that the dogs had already
-            killed four of the jackals, but the others kept fighting.
-        </p>
-
-        <p>
-            Fritz and I shot our guns in the air and the rest ran off.
-            Turk and Juno chased after them and killed one more jackal.
-        </p>
-
-        <p>
-            Fritz dragged one of the dead jackals toward the tent.
-            He wanted to show it to his brothers in the morning.
-            Once more we returned to our beds.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- ================= WRITER ================= -->
-
-<section class="section" id="writer">
-
-    <h2>👤 About the Writer</h2>
-
-    <p>
-        Johann David Wyss was a Swiss author and pastor, best known for writing
-        <i>The Swiss Family Robinson</i>. He was born in Bern, Switzerland, in 1743.
-        He was a deeply religious man and a devoted father who wanted his stories
-        to teach moral lessons as well as entertain.
-    </p>
-
-    <p>
-        Although Johann David Wyss created the story, his son Johann Rudolf Wyss
-        edited and published the book after his father's death in 1817. Johann
-        Rudolf also helped refine the language and structure.
-    </p>
-
-    <p>
-        The novel was inspired by <i>Robinson Crusoe</i> by Daniel Defoe, but Wyss
-        focused more strongly on family, survival skills, faith and moral values.
-    </p>
+</div>
 
 </section>
 
@@ -1013,180 +604,68 @@ footer {
 
 <section class="section" id="summary">
 
-    <h2>📘 Summary of the Novel</h2>
+<h2>📝 Chapter 2 Summary</h2>
 
-    <p>
-        The Swiss Family Robinson tells the story of a Swiss family—a father,
-        mother, and four sons—who are shipwrecked on a deserted island.
-        They salvage supplies and tools from the wreck and use courage,
-        cleverness and teamwork to build a new life.
-    </p>
+<p>
+In this chapter, the father and Fritz decide to return to the wrecked ship to save the
+remaining animals and collect as many supplies as they can before the wreck becomes
+unreachable.
+</p>
 
-    <p>
-        The family builds shelters, cares for animals, grows crops, makes tools
-        and explores the island. Over the years they face many dangers and
-        become increasingly skilled and independent.
-    </p>
+<p>
+Before leaving, they have breakfast and notice their dogs are injured from the previous
+night's attack. Ernest suggests making spiked collars to protect them in future. The father
+also sets up a signaling system with his wife to communicate during his absence.
+</p>
 
-    <p>
-        After ten years, Fritz discovers a message from Jenny Montrose, a young
-        Englishwoman living alone on a nearby island. He rescues her, and later
-        a British ship arrives to take her home.
-    </p>
+<p>
+Onboard the ship, Fritz and his father are warmly greeted by the animals. Fritz feeds the
+monkey goat milk, and they gather valuable supplies, including tools, food, weapons,
+and farming equipment.
+</p>
 
-    <p>
-        Fritz, Jenny and Franz return to Europe, while Father, Mother, Ernest and
-        Jack remain on the island, which they proudly call New Switzerland.
-    </p>
+<p>
+They sleep on the ship and prepare to return the next day. To transport the animals back
+to shore, they invent floating life jackets using barrels and corks. During the return,
+Fritz saves a sheep from a shark by shooting at it.
+</p>
 
-</section>
+<p>
+Upon safely reaching the shore, the family is joyfully reunited. The mother and boys had
+spent the day exploring and found a grove of trees suitable for building a new home in
+the form of a tree house.
+</p>
 
-
-<!-- ================= SETTING ================= -->
-
-<section class="section" id="setting">
-
-    <h2>🌴 Setting</h2>
-
-    <div class="info-grid">
-
-        <div class="info-card">
-            <h3>🌍 Geographical Setting</h3>
-            <p>
-                A deserted tropical island somewhere in the South Seas,
-                apparently near the equator.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>⏳ Historical Setting</h3>
-            <p>
-                The early nineteenth century, around the time the novel was
-                written and published.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>🌳 Natural Environment</h3>
-            <p>
-                Forests, mountains, valleys, rivers, caves, beaches, fields
-                and dangerous swamps and cliffs.
-            </p>
-        </div>
-
-    </div>
+<p>
+The father agrees that this idea would keep them safe and cool. However, the challenge
+remains: they must now build a bridge to cross the river and move everything to their
+new home.
+</p>
 
 </section>
 
 
-<!-- ================= THEMES ================= -->
+<!-- ================= THEME ================= -->
 
-<section class="section" id="themes">
+<section class="section" id="theme">
 
-    <h2>🎯 Themes</h2>
+<h2>💡 Chapter 2 Theme</h2>
 
-    <div class="info-grid">
+<div class="info-card">
 
-        <div class="info-card">
-            <h3>💪 Self-Reliance and Hard Work</h3>
-            <p>
-                The family learns to depend on themselves and solve problems
-                through effort, patience and skill.
-            </p>
-        </div>
+<h3>Survival through Ingenuity and Teamwork</h3>
 
-        <div class="info-card">
-            <h3>🤝 Family Unity and Cooperation</h3>
-            <p>
-                The family survives because its members share duties and
-                support one another.
-            </p>
-        </div>
+<p>
+The chapter highlights the family's resourcefulness, cooperation, and problem-solving
+in the face of survival challenges.
+</p>
 
-        <div class="info-card">
-            <h3>🙏 Faith and Gratitude</h3>
-            <p>
-                Faith helps the family remain hopeful and thankful during
-                difficult times.
-            </p>
-        </div>
+<p>
+It also emphasizes emotional connections with animals and the importance of planning
+and working together.
+</p>
 
-        <div class="info-card">
-            <h3>🌿 Man and Nature</h3>
-            <p>
-                The family learns to use natural resources wisely while
-                adapting to the environment.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>🎓 Education and Discovery</h3>
-            <p>
-                The children learn through experience, observation,
-                exploration and problem-solving.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>🌅 Hope and New Beginnings</h3>
-            <p>
-                The family turns a terrible shipwreck into an opportunity
-                to create a new life.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PLOT ================= -->
-
-<section class="section" id="plot">
-
-    <h2>📈 Plot</h2>
-
-    <div class="info-grid">
-
-        <div class="info-card">
-            <h3>1. Beginning</h3>
-            <p>
-                The family survives a shipwreck and begins life on the island.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>2. Rising Action</h3>
-            <p>
-                They build homes, explore the island, tame animals and face
-                many dangers.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>3. Climax</h3>
-            <p>
-                Fritz discovers Jenny Montrose and the outside world finally
-                reaches the family.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>4. Falling Action</h3>
-            <p>
-                The family must decide whether to remain on the island or
-                return to Europe.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>5. Resolution</h3>
-            <p>
-                Some family members leave while others remain in New Switzerland.
-            </p>
-        </div>
-
-    </div>
+</div>
 
 </section>
 
@@ -1195,56 +674,74 @@ footer {
 
 <section class="section" id="characters">
 
-    <h2>👥 Characters</h2>
+<h2>👥 Chapter 2 Characters</h2>
 
-    <div class="info-grid">
+<div class="info-grid">
 
-        <div class="info-card">
-            <h3>👨 Father</h3>
-            <p>Wise, calm, resourceful and deeply religious leader of the family.</p>
-        </div>
+<div class="info-card">
+<h3>1. Father</h3>
+<p>
+The narrator. Resourceful and protective, he plans the rescue and collection mission.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>👩 Mother</h3>
-            <p>Kind, patient, hardworking and practical.</p>
-        </div>
+<div class="info-card">
+<h3>2. Fritz</h3>
+<p>
+The eldest son; brave, responsible, and helpful on the expedition to the ship.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>🧭 Fritz</h3>
-            <p>Brave, adventurous, strong and curious. The eldest son.</p>
-        </div>
+<div class="info-card">
+<h3>3. Mother</h3>
+<p>
+Practical and calm; proposes the idea of a tree house and explores new living space.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>📚 Ernest</h3>
-            <p>Thoughtful, clever, quiet and interested in learning.</p>
-        </div>
+<div class="info-card">
+<h3>4. Ernest</h3>
+<p>
+Creative and observant; suggests making spiked collars for the dogs.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>⚡ Jack</h3>
-            <p>Lively, daring, energetic, clever and creative.</p>
-        </div>
+<div class="info-card">
+<h3>5. Jack</h3>
+<p>
+Energetic and enthusiastic; comforts the baby monkey.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>😊 Franz</h3>
-            <p>The youngest son; sweet, funny, gentle and obedient.</p>
-        </div>
+<div class="info-card">
+<h3>6. Franz</h3>
+<p>
+The youngest; curious and expressive.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>🐕 Turk & Juno</h3>
-            <p>The family's loyal and protective dogs.</p>
-        </div>
+<div class="info-card">
+<h3>7. Turk and Juno</h3>
+<p>
+Loyal family dogs, injured but brave.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>🐒 Knips / Baby Monkey</h3>
-            <p>A monkey rescued by the family and kept as a pet.</p>
-        </div>
+<div class="info-card">
+<h3>8. Monkey</h3>
+<p>
+Becomes part of the family and feeds from the goat.
+</p>
+</div>
 
-        <div class="info-card">
-            <h3>👩‍🦰 Jenny Montrose</h3>
-            <p>A brave young woman rescued by Fritz later in the novel.</p>
-        </div>
+<div class="info-card">
+<h3>9. Goat and Other Animals</h3>
+<p>
+Rescued from the wreck and transported safely to shore.
+</p>
+</div>
 
-    </div>
+</div>
 
 </section>
 
@@ -1253,117 +750,91 @@ footer {
 
 <section class="section" id="vocabulary">
 
-    <h2>📚 Vocabulary Glossary</h2>
+<h2>📚 Chapter 2 Vocabulary</h2>
 
-    <div class="vocab-grid">
+<div class="vocab-grid">
 
-        <div class="vocab-item">
-            <strong>Storm</strong><br>
-            A violent weather condition with strong winds and rain.
-        </div>
+<div class="vocab-item">
+<strong>wreck</strong><br>
+the remains of a damaged or destroyed ship
+</div>
 
-        <div class="vocab-item">
-            <strong>Leaking</strong><br>
-            Allowing liquid to escape, usually unintentionally.
-        </div>
+<div class="vocab-item">
+<strong>supplies</strong><br>
+things needed for a particular purpose
+</div>
 
-        <div class="vocab-item">
-            <strong>Overpowered by terror</strong><br>
-            Completely overcome with fear.
-        </div>
+<div class="vocab-item">
+<strong>jackal</strong><br>
+a wild animal related to dogs and wolves
+</div>
 
-        <div class="vocab-item">
-            <strong>Dreadful</strong><br>
-            Causing fear, shock or suffering.
-        </div>
+<div class="vocab-item">
+<strong>stiff</strong><br>
+hard and difficult to move
+</div>
 
-        <div class="vocab-item">
-            <strong>Mist</strong><br>
-            A thin fog.
-        </div>
+<div class="vocab-item">
+<strong>soothed</strong><br>
+calmed or comforted someone
+</div>
 
-        <div class="vocab-item">
-            <strong>Revived</strong><br>
-            Brought back to life or strength.
-        </div>
+<div class="vocab-item">
+<strong>spiked</strong><br>
+having sharp points attached
+</div>
 
-        <div class="vocab-item">
-            <strong>Neglected</strong><br>
-            Not cared for properly.
-        </div>
+<div class="vocab-item">
+<strong>collars</strong><br>
+bands worn around an animal's neck
+</div>
 
-        <div class="vocab-item">
-            <strong>Salvaged</strong><br>
-            Saved or recovered something valuable from a wreck.
-        </div>
+<div class="vocab-item">
+<strong>signals</strong><br>
+actions or signs used to communicate
+</div>
 
-        <div class="vocab-item">
-            <strong>Equator</strong><br>
-            An imaginary line around the Earth equally distant from the poles.
-        </div>
+<div class="vocab-item">
+<strong>mast</strong><br>
+a tall pole that supports a ship's sail
+</div>
 
-        <div class="vocab-item">
-            <strong>Tropical paradise</strong><br>
-            A beautiful, warm place with exotic plants and animals.
-        </div>
+<div class="vocab-item">
+<strong>current</strong><br>
+a strong movement of water in one direction
+</div>
 
-        <div class="vocab-item">
-            <strong>Fragrant</strong><br>
-            Having a pleasant smell.
-        </div>
+<div class="vocab-item">
+<strong>stowing</strong><br>
+packing or storing something carefully
+</div>
 
-        <div class="vocab-item">
-            <strong>Gourds</strong><br>
-            Hard-skinned fruits used as containers or utensils.
-        </div>
+<div class="vocab-item">
+<strong>gunpowder</strong><br>
+an explosive powder used in guns
+</div>
 
-        <div class="vocab-item">
-            <strong>Feast</strong><br>
-            A large, special meal.
-        </div>
+<div class="vocab-item">
+<strong>buoyancy</strong><br>
+the ability to float in water
+</div>
 
-        <div class="vocab-item">
-            <strong>Jackals</strong><br>
-            Wild dog-like animals found in Asia and Africa.
-        </div>
+<div class="vocab-item">
+<strong>thongs</strong><br>
+thin strips of leather or other material
+</div>
 
-        <div class="vocab-item">
-            <strong>Spit</strong><br>
-            A rod used for roasting meat over a fire.
-        </div>
+<div class="vocab-item">
+<strong>grove</strong><br>
+a small group of trees
+</div>
 
-    </div>
+<div class="vocab-item">
+<strong>transport</strong><br>
+to move people or things from one place to another
+</div>
 
-</section>
-
-
-<!-- ================= BRIEF SUMMARY ================= -->
-
-<section class="section" id="brief">
-
-    <h2>📝 Brief Summary of Chapter 1</h2>
-
-    <p>
-        The story begins during a violent storm at sea. A Swiss family is stranded
-        on a sinking ship after the crew abandons them. The father encourages his
-        frightened wife and sons to trust in God.
-    </p>
-
-    <p>
-        By morning, the storm calms and the family begins working together.
-        They construct a raft from barrels and gather tools, food, animals and
-        supplies before reaching a safe shore.
-    </p>
-
-    <p>
-        They establish a temporary camp and adapt to island life. They make
-        creative tools, discover coconuts and sugar cane, and rescue a baby monkey.
-    </p>
-
-    <p>
-        That night, jackals attack the camp, but Turk and Juno protect the family.
-        The family realizes that survival depends on teamwork, courage and creativity.
-    </p>
+</div>
 
 </section>
 
@@ -1372,31 +843,421 @@ footer {
 
 <section class="section" id="questions">
 
-    <h2>❓ Chapter 1 Questions & Answers</h2>
+<h2>❓ Chapter 2 Questions</h2>
 
-    <div id="questionsContainer"></div>
+<div class="question">
+<strong>1. What decision did the father make early in the morning?</strong>
+<div class="answer">To return to the wreck with Fritz to save the animals and collect more supplies.</div>
+</div>
+
+<div class="question">
+<strong>2. Who agreed with the father's decision and suggested searching for a new home?</strong>
+<div class="answer">His wife.</div>
+</div>
+
+<div class="question">
+<strong>3. What did Fritz do with the jackal in the morning?</strong>
+<div class="answer">He propped it up outside the tent.</div>
+</div>
+
+<div class="question">
+<strong>4. What did the boys guess the jackal was?</strong>
+<div class="answer">Franz said a yellow dog, Jack said a wolf, and Ernest said a striped fox.</div>
+</div>
+
+<div class="question">
+<strong>5. What family of animals does the jackal belong to?</strong>
+<div class="answer">The same family as the dog, wolf, and fox.</div>
+</div>
+
+<div class="question">
+<strong>6. What did the family eat for breakfast?</strong>
+<div class="answer">Biscuits, butter, and cheese.</div>
+</div>
+
+<div class="question">
+<strong>7. What injuries did the dogs have?</strong>
+<div class="answer">Deep and painful wounds from the jackal fight, especially around their necks.</div>
+</div>
+
+<div class="question">
+<strong>8. What idea did Ernest suggest to protect the dogs?</strong>
+<div class="answer">Making spiked collars.</div>
+</div>
+
+<div class="question">
+<strong>9. What material did the father suggest for the collars?</strong>
+<div class="answer">Leather and nails.</div>
+</div>
+
+<div class="question">
+<strong>10. What signal system did the father create?</strong>
+<div class="answer">A cloth flag: up meant all was well; down with three gunshots meant they should return quickly.</div>
+</div>
+
+<div class="question">
+<strong>11. Who went to the wreck, and who stayed behind?</strong>
+<div class="answer">The father and Fritz went to the wreck; the mother and three boys stayed behind.</div>
+</div>
+
+<div class="question">
+<strong>12. What animal did Fritz feed goat milk to?</strong>
+<div class="answer">The monkey.</div>
+</div>
+
+<div class="question">
+<strong>13. What change did they make to the barrel boat?</strong>
+<div class="answer">They added a mast and sail.</div>
+</div>
+
+<div class="question">
+<strong>14. What supplies did they collect from the ship?</strong>
+<div class="answer">Gunpowder, guns, knives, canned meat, rope, tools, seeds, and farming supplies.</div>
+</div>
+
+<div class="question">
+<strong>15. Why did they decide to stay on the wreck overnight?</strong>
+<div class="answer">It was too late to return safely by then.</div>
+</div>
+
+<div class="question">
+<strong>16. How did the father feel while sleeping on the wreck?</strong>
+<div class="answer">Restless and worried about his family.</div>
+</div>
+
+<div class="question">
+<strong>17. What was still flying when the father looked to shore in the morning?</strong>
+<div class="answer">The signal flag.</div>
+</div>
+
+<div class="question">
+<strong>18. What flotation device did they make for the animals?</strong>
+<div class="answer">Life jackets made of two barrels, tied with leather thongs and corks for buoyancy.</div>
+</div>
+
+<div class="question">
+<strong>19. What danger did one sheep face in the water?</strong>
+<div class="answer">A shark tried to attack it.</div>
+</div>
+
+<div class="question">
+<strong>20. How was the shark stopped?</strong>
+<div class="answer">Fritz shot it in the head twice.</div>
+</div>
+
+<div class="question">
+<strong>21. Why was it urgent to return to the ship early?</strong>
+<div class="answer">The supplies could be lost forever if the sea changed or the wreck was destroyed.</div>
+</div>
+
+<div class="question">
+<strong>22. Why did the monkey hide in the moss heap?</strong>
+<div class="answer">It was frightened by the sight of the dead jackal.</div>
+</div>
+
+<div class="question">
+<strong>23. How did the dogs react to their wounds?</strong>
+<div class="answer">They licked each other in places they couldn't reach themselves.</div>
+</div>
+
+<div class="question">
+<strong>24. Why did the father bring the monkey along on the boat?</strong>
+<div class="answer">To get milk for it from the goats on the ship.</div>
+</div>
+
+<div class="question">
+<strong>25. Why wouldn't the current help them return from the wreck?</strong>
+<div class="answer">Because the current only carried them one way, so they needed wind and a sail to return.</div>
+</div>
+
+<div class="question">
+<strong>26. If you were building a spiked collar, what other materials could be used besides leather and nails?</strong>
+<div class="answer">Belts, rope, wire, metal scraps, or cloth strips tied tightly.</div>
+</div>
+
+<div class="question">
+<strong>27. What tools from the wreck could help the family build a tree house?</strong>
+<div class="answer">Hammers, nails, ropes, saws, axes, and strong canvas or wood.</div>
+</div>
+
+<div class="question">
+<strong>28. How might you improve the animal flotation devices?</strong>
+<div class="answer">Use stronger ropes, add more corks or barrels, and attach guiding lines.</div>
+</div>
+
+<div class="question">
+<strong>29. Compare the dangers of staying on the wreck versus staying on land.</strong>
+<div class="answer">On the wreck they were safer from wild animals but exposed to the sea. On land they were more comfortable but vulnerable to attacks.</div>
+</div>
+
+<div class="question">
+<strong>30. What does the father's sleeplessness tell us about his leadership?</strong>
+<div class="answer">He is responsible, selfless, and deeply concerned for his family's well-being.</div>
+</div>
+
+<div class="question">
+<strong>31. Why was making the flag signal important?</strong>
+<div class="answer">It ensured communication and safety between separated family members.</div>
+</div>
+
+<div class="question">
+<strong>32. What does the family's organization and planning suggest about their chances of survival?</strong>
+<div class="answer">It suggests strong teamwork, intelligence, and adaptability.</div>
+</div>
+
+<div class="question">
+<strong>33. Do you think it was a good idea to take the monkey on the boat? Why or why not?</strong>
+<div class="answer">Yes, because it was dependent on them. Alternatively, no, because it was an added responsibility on a dangerous trip.</div>
+</div>
+
+<div class="question">
+<strong>34. Should they have stayed overnight on the wreck? Defend your answer.</strong>
+<div class="answer">Yes, to gather all supplies safely. Alternatively, no, because it risked their safety and separated the family.</div>
+</div>
+
+<div class="question">
+<strong>35. Do you agree with the mother's idea to build a tree house?</strong>
+<div class="answer">Yes, because it protects them from animals and gives them shade.</div>
+</div>
+
+<div class="question">
+<strong>36. Invent your own method for bringing animals ashore without barrels.</strong>
+<div class="answer">Possible answers include rope rafts, inflatable sacks, floating cages, or large crates tied with vines.</div>
+</div>
+
+<div class="question">
+<strong>37. Design a better signal system than the flag and gunshots.</strong>
+<div class="answer">Possible answers include drum codes, coloured smoke signals, mirror flashes, or torch signals at night.</div>
+</div>
+
+<div class="question">
+<strong>38. Predict what might happen if they didn't collect the ship supplies quickly.</strong>
+<div class="answer">The wreck could sink, storms could destroy it, animals might die, or they could run out of essential tools and food.</div>
+</div>
 
 </section>
 
 
-<!-- ================= FILL IN ================= -->
+<!-- ================= FILL ================= -->
 
 <section class="section" id="fill">
 
-    <h2>✏️ Fill in the Missing Parts</h2>
+<h2>✏️ Chapter 2 — Fill in the Missing Parts</h2>
 
-    <div id="fillContainer"></div>
+<div class="fill-item">1. I think Fritz and I should return to the wreck while the sea is still __________.</div>
+
+<div class="fill-item">2. We must save the poor animals that are still there. We also need to get more ______ from the ship.</div>
+
+<div class="fill-item">3. Fritz ran outside to get his dead ___________, which was stiff from the night air.</div>
+
+<div class="fill-item">4. "It's a yellow dog!" said ______________.</div>
+
+<div class="fill-item">5. Ernest suggested the jackal was a striped ________________.</div>
+
+<div class="fill-item">6. The jackal, the wolf, the fox, and the dog all belong to the same ______________.</div>
+
+<div class="fill-item">7. The baby monkey hid in a heap of ____________ when it saw the jackal.</div>
+
+<div class="fill-item">8. For breakfast, the family ate biscuits, butter, and ___________.</div>
+
+<div class="fill-item">9. The dogs were quiet because they had deep and painful ____________.</div>
+
+<div class="fill-item">10. Ernest suggested making ______________ collars for the dogs.</div>
+
+<div class="fill-item">11. The collars would be made of _______________ and spiked with nails.</div>
+
+<div class="fill-item">12. A signal flag was used: if kept high, all was ________________.</div>
+
+<div class="fill-item">13. If there was danger, the flag would be lowered and ____________ shots fired.</div>
+
+<div class="fill-item">14. Fritz took the _______________ with them on the boat to get it milk.</div>
+
+<div class="fill-item">15. The little monkey drank milk from one of the ______________.</div>
+
+<div class="fill-item">16. The barrel boat was fitted with a _________________ and a sail.</div>
+
+<div class="fill-item">17. Supplies collected included gunpowder, canned meat, rope, nails, and ___________.</div>
+
+<div class="fill-item">18. The father was unable to sleep well because he was worried about his __________ and children.</div>
+
+<div class="fill-item">19. The flotation jackets for the animals used two empty __________ and a cork for buoyancy.</div>
+
+<div class="fill-item">20. A ________________ attacked one of the sheep in the water.</div>
+
+<div class="fill-item">21. Fritz fired _______________ shots to stop the shark.</div>
+
+<div class="fill-item">22. The tree house idea came from the boys’ ____________.</div>
+
+<div class="fill-item">23. The tree house would protect them from wild animals like ____________ at night.</div>
+
+<div class="fill-item">24. To move all the supplies to the new home, they decided to build a ____________.</div>
 
 </section>
 
 
-<!-- ================= COMMENTS ================= -->
+<!-- ================= QUOTATIONS ================= -->
 
-<section class="section" id="comments">
+<section class="section" id="quotations">
 
-    <h2>💬 Chapter 1 Quotations</h2>
+<h2>💬 Chapter 2 Quotations</h2>
 
-    <div id="commentsContainer"></div>
+<div class="quote-card">
+<blockquote>
+"I think Fritz and I should return to the wreck while the sea is still calm."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> Wife<br>
+<strong>Where?</strong> Early morning at the campsite<br>
+<strong>Occasion?</strong> Planning to rescue animals and recover supplies from the wreck
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"We must save the poor animals that are still there. We also need to get more supplies from the ship. If we don't get to them now, we may lose them entirely."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> Wife<br>
+<strong>Where?</strong> At the campsite<br>
+<strong>Occasion?</strong> Explaining the urgency of returning to the wreck
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>"Yes, by all means."</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Wife<br>
+<strong>To whom?</strong> Father<br>
+<strong>Where?</strong> At the campsite<br>
+<strong>Occasion?</strong> Agreeing with her husband's plan
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>"Come, let us wake the boys and get to work."</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Wife<br>
+<strong>To whom?</strong> Father<br>
+<strong>Where?</strong> At the campsite<br>
+<strong>Occasion?</strong> Beginning the day's work
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>"It's a yellow dog!"</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Franz<br>
+<strong>To whom?</strong> Everyone<br>
+<strong>Where?</strong> Outside the tent<br>
+<strong>Occasion?</strong> Seeing the dead jackal for the first time
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>"A wolf!"</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Jack<br>
+<strong>To whom?</strong> Everyone<br>
+<strong>Where?</strong> Outside the tent<br>
+<strong>Occasion?</strong> Offering his guess about the jackal
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>"No, it's a striped fox."</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Ernest<br>
+<strong>To whom?</strong> Everyone<br>
+<strong>Where?</strong> Outside the tent<br>
+<strong>Occasion?</strong> Offering his guess about the jackal
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"You're all partly correct. This is a jackal. It's from the same family as the dog, the wolf and the fox."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> The boys<br>
+<strong>Where?</strong> Outside the tent<br>
+<strong>Occasion?</strong> Explaining the truth about the animal
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"They could avoid getting the same kinds of wounds again."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Ernest<br>
+<strong>To whom?</strong> Father<br>
+<strong>Where?</strong> At the campsite after breakfast<br>
+<strong>Occasion?</strong> Suggesting making spiked collars for the dogs
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"This sounded like a good idea and that he should try it."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> Ernest<br>
+<strong>Where?</strong> At the campsite<br>
+<strong>Occasion?</strong> Encouraging Ernest to make the spiked collars
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"As long as all was well, the flag should stay up. If she needed us to return, she would lower the flag and fire three shots."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> Wife<br>
+<strong>Where?</strong> At the campsite before leaving<br>
+<strong>Occasion?</strong> Explaining the flag signal system
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"The current that brought us here will not take us back. But that fresh breeze will!"
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> Fritz<br>
+<strong>Where?</strong> On the ship<br>
+<strong>Occasion?</strong> Explaining the use of the sail to return to shore
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"He wanted to build a tree house among a grove of trees. High up in the air, we'd be safe from jackals and other dangerous animals."
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Wife, narrated by the father<br>
+<strong>To whom?</strong> Father<br>
+<strong>Where?</strong> During dinner after reuniting<br>
+<strong>Occasion?</strong> Sharing her plan for a safer, elevated home
+</div>
+</div>
+
+<div class="quote-card">
+<blockquote>
+"We'd have to cross a river to get to the grove of trees. The solution was simple - but it wouldn't be easy. First, we'd need to build a bridge!"
+</blockquote>
+<div class="quote-details">
+<strong>Who said it?</strong> Father<br>
+<strong>To whom?</strong> The family<br>
+<strong>Where?</strong> At the end of the chapter<br>
+<strong>Occasion?</strong> Concluding the chapter with the next plan of action
+</div>
+</div>
 
 </section>
 
@@ -1405,161 +1266,57 @@ footer {
 
 <section class="section" id="quiz1">
 
-    <div class="quiz-title">
-
-        <h2>🧠 Quiz 1</h2>
-
-        <p>
-            Test your understanding of Chapter 1.
-        </p>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            1. What gave the family hope when they were terrified on the ship? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            2. Describe the family's first meal on the island. (2 marks)
-        </strong>
-
-        <div class="answer-line"></div>
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            3. Why did the family collect coconuts and sugarcane? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            4. How did the father trick the monkeys into giving them coconuts? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            5. What was the father's reaction when he saw no sign of the other shipmates? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            6. What clue told the family that they might be near the equator? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            7. What animals did the family find and decide to take with them? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            8. The raft was made from ____________ barrels and tied together. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            9. Fritz and the father used a ____________ to open coconuts. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            10. The baby monkey jumped on ____________'s shoulder. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            11. The family made ____________ from large flat stones near a brook. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            12. The boys found ____________ tools, guns and bullets on the ship. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            13. "If it is God's will for us to be alone on this island, let us be content."
-            Who said this? To whom? Where? On what occasion? (2 marks)
-        </strong>
-
-        <div class="answer-line"></div>
-        <div class="answer-line"></div>
-
-    </div>
+<h2 class="quiz-title">🧠 Chapter 2 — Quiz 1</h2>
+
+<div class="quiz-question">
+<strong>1. Who first noticed the dogs were wounded? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>2. Why did the monkey go straight to the goat once onboard the ship? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>3. “The current that brought us here will not take us back. But that fresh breeze will!” Who said this? To whom? Where? (3 marks)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>4. Fill in: "We packed canned meats, canned soups, hams, sausages, __________ and all the other seeds and vegetables we could find." (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>5. What did Fritz do to the dead jackal early that morning? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>6. How did the narrator feel the night he stayed on the wreck? Why? (2 marks)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>7. What safety method was used for the animals to swim? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>8. How did the family react when Fritz and the father returned? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>9. What did the family eat during the welcome dinner? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
+
+<div class="quiz-question">
+<strong>10. What was the next major task planned by the family at the end of this chapter? (2 marks)</strong>
+<div class="answer-line"></div>
+</div>
 
 </section>
 
@@ -1568,663 +1325,118 @@ footer {
 
 <section class="section" id="quiz2">
 
-    <div class="quiz-title">
+<h2 class="quiz-title">🏆 Chapter 2 — Quiz 2</h2>
 
-        <h2>🧠 Quiz 2</h2>
+<div class="quiz-question">
+<strong>1. Identify two types of weapons the father and Fritz took from the wreck. (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-        <p>
-            Challenge yourself with another Chapter 1 test.
-        </p>
+<div class="quiz-question">
+<strong>2. Fill in: "Each life jacket was made of two empty __________, tied together with leather __________." (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-    </div>
+<div class="quiz-question">
+<strong>3. Why did the narrator and Fritz decide to spend the night on the wreck? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
+<div class="quiz-question">
+<strong>4. “Yes, by all means.” Who said this? To whom? Occasion? (3 marks)</strong>
+<div class="answer-line"></div>
+</div>
 
-    <div class="quiz-question">
+<div class="quiz-question">
+<strong>5. What animal was attacked by the shark, and what was the outcome? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-        <strong>
-            1. Why did the ship crew abandon the narrator and his family? (1 mark)
-        </strong>
+<div class="quiz-question">
+<strong>6. What idea did the mother come up with for their new shelter? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-        <div class="answer-line"></div>
+<div class="quiz-question">
+<strong>7. List three types of food supplies they collected from the wreck. (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-    </div>
+<div class="quiz-question">
+<strong>8. What emotion did the father feel while lying awake at night? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
+<div class="quiz-question">
+<strong>9. Why was it important to act quickly in retrieving items from the wreck? (2 marks)</strong>
+<div class="answer-line"></div>
+</div>
 
-    <div class="quiz-question">
+<div class="quiz-question">
+<strong>10. How did Jack comfort the baby monkey? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-        <strong>
-            2. What materials did the narrator and Fritz use to make the raft? (1 mark)
-        </strong>
+<div class="quiz-question">
+<strong>11. What did Ernest use to make the collars for the dogs? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            3. What roles did each family member play during the raft-building and
-            packing process? (2 marks)
-        </strong>
-
-        <div class="answer-line"></div>
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            4. Why did the narrator decide to keep the big dogs, despite their size? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            5. How did the family use oyster shells during their first meal? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            6. What were the first signs of wild danger the family faced on the island? (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            7. The family's ship crashed between two high ____________. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            8. The narrator and Fritz each took a gun and a ____________ bag
-            for their island walk. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            9. The boys found gourds and used them to make ____________ and bowls. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            10. ____________ and Juno were the names of the two big dogs. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            11. The narrator made a ____________ from flat stones near a brook. (1 mark)
-        </strong>
-
-        <div class="answer-line"></div>
-
-    </div>
-
-
-    <div class="quiz-question">
-
-        <strong>
-            "Oh, Father, they'll be of good use, I'm sure! They'll help us hunt
-            for game when we reach the shore!"
-            Who said this? To whom? Where? On what occasion? (3 marks)
-        </strong>
-
-        <div class="answer-line"></div>
-        <div class="answer-line"></div>
-
-    </div>
+<div class="quiz-question">
+<strong>12. What materials did the boys use for a signal system? (1 mark)</strong>
+<div class="answer-line"></div>
+</div>
 
 </section>
 
 
 <!-- ================= BACK ================= -->
 
-<section class="section" style="text-align:center;">
+<section class="section">
 
-    <a class="back-button" href="my-course.html">
-        ← Back to My Course
-    </a>
+<a href="my-course.html" class="back-button">
+    ← Back to My Course
+</a>
 
 </section>
 
 
 </div>
 
+</main>
+
 
 <!-- ================= FOOTER ================= -->
 
 <footer>
-
     © 2026 IGCSE English Hub — All Rights Reserved
-
 </footer>
 
 
+<!-- ================= ACTIVE SIDEBAR ================= -->
+
 <script>
 
-/* ================= QUESTIONS DATA ================= */
-
-const questions = [
-
-{
-q: "1. What caused the shipwreck?",
-a: "A violent storm lasting seven days pushed the ship off course and caused it to leak and crash onto rocks."
-},
-
-{
-q: "2. How many sons were in the family?",
-a: "There were four sons."
-},
-
-{
-q: "3. What animals were saved from the ship?",
-a: "A cow, a donkey, two goats, six sheep, a ram, a pig, ten hens, two roosters, ducks, geese, pigeons, and two large dogs, Turk and Juno."
-},
-
-{
-q: "4. What tools and supplies did the family take from the ship?",
-a: "Carpenter's tools, guns, pistols, bullets, powder, fishing supplies, an iron pot, canvas for a tent, biscuits, and canned soup."
-},
-
-{
-q: "5. What did the family use to make a raft?",
-a: "They cut four barrels in half and tied them together with strips of wood to make a floating raft."
-},
-
-{
-q: "6. Who were Turk and Juno?",
-a: "They were the family's two large dogs that helped protect them."
-},
-
-{
-q: "7. What did the boys use as spoons to eat their soup?",
-a: "They used oyster shells as spoons."
-},
-
-{
-q: "8. Who found the lobster?",
-a: "Jack found the red lobster and brought it back to the camp."
-},
-
-{
-q: "9. What did the family use as plates and bowls?",
-a: "They used gourds and later used coconut shells."
-},
-
-{
-q: "10. What did the mother cook for the first meal on land?",
-a: "She cooked soup using supplies and added the lobster that Jack had found."
-},
-
-{
-q: "11. Why was prayer important to the family during the storm?",
-a: "It brought them peace and comfort, helping them stay calm in the terrifying situation."
-},
-
-{
-q: "12. Explain how the raft helped the family.",
-a: "The raft allowed them to leave the wrecked ship safely and carry supplies, animals, and family members to the shore."
-},
-
-{
-q: "13. How did the father and Fritz collect coconuts from the trees?",
-a: "The father threw stones at monkeys, who in turn threw coconuts down in anger."
-},
-
-{
-q: "14. Describe the island as it was first seen by the family.",
-a: "It was a tropical paradise with tall trees, sugarcane, rolling hills, colourful birds, flowers, and monkeys."
-},
-
-{
-q: "15. Why did the baby monkey stay with the family?",
-a: "Its mother was killed by Turk, so it clung to Fritz and became a pet out of trust and need."
-},
-
-{
-q: "16. What do we learn about the family from the way they reacted after landing on the island?",
-a: "They were resourceful, cooperative, and focused on survival. They valued prayer, hope, and working together."
-},
-
-{
-q: "17. Why did the family feel thankful even though they were stranded?",
-a: "They were all alive, together, and had salvaged enough resources to survive."
-},
-
-{
-q: "18. If you were in their situation, how would you build a shelter using the resources around you?",
-a: "I would use canvas for roofing, sticks and rocks for structure, and moss or grass for bedding."
-},
-
-{
-q: "19. What would you have done differently when choosing which animals to save?",
-a: "I might have chosen only smaller animals that eat less or are easier to manage, though the large animals did prove useful."
-},
-
-{
-q: "20. Imagine you are Jack—how would you explain the usefulness of the dogs?",
-a: "The dogs protect the family, help hunt for food, and can sense danger from wild animals."
-},
-
-{
-q: "21. What other kitchen tools could the family make using natural resources?",
-a: "They could make skewers from sticks, baskets from vines, or grinding stones from rocks."
-},
-
-{
-q: "22. What steps would you take to prepare for your first night on a deserted island?",
-a: "Build a shelter, gather food and water, secure tools and weapons, set up a fire, and keep watch at night."
-},
-
-{
-q: "23. Compare how different members of the family handled the crisis.",
-a: "The father stayed calm and led; the mother comforted and helped; Fritz was brave and helpful; Jack was energetic and curious; Ernest was observant; Franz was quiet but obedient."
-},
-
-{
-q: "24. What is the relationship between the family's teamwork and their survival?",
-a: "Their survival depended on teamwork—each person had a role and contributed to building shelter, cooking, collecting supplies, and protecting the group."
-},
-
-{
-q: "25. Why does the narrator focus so much on describing the island's natural resources?",
-a: "To show how the family could survive using what nature provided, and to highlight the beauty and potential of the island."
-},
-
-{
-q: "26. How did the storm both endanger and help the family?",
-a: "It endangered them by wrecking the ship, but helped them by stranding them near a safe, resource-rich island."
-},
-
-{
-q: "27. What does the family's treatment of the baby monkey reveal about their values?",
-a: "It shows they are compassionate, caring, and feel responsible for creatures affected by their actions."
-},
-
-{
-q: "28. Do you agree with the father's decision to bring all the animals? Why or why not?",
-a: "Yes, because the animals provided food, milk, labor, and protection. They were essential for long-term survival."
-},
-
-{
-q: "29. Was it wise to spend time making bowls and spoons on the first day?",
-a: "Yes, having eating tools improved hygiene and comfort, showing the family's practical thinking and planning."
-},
-
-{
-q: "30. How effective was the family's plan for surviving the first night?",
-a: "Very effective—they set up a tent, gathered moss for bedding, made food, and stayed together in a safe place."
-},
-
-{
-q: "31. Do you think the boys acted responsibly during their explorations?",
-a: "Yes, they brought back useful food and materials and avoided danger, showing independence and care."
-},
-
-{
-q: "32. Would you have trusted the dogs to protect the camp? Why?",
-a: "Yes, because they were large, loyal, and already proved helpful by guarding against jackals."
-},
-
-{
-q: "33. Was the father right to distract the monkeys for coconuts?",
-a: "It was practical for survival, though it may not be entirely fair—necessity justified the act at the time."
-},
-
-{
-q: "34. Design a survival plan for a different family stranded on a similar island.",
-a: "Build shelter from palm leaves, catch rainwater, set animal traps, make tools from stone and wood, and guard at night with fire."
-},
-
-{
-q: "35. Write a diary entry from the point of view of one of the sons after the first night on land.",
-a: "Dear Diary, I can't believe we survived. The tent Father made kept us safe, and the soup tasted better than ever. I miss the ship, but I'm glad we are all together. Turk and Juno are amazing. We even found a monkey! I think we'll be okay."
-}
-
-];
-
-
-/* ================= FILL DATA ================= */
-
-const fillQuestions = [
-
-"The storm had continued for ___ days before the shipwreck occurred.",
-
-"The family had ___ sons.",
-
-"The family turned to ___ for comfort during the storm.",
-
-"The ship struck something hard and became stuck between two ___.",
-
-"The captain ordered the crew to lower away the ___.",
-
-"The part of the ship that held the family's ___ was stuck above the waves.",
-
-"The father encouraged the family by saying they would go to ___ when the storm ended.",
-
-"The family stayed up at night to ___ while the younger boys slept.",
-
-"Fritz, the eldest son, was ___ years old.",
-
-"The raft was made using four cut ___.",
-
-"The raft was tied to the ship with a ___.",
-
-"Among the animals on the ship were two large ___ named Turk and Juno.",
-
-"The family also saved farm animals like a cow, donkey, goats, sheep, and a ___.",
-
-"The family took carpenter's tools, ___, bullets, and food.",
-
-"Franz sat next to his ___ in the raft.",
-
-"The geese and ducks led the family to a ___.",
-
-"The boys used ___ and moss to make soft bedding.",
-
-"The father made a ___ using large flat stones.",
-
-"Jack brought back a big red ___.",
-
-"The boys used opened ___ shells as spoons.",
-
-"Later, the family used ___ shells as bowls.",
-
-"The lack of twilight suggested the island was near the ___.",
-
-"The father and Fritz took a ___ and a hatchet.",
-
-"Turk came with them into the ___.",
-
-"The island was full of colourful birds and playful ___.",
-
-"The father threw ___ at the monkeys.",
-
-"The monkeys threw ___ down.",
-
-"They drank coconut ___.",
-
-"They made plates and bowls from ___.",
-
-"Turk killed a female monkey, leaving a baby ___.",
-
-"The baby monkey jumped onto ___.",
-
-"The children were excited about the monkey and the ___.",
-
-"The mother said they were together in ___.",
-
-"They ate fish, goose, cheese and the last of the ___.",
-
-"The goose was a ___ bird.",
-
-"The family was awakened by ___.",
-
-"Turk and Juno were surrounded by wild ___.",
-
-"Fritz and the father fired their ___ into the air."
-
-];
-
-
-/* ================= COMMENTS DATA ================= */
-
-const comments = [
-
-{
-quote: `"Dear children, we must trust in God. He can save us from this danger."`,
-who: "The father (narrator)",
-to: "His four sons",
-where: "On board the damaged ship during the storm",
-occasion: "When the storm was at its worst and everyone was terrified; he spoke these words to give his sons comfort and hope."
-},
-
-{
-quote: `"Land, land!"`,
-who: "An unknown crew member",
-to: "The people on the ship",
-where: "Aboard the ship",
-occasion: "When land was spotted for the first time, raising hope in the midst of the storm."
-},
-
-{
-quote: `"Lower away the boats! We are lost!"`,
-who: "The captain of the ship",
-to: "The ship's crew",
-where: "On the deck of the ship",
-occasion: "When the ship was being torn apart by the storm and the captain gave the final order to abandon ship."
-},
-
-{
-quote: `"Oh, Father, they'll be of good use, I'm sure!"`,
-who: "Jack",
-to: "His father",
-where: "On the ship",
-occasion: "In response to his father's concern about taking the two big dogs."
-},
-
-{
-quote: `"Watch, Fritz. I'm going to put those monkeys to work."`,
-who: "The father",
-to: "Fritz",
-where: "In the forest",
-occasion: "Before he began throwing stones at the monkeys to make them drop coconuts."
-},
-
-{
-quote: `"No, Turk!"`,
-who: "Fritz",
-to: "Turk, the dog",
-where: "In the forest",
-occasion: "When Turk attacked and killed the mother monkey."
-},
-
-{
-quote: `"A monkey! A monkey! Oh, how splendid!"`,
-who: "The younger boys",
-to: "Fritz and the father",
-where: "At the campsite",
-occasion: "When they returned from their forest trip carrying food and a baby monkey."
-},
-
-{
-quote: `"I'm happy to see you all safe and sound. Sadly, though, we found no trace of our shipmates."`,
-who: "The father",
-to: "His family",
-where: "At the tent campsite",
-occasion: "After he and Fritz returned from the first exploration."
-},
-
-{
-quote: `"If it is God's will for us to be alone on this island, let us be content."`,
-who: "The mother",
-to: "The whole family",
-where: "At the campsite",
-occasion: "After hearing there were no survivors from the crew, but expressing gratitude for their own safety."
-},
-
-{
-quote: `"This is not one of our geese. It's a wild bird Ernest killed today."`,
-who: "The mother",
-to: "The family",
-where: "At dinner time in the campsite",
-occasion: "While serving the goose during dinner."
-}
-
-];
-
-
-/* ================= DISPLAY QUESTIONS ================= */
-
-const questionsContainer =
-    document.getElementById("questionsContainer");
-
-questions.forEach((item) => {
-
-    const box = document.createElement("div");
-
-    box.className = "question";
-
-    box.innerHTML = `
-        <div class="question-number">
-            ${item.q}
-        </div>
-
-        <button class="answer-btn"
-            onclick="toggleAnswer(this)">
-            👁️ Show Answer
-        </button>
-
-        <div class="answer">
-            <strong>Answer:</strong> ${item.a}
-        </div>
-    `;
-
-    questionsContainer.appendChild(box);
-
-});
-
-
-/* ================= DISPLAY FILL ================= */
-
-const fillContainer =
-    document.getElementById("fillContainer");
-
-fillQuestions.forEach((item, index) => {
-
-    const box = document.createElement("div");
-
-    box.className = "fill-item";
-
-    box.innerHTML = `
-        <strong>${index + 1}.</strong>
-        ${item}
-    `;
-
-    fillContainer.appendChild(box);
-
-});
-
-
-/* ================= DISPLAY COMMENTS ================= */
-
-const commentsContainer =
-    document.getElementById("commentsContainer");
-
-comments.forEach((item, index) => {
-
-    const box = document.createElement("div");
-
-    box.className = "quote-card";
-
-    box.innerHTML = `
-
-        <div class="quote-text">
-            ${index + 1}. ${item.quote}
-        </div>
-
-        <div class="quote-details">
-
-            <div>
-                <strong>👤 Who said it?</strong><br>
-                ${item.who}
-            </div>
-
-            <div>
-                <strong>👥 To whom?</strong><br>
-                ${item.to}
-            </div>
-
-            <div>
-                <strong>📍 Where?</strong><br>
-                ${item.where}
-            </div>
-
-            <div>
-                <strong>🎯 Occasion?</strong><br>
-                ${item.occasion}
-            </div>
-
-        </div>
-
-    `;
-
-    commentsContainer.appendChild(box);
-
-});
-
-
-/* ================= ANSWER TOGGLE ================= */
-
-function toggleAnswer(button) {
+function toggleAnswer(index) {
 
     const answer =
-        button.nextElementSibling;
+        document.getElementById("answer-" + index);
 
-    answer.classList.toggle("show");
-
-    if (answer.classList.contains("show")) {
-
-        button.innerHTML = "🙈 Hide Answer";
-
-    } else {
-
-        button.innerHTML = "👁️ Show Answer";
-
+    if (answer) {
+        answer.classList.toggle("show");
     }
 
 }
 
 
-/* ================= ACTIVE MENU ================= */
+/* Active sidebar while scrolling */
 
 const sections =
     document.querySelectorAll(".section[id]");
 
 const menuLinks =
     document.querySelectorAll(".nav-buttons a");
+
 
 const observer =
     new IntersectionObserver(
@@ -2235,9 +1447,7 @@ const observer =
                 if (entry.isIntersecting) {
 
                     menuLinks.forEach(link => {
-
                         link.classList.remove("active");
-
                     });
 
                     const activeLink =
@@ -2246,9 +1456,7 @@ const observer =
                         );
 
                     if (activeLink) {
-
                         activeLink.classList.add("active");
-
                     }
 
                 }
@@ -2263,13 +1471,10 @@ const observer =
 
 
 sections.forEach(section => {
-
     observer.observe(section);
-
 });
 
 </script>
 
 </body>
-
 </html>
