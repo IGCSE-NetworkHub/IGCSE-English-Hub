@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,23 +98,14 @@ header p {
     margin: 0;
 }
 
-/* Sidebar title */
-
 .lesson-nav h3 {
     margin: 0 0 20px 0;
-
     color: #102a56;
-
     font-size: 20px;
-
     padding: 0 5px 17px;
-
     border-bottom: 2px solid #edf1f6;
-
     text-align: left;
 }
-
-/* Sidebar scrollbar */
 
 .lesson-nav::-webkit-scrollbar {
     width: 7px;
@@ -147,24 +137,16 @@ header p {
 .nav-buttons a {
     display: flex;
     align-items: center;
-
     width: 100%;
     min-height: 46px;
-
     text-decoration: none;
-
     color: #102a56;
     background: #edf3fb;
-
     padding: 11px 14px;
-
     border-radius: 10px;
-
     font-size: 14px;
     line-height: 1.3;
-
     white-space: nowrap;
-
     border-left: 4px solid transparent;
 
     transition:
@@ -178,9 +160,7 @@ header p {
 .nav-buttons a:hover {
     background: #102a56;
     color: white;
-
     transform: translateX(5px);
-
     box-shadow: 0 5px 12px rgba(16,42,86,.18);
 }
 
@@ -190,11 +170,8 @@ header p {
 
 .nav-buttons a.active {
     background: linear-gradient(90deg, #102a56, #1d4f91);
-
     color: white;
-
     border-left: 4px solid #4da3ff;
-
     transform: translateX(5px);
 
     box-shadow:
@@ -205,7 +182,6 @@ header p {
 
 .nav-buttons a.active:hover {
     background: linear-gradient(90deg, #0d2348, #19457f);
-
     color: white;
 }
 
@@ -275,11 +251,8 @@ header p {
 
 .section {
     background: white;
-
     margin-bottom: 25px;
-
     border-radius: 18px;
-
     overflow: hidden;
 
     box-shadow:
@@ -328,23 +301,16 @@ header p {
 
 .quote {
     border-left: 5px solid #1d4f91;
-
     background: #f1f6fc;
-
     padding: 18px 22px;
-
     margin: 20px 0;
-
     font-style: italic;
-
     border-radius: 0 10px 10px 0;
-
     transition: .25s;
 }
 
 .quote:hover {
     transform: translateX(4px);
-
     background: #eaf2fb;
 }
 
@@ -354,20 +320,15 @@ header p {
 
 .cards {
     display: grid;
-
     grid-template-columns:
         repeat(auto-fit,minmax(240px,1fr));
-
     gap: 16px;
 }
 
 .card {
     background: #f7f9fc;
-
     border: 1px solid #e1e7ef;
-
     border-radius: 14px;
-
     padding: 20px;
 
     transition:
@@ -398,15 +359,10 @@ header p {
 
 .vocab-card {
     background: #f8fbff;
-
     border-left: 5px solid #1d4f91;
-
     padding: 16px 18px;
-
     margin-bottom: 12px;
-
     border-radius: 10px;
-
     transition: .2s;
 }
 
@@ -422,18 +378,14 @@ header p {
 }
 
 /* ============================= */
-/* ACCORDION */
+/* ACCORDION / SHOW ANSWER */
 /* ============================= */
 
 .accordion {
     border: 1px solid #e1e7ef;
-
     border-radius: 12px;
-
     margin-bottom: 12px;
-
     overflow: hidden;
-
     transition: .2s;
 }
 
@@ -444,23 +396,14 @@ header p {
 
 .accordion button {
     width: 100%;
-
     border: 0;
-
     background: #f5f8fc;
-
     padding: 17px;
-
     text-align: left;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     color: #102a56;
-
     transition: .2s;
 }
 
@@ -470,20 +413,52 @@ header p {
 
 .answer {
     display: none;
-
     padding: 18px;
-
     line-height: 1.7;
-
     background: white;
-
     border-top: 1px solid #e5e9ef;
 }
 
 .answer.show {
     display: block;
-
     animation: openAnswer .3s ease;
+}
+
+/* ============================= */
+/* SHOW ANSWER BUTTON */
+/* ============================= */
+
+.show-answer-btn {
+    display: inline-block;
+
+    margin-top: 14px;
+
+    padding: 9px 16px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #102a56;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.show-answer-btn:hover {
+    background: #1d4f91;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(16,42,86,.20);
 }
 
 /* ============================= */
@@ -502,15 +477,10 @@ ul li {
 
 .comment-card {
     background: #fafafa;
-
     border: 1px solid #e0e5ec;
-
     border-radius: 14px;
-
     padding: 20px;
-
     margin-bottom: 18px;
-
     transition: .2s;
 }
 
@@ -548,11 +518,8 @@ ul li {
         );
 
     border: 1px solid #dbe5f0;
-
     border-radius: 14px;
-
     padding: 22px;
-
     margin-bottom: 18px;
 }
 
@@ -567,13 +534,9 @@ ul li {
 
 .quiz-note {
     background: #fff8df;
-
     border-left: 5px solid #e2b400;
-
     padding: 15px;
-
     margin-bottom: 20px;
-
     border-radius: 0 8px 8px 0;
 }
 
@@ -583,27 +546,18 @@ ul li {
 
 .back-button {
     display: inline-block;
-
     text-decoration: none;
-
     background: #102a56;
-
     color: white;
-
     padding: 14px 24px;
-
     border-radius: 10px;
-
     font-weight: bold;
-
     margin: 10px 0 40px;
-
     transition: .2s;
 }
 
 .back-button:hover {
     background: #0b1d3d;
-
     transform: translateY(-2px);
 
     box-shadow:
@@ -616,11 +570,8 @@ ul li {
 
 footer {
     text-align: center;
-
     padding: 30px;
-
     color: #666;
-
     margin-left: 280px;
 }
 
@@ -637,10 +588,8 @@ footer {
 
     .container {
         width: calc(100% - 265px);
-
         margin-left: 250px;
         margin-right: 10px;
-
         padding: 0 15px;
     }
 
@@ -668,29 +617,18 @@ footer {
         font-size: 18px;
     }
 
-    /* MOBILE MENU */
-
     .lesson-nav {
         position: relative;
-
         left: auto;
         top: auto;
         bottom: auto;
-
         width: calc(100% - 30px);
-
         height: auto;
-
         max-height: none;
-
         overflow: visible;
-
         margin: 20px 15px 25px;
-
         padding: 18px;
-
         border-radius: 16px;
-
         border: 1px solid #dfe6ef;
 
         box-shadow:
@@ -703,7 +641,6 @@ footer {
 
     .nav-buttons {
         display: grid;
-
         grid-template-columns:
             repeat(2,minmax(0,1fr));
 
@@ -712,15 +649,10 @@ footer {
 
     .nav-buttons a {
         justify-content: center;
-
         text-align: center;
-
         white-space: normal;
-
         min-height: 46px;
-
         padding: 10px 7px;
-
         font-size: 13px;
     }
 
@@ -730,9 +662,7 @@ footer {
 
     .container {
         width: auto;
-
         margin: 20px auto;
-
         padding: 0 15px;
     }
 
@@ -763,10 +693,6 @@ footer {
 
 }
 
-/* ============================= */
-/* VERY SMALL SCREENS */
-/* ============================= */
-
 @media(max-width:430px) {
 
     .nav-buttons {
@@ -775,9 +701,7 @@ footer {
 
     .nav-buttons a {
         justify-content: flex-start;
-
         text-align: left;
-
         padding-left: 15px;
     }
 
@@ -806,8 +730,6 @@ footer {
     <h1>Chapter 1</h1>
 
     <p>Shipwrecked and Alone</p>
-
-    <p>The Swiss Family Robinson</p>
 
 </header>
 
@@ -1026,8 +948,8 @@ very tasty.
 
 <p>
 Late that afternoon, we headed back to the tent. We carried a
-sack of coconuts and a large bundle of sugar cane. We also had
-a collection of plates, bowls and spoons that we'd made
+sack of coconuts and a large bundle of sugar cane. We also had a
+collection of plates, bowls and spoons that we'd made
 out of gourds.
 </p>
 
@@ -1513,12 +1435,12 @@ The family realizes that survival depends on teamwork, courage and creativity.
 <div class="section" id="questions">
 
 <div class="section-title">
-<h2>❓ Chapter 1: Questions & Answers</h2>
+<h2>❓ Chapter 1: Questions</h2>
 </div>
 
 <div class="section-content">
 
-<p><strong>Click a question to reveal the answer.</strong></p>
+<p><strong>Answer each question first, then click "Show Answer" to check your answer.</strong></p>
 
 <script>
 
@@ -1635,6 +1557,7 @@ questions.forEach((q, i) => {
 
     document.write(`
         <div class="accordion">
+
             <button onclick="toggleAnswer(${i})">
                 ${q[0]} ⬇️
             </button>
@@ -1642,6 +1565,7 @@ questions.forEach((q, i) => {
             <div class="answer" id="answer-${i}">
                 ${q[1]}
             </div>
+
         </div>
     `);
 
@@ -1664,48 +1588,109 @@ questions.forEach((q, i) => {
 
 <div class="section-content">
 
-<ol>
+<p><strong>Complete each sentence first, then click "Show Answer" to check.</strong></p>
 
-<li>The storm had continued for ___ days before the shipwreck occurred.</li>
-<li>The family had ___ sons.</li>
-<li>The family turned to ___ for comfort during the storm.</li>
-<li>The ship struck something hard and became stuck between two ___.</li>
-<li>The captain ordered the crew to lower away the ___.</li>
-<li>The part of the ship that held the family's ___ was stuck above the waves.</li>
-<li>The father encouraged the family by saying they would go to ___ when the storm ended.</li>
-<li>The family stayed up at night to ___ while the younger boys slept.</li>
-<li>Fritz, the eldest son, was ___ years old.</li>
-<li>The raft was made using four cut ___.</li>
-<li>The raft was tied to the ship with a ___.</li>
-<li>Among the animals on the ship were two large ___ named Turk and Juno.</li>
-<li>The family also saved farm animals like a cow, donkey, goats, sheep, and a ___.</li>
-<li>The family took carpenter's tools, ___, bullets, and food.</li>
-<li>Franz sat next to his ___ in the raft.</li>
-<li>The geese and ducks led the family to a ___.</li>
-<li>The boys used ___ and moss to make soft bedding.</li>
-<li>The father made a ___ using large flat stones.</li>
-<li>Jack brought back a big red ___.</li>
-<li>The boys used opened ___ shells as spoons.</li>
-<li>Later, the family used ___ shells as bowls.</li>
-<li>The lack of twilight suggested the island was near the ___.</li>
-<li>The father and Fritz took a ___ and a hatchet.</li>
-<li>Turk came with them into the ___.</li>
-<li>The island was full of colourful birds and playful ___.</li>
-<li>The father threw ___ at the monkeys.</li>
-<li>The monkeys threw ___ down.</li>
-<li>They drank coconut ___.</li>
-<li>They made plates and bowls from ___.</li>
-<li>Turk killed a female monkey, leaving a baby ___.</li>
-<li>The baby monkey jumped onto ___.</li>
-<li>The children were excited about the monkey and the ___.</li>
-<li>The mother said they were together in ___.</li>
-<li>They ate fish, goose, cheese and the last of the ___.</li>
-<li>The goose was a ___ bird.</li>
-<li>The family was awakened by ___.</li>
-<li>Turk and Juno were surrounded by wild ___.</li>
-<li>Fritz and the father fired their ___ into the air.</li>
+<script>
 
-</ol>
+const fillQuestions = [
+
+["The storm had continued for ___ days before the shipwreck occurred.", "seven"],
+
+["The family had ___ sons.", "four"],
+
+["The family turned to ___ for comfort during the storm.", "prayer"],
+
+["The ship struck something hard and became stuck between two ___.", "high rocks"],
+
+["The captain ordered the crew to lower away the ___.", "boats"],
+
+["The part of the ship that held the family's ___ was stuck above the waves.", "cabin"],
+
+["The father encouraged the family by saying they would go to ___ when the storm ended.", "the shore"],
+
+["The family stayed up at night to ___ while the younger boys slept.", "keep watch"],
+
+["Fritz, the eldest son, was ___ years old.", "15"],
+
+["The raft was made using four cut ___.", "barrels"],
+
+["The raft was tied to the ship with a ___.", "rope"],
+
+["Among the animals on the ship were two large ___ named Turk and Juno.", "dogs"],
+
+["The family also saved farm animals like a cow, donkey, goats, sheep, and a ___.", "pig"],
+
+["The family took carpenter's tools, ___, bullets, and food.", "guns"],
+
+["Franz sat next to his ___ in the raft.", "mother"],
+
+["The geese and ducks led the family to a ___.", "small bay"],
+
+["The boys used ___ and moss to make soft bedding.", "grass"],
+
+["The father made a ___ using large flat stones.", "fireplace"],
+
+["Jack brought back a big red ___.", "lobster"],
+
+["The boys used opened ___ shells as spoons.", "oyster"],
+
+["Later, the family used ___ shells as bowls.", "coconut"],
+
+["The lack of twilight suggested the island was near the ___.", "equator"],
+
+["The father and Fritz took a ___ and a hatchet.", "gun"],
+
+["Turk came with them into the ___.", "forest"],
+
+["The island was full of colourful birds and playful ___.", "monkeys"],
+
+["The father threw ___ at the monkeys.", "stones"],
+
+["The monkeys threw ___ down.", "coconuts"],
+
+["They drank coconut ___.", "milk"],
+
+["They made plates and bowls from ___.", "gourds"],
+
+["Turk killed a female monkey, leaving a baby ___.", "monkey"],
+
+["The baby monkey jumped onto ___'s shoulder.", "Fritz"],
+
+["The children were excited about the monkey and the ___.", "coconuts"],
+
+["The mother said they were together in ___.", "safety"],
+
+["They ate fish, goose, cheese and the last of the ___.", "soup"],
+
+["The goose was a ___ bird.", "wild"],
+
+["The family was awakened by ___.", "barking"],
+
+["Turk and Juno were surrounded by wild ___.", "jackals"],
+
+["Fritz and the father fired their ___ into the air.", "guns"]
+
+];
+
+fillQuestions.forEach((item, i) => {
+
+    document.write(`
+        <div class="accordion">
+
+            <button onclick="toggleFillAnswer(${i})">
+                ${i + 1}. ${item[0]} ⬇️
+            </button>
+
+            <div class="answer" id="fill-answer-${i}">
+                <strong>Answer:</strong> ${item[1]}
+            </div>
+
+        </div>
+    `);
+
+});
+
+</script>
 
 </div>
 </div>
@@ -1721,6 +1706,8 @@ questions.forEach((q, i) => {
 </div>
 
 <div class="section-content">
+
+<p><strong>Think about the quotation first, then click "Show Answer" to check.</strong></p>
 
 <script>
 
@@ -1816,31 +1803,41 @@ const comments = [
 
 ];
 
-comments.forEach((c) => {
+comments.forEach((c, i) => {
 
     document.write(`
         <div class="comment-card">
 
             <div class="quote">${c[0]}</div>
 
-            <div class="comment-row">
-                <span class="comment-label">👤 Who?</span>
-                ${c[1]}
-            </div>
+            <button
+                class="show-answer-btn"
+                onclick="toggleCommentAnswer(${i})">
+                👁️ Show Answer
+            </button>
 
-            <div class="comment-row">
-                <span class="comment-label">🎯 To whom?</span>
-                ${c[2]}
-            </div>
+            <div class="answer" id="comment-answer-${i}">
 
-            <div class="comment-row">
-                <span class="comment-label">📍 Where?</span>
-                ${c[3]}
-            </div>
+                <div class="comment-row">
+                    <span class="comment-label">👤 Who?</span>
+                    ${c[1]}
+                </div>
 
-            <div class="comment-row">
-                <span class="comment-label">⏰ Occasion?</span>
-                ${c[4]}
+                <div class="comment-row">
+                    <span class="comment-label">🎯 To whom?</span>
+                    ${c[2]}
+                </div>
+
+                <div class="comment-row">
+                    <span class="comment-label">📍 Where?</span>
+                    ${c[3]}
+                </div>
+
+                <div class="comment-row">
+                    <span class="comment-label">⏰ Occasion?</span>
+                    ${c[4]}
+                </div>
+
             </div>
 
         </div>
@@ -2120,6 +2117,35 @@ function toggleAnswer(index) {
 
 }
 
+/* ============================= */
+/* FILL ANSWERS */
+/* ============================= */
+
+function toggleFillAnswer(index) {
+
+    const answer =
+        document.getElementById("fill-answer-" + index);
+
+    if (answer) {
+        answer.classList.toggle("show");
+    }
+
+}
+
+/* ============================= */
+/* COMMENT ANSWERS */
+/* ============================= */
+
+function toggleCommentAnswer(index) {
+
+    const answer =
+        document.getElementById("comment-answer-" + index);
+
+    if (answer) {
+        answer.classList.toggle("show");
+    }
+
+}
 
 /* ============================= */
 /* ACTIVE SIDE MENU */
@@ -2154,7 +2180,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
     function updateActiveSection() {
 
         const scrollPosition =
@@ -2185,22 +2210,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
-    /* Initial active section */
-
     updateActiveSection();
-
-
-    /* Update while scrolling */
 
     window.addEventListener(
         "scroll",
         updateActiveSection,
         { passive: true }
     );
-
-
-    /* Update after clicking menu */
 
     menuLinks.forEach(link => {
 
@@ -2222,4 +2238,3 @@ document.addEventListener("DOMContentLoaded", function () {
 </body>
 
 </html>
-```
