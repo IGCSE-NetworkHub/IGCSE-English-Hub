@@ -203,28 +203,52 @@ header p {
 
 .question strong {
     color: #102a56;
+    display: block;
+    line-height: 1.6;
 }
 
 .answer {
-    margin-top: 10px;
+    display: none;
+    margin-top: 12px;
     background: #eef5ff;
     border-left: 4px solid #1e4f91;
-    padding: 12px;
+    padding: 13px;
     border-radius: 6px;
+    line-height: 1.7;
+}
+
+.answer.show {
+    display: block;
+    animation: openAnswer .3s ease;
 }
 
 .answer-btn {
-    margin-top: 10px;
+    margin-top: 12px;
     border: none;
     background: #102a56;
     color: white;
-    padding: 8px 14px;
+    padding: 9px 16px;
     border-radius: 7px;
     cursor: pointer;
+    font-weight: bold;
+    transition: .2s;
 }
 
 .answer-btn:hover {
     background: #1e4f91;
+    transform: translateY(-1px);
+}
+
+@keyframes openAnswer {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ================= FILL ================= */
@@ -234,7 +258,28 @@ header p {
     border: 1px solid #dce4ef;
     border-radius: 9px;
     padding: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+}
+
+.fill-question {
+    font-weight: bold;
+    color: #102a56;
+    line-height: 1.6;
+}
+
+.fill-answer {
+    display: none;
+    margin-top: 12px;
+    background: #eef5ff;
+    border-left: 4px solid #1e4f91;
+    padding: 11px 14px;
+    border-radius: 6px;
+    line-height: 1.6;
+}
+
+.fill-answer.show {
+    display: block;
+    animation: openAnswer .3s ease;
 }
 
 /* ================= QUOTATIONS ================= */
@@ -258,7 +303,18 @@ header p {
 }
 
 .quote-details {
+    display: none;
     line-height: 1.7;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dce4ef;
+    margin-top: 12px;
+}
+
+.quote-details.show {
+    display: block;
+    animation: openAnswer .3s ease;
 }
 
 .quote-details strong {
@@ -279,6 +335,27 @@ header p {
     padding: 18px;
     margin-bottom: 15px;
     border-radius: 10px;
+}
+
+.quiz-question strong {
+    color: #102a56;
+    display: block;
+    line-height: 1.6;
+}
+
+.quiz-answer {
+    display: none;
+    margin-top: 12px;
+    background: #eef5ff;
+    border-left: 4px solid #1e4f91;
+    padding: 13px;
+    border-radius: 6px;
+    line-height: 1.7;
+}
+
+.quiz-answer.show {
+    display: block;
+    animation: openAnswer .3s ease;
 }
 
 .answer-line {
@@ -845,194 +922,346 @@ to move people or things from one place to another
 
 <h2>❓ Chapter 2 Questions</h2>
 
+
 <div class="question">
 <strong>1. What decision did the father make early in the morning?</strong>
-<div class="answer">To return to the wreck with Fritz to save the animals and collect more supplies.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-1', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-1">
+To return to the wreck with Fritz to save the animals and collect more supplies.
 </div>
+</div>
+
 
 <div class="question">
 <strong>2. Who agreed with the father's decision and suggested searching for a new home?</strong>
-<div class="answer">His wife.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-2', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-2">
+His wife.
 </div>
+</div>
+
 
 <div class="question">
 <strong>3. What did Fritz do with the jackal in the morning?</strong>
-<div class="answer">He propped it up outside the tent.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-3', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-3">
+He propped it up outside the tent.
 </div>
+</div>
+
 
 <div class="question">
 <strong>4. What did the boys guess the jackal was?</strong>
-<div class="answer">Franz said a yellow dog, Jack said a wolf, and Ernest said a striped fox.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-4', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-4">
+Franz said a yellow dog, Jack said a wolf, and Ernest said a striped fox.
 </div>
+</div>
+
 
 <div class="question">
 <strong>5. What family of animals does the jackal belong to?</strong>
-<div class="answer">The same family as the dog, wolf, and fox.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-5', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-5">
+The same family as the dog, wolf, and fox.
 </div>
+</div>
+
 
 <div class="question">
 <strong>6. What did the family eat for breakfast?</strong>
-<div class="answer">Biscuits, butter, and cheese.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-6', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-6">
+Biscuits, butter, and cheese.
 </div>
+</div>
+
 
 <div class="question">
 <strong>7. What injuries did the dogs have?</strong>
-<div class="answer">Deep and painful wounds from the jackal fight, especially around their necks.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-7', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-7">
+Deep and painful wounds from the jackal fight, especially around their necks.
 </div>
+</div>
+
 
 <div class="question">
 <strong>8. What idea did Ernest suggest to protect the dogs?</strong>
-<div class="answer">Making spiked collars.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-8', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-8">
+Making spiked collars.
 </div>
+</div>
+
 
 <div class="question">
 <strong>9. What material did the father suggest for the collars?</strong>
-<div class="answer">Leather and nails.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-9', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-9">
+Leather and nails.
 </div>
+</div>
+
 
 <div class="question">
 <strong>10. What signal system did the father create?</strong>
-<div class="answer">A cloth flag: up meant all was well; down with three gunshots meant they should return quickly.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-10', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-10">
+A cloth flag: up meant all was well; down with three gunshots meant they should return quickly.
 </div>
+</div>
+
 
 <div class="question">
 <strong>11. Who went to the wreck, and who stayed behind?</strong>
-<div class="answer">The father and Fritz went to the wreck; the mother and three boys stayed behind.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-11', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-11">
+The father and Fritz went to the wreck; the mother and three boys stayed behind.
 </div>
+</div>
+
 
 <div class="question">
 <strong>12. What animal did Fritz feed goat milk to?</strong>
-<div class="answer">The monkey.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-12', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-12">
+The monkey.
 </div>
+</div>
+
 
 <div class="question">
 <strong>13. What change did they make to the barrel boat?</strong>
-<div class="answer">They added a mast and sail.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-13', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-13">
+They added a mast and sail.
 </div>
+</div>
+
 
 <div class="question">
 <strong>14. What supplies did they collect from the ship?</strong>
-<div class="answer">Gunpowder, guns, knives, canned meat, rope, tools, seeds, and farming supplies.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-14', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-14">
+Gunpowder, guns, knives, canned meat, rope, tools, seeds, and farming supplies.
 </div>
+</div>
+
 
 <div class="question">
 <strong>15. Why did they decide to stay on the wreck overnight?</strong>
-<div class="answer">It was too late to return safely by then.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-15', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-15">
+It was too late to return safely by then.
 </div>
+</div>
+
 
 <div class="question">
 <strong>16. How did the father feel while sleeping on the wreck?</strong>
-<div class="answer">Restless and worried about his family.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-16', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-16">
+Restless and worried about his family.
 </div>
+</div>
+
 
 <div class="question">
 <strong>17. What was still flying when the father looked to shore in the morning?</strong>
-<div class="answer">The signal flag.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-17', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-17">
+The signal flag.
 </div>
+</div>
+
 
 <div class="question">
 <strong>18. What flotation device did they make for the animals?</strong>
-<div class="answer">Life jackets made of two barrels, tied with leather thongs and corks for buoyancy.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-18', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-18">
+Life jackets made of two barrels, tied with leather thongs and corks for buoyancy.
 </div>
+</div>
+
 
 <div class="question">
 <strong>19. What danger did one sheep face in the water?</strong>
-<div class="answer">A shark tried to attack it.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-19', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-19">
+A shark tried to attack it.
 </div>
+</div>
+
 
 <div class="question">
 <strong>20. How was the shark stopped?</strong>
-<div class="answer">Fritz shot it in the head twice.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-20', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-20">
+Fritz shot it in the head twice.
 </div>
+</div>
+
 
 <div class="question">
 <strong>21. Why was it urgent to return to the ship early?</strong>
-<div class="answer">The supplies could be lost forever if the sea changed or the wreck was destroyed.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-21', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-21">
+The supplies could be lost forever if the sea changed or the wreck was destroyed.
 </div>
+</div>
+
 
 <div class="question">
 <strong>22. Why did the monkey hide in the moss heap?</strong>
-<div class="answer">It was frightened by the sight of the dead jackal.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-22', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-22">
+It was frightened by the sight of the dead jackal.
 </div>
+</div>
+
 
 <div class="question">
 <strong>23. How did the dogs react to their wounds?</strong>
-<div class="answer">They licked each other in places they couldn't reach themselves.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-23', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-23">
+They licked each other in places they couldn't reach themselves.
 </div>
+</div>
+
 
 <div class="question">
 <strong>24. Why did the father bring the monkey along on the boat?</strong>
-<div class="answer">To get milk for it from the goats on the ship.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-24', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-24">
+To get milk for it from the goats on the ship.
 </div>
+</div>
+
 
 <div class="question">
 <strong>25. Why wouldn't the current help them return from the wreck?</strong>
-<div class="answer">Because the current only carried them one way, so they needed wind and a sail to return.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-25', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-25">
+Because the current only carried them one way, so they needed wind and a sail to return.
 </div>
+</div>
+
 
 <div class="question">
 <strong>26. If you were building a spiked collar, what other materials could be used besides leather and nails?</strong>
-<div class="answer">Belts, rope, wire, metal scraps, or cloth strips tied tightly.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-26', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-26">
+Belts, rope, wire, metal scraps, or cloth strips tied tightly.
 </div>
+</div>
+
 
 <div class="question">
 <strong>27. What tools from the wreck could help the family build a tree house?</strong>
-<div class="answer">Hammers, nails, ropes, saws, axes, and strong canvas or wood.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-27', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-27">
+Hammers, nails, ropes, saws, axes, and strong canvas or wood.
 </div>
+</div>
+
 
 <div class="question">
 <strong>28. How might you improve the animal flotation devices?</strong>
-<div class="answer">Use stronger ropes, add more corks or barrels, and attach guiding lines.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-28', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-28">
+Use stronger ropes, add more corks or barrels, and attach guiding lines.
 </div>
+</div>
+
 
 <div class="question">
 <strong>29. Compare the dangers of staying on the wreck versus staying on land.</strong>
-<div class="answer">On the wreck they were safer from wild animals but exposed to the sea. On land they were more comfortable but vulnerable to attacks.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-29', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-29">
+On the wreck they were safer from wild animals but exposed to the sea. On land they were more comfortable but vulnerable to attacks.
 </div>
+</div>
+
 
 <div class="question">
 <strong>30. What does the father's sleeplessness tell us about his leadership?</strong>
-<div class="answer">He is responsible, selfless, and deeply concerned for his family's well-being.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-30', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-30">
+He is responsible, selfless, and deeply concerned for his family's well-being.
 </div>
+</div>
+
 
 <div class="question">
 <strong>31. Why was making the flag signal important?</strong>
-<div class="answer">It ensured communication and safety between separated family members.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-31', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-31">
+It ensured communication and safety between separated family members.
 </div>
+</div>
+
 
 <div class="question">
 <strong>32. What does the family's organization and planning suggest about their chances of survival?</strong>
-<div class="answer">It suggests strong teamwork, intelligence, and adaptability.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-32', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-32">
+It suggests strong teamwork, intelligence, and adaptability.
 </div>
+</div>
+
 
 <div class="question">
 <strong>33. Do you think it was a good idea to take the monkey on the boat? Why or why not?</strong>
-<div class="answer">Yes, because it was dependent on them. Alternatively, no, because it was an added responsibility on a dangerous trip.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-33', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-33">
+Yes, because it was dependent on them. Alternatively, no, because it was an added responsibility on a dangerous trip.
 </div>
+</div>
+
 
 <div class="question">
 <strong>34. Should they have stayed overnight on the wreck? Defend your answer.</strong>
-<div class="answer">Yes, to gather all supplies safely. Alternatively, no, because it risked their safety and separated the family.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-34', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-34">
+Yes, to gather all supplies safely. Alternatively, no, because it risked their safety and separated the family.
 </div>
+</div>
+
 
 <div class="question">
 <strong>35. Do you agree with the mother's idea to build a tree house?</strong>
-<div class="answer">Yes, because it protects them from animals and gives them shade.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-35', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-35">
+Yes, because it protects them from animals and gives them shade.
 </div>
+</div>
+
 
 <div class="question">
 <strong>36. Invent your own method for bringing animals ashore without barrels.</strong>
-<div class="answer">Possible answers include rope rafts, inflatable sacks, floating cages, or large crates tied with vines.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-36', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-36">
+Possible answers include rope rafts, inflatable sacks, floating cages, or large crates tied with vines.
 </div>
+</div>
+
 
 <div class="question">
 <strong>37. Design a better signal system than the flag and gunshots.</strong>
-<div class="answer">Possible answers include drum codes, coloured smoke signals, mirror flashes, or torch signals at night.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-37', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-37">
+Possible answers include drum codes, coloured smoke signals, mirror flashes, or torch signals at night.
 </div>
+</div>
+
 
 <div class="question">
 <strong>38. Predict what might happen if they didn't collect the ship supplies quickly.</strong>
-<div class="answer">The wreck could sink, storms could destroy it, animals might die, or they could run out of essential tools and food.</div>
+<button class="answer-btn" onclick="toggleAnswer('q2-38', this)">👁️ Show Answer</button>
+<div class="answer" id="q2-38">
+The wreck could sink, storms could destroy it, animals might die, or they could run out of essential tools and food.
+</div>
 </div>
 
 </section>
@@ -1044,53 +1273,173 @@ to move people or things from one place to another
 
 <h2>✏️ Chapter 2 — Fill in the Missing Parts</h2>
 
-<div class="fill-item">1. I think Fritz and I should return to the wreck while the sea is still __________.</div>
 
-<div class="fill-item">2. We must save the poor animals that are still there. We also need to get more ______ from the ship.</div>
+<div class="fill-item">
+<div class="fill-question">1. I think Fritz and I should return to the wreck while the sea is still __________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-1', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-1">calm</div>
+</div>
 
-<div class="fill-item">3. Fritz ran outside to get his dead ___________, which was stiff from the night air.</div>
 
-<div class="fill-item">4. "It's a yellow dog!" said ______________.</div>
+<div class="fill-item">
+<div class="fill-question">2. We must save the poor animals that are still there. We also need to get more ______ from the ship.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-2', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-2">supplies</div>
+</div>
 
-<div class="fill-item">5. Ernest suggested the jackal was a striped ________________.</div>
 
-<div class="fill-item">6. The jackal, the wolf, the fox, and the dog all belong to the same ______________.</div>
+<div class="fill-item">
+<div class="fill-question">3. Fritz ran outside to get his dead ___________, which was stiff from the night air.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-3', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-3">jackal</div>
+</div>
 
-<div class="fill-item">7. The baby monkey hid in a heap of ____________ when it saw the jackal.</div>
 
-<div class="fill-item">8. For breakfast, the family ate biscuits, butter, and ___________.</div>
+<div class="fill-item">
+<div class="fill-question">4. "It's a yellow dog!" said ______________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-4', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-4">Franz</div>
+</div>
 
-<div class="fill-item">9. The dogs were quiet because they had deep and painful ____________.</div>
 
-<div class="fill-item">10. Ernest suggested making ______________ collars for the dogs.</div>
+<div class="fill-item">
+<div class="fill-question">5. Ernest suggested the jackal was a striped ________________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-5', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-5">fox</div>
+</div>
 
-<div class="fill-item">11. The collars would be made of _______________ and spiked with nails.</div>
 
-<div class="fill-item">12. A signal flag was used: if kept high, all was ________________.</div>
+<div class="fill-item">
+<div class="fill-question">6. The jackal, the wolf, the fox, and the dog all belong to the same ______________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-6', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-6">family</div>
+</div>
 
-<div class="fill-item">13. If there was danger, the flag would be lowered and ____________ shots fired.</div>
 
-<div class="fill-item">14. Fritz took the _______________ with them on the boat to get it milk.</div>
+<div class="fill-item">
+<div class="fill-question">7. The baby monkey hid in a heap of ____________ when it saw the jackal.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-7', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-7">moss</div>
+</div>
 
-<div class="fill-item">15. The little monkey drank milk from one of the ______________.</div>
 
-<div class="fill-item">16. The barrel boat was fitted with a _________________ and a sail.</div>
+<div class="fill-item">
+<div class="fill-question">8. For breakfast, the family ate biscuits, butter, and ___________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-8', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-8">cheese</div>
+</div>
 
-<div class="fill-item">17. Supplies collected included gunpowder, canned meat, rope, nails, and ___________.</div>
 
-<div class="fill-item">18. The father was unable to sleep well because he was worried about his __________ and children.</div>
+<div class="fill-item">
+<div class="fill-question">9. The dogs were quiet because they had deep and painful ____________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-9', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-9">wounds</div>
+</div>
 
-<div class="fill-item">19. The flotation jackets for the animals used two empty __________ and a cork for buoyancy.</div>
 
-<div class="fill-item">20. A ________________ attacked one of the sheep in the water.</div>
+<div class="fill-item">
+<div class="fill-question">10. Ernest suggested making ______________ collars for the dogs.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-10', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-10">spiked</div>
+</div>
 
-<div class="fill-item">21. Fritz fired _______________ shots to stop the shark.</div>
 
-<div class="fill-item">22. The tree house idea came from the boys’ ____________.</div>
+<div class="fill-item">
+<div class="fill-question">11. The collars would be made of _______________ and spiked with nails.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-11', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-11">leather</div>
+</div>
 
-<div class="fill-item">23. The tree house would protect them from wild animals like ____________ at night.</div>
 
-<div class="fill-item">24. To move all the supplies to the new home, they decided to build a ____________.</div>
+<div class="fill-item">
+<div class="fill-question">12. A signal flag was used: if kept high, all was ________________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-12', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-12">well</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">13. If there was danger, the flag would be lowered and ____________ shots fired.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-13', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-13">three</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">14. Fritz took the _______________ with them on the boat to get it milk.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-14', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-14">monkey</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">15. The little monkey drank milk from one of the ______________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-15', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-15">goats</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">16. The barrel boat was fitted with a _________________ and a sail.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-16', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-16">mast</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">17. Supplies collected included gunpowder, canned meat, rope, nails, and ___________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-17', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-17">tools</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">18. The father was unable to sleep well because he was worried about his __________ and children.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-18', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-18">wife</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">19. The flotation jackets for the animals used two empty __________ and a cork for buoyancy.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-19', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-19">barrels</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">20. A ________________ attacked one of the sheep in the water.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-20', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-20">shark</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">21. Fritz fired _______________ shots to stop the shark.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-21', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-21">two</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">22. The tree house idea came from the boys’ ____________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-22', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-22">mother</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">23. The tree house would protect them from wild animals like ____________ at night.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-23', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-23">jackals</div>
+</div>
+
+
+<div class="fill-item">
+<div class="fill-question">24. To move all the supplies to the new home, they decided to build a ____________.</div>
+<button class="answer-btn" onclick="toggleAnswer('f2-24', this)">👁️ Show Answer</button>
+<div class="fill-answer" id="f2-24">bridge</div>
+</div>
 
 </section>
 
@@ -1101,11 +1450,15 @@ to move people or things from one place to another
 
 <h2>💬 Chapter 2 Quotations</h2>
 
+
 <div class="quote-card">
 <blockquote>
 "I think Fritz and I should return to the wreck while the sea is still calm."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-1', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-1">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> Wife<br>
 <strong>Where?</strong> Early morning at the campsite<br>
@@ -1113,11 +1466,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "We must save the poor animals that are still there. We also need to get more supplies from the ship. If we don't get to them now, we may lose them entirely."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-2', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-2">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> Wife<br>
 <strong>Where?</strong> At the campsite<br>
@@ -1125,9 +1482,13 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>"Yes, by all means."</blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-3', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-3">
 <strong>Who said it?</strong> Wife<br>
 <strong>To whom?</strong> Father<br>
 <strong>Where?</strong> At the campsite<br>
@@ -1135,9 +1496,13 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>"Come, let us wake the boys and get to work."</blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-4', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-4">
 <strong>Who said it?</strong> Wife<br>
 <strong>To whom?</strong> Father<br>
 <strong>Where?</strong> At the campsite<br>
@@ -1145,9 +1510,13 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>"It's a yellow dog!"</blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-5', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-5">
 <strong>Who said it?</strong> Franz<br>
 <strong>To whom?</strong> Everyone<br>
 <strong>Where?</strong> Outside the tent<br>
@@ -1155,9 +1524,13 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>"A wolf!"</blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-6', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-6">
 <strong>Who said it?</strong> Jack<br>
 <strong>To whom?</strong> Everyone<br>
 <strong>Where?</strong> Outside the tent<br>
@@ -1165,9 +1538,13 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>"No, it's a striped fox."</blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-7', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-7">
 <strong>Who said it?</strong> Ernest<br>
 <strong>To whom?</strong> Everyone<br>
 <strong>Where?</strong> Outside the tent<br>
@@ -1175,11 +1552,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "You're all partly correct. This is a jackal. It's from the same family as the dog, the wolf and the fox."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-8', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-8">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> The boys<br>
 <strong>Where?</strong> Outside the tent<br>
@@ -1187,11 +1568,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "They could avoid getting the same kinds of wounds again."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-9', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-9">
 <strong>Who said it?</strong> Ernest<br>
 <strong>To whom?</strong> Father<br>
 <strong>Where?</strong> At the campsite after breakfast<br>
@@ -1199,11 +1584,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "This sounded like a good idea and that he should try it."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-10', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-10">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> Ernest<br>
 <strong>Where?</strong> At the campsite<br>
@@ -1211,11 +1600,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "As long as all was well, the flag should stay up. If she needed us to return, she would lower the flag and fire three shots."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-11', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-11">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> Wife<br>
 <strong>Where?</strong> At the campsite before leaving<br>
@@ -1223,11 +1616,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "The current that brought us here will not take us back. But that fresh breeze will!"
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-12', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-12">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> Fritz<br>
 <strong>Where?</strong> On the ship<br>
@@ -1235,11 +1632,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "He wanted to build a tree house among a grove of trees. High up in the air, we'd be safe from jackals and other dangerous animals."
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-13', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-13">
 <strong>Who said it?</strong> Wife, narrated by the father<br>
 <strong>To whom?</strong> Father<br>
 <strong>Where?</strong> During dinner after reuniting<br>
@@ -1247,11 +1648,15 @@ to move people or things from one place to another
 </div>
 </div>
 
+
 <div class="quote-card">
 <blockquote>
 "We'd have to cross a river to get to the grove of trees. The solution was simple - but it wouldn't be easy. First, we'd need to build a bridge!"
 </blockquote>
-<div class="quote-details">
+
+<button class="answer-btn" onclick="toggleAnswer('c2-14', this)">👁️ Show Answer</button>
+
+<div class="quote-details" id="c2-14">
 <strong>Who said it?</strong> Father<br>
 <strong>To whom?</strong> The family<br>
 <strong>Where?</strong> At the end of the chapter<br>
@@ -1268,54 +1673,94 @@ to move people or things from one place to another
 
 <h2 class="quiz-title">🧠 Chapter 2 — Quiz 1</h2>
 
+
 <div class="quiz-question">
 <strong>1. Who first noticed the dogs were wounded? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-1', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-1">
+The father first noticed that the dogs were very quiet and discovered that they had been wounded in the fight with the jackals.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>2. Why did the monkey go straight to the goat once onboard the ship? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-2', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-2">
+Because Fritz wanted to get milk for the monkey, and the little animal immediately helped itself to some goat milk.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>3. “The current that brought us here will not take us back. But that fresh breeze will!” Who said this? To whom? Where? (3 marks)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-3', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-3">
+The father said it to Fritz while they were on the wrecked ship. He was explaining that they needed the wind and the sail to return to shore.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>4. Fill in: "We packed canned meats, canned soups, hams, sausages, __________ and all the other seeds and vegetables we could find." (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-4', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-4">
+wheat
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>5. What did Fritz do to the dead jackal early that morning? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-5', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-5">
+He propped the dead jackal up on its legs outside the tent.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>6. How did the narrator feel the night he stayed on the wreck? Why? (2 marks)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-6', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-6">
+He felt restless and worried because his wife and children were alone and unprotected on shore, except for the dogs.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>7. What safety method was used for the animals to swim? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-7', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-7">
+They made life jackets using two empty barrels, leather thongs, and a large cork for buoyancy.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>8. How did the family react when Fritz and the father returned? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-8', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-8">
+The wife and boys came running out to greet them joyfully.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>9. What did the family eat during the welcome dinner? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-9', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-9">
+They had a wonderful feast, with the mother even using a tablecloth and silverware.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>10. What was the next major task planned by the family at the end of this chapter? (2 marks)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz1-10', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz1-10">
+They planned to build a bridge across the river so they could move their supplies and animals to the grove where they wanted to build their tree house.
+</div>
 </div>
 
 </section>
@@ -1327,64 +1772,112 @@ to move people or things from one place to another
 
 <h2 class="quiz-title">🏆 Chapter 2 — Quiz 2</h2>
 
+
 <div class="quiz-question">
 <strong>1. Identify two types of weapons the father and Fritz took from the wreck. (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-1', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-1">
+Examples: swords and daggers. They also took knives and guns.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>2. Fill in: "Each life jacket was made of two empty __________, tied together with leather __________." (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-2', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-2">
+barrels; thongs
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>3. Why did the narrator and Fritz decide to spend the night on the wreck? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-3', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-3">
+It was getting late, so they signalled that they would stay on board for the night rather than return after dark.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>4. “Yes, by all means.” Who said this? To whom? Occasion? (3 marks)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-4', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-4">
+The wife said it to the father at the campsite in response to his plan to return to the wreck and rescue the animals and collect supplies.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>5. What animal was attacked by the shark, and what was the outcome? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-5', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-5">
+A sheep was attacked. Fritz fired two shots at the shark's head and stopped the attack.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>6. What idea did the mother come up with for their new shelter? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-6', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-6">
+She suggested building a tree house among a grove of trees.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>7. List three types of food supplies they collected from the wreck. (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-7', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-7">
+Examples: canned meats, canned soups, hams, sausages, and wheat.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>8. What emotion did the father feel while lying awake at night? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-8', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-8">
+He felt worried and restless because he was concerned about his wife and children.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>9. Why was it important to act quickly in retrieving items from the wreck? (2 marks)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-9', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-9">
+The wreck and its supplies might be lost or destroyed, so the family needed to collect the useful items before they became unreachable.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>10. How did Jack comfort the baby monkey? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-10', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-10">
+Jack soothed and comforted the little animal after it became frightened by the dead jackal.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>11. What did Ernest use to make the collars for the dogs? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-11', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-11">
+The collars were to be made from leather with nails used as spikes.
 </div>
+</div>
+
 
 <div class="quiz-question">
 <strong>12. What materials did the boys use for a signal system? (1 mark)</strong>
-<div class="answer-line"></div>
+<button class="answer-btn" onclick="toggleAnswer('quiz2-12', this)">👁️ Show Answer</button>
+<div class="quiz-answer" id="quiz2-12">
+They used a wide strip of cloth on a pole as a flag, with three gunshots as an additional warning signal.
+</div>
 </div>
 
 </section>
@@ -1417,19 +1910,28 @@ to move people or things from one place to another
 
 <script>
 
-function toggleAnswer(index) {
+/* ================= SHOW / HIDE ANSWERS ================= */
 
-    const answer =
-        document.getElementById("answer-" + index);
+function toggleAnswer(id, button) {
 
-    if (answer) {
-        answer.classList.toggle("show");
+    const answer = document.getElementById(id);
+
+    if (!answer) {
+        return;
+    }
+
+    const isOpen = answer.classList.toggle("show");
+
+    if (isOpen) {
+        button.innerHTML = "🙈 Hide Answer";
+    } else {
+        button.innerHTML = "👁️ Show Answer";
     }
 
 }
 
 
-/* Active sidebar while scrolling */
+/* ================= ACTIVE SIDEBAR WHILE SCROLLING ================= */
 
 const sections =
     document.querySelectorAll(".section[id]");
