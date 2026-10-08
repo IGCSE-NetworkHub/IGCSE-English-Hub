@@ -49,13 +49,6 @@ header::after {
     top: -120px;
 }
 
-header .book {
-    font-size: 18px;
-    opacity: .9;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
-
 header h1 {
     margin: 0;
     font-size: 42px;
@@ -378,50 +371,28 @@ header p {
 }
 
 /* ============================= */
-/* ACCORDION / SHOW ANSWER */
+/* QUESTION CARDS */
 /* ============================= */
 
-.accordion {
+.question-card {
     border: 1px solid #e1e7ef;
     border-radius: 12px;
-    margin-bottom: 12px;
-    overflow: hidden;
+    margin-bottom: 14px;
+    padding: 18px;
+    background: #ffffff;
     transition: .2s;
 }
 
-.accordion:hover {
+.question-card:hover {
     box-shadow:
         0 4px 12px rgba(0,0,0,.06);
 }
 
-.accordion button {
-    width: 100%;
-    border: 0;
-    background: #f5f8fc;
-    padding: 17px;
-    text-align: left;
+.question-text {
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
     color: #102a56;
-    transition: .2s;
-}
-
-.accordion button:hover {
-    background: #eaf1fa;
-}
-
-.answer {
-    display: none;
-    padding: 18px;
-    line-height: 1.7;
-    background: white;
-    border-top: 1px solid #e5e9ef;
-}
-
-.answer.show {
-    display: block;
-    animation: openAnswer .3s ease;
+    line-height: 1.6;
 }
 
 /* ============================= */
@@ -459,6 +430,21 @@ header p {
 
     box-shadow:
         0 4px 10px rgba(16,42,86,.20);
+}
+
+.answer {
+    display: none;
+    padding: 18px;
+    margin-top: 14px;
+    line-height: 1.7;
+    background: #f8fbff;
+    border-top: 1px solid #e5e9ef;
+    border-radius: 8px;
+}
+
+.answer.show {
+    display: block;
+    animation: openAnswer .3s ease;
 }
 
 /* ============================= */
@@ -538,6 +524,18 @@ ul li {
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 0 8px 8px 0;
+}
+
+.quiz-question {
+    background: white;
+    border: 1px solid #e1e7ef;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.quiz-question-text {
+    line-height: 1.6;
 }
 
 /* ============================= */
@@ -721,11 +719,11 @@ footer {
 
 <body>
 
-<header>
+<!-- ============================= -->
+<!-- HEADER -->
+<!-- ============================= -->
 
-    <div class="book">
-        THE BLUEPRINT SERIES
-    </div>
+<header>
 
     <h1>Chapter 1</h1>
 
@@ -1440,138 +1438,11 @@ The family realizes that survival depends on teamwork, courage and creativity.
 
 <div class="section-content">
 
-<p><strong>Answer each question first, then click "Show Answer" to check your answer.</strong></p>
+<p>
+<strong>Answer each question first, then click "Show Answer" to check your answer.</strong>
+</p>
 
-<script>
-
-const questions = [
-
-["Q1: What caused the shipwreck?",
-"A violent storm lasting seven days pushed the ship off course and caused it to leak and crash onto rocks."],
-
-["Q2: How many sons were in the family?",
-"There were four sons."],
-
-["Q3: What animals were saved from the ship?",
-"A cow, a donkey, two goats, six sheep, a ram, a pig, ten hens, two roosters, ducks, geese, pigeons, and two large dogs (Turk and Juno)."],
-
-["Q4: What tools and supplies did the family take from the ship?",
-"Carpenter's tools, guns, pistols, bullets, powder, fishing supplies, an iron pot, canvas for a tent, biscuits, and canned soup."],
-
-["Q5: What did the family use to make a raft?",
-"They cut four barrels in half and tied them together with strips of wood to make a floating raft."],
-
-["Q6: Who were Turk and Juno?",
-"They were the family's two large dogs that helped protect them."],
-
-["Q7: What did the boys use as spoons to eat their soup?",
-"They used oyster shells as spoons."],
-
-["Q8: Who found the lobster?",
-"Jack found the red lobster and brought it back to the camp."],
-
-["Q9: What did the family use as plates and bowls?",
-"They used hollowed-out gourds and later used coconut shells."],
-
-["Q10: What did the mother cook for the first meal on land?",
-"She cooked soup using supplies and added the lobster that Jack had found."],
-
-["Q11: Why was prayer important to the family during the storm?",
-"It brought them peace and comfort, helping them stay calm in the terrifying situation."],
-
-["Q12: Explain how the raft helped the family.",
-"The raft allowed them to leave the wrecked ship safely and carry supplies, animals, and family members to the shore."],
-
-["Q13: How did the father and Fritz collect coconuts from the trees?",
-"The father threw stones at monkeys, who in turn threw coconuts down in anger."],
-
-["Q14: Describe the island as it was first seen by the family.",
-"It was a tropical paradise with tall trees, sugarcane, rolling hills, colourful birds, flowers, and monkeys."],
-
-["Q15: Why did the baby monkey stay with the family?",
-"Its mother was killed by Turk, so it clung to Fritz and became a pet out of trust and need."],
-
-["Q16: What do we learn about the family from the way they reacted after landing on the island?",
-"They were resourceful, cooperative, and focused on survival. They valued prayer, hope, and working together."],
-
-["Q17: Why did the family feel thankful even though they were stranded?",
-"They were all alive, together, and had salvaged enough resources to survive."],
-
-["Q18: If you were in their situation, how would you build a shelter using the resources around you?",
-"I would use canvas for roofing, sticks and rocks for structure, and moss or grass for bedding—just as the family did."],
-
-["Q19: What would you have done differently when choosing which animals to save?",
-"I might have chosen only smaller animals that eat less or are easier to manage, though the large animals did prove useful."],
-
-["Q20: Imagine you are Jack—how would you explain the usefulness of the dogs?",
-"I'd say the dogs protect the family, help hunt for food, and can sense danger from wild animals."],
-
-["Q21: What other kitchen tools could the family make using natural resources?",
-"They could make skewers from sticks, baskets from vines, or grinding stones from rocks."],
-
-["Q22: What steps would you take to prepare for your first night on a deserted island?",
-"Build a shelter, gather food and water, secure tools and weapons, set up a fire, and keep watch at night."],
-
-["Q23: Compare how different members of the family handled the crisis.",
-"The father stayed calm and led; the mother comforted and helped; Fritz was brave and helpful; Jack was energetic and curious; Ernest was observant; Franz was quiet but obedient."],
-
-["Q24: What is the relationship between the family's teamwork and their survival?",
-"Their survival depended on teamwork—each person had a role and contributed to building shelter, cooking, collecting supplies, and protecting the group."],
-
-["Q25: Why does the narrator focus so much on describing the island's natural resources?",
-"To show how the family could survive using what nature provided, and to highlight the beauty and potential of the island."],
-
-["Q26: How did the storm both endanger and help the family?",
-"It endangered them by wrecking the ship, but helped them by stranding them near a safe, resource-rich island."],
-
-["Q27: What does the family's treatment of the baby monkey reveal about their values?",
-"It shows they are compassionate, caring, and feel responsible for creatures affected by their actions."],
-
-["Q28: Do you agree with the father's decision to bring all the animals? Why or why not?",
-"Yes, because the animals provided food, milk, labor, and protection. They were essential for long-term survival."],
-
-["Q29: Was it wise to spend time making bowls and spoons on the first day?",
-"Yes, having eating tools improved hygiene and comfort, showing the family's practical thinking and planning."],
-
-["Q30: How effective was the family's plan for surviving the first night?",
-"Very effective—they set up a tent, gathered moss for bedding, made food, and stayed together in a safe place."],
-
-["Q31: Do you think the boys acted responsibly during their explorations?",
-"Yes, they brought back useful food and materials and avoided danger, showing independence and care."],
-
-["Q32: Would you have trusted the dogs to protect the camp? Why?",
-"Yes, because they were large, loyal, and already proved helpful by guarding against jackals."],
-
-["Q33: Was the father right to distract the monkeys for coconuts?",
-"It was practical for survival, though it may not be entirely fair—necessity justified the act at the time."],
-
-["Q34: Design a survival plan for a different family stranded on a similar island.",
-"Build shelter from palm leaves, catch rainwater, set animal traps, make tools from stone and wood, and guard at night with fire."],
-
-["Q35: Write a diary entry from the point of view of one of the sons after the first night on land.",
-"Dear Diary, I can't believe we survived. The tent Father made kept us safe, and the soup tasted better than ever. I miss the ship, but I'm glad we are all together. Turk and Juno are amazing. We even found a monkey! I think we'll be okay."]
-
-];
-
-questions.forEach((q, i) => {
-
-    document.write(`
-        <div class="accordion">
-
-            <button onclick="toggleAnswer(${i})">
-                ${q[0]} ⬇️
-            </button>
-
-            <div class="answer" id="answer-${i}">
-                ${q[1]}
-            </div>
-
-        </div>
-    `);
-
-});
-
-</script>
+<div id="questions-container"></div>
 
 </div>
 </div>
@@ -1588,9 +1459,324 @@ questions.forEach((q, i) => {
 
 <div class="section-content">
 
-<p><strong>Complete each sentence first, then click "Show Answer" to check.</strong></p>
+<p>
+<strong>Complete each sentence first, then click "Show Answer" to check.</strong>
+</p>
+
+<div id="fill-container"></div>
+
+</div>
+</div>
+
+<!-- ============================= -->
+<!-- COMMENTS -->
+<!-- ============================= -->
+
+<div class="section" id="comments">
+
+<div class="section-title">
+<h2>💬 Comment Questions</h2>
+</div>
+
+<div class="section-content">
+
+<p>
+<strong>Think about the quotation first, then click "Show Answer" to check.</strong>
+</p>
+
+<div id="comments-container"></div>
+
+</div>
+</div>
+
+<!-- ============================= -->
+<!-- QUIZ 1 -->
+<!-- ============================= -->
+
+<div class="section" id="quiz1">
+
+<div class="section-title">
+<h2>🧠 Quiz 1 – Shipwrecked and Alone</h2>
+</div>
+
+<div class="section-content">
+
+<div class="quiz-note">
+
+<strong>Total: 15 marks</strong><br>
+Answer all questions. Marks are shown next to each question.
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section A: Comprehension – 8 marks</h3>
+
+<div id="quiz1-section-a"></div>
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section B: Fill in the Blanks – 5 marks</h3>
+
+<div id="quiz1-section-b"></div>
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section C: Comment Question – 2 marks</h3>
+
+<div id="quiz1-section-c"></div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ============================= -->
+<!-- QUIZ 2 -->
+<!-- ============================= -->
+
+<div class="section" id="quiz2">
+
+<div class="section-title">
+<h2>🧠 Quiz 2 – Shipwrecked and Alone</h2>
+</div>
+
+<div class="section-content">
+
+<div class="quiz-note">
+
+<strong>Total: 15 marks</strong><br>
+Answer all questions. Marks are shown next to each question.
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section A: Comprehension – 7 marks</h3>
+
+<div id="quiz2-section-a"></div>
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section B: Fill in the Blanks – 5 marks</h3>
+
+<div id="quiz2-section-b"></div>
+
+</div>
+
+<div class="quiz-card">
+
+<h3>Section C: Comment Question – 3 marks</h3>
+
+<div id="quiz2-section-c"></div>
+
+</div>
+
+</div>
+</div>
+
+<!-- ============================= -->
+<!-- BACK BUTTON -->
+<!-- ============================= -->
+
+<a href="my-course.html" class="back-button">
+← Back to My Course
+</a>
+
+</div>
+
+<!-- ============================= -->
+<!-- FOOTER -->
+<!-- ============================= -->
+
+<footer>
+© 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<!-- ============================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================= -->
 
 <script>
+
+/* ============================= */
+/* GENERIC SHOW / HIDE ANSWER */
+/* ============================= */
+
+function toggleAnswer(id, button) {
+
+    const answer = document.getElementById(id);
+
+    if (!answer) return;
+
+    const isOpen = answer.classList.toggle("show");
+
+    if (isOpen) {
+        button.innerHTML = "🙈 Hide Answer";
+    } else {
+        button.innerHTML = "👁️ Show Answer";
+    }
+
+}
+
+
+/* ============================= */
+/* QUESTIONS */
+/* ============================= */
+
+const questions = [
+
+["What caused the shipwreck?",
+"A violent storm lasting seven days pushed the ship off course and caused it to leak and crash onto rocks."],
+
+["How many sons were in the family?",
+"There were four sons."],
+
+["What animals were saved from the ship?",
+"A cow, a donkey, two goats, six sheep, a ram, a pig, ten hens, two roosters, ducks, geese, pigeons, and two large dogs (Turk and Juno)."],
+
+["What tools and supplies did the family take from the ship?",
+"Carpenter's tools, guns, pistols, bullets, powder, fishing supplies, an iron pot, canvas for a tent, biscuits, and canned soup."],
+
+["What did the family use to make a raft?",
+"They cut four barrels in half and tied them together with strips of wood to make a floating raft."],
+
+["Who were Turk and Juno?",
+"They were the family's two large dogs that helped protect them."],
+
+["What did the boys use as spoons to eat their soup?",
+"They used oyster shells as spoons."],
+
+["Who found the lobster?",
+"Jack found the red lobster and brought it back to the camp."],
+
+["What did the family use as plates and bowls?",
+"They used hollowed-out gourds and later used coconut shells."],
+
+["What did the mother cook for the first meal on land?",
+"She cooked soup using supplies and added the lobster that Jack had found."],
+
+["Why was prayer important to the family during the storm?",
+"It brought them peace and comfort, helping them stay calm in the terrifying situation."],
+
+["Explain how the raft helped the family.",
+"The raft allowed them to leave the wrecked ship safely and carry supplies, animals, and family members to the shore."],
+
+["How did the father and Fritz collect coconuts from the trees?",
+"The father threw stones at monkeys, who in turn threw coconuts down in anger."],
+
+["Describe the island as it was first seen by the family.",
+"It was a tropical paradise with tall trees, sugarcane, rolling hills, colourful birds, flowers, and monkeys."],
+
+["Why did the baby monkey stay with the family?",
+"Its mother was killed by Turk, so it clung to Fritz and became a pet out of trust and need."],
+
+["What do we learn about the family from the way they reacted after landing on the island?",
+"They were resourceful, cooperative, and focused on survival. They valued prayer, hope, and working together."],
+
+["Why did the family feel thankful even though they were stranded?",
+"They were all alive, together, and had salvaged enough resources to survive."],
+
+["If you were in their situation, how would you build a shelter using the resources around you?",
+"I would use canvas for roofing, sticks and rocks for structure, and moss or grass for bedding—just as the family did."],
+
+["What would you have done differently when choosing which animals to save?",
+"I might have chosen only smaller animals that eat less or are easier to manage, though the large animals did prove useful."],
+
+["Imagine you are Jack—how would you explain the usefulness of the dogs?",
+"I'd say the dogs protect the family, help hunt for food, and can sense danger from wild animals."],
+
+["What other kitchen tools could the family make using natural resources?",
+"They could make skewers from sticks, baskets from vines, or grinding stones from rocks."],
+
+["What steps would you take to prepare for your first night on a deserted island?",
+"Build a shelter, gather food and water, secure tools and weapons, set up a fire, and keep watch at night."],
+
+["Compare how different members of the family handled the crisis.",
+"The father stayed calm and led; the mother comforted and helped; Fritz was brave and helpful; Jack was energetic and curious; Ernest was observant; Franz was quiet but obedient."],
+
+["What is the relationship between the family's teamwork and their survival?",
+"Their survival depended on teamwork—each person had a role and contributed to building shelter, cooking, collecting supplies, and protecting the group."],
+
+["Why does the narrator focus so much on describing the island's natural resources?",
+"To show how the family could survive using what nature provided, and to highlight the beauty and potential of the island."],
+
+["How did the storm both endanger and help the family?",
+"It endangered them by wrecking the ship, but helped them by stranding them near a safe, resource-rich island."],
+
+["What does the family's treatment of the baby monkey reveal about their values?",
+"It shows they are compassionate, caring, and feel responsible for creatures affected by their actions."],
+
+["Do you agree with the father's decision to bring all the animals? Why or why not?",
+"Yes, because the animals provided food, milk, labor, and protection. They were essential for long-term survival."],
+
+["Was it wise to spend time making bowls and spoons on the first day?",
+"Yes, having eating tools improved hygiene and comfort, showing the family's practical thinking and planning."],
+
+["How effective was the family's plan for surviving the first night?",
+"Very effective—they set up a tent, gathered moss for bedding, made food, and stayed together in a safe place."],
+
+["Do you think the boys acted responsibly during their explorations?",
+"Yes, they brought back useful food and materials and avoided danger, showing independence and care."],
+
+["Would you have trusted the dogs to protect the camp? Why?",
+"Yes, because they were large, loyal, and already proved helpful by guarding against jackals."],
+
+["Was the father right to distract the monkeys for coconuts?",
+"It was practical for survival, though it may not be entirely fair—necessity justified the act at the time."],
+
+["Design a survival plan for a different family stranded on a similar island.",
+"Build shelter from palm leaves, catch rainwater, set animal traps, make tools from stone and wood, and guard at night with fire."],
+
+["Write a diary entry from the point of view of one of the sons after the first night on land.",
+"Dear Diary, I can't believe we survived. The tent Father made kept us safe, and the soup tasted better than ever. I miss the ship, but I'm glad we are all together. Turk and Juno are amazing. We even found a monkey! I think we'll be okay."]
+
+];
+
+const questionsContainer =
+    document.getElementById("questions-container");
+
+questions.forEach((q, i) => {
+
+    questionsContainer.innerHTML += `
+
+        <div class="question-card">
+
+            <div class="question-text">
+                Q${i + 1}: ${q[0]}
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('question-answer-${i}', this)">
+                👁️ Show Answer
+            </button>
+
+            <div
+                class="answer"
+                id="question-answer-${i}">
+
+                <strong>Model Answer:</strong><br>
+                ${q[1]}
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+
+/* ============================= */
+/* FILL IN */
+/* ============================= */
 
 const fillQuestions = [
 
@@ -1672,44 +1858,43 @@ const fillQuestions = [
 
 ];
 
+const fillContainer =
+    document.getElementById("fill-container");
+
 fillQuestions.forEach((item, i) => {
 
-    document.write(`
-        <div class="accordion">
+    fillContainer.innerHTML += `
 
-            <button onclick="toggleFillAnswer(${i})">
-                ${i + 1}. ${item[0]} ⬇️
+        <div class="question-card">
+
+            <div class="question-text">
+                ${i + 1}. ${item[0]}
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('fill-answer-${i}', this)">
+                👁️ Show Answer
             </button>
 
-            <div class="answer" id="fill-answer-${i}">
+            <div
+                class="answer"
+                id="fill-answer-${i}">
+
                 <strong>Answer:</strong> ${item[1]}
+
             </div>
 
         </div>
-    `);
+
+    `;
 
 });
 
-</script>
 
-</div>
-</div>
-
-<!-- ============================= -->
-<!-- COMMENTS -->
-<!-- ============================= -->
-
-<div class="section" id="comments">
-
-<div class="section-title">
-<h2>💬 Comment Questions</h2>
-</div>
-
-<div class="section-content">
-
-<p><strong>Think about the quotation first, then click "Show Answer" to check.</strong></p>
-
-<script>
+/* ============================= */
+/* COMMENTS */
+/* ============================= */
 
 const comments = [
 
@@ -1803,20 +1988,28 @@ const comments = [
 
 ];
 
+const commentsContainer =
+    document.getElementById("comments-container");
+
 comments.forEach((c, i) => {
 
-    document.write(`
+    commentsContainer.innerHTML += `
+
         <div class="comment-card">
 
-            <div class="quote">${c[0]}</div>
+            <div class="quote">
+                ${c[0]}
+            </div>
 
             <button
                 class="show-answer-btn"
-                onclick="toggleCommentAnswer(${i})">
+                onclick="toggleAnswer('comment-answer-${i}', this)">
                 👁️ Show Answer
             </button>
 
-            <div class="answer" id="comment-answer-${i}">
+            <div
+                class="answer"
+                id="comment-answer-${i}">
 
                 <div class="comment-row">
                     <span class="comment-label">👤 Who?</span>
@@ -1841,311 +2034,431 @@ comments.forEach((c, i) => {
             </div>
 
         </div>
-    `);
+
+    `;
 
 });
 
-</script>
-
-</div>
-</div>
-
-<!-- ============================= -->
-<!-- QUIZ 1 -->
-<!-- ============================= -->
-
-<div class="section" id="quiz1">
-
-<div class="section-title">
-<h2>🧠 Quiz 1 – Shipwrecked and Alone</h2>
-</div>
-
-<div class="section-content">
-
-<div class="quiz-note">
-
-<strong>Total: 15 marks</strong><br>
-Answer all questions. Marks are shown next to each question.
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section A: Comprehension – 8 marks</h3>
-
-<ol>
-
-<li>
-What gave the family hope when they were terrified on the ship?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-Describe the family's first meal on the island.
-<span class="marks">(2)</span>
-</li>
-
-<li>
-Why did the family collect coconuts and sugarcane?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-How did the father trick the monkeys into giving them coconuts?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What was the father's reaction when he saw no sign of the other shipmates?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What clue told the family that they might be near the equator?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What animals did the family find and decide to take with them?
-<span class="marks">(1)</span>
-</li>
-
-</ol>
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section B: Fill in the Blanks – 5 marks</h3>
-
-<ol start="8">
-
-<li>
-The raft was made from ____________ barrels and tied together.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-Fritz and the father used a ____________ to open coconuts.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The baby monkey jumped on ____________'s shoulder.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The family made ____________ from large flat stones near a brook.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The boys found ____________ tools, guns and bullets on the ship.
-<span class="marks">(1)</span>
-</li>
-
-</ol>
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section C: Comment Question – 2 marks</h3>
-
-<p>
-"If it is God's will for us to be alone on this island, let us be content."
-</p>
-
-<p>
-Who said this? To whom? Where? On what occasion?
-</p>
-
-</div>
-
-</div>
-</div>
-
-<!-- ============================= -->
-<!-- QUIZ 2 -->
-<!-- ============================= -->
-
-<div class="section" id="quiz2">
-
-<div class="section-title">
-<h2>🧠 Quiz 2 – Shipwrecked and Alone</h2>
-</div>
-
-<div class="section-content">
-
-<div class="quiz-note">
-
-<strong>Total: 15 marks</strong><br>
-Answer all questions. Marks are shown next to each question.
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section A: Comprehension – 7 marks</h3>
-
-<ol>
-
-<li>
-Why did the ship crew abandon the narrator and his family?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What materials did the narrator and Fritz use to make the raft?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What roles did each family member play during the raft-building and packing process?
-<span class="marks">(2)</span>
-</li>
-
-<li>
-Why did the narrator decide to keep the big dogs, despite their size?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-How did the family use oyster shells during their first meal?
-<span class="marks">(1)</span>
-</li>
-
-<li>
-What were the first signs of wild danger the family faced on the island?
-<span class="marks">(1)</span>
-</li>
-
-</ol>
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section B: Fill in the Blanks – 5 marks</h3>
-
-<ol start="7">
-
-<li>
-The family's ship crashed between two high ____________.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The narrator and Fritz each took a gun and a ____________ bag for their island walk.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The boys found gourds and used them to make ____________ and bowls.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-____________ and Juno were the names of the two big dogs.
-<span class="marks">(1)</span>
-</li>
-
-<li>
-The narrator made a ____________ from flat stones near a brook.
-<span class="marks">(1)</span>
-</li>
-
-</ol>
-
-</div>
-
-<div class="quiz-card">
-
-<h3>Section C: Comment Question – 3 marks</h3>
-
-<p>
-"Oh, Father, they'll be of good use, I'm sure! They'll help us hunt for game
-when we reach the shore!"
-</p>
-
-<p>
-Who said this? To whom? Where? On what occasion?
-</p>
-
-</div>
-
-</div>
-</div>
-
-<!-- ============================= -->
-<!-- BACK BUTTON -->
-<!-- ============================= -->
-
-<a href="my-course.html" class="back-button">
-← Back to My Course
-</a>
-
-</div>
-
-<!-- ============================= -->
-<!-- FOOTER -->
-<!-- ============================= -->
-
-<footer>
-© 2026 IGCSE English Hub — All Rights Reserved
-</footer>
-
-<!-- ============================= -->
-<!-- JAVASCRIPT -->
-<!-- ============================= -->
-
-<script>
 
 /* ============================= */
-/* QUESTION ANSWERS */
+/* QUIZ 1 */
 /* ============================= */
 
-function toggleAnswer(index) {
+const quiz1A = [
 
-    const answer =
-        document.getElementById("answer-" + index);
+[
+"What gave the family hope when they were terrified on the ship?",
+"(1)",
+"Prayer / their trust in God."
+],
 
-    if (answer) {
-        answer.classList.toggle("show");
-    }
+[
+"Describe the family's first meal on the island.",
+"(2)",
+"Soup with lobster, oysters, and other available food; they used oyster shells as spoons and gourds/coconut shells as dishes."
+],
 
-}
+[
+"Why did the family collect coconuts and sugarcane?",
+"(1)",
+"For food/drink and useful resources."
+],
+
+[
+"How did the father trick the monkeys into giving them coconuts?",
+"(1)",
+"He threw stones at them, making them throw coconuts down."
+],
+
+[
+"What was the father's reaction when he saw no sign of the other shipmates?",
+"(1)",
+"He was sad/disappointed but accepted the situation and focused on the family's safety."
+],
+
+[
+"What clue told the family that they might be near the equator?",
+"(1)",
+"There was little or no twilight between day and night."
+],
+
+[
+"What animals did the family find and decide to take with them?",
+"(1)",
+"Farm animals, poultry, and two large dogs, including cow, donkey, goats, sheep, ram, pig, hens, roosters, ducks, geese, pigeons, Turk and Juno."
+]
+
+];
+
+const quiz1B = [
+
+[
+"The raft was made from ____________ barrels and tied together.",
+"(1)",
+"four"
+],
+
+[
+"Fritz and the father used a ____________ to open coconuts.",
+"(1)",
+"hatchet"
+],
+
+[
+"The baby monkey jumped on ____________'s shoulder.",
+"(1)",
+"Fritz"
+],
+
+[
+"The family made ____________ from large flat stones near a brook.",
+"(1)",
+"a fireplace"
+],
+
+[
+"The boys found ____________ tools, guns and bullets on the ship.",
+"(1)",
+"carpenter's"
+]
+
+];
+
+const quiz1C = {
+
+quote: `"If it is God's will for us to be alone on this island, let us be content."`,
+
+question: "Who said this? To whom? Where? On what occasion?",
+
+answer: "The mother; to the whole family; at the campsite; after hearing there were no survivors from the crew and expressing gratitude for their safety."
+
+};
+
+
+/* Render Quiz 1 Section A */
+
+const quiz1SectionA =
+    document.getElementById("quiz1-section-a");
+
+quiz1A.forEach((item, i) => {
+
+    quiz1SectionA.innerHTML += `
+
+        <div class="quiz-question">
+
+            <div class="quiz-question-text">
+
+                <strong>${i + 1}.</strong>
+                ${item[0]}
+                <span class="marks">${item[1]}</span>
+
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('quiz1a-answer-${i}', this)">
+                👁️ Show Answer
+            </button>
+
+            <div
+                class="answer"
+                id="quiz1a-answer-${i}">
+
+                <strong>Model Answer:</strong><br>
+                ${item[2]}
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+
+/* Render Quiz 1 Section B */
+
+const quiz1SectionB =
+    document.getElementById("quiz1-section-b");
+
+quiz1B.forEach((item, i) => {
+
+    quiz1SectionB.innerHTML += `
+
+        <div class="quiz-question">
+
+            <div class="quiz-question-text">
+
+                <strong>${i + 8}.</strong>
+                ${item[0]}
+                <span class="marks">${item[1]}</span>
+
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('quiz1b-answer-${i}', this)">
+                👁️ Show Answer
+            </button>
+
+            <div
+                class="answer"
+                id="quiz1b-answer-${i}">
+
+                <strong>Answer:</strong> ${item[2]}
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+
+/* Render Quiz 1 Section C */
+
+const quiz1SectionC =
+    document.getElementById("quiz1-section-c");
+
+quiz1SectionC.innerHTML = `
+
+    <div class="quiz-question">
+
+        <div class="quote">
+            ${quiz1C.quote}
+        </div>
+
+        <div class="quiz-question-text">
+            ${quiz1C.question}
+        </div>
+
+        <button
+            class="show-answer-btn"
+            onclick="toggleAnswer('quiz1c-answer', this)">
+            👁️ Show Answer
+        </button>
+
+        <div
+            class="answer"
+            id="quiz1c-answer">
+
+            <strong>Model Answer:</strong><br>
+            ${quiz1C.answer}
+
+        </div>
+
+    </div>
+
+`;
+
 
 /* ============================= */
-/* FILL ANSWERS */
+/* QUIZ 2 */
 /* ============================= */
 
-function toggleFillAnswer(index) {
+const quiz2A = [
 
-    const answer =
-        document.getElementById("fill-answer-" + index);
+[
+"Why did the ship crew abandon the narrator and his family?",
+"(1)",
+"They abandoned the damaged ship in the lifeboats during the storm, leaving the family behind."
+],
 
-    if (answer) {
-        answer.classList.toggle("show");
-    }
+[
+"What materials did the narrator and Fritz use to make the raft?",
+"(1)",
+"Four barrels cut in half, bound with long strips of wood, with rope attaching it to the ship."
+],
 
-}
+[
+"What roles did each family member play during the raft-building and packing process?",
+"(2)",
+"Father and Fritz built the raft; mother and boys completed chores and fed animals; the family gathered supplies and prepared to leave."
+],
 
-/* ============================= */
-/* COMMENT ANSWERS */
-/* ============================= */
+[
+"Why did the narrator decide to keep the big dogs, despite their size?",
+"(1)",
+"They were useful for protection/hunting and later proved valuable against wild animals."
+],
 
-function toggleCommentAnswer(index) {
+[
+"How did the family use oyster shells during their first meal?",
+"(1)",
+"They used them as spoons after opening the oysters over the fire."
+],
 
-    const answer =
-        document.getElementById("comment-answer-" + index);
+[
+"What were the first signs of wild danger the family faced on the island?",
+"(1)",
+"Turk killed a female monkey and later jackals attacked the camp."
+]
 
-    if (answer) {
-        answer.classList.toggle("show");
-    }
+];
 
-}
+const quiz2B = [
+
+[
+"The family's ship crashed between two high ____________.",
+"(1)",
+"rocks"
+],
+
+[
+"The narrator and Fritz each took a gun and a ____________ bag for their island walk.",
+"(1)",
+"game"
+],
+
+[
+"The boys found gourds and used them to make ____________ and bowls.",
+"(1)",
+"plates"
+],
+
+[
+"____________ and Juno were the names of the two big dogs.",
+"(1)",
+"Turk"
+],
+
+[
+"The narrator made a ____________ from flat stones near a brook.",
+"(1)",
+"fireplace"
+]
+
+];
+
+const quiz2C = {
+
+quote: `"Oh, Father, they'll be of good use, I'm sure! They'll help us hunt for game when we reach the shore!"`,
+
+question: "Who said this? To whom? Where? On what occasion?",
+
+answer: "Jack; to his father; on the ship; in response to his father's concern about taking the big dogs."
+
+};
+
+
+/* Render Quiz 2 Section A */
+
+const quiz2SectionA =
+    document.getElementById("quiz2-section-a");
+
+quiz2A.forEach((item, i) => {
+
+    quiz2SectionA.innerHTML += `
+
+        <div class="quiz-question">
+
+            <div class="quiz-question-text">
+
+                <strong>${i + 1}.</strong>
+                ${item[0]}
+                <span class="marks">${item[1]}</span>
+
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('quiz2a-answer-${i}', this)">
+                👁️ Show Answer
+            </button>
+
+            <div
+                class="answer"
+                id="quiz2a-answer-${i}">
+
+                <strong>Model Answer:</strong><br>
+                ${item[2]}
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+
+/* Render Quiz 2 Section B */
+
+const quiz2SectionB =
+    document.getElementById("quiz2-section-b");
+
+quiz2B.forEach((item, i) => {
+
+    quiz2SectionB.innerHTML += `
+
+        <div class="quiz-question">
+
+            <div class="quiz-question-text">
+
+                <strong>${i + 7}.</strong>
+                ${item[0]}
+                <span class="marks">${item[1]}</span>
+
+            </div>
+
+            <button
+                class="show-answer-btn"
+                onclick="toggleAnswer('quiz2b-answer-${i}', this)">
+                👁️ Show Answer
+            </button>
+
+            <div
+                class="answer"
+                id="quiz2b-answer-${i}">
+
+                <strong>Answer:</strong> ${item[2]}
+
+            </div>
+
+        </div>
+
+    `;
+
+});
+
+
+/* Render Quiz 2 Section C */
+
+const quiz2SectionC =
+    document.getElementById("quiz2-section-c");
+
+quiz2SectionC.innerHTML = `
+
+    <div class="quiz-question">
+
+        <div class="quote">
+            ${quiz2C.quote}
+        </div>
+
+        <div class="quiz-question-text">
+            ${quiz2C.question}
+        </div>
+
+        <button
+            class="show-answer-btn"
+            onclick="toggleAnswer('quiz2c-answer', this)">
+            👁️ Show Answer
+        </button>
+
+        <div
+            class="answer"
+            id="quiz2c-answer">
+
+            <strong>Model Answer:</strong><br>
+            ${quiz2C.answer}
+
+        </div>
+
+    </div>
+
+`;
+
 
 /* ============================= */
 /* ACTIVE SIDE MENU */
