@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chapter 3 - Building Projects | IGCSE English Hub</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef3f9, #dce6f2);
+            color: #1f2937;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f2f55, #174a7c);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header .book-icon {
+            font-size: 45px;
+            margin-bottom: 8px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header h2 {
+            margin: 8px 0 0;
+            font-size: 22px;
+            font-weight: normal;
+            opacity: 0.95;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: white;
+            color: #174a7c;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: #e8f1fb;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 18px;
+            padding: 45px 50px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        }
+
+        .chapter-label {
+            text-align: center;
+            color: #174a7c;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .story-title {
+            text-align: center;
+            color: #0f2f55;
+            font-size: 34px;
+            margin: 0 0 35px;
+        }
+
+        .story-text p {
+            margin: 0 0 22px;
+            font-size: 18px;
+            text-align: justify;
+        }
+
+        .dialogue {
+            margin-left: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #174a7c;
+            font-style: italic;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .nav-button {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            padding: 13px 20px;
+            border-radius: 12px;
+            background: #174a7c;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #0f2f55;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            background: #0f2f55;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .story-card {
+                padding: 30px 22px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            header h2 {
+                font-size: 19px;
+            }
+
+            .story-title {
+                font-size: 28px;
+            }
+
+            .story-text p {
+                font-size: 17px;
+                text-align: left;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="book-icon">📖</div>
+
+    <h1>Chapter 3</h1>
+
+    <h2>Building Projects</h2>
+
+    <a href="my-course.html" class="back-button">
+        ← Back to My Course
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <div class="story-card">
+
+        <div class="chapter-label">
+            CHAPTER 3
+        </div>
+
+        <h1 class="story-title">
+            Building Projects
+        </h1>
+
+
+        <div class="story-text">
+
+            <p>
+                It didn't take us as long as we'd thought to build the bridge.
+                First, the animals helped us haul the wooden planks that had
+                washed up from our wrecked ship. Then we used a pulley system
+                to help the mule and cow pull the planks into place. Our new
+                bridge seemed quite solid. The children could hardly contain
+                their excitement. They danced to and fro on our wonderful
+                bridge, singing and shouting.
+            </p>
+
+            <p>
+                The next morning, we loaded all of our supplies on the cow and
+                the mule. Then, with each of us carrying a gun and a sack of
+                goods, we were ready to go. The little monkey, which we had
+                named Knips, rode on Turk's back. He made funny faces as he
+                bounced along. All the other animals trailed behind us.
+            </p>
+
+            <p>
+                Once across the bridge, we passed through fields of high grass.
+                The dogs ran ahead, only for us to soon hear them howling
+                loudly—as if in pain.
+            </p>
+
+            <p class="dialogue">
+                "Father! Father! Come quickly!" he called.
+                "It's a porcupine!"
+            </p>
+
+            <p>
+                Jack ran toward them to see what was wrong. Sure enough, the
+                dogs had tried to attack a porcupine. Both dogs were badly hurt
+                by the quills. Jack drew his pistol and shot the porcupine dead.
+                Then he carefully wrapped his handkerchief around its neck and
+                dragged it to where his mother was waiting. He was very proud of it.
+            </p>
+
+            <p class="dialogue">
+                "Look, Mother, I shot it! Do you think it's good to eat?"
+                he said.
+            </p>
+
+            <p>
+                Smiling at the child's eagerness, I wrapped the porcupine in
+                several folds of cloth. Then I piled it on top of the donkey's
+                load. After that small excitement, we continued our march until
+                we reached the site of our future home.
+            </p>
+
+            <p>
+                The grove of trees was truly wonderful. The trees seemed to be
+                mangroves or wild figs. They had huge, arching roots that
+                supported the main trunk above the soil. The calm beauty of the
+                spot was just as splendid as my wife had told me. I promised her
+                that our next house would be the safest and most charming place
+                in the whole world!
+            </p>
+
+            <p>
+                We unloaded the mule and the cow. We secured them, as well as
+                the sheep and goats, by loosely tying their front feet together.
+                We set the doves and poultry free before we finally sat down to
+                rest.
+            </p>
+
+            <p>
+                After a while, Ernest gathered some large, flat stones to build
+                a fireplace. Franz went off in another direction to gather sticks
+                for the fire. He soon came back, eating a fig.
+            </p>
+
+            <p class="dialogue">
+                "Where did you find that?" I asked.
+            </p>
+
+            <p class="dialogue">
+                "There are thousands of them lying in the grass over there!"
+                Franz reported. "They're delicious. Look—the pigeons and the
+                hens are already gobbling them up."
+            </p>
+
+            <p class="dialogue">
+                "Well, if birds and monkeys eat a fruit or vegetable, it's usually
+                safe for humans, too. But in the future, please don't eat anything
+                unless you show it to me first."
+            </p>
+
+            <p>
+                We ate porcupine for our dinner that night. Some we boiled and
+                some we roasted. By boring holes at the ends of the porcupine's
+                quills, I made some needles for my wife's sewing. I then thought
+                about making a harness for our beasts of burden.
+            </p>
+
+            <p>
+                We had to build a ladder to reach the tallest branches of our tree.
+                Ernest suggested that we use bamboo for the rungs of the ladder.
+                That worked just fine. We attached the cut bamboo to rope until
+                the ladder was long enough. How would I get it up to the highest
+                branches? I had a good idea!
+            </p>
+
+            <p>
+                Using a bow and arrow, I shot the end of a ball of string over
+                the branch. Then I tied one end of the string to the ladder.
+                By pulling the other end of the string, I raised the ladder up
+                to the branch. After scrambling up the tree trunk and out onto
+                the branch, the boys tied the ladder tight.
+            </p>
+
+            <p>
+                Then I climbed up the ladder to attach a pulley to the tree trunk.
+                Now the pulley and our beasts of burden could help us haul timber
+                up the tree!
+            </p>
+
+            <p>
+                We used wood from the shipwreck to build our house. The big tree
+                we had chosen was perfect! Its branches grew very close together
+                in a horizontal direction.
+            </p>
+
+            <p>
+                We built a floor on the first level. On each side, we made a wall
+                about 120 centimetres high out of planks. Two metres or so above
+                the floor, we hung our hammocks in boughs. Then we threw the sail
+                cloth over the higher branches to make a roof. Finally, we pulled
+                the cloth down and nailed it to the wooden wall on two sides.
+            </p>
+
+            <p>
+                The tree trunk itself formed the back wall of our house. The front
+                was left open to the fresh air. I built a big table at the foot of
+                the tree. This was where we would eat our meals.
+            </p>
+
+            <p>
+                The next morning at breakfast I said, let's name our home and the
+                different parts of the island. Everyone was excited. They thought
+                that was a wonderful idea.
+            </p>
+
+            <p class="dialogue">
+                "How about a name for the bay where we first landed?" I asked.
+            </p>
+
+            <p class="dialogue">
+                "Let's call it Oyster Bay," Fritz suggested.
+                "Remember all the oysters I found there?"
+            </p>
+
+            <p class="dialogue">
+                "No, it should be Lobster Bay," Jack shouted.
+                "That's where I got the lobster."
+            </p>
+
+            <p>
+                My wife suggested the name Providence Bay.
+            </p>
+
+            <p class="dialogue">
+                "To thank God for getting all of us here safely,"
+                she said.
+            </p>
+
+            <p>
+                So, Providence Bay it was.
+            </p>
+
+            <p>
+                We called our first home Tent House and we named our tree house
+                Falcon's Nest. The swamp, where many flamingos lived, was called
+                Flamingo Marsh. The stream that divided the island was named
+                Jackal River and we named our bridge Family Bridge.
+            </p>
+
+            <p>
+                We also decided to name our island. We called it New Switzerland.
+                Once we had decided on these names, we began to feel much more
+                at home.
+            </p>
+
+            <p>
+                The following day, Ernest and I went fishing in Providence Bay.
+                He caught a huge fish. We were on our way home when our dog,
+                Juno, chased after a strange animal. The beast was making
+                extraordinary jumps toward us!
+            </p>
+
+            <p>
+                Ernest lifted his gun and shot the animal dead.
+            </p>
+
+            <p class="dialogue">
+                "Look at it!" Ernest cried.
+                "He's the size of a sheep, but he has the tail of a tiger.
+                His nose and hair look something like a mouse's, but his ears
+                are like a rabbit's! His front legs are like those of a squirrel,
+                but his back legs are like the tallest stilts! Whatever can it be?"
+            </p>
+
+            <p class="dialogue">
+                "I think it's a kangaroo, son," I said.
+                "See the pouch on the front of its body? Its young hide there
+                for safety."
+            </p>
+
+            <p>
+                We brought the fish and the kangaroo home. That night, we cooked
+                the fish and part of the kangaroo, saving the rest for salting.
+                Then, with thankful hearts, we went to bed and enjoyed a
+                well-earned sleep.
+            </p>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <a href="story2.html" class="nav-button">
+                ← Previous Chapter
+            </a>
+
+            <a href="story4.html" class="nav-button">
+                Next Chapter →
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+
+</body>
+</html>
