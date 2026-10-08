@@ -1,14 +1,13 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>My Course - IGCSE English Hub</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
 
@@ -17,319 +16,228 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background: #f5f7fa;
-            color: #222;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
         }
 
-        /* ================= HEADER ================= */
-
         header {
-            background: linear-gradient(135deg, #102a56, #174a8b);
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
             color: white;
-            padding: 45px 20px;
+            padding: 35px 20px;
             text-align: center;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 34px;
+            margin: 0 0 10px;
+            font-size: 32px;
         }
 
         header p {
-            margin-top: 12px;
-            font-size: 17px;
+            margin: 0;
+            font-size: 16px;
             opacity: 0.9;
         }
 
-        /* ================= MAIN ================= */
-
         .container {
-            max-width: 1100px;
-            margin: 45px auto;
-            padding: 20px;
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto 60px;
         }
 
-        .year-title {
-            text-align: center;
-            color: #102a56;
-            font-size: 30px;
-            margin-bottom: 45px;
+        .welcome-box {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .welcome-box h2 {
+            margin-top: 0;
+            color: #1e3a8a;
         }
 
         .section-title {
-            color: #102a56;
-            margin: 50px 0 28px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #dfe5ee;
-            font-size: 25px;
+            text-align: center;
+            margin: 45px 0 25px;
         }
 
-        /* ================= CARDS ================= */
+        .section-title h2 {
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .section-title p {
+            color: #64748b;
+            margin: 0;
+        }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(250px, 1fr)
-            );
-
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
         }
 
-        .card,
-        .chapter-card {
-
+        .card {
             background: white;
-
-            padding: 30px 22px;
-
             border-radius: 18px;
-
+            padding: 25px;
             text-align: center;
-
-            box-shadow:
-                0 4px 14px rgba(0,0,0,0.08);
-
-            border: 1px solid #e7ebf1;
-
-            transition:
-                transform .25s ease,
-                box-shadow .25s ease,
-                border-color .25s ease;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            transition: 0.25s ease;
         }
 
-        .card:hover,
-        .chapter-card:hover {
-
-            transform: translateY(-7px);
-
-            box-shadow:
-                0 12px 28px rgba(16,42,86,0.15);
-
-            border-color: #b9cbe3;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
-
-        /* ================= ICON ================= */
 
         .card-icon {
-
-            font-size: 48px;
-
+            font-size: 45px;
             margin-bottom: 15px;
-
-            transition:
-                transform .25s ease;
         }
 
-        .card:hover .card-icon,
-        .chapter-card:hover .card-icon {
-
-            transform: scale(1.12);
+        .card h3 {
+            margin: 8px 0;
+            color: #1e3a8a;
         }
 
-        /* ================= CARD TEXT ================= */
-
-        .card h3,
-        .chapter-card h3 {
-
-            color: #102a56;
-
-            margin: 12px 0;
-
-            font-size: 21px;
+        .card p {
+            color: #64748b;
+            line-height: 1.5;
         }
 
-        .card p,
-        .chapter-card p {
-
-            color: #666;
-
-            line-height: 1.6;
-
-            margin: 10px 0;
-        }
-
-        .card a,
-        .chapter-card a {
-
+        .card a {
             text-decoration: none;
+            color: inherit;
         }
 
-        /* ================= CHAPTER NUMBER ================= */
+        /* STORY */
+
+        .story-section {
+            margin-top: 55px;
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, #312e81, #1e40af);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .story-header .story-main-icon {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .story-header h2 {
+            margin: 5px 0 10px;
+            font-size: 28px;
+        }
+
+        .story-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .chapter-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            transition: 0.25s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            border-color: #c7d2fe;
+        }
+
+        .chapter-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
 
         .chapter-number {
-
-            display: inline-block;
-
-            background: #eef5ff;
-
-            color: #174a8b;
-
-            padding: 7px 15px;
-
-            border-radius: 25px;
-
-            font-size: 13px;
-
+            font-size: 19px;
             font-weight: bold;
-
+            color: #1e3a8a;
             margin-bottom: 10px;
-
-            letter-spacing: 1px;
         }
 
-        /* ================= READ BUTTON ================= */
+        .chapter-title {
+            font-size: 17px;
+            font-weight: bold;
+            color: #334155;
+            line-height: 1.4;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .read-button {
-
             display: inline-block;
-
-            margin-top: 15px;
-
+            margin-top: 18px;
             padding: 10px 18px;
-
-            background: #102a56;
-
+            background: #1e3a8a;
             color: white !important;
-
-            border-radius: 8px;
-
+            border-radius: 10px;
             font-size: 14px;
-
             font-weight: bold;
-
-            transition:
-                background .2s ease,
-                transform .2s ease;
+            transition: 0.2s ease;
         }
 
         .read-button:hover {
-
-            background: #174a8b;
-
-            transform: translateY(-2px);
+            background: #312e81;
         }
 
-        /* ================= BACK BUTTON ================= */
-
-        .back {
-
-            display: block;
-
-            width: fit-content;
-
-            margin: 50px auto 20px;
-
-            padding: 12px 25px;
-
-            background: #102a56;
-
-            color: white;
-
-            text-decoration: none;
-
-            border-radius: 8px;
-
-            transition:
-                transform .2s ease,
-                background .2s ease;
-        }
-
-        .back:hover {
-
-            background: #174a8b;
-
-            transform: translateY(-3px);
-        }
-
-        /* ================= LOADING ================= */
-
-        #loading {
-
+        .loading {
             text-align: center;
-
-            color: #666;
-
-            font-size: 17px;
-
-            padding: 20px;
-        }
-
-        /* ================= ERROR ================= */
-
-        #error {
-
-            display: none;
-
-            text-align: center;
-
-            color: #b00020;
-
-            background: #fff1f1;
-
-            padding: 15px;
-
-            border-radius: 8px;
-
-            margin-bottom: 20px;
-        }
-
-        /* ================= EMPTY MESSAGE ================= */
-
-        .empty-message {
-
-            background: white;
-
             padding: 30px;
-
-            border-radius: 15px;
-
-            text-align: center;
-
-            color: #666;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.06);
+            color: #64748b;
+            font-size: 17px;
         }
 
-        /* ================= FOOTER ================= */
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+        }
 
         footer {
-
+            background: #0f172a;
+            color: white;
             text-align: center;
-
-            padding: 30px 20px;
-
-            color: #666;
-
-            margin-top: 40px;
+            padding: 20px;
+            font-size: 14px;
         }
-
-        /* ================= MOBILE ================= */
 
         @media (max-width: 600px) {
 
             header h1 {
-                font-size: 28px;
+                font-size: 26px;
             }
 
             .container {
-                margin: 25px auto;
-                padding: 15px;
-            }
-
-            .year-title {
-                font-size: 25px;
-            }
-
-            .section-title {
-                font-size: 22px;
+                width: 94%;
             }
 
             .cards {
                 grid-template-columns: 1fr;
+            }
+
+            .story-header h2 {
+                font-size: 23px;
             }
 
         }
@@ -338,98 +246,86 @@
 
 </head>
 
-
 <body>
-
-
-<!-- ================= HEADER ================= -->
 
 <header>
 
-    <h1>
-        📚 My Course
-    </h1>
+    <h1>📚 My Course</h1>
 
-    <p id="welcome">
-        Loading your course...
-    </p>
+    <p>IGCSE English Hub</p>
 
 </header>
 
 
-
-<!-- ================= MAIN ================= -->
-
 <div class="container">
 
+    <!-- WELCOME -->
 
-    <h2
-        class="year-title"
-        id="yearTitle"
-    >
-    </h2>
+    <div class="welcome-box">
 
+        <h2 id="welcome">
+            Welcome!
+        </h2>
 
-    <p id="loading">
-        Loading your course...
-    </p>
+        <p id="yearTitle">
+            Loading your course...
+        </p>
 
-
-    <p id="error"></p>
-
-
-
-    <!-- ================= COURSE UNITS ================= -->
-
-    <h2 class="section-title">
-
-        📘 Course Units
-
-    </h2>
-
-
-    <div
-        class="cards"
-        id="unitsContainer"
-    >
     </div>
 
 
+    <!-- COURSE UNITS -->
 
-    <!-- ================= STORY ================= -->
+    <div class="section-title">
 
-    <h2 class="section-title">
+        <h2>📘 Course Units</h2>
 
-        📖 Story
+        <p>
+            Your English course units
+        </p>
 
-    </h2>
+    </div>
 
+    <div id="unitsContainer" class="cards">
 
-    <div
-        class="cards"
-        id="storyContainer"
-    >
+        <div class="loading">
+            Loading units...
+        </div>
+
     </div>
 
 
+    <!-- STORY -->
 
-    <!-- ================= BACK ================= -->
+    <div class="story-section">
 
-    <a
-        href="dashboard.html"
-        class="back"
-    >
+        <div class="story-header">
 
-        ← Back to Dashboard
+            <div class="story-main-icon">
+                📖
+            </div>
 
-    </a>
+            <h2>The Story</h2>
 
+            <p>
+                Read the story chapter by chapter.
+            </p>
+
+        </div>
+
+
+        <div id="storyContainer" class="cards">
+
+            <div class="loading">
+                Loading chapters...
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-
-
-<!-- ================= FOOTER ================= -->
 
 <footer>
 
@@ -438,482 +334,342 @@
 </footer>
 
 
-
-<!-- ================= SUPABASE ================= -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
 <script>
 
+    const SUPABASE_URL =
+        "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-const SUPABASE_URL =
-    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+    const SUPABASE_KEY =
+        "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-
-const SUPABASE_ANON_KEY =
-    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
-
-
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-
-
-
-/* =========================
-   LOAD COURSE
-   ========================= */
-
-async function loadCourse() {
-
-
-    const {
-        data: { session }
-    } =
-        await supabaseClient.auth.getSession();
-
-
-    if (!session) {
-
-        window.location.href =
-            "login.html";
-
-        return;
-    }
-
-
-
-    /* =========================
-       GET STUDENT
-       ========================= */
-
-    const {
-        data: student,
-        error: studentError
-    } =
-        await supabaseClient.rpc(
-            "get_my_student"
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
         );
 
 
-    if (studentError) {
+    async function loadCourse() {
 
-        showError(
-            studentError.message
-        );
+        try {
 
-        return;
-    }
+            /* =========================
+               GET LOGGED-IN USER
+            ========================= */
 
-
-
-    if (
-        !student ||
-        student.length === 0
-    ) {
-
-        showError(
-            "Student information not found."
-        );
-
-        return;
-    }
+            const {
+                data: {
+                    user
+                },
+                error: userError
+            } = await supabaseClient.auth.getUser();
 
 
+            if (userError || !user) {
 
-    const studentName =
-        student[0].student_name;
+                window.location.href = "login.html";
 
-
-    const yearGroup =
-        student[0].grade;
-
-
-
-    /* =========================
-       HEADER INFORMATION
-       ========================= */
-
-    document.getElementById(
-        "welcome"
-    ).textContent =
-        "Welcome, " + studentName;
-
-
-    document.getElementById(
-        "yearTitle"
-    ).textContent =
-        yearGroup + " Course";
-
-
-
-    /* =========================
-       GET COURSE UNITS
-       ========================= */
-
-    const {
-        data: units,
-        error: unitsError
-    } =
-        await supabaseClient
-            .from("course_units")
-            .select(
-                "id, title, unit_number"
-            )
-            .eq(
-                "year_group",
-                yearGroup
-            )
-            .order(
-                "unit_number",
-                {
-                    ascending: true
-                }
-            );
-
-
-    if (unitsError) {
-
-        showError(
-            unitsError.message
-        );
-
-        return;
-    }
-
-
-
-    const unitsContainer =
-        document.getElementById(
-            "unitsContainer"
-        );
-
-
-
-    if (
-        !units ||
-        units.length === 0
-    ) {
-
-        unitsContainer.innerHTML = `
-
-            <div class="empty-message">
-
-                📘
-
-                <br><br>
-
-                No units have been
-                added yet.
-
-            </div>
-
-        `;
-
-    }
-
-    else {
-
-        units.forEach(
-            function(unit) {
-
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                card.className =
-                    "card";
-
-
-                card.innerHTML = `
-
-                    <div class="card-icon">
-                        📘
-                    </div>
-
-
-                    <a
-                        href="unit.html?id=${unit.id}"
-                    >
-
-                        <h3>
-                            ${unit.title}
-                        </h3>
-
-                    </a>
-
-
-                    <p>
-
-                        Vocabulary,
-                        Grammar,
-                        Writing and
-                        End of Unit Test.
-
-                    </p>
-
-                `;
-
-
-                unitsContainer.appendChild(
-                    card
-                );
+                return;
 
             }
-        );
 
-    }
 
+            /* =========================
+               GET STUDENT INFORMATION
+            ========================= */
 
+            const {
+                data: student,
+                error: studentError
+            } = await supabaseClient
+                .from("students")
+                .select("*")
+                .eq("email", user.email)
+                .limit(1)
+                .maybeSingle();
 
-    /* =========================
-       GET STORY CHAPTERS
-       ========================= */
 
-    const {
-        data: chapters,
-        error: chaptersError
-    } =
-        await supabaseClient
-            .from("story_chapters")
-            .select(
-                "id, chapter_number, title, description"
-            )
-            .eq(
-                "year_group",
-                yearGroup
-            )
-            .order(
-                "chapter_number",
-                {
-                    ascending: true
-                }
-            );
+            if (studentError) {
 
+                console.error(studentError);
 
-    if (chaptersError) {
+                document.getElementById("welcome").textContent =
+                    "Unable to load student information.";
 
-        showError(
-            chaptersError.message
-        );
-
-        return;
-    }
-
-
-
-    const storyContainer =
-        document.getElementById(
-            "storyContainer"
-        );
-
-
-
-    /* =========================
-       NO CHAPTERS
-       ========================= */
-
-    if (
-        !chapters ||
-        chapters.length === 0
-    ) {
-
-        storyContainer.innerHTML = `
-
-            <div class="empty-message">
-
-                📖
-
-                <br><br>
-
-                No story chapters
-                have been added yet.
-
-            </div>
-
-        `;
-
-    }
-
-
-
-    /* =========================
-       CHAPTER CARDS
-       ========================= */
-
-    else {
-
-        chapters.forEach(
-            function(chapter) {
-
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                card.className =
-                    "chapter-card";
-
-
-
-                /* =========================
-                   CHAPTER LINK
-                   ========================= */
-
-                let link =
-                    "story.html";
-
-
-                const chapterNumber =
-                    Number(
-                        chapter.chapter_number
-                    );
-
-
-                if (
-                    chapterNumber >= 2 &&
-                    chapterNumber <= 12
-                ) {
-
-                    link =
-                        "story" +
-                        chapterNumber +
-                        ".html";
-
-                }
-
-
-
-                /* =========================
-                   CHAPTER CARD
-                   ========================= */
-
-                card.innerHTML = `
-
-                    <div class="card-icon">
-                        📖
-                    </div>
-
-
-                    <div class="chapter-number">
-
-                        CHAPTER
-                        ${String(
-                            chapterNumber
-                        ).padStart(2, "0")}
-
-                    </div>
-
-
-                    <a
-                        href="${link}"
-                    >
-
-                        <h3>
-                            ${chapter.title}
-                        </h3>
-
-                    </a>
-
-
-                    <p>
-
-                        ${
-                            chapter.description ||
-                            "Read this chapter and continue the story."
-
-                        }
-
-                    </p>
-
-
-                    <a
-                        href="${link}"
-                        class="read-button"
-                    >
-
-                        Read Chapter →
-
-                    </a>
-
-                `;
-
-
-                storyContainer.appendChild(
-                    card
-                );
+                return;
 
             }
-        );
+
+
+            if (!student) {
+
+                document.getElementById("welcome").textContent =
+                    "Student information not found.";
+
+                return;
+
+            }
+
+
+            /* =========================
+               WELCOME
+            ========================= */
+
+            document.getElementById("welcome").textContent =
+                "Welcome, " + student.student_name + "!";
+
+            document.getElementById("yearTitle").textContent =
+                "You are studying " + student.grade + ".";
+
+
+            /* =========================
+               LOAD UNITS
+            ========================= */
+
+            const {
+                data: units,
+                error: unitsError
+            } = await supabaseClient
+                .from("course_units")
+                .select("*")
+                .eq("year_group", student.grade)
+                .order("unit_number", {
+                    ascending: true
+                });
+
+
+            if (unitsError) {
+
+                console.error(unitsError);
+
+                document.getElementById("unitsContainer").innerHTML =
+                    `<div class="error">
+                        Unable to load course units.
+                    </div>`;
+
+            } else {
+
+                const unitsContainer =
+                    document.getElementById("unitsContainer");
+
+                unitsContainer.innerHTML = "";
+
+
+                if (!units || units.length === 0) {
+
+                    unitsContainer.innerHTML =
+                        `<div class="loading">
+                            No course units have been added yet.
+                        </div>`;
+
+                } else {
+
+                    units.forEach(unit => {
+
+                        const card =
+                            document.createElement("div");
+
+                        card.className = "card";
+
+
+                        card.innerHTML = `
+
+                            <div class="card-icon">
+                                📘
+                            </div>
+
+                            <h3>
+                                ${unit.title}
+                            </h3>
+
+                            <p>
+                                Vocabulary • Grammar • Writing • Test
+                            </p>
+
+                            <a
+                                href="unit.html?id=${unit.id}"
+                                class="read-button"
+                            >
+                                Open Unit →
+                            </a>
+
+                        `;
+
+
+                        unitsContainer.appendChild(card);
+
+                    });
+
+                }
+
+            }
+
+
+            /* =========================
+               LOAD STORY CHAPTERS
+            ========================= */
+
+            const {
+                data: chapters,
+                error: chaptersError
+            } = await supabaseClient
+                .from("story_chapters")
+                .select("*")
+                .eq("year_group", student.grade)
+                .order("chapter_number", {
+                    ascending: true
+                });
+
+
+            if (chaptersError) {
+
+                console.error(chaptersError);
+
+                document.getElementById("storyContainer").innerHTML =
+                    `<div class="error">
+                        Unable to load story chapters.
+                    </div>`;
+
+                return;
+
+            }
+
+
+            const storyContainer =
+                document.getElementById("storyContainer");
+
+            storyContainer.innerHTML = "";
+
+
+            /* =========================
+               FINAL 12 CHAPTER NAMES
+            ========================= */
+
+            const chapterNames = {
+
+                1: "Shipwrecked and Alone",
+
+                2: "Returning to the Wreck",
+
+                3: "Building Projects",
+
+                4: "More Treasures from the Ship",
+
+                5: "Improving Our Home",
+
+                6: "Preparing for Winter",
+
+                7: "Giving Thanks for Our Blessings",
+
+                8: "The Stranded Whale",
+
+                9: "The Death of a Monster",
+
+                10: "Exploring the Island",
+
+                11: "Home Again",
+
+                12: "Jenny"
+
+            };
+
+
+            if (!chapters || chapters.length === 0) {
+
+                storyContainer.innerHTML =
+                    `<div class="loading">
+                        No story chapters have been added yet.
+                    </div>`;
+
+            } else {
+
+                chapters.forEach(chapter => {
+
+                    const number =
+                        Number(chapter.chapter_number);
+
+
+                    const title =
+                        chapterNames[number] ||
+                        chapter.title ||
+                        `Chapter ${number}`;
+
+
+                    let link;
+
+
+                    if (number === 1) {
+
+                        link = "story.html";
+
+                    } else {
+
+                        link = `story${number}.html`;
+
+                    }
+
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className =
+                        "chapter-card";
+
+
+                    card.innerHTML = `
+
+                        <div class="chapter-icon">
+                            📖
+                        </div>
+
+                        <div class="chapter-number">
+                            Chapter ${number}
+                        </div>
+
+                        <div class="chapter-title">
+                            ${title}
+                        </div>
+
+                        <a
+                            href="${link}"
+                            class="read-button"
+                        >
+                            Read Chapter →
+                        </a>
+
+                    `;
+
+
+                    storyContainer.appendChild(card);
+
+                });
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            document.getElementById("unitsContainer").innerHTML =
+                `<div class="error">
+                    Something went wrong while loading your course.
+                </div>`;
+
+        }
 
     }
 
 
-
     /* =========================
-       HIDE LOADING
-       ========================= */
+       START
+    ========================= */
 
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "none";
-
-}
-
-
-
-/* =========================
-   ERROR FUNCTION
-   ========================= */
-
-function showError(
-    message
-) {
-
-
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "none";
-
-
-    const error =
-        document.getElementById(
-            "error"
-        );
-
-
-    error.style.display =
-        "block";
-
-
-    error.textContent =
-        message;
-
-}
-
-
-
-/* =========================
-   START
-   ========================= */
-
-loadCourse();
-
+    loadCourse();
 
 </script>
-
 
 </body>
 
 </html>
-```
