@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +63,13 @@
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .card:hover,
+        .chapter-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 22px rgba(16,42,86,.15);
         }
 
         .card-icon {
@@ -97,6 +103,12 @@
             color: white;
             text-decoration: none;
             border-radius: 7px;
+            transition: transform .2s ease, background .2s ease;
+        }
+
+        .back:hover {
+            background: #174a8b;
+            transform: translateY(-3px);
         }
 
         #loading {
@@ -115,6 +127,20 @@
             padding: 25px;
             color: #666;
         }
+
+        /* ================= CHAPTER BADGE ================= */
+
+        .chapter-number {
+            display: inline-block;
+            background: #eef5ff;
+            color: #174a8b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
     </style>
 </head>
 
@@ -122,13 +148,14 @@
 
 <header>
 
-    <h1>My Course</h1>
+    <h1>📚 My Course</h1>
 
     <p id="welcome">
         Loading your course...
     </p>
 
 </header>
+
 
 <div class="container">
 
@@ -141,19 +168,19 @@
     <p id="error"></p>
 
 
-    <!-- COURSE UNITS -->
+    <!-- ================= COURSE UNITS ================= -->
 
     <h2 class="section-title">
-        Course Units
+        📘 Course Units
     </h2>
 
     <div class="cards" id="unitsContainer"></div>
 
 
-    <!-- STORY -->
+    <!-- ================= STORY ================= -->
 
     <h2 class="section-title">
-        Story
+        📖 Story
     </h2>
 
     <div class="cards" id="storyContainer"></div>
@@ -164,6 +191,7 @@
     </a>
 
 </div>
+
 
 <footer>
     © 2026 IGCSE English Hub — All Rights Reserved
@@ -189,11 +217,14 @@ const supabaseClient =
 
 async function loadCourse() {
 
-    /* CHECK LOGIN */
+    /* =========================
+       CHECK LOGIN
+       ========================= */
 
     const {
         data: { session }
     } = await supabaseClient.auth.getSession();
+
 
     if (!session) {
 
@@ -203,7 +234,9 @@ async function loadCourse() {
     }
 
 
-    /* GET STUDENT */
+    /* =========================
+       GET STUDENT
+       ========================= */
 
     const {
         data: student,
@@ -400,20 +433,40 @@ async function loadCourse() {
                     "chapter-card";
 
 
-                /*
-                   EVERY CHAPTER NOW OPENS
-                   story.html?id=CHAPTER_ID
-                */
+                /* =====================================
+                   CHAPTER PAGE LINK
+                   
+                   Chapter 1  → story.html
+                   Chapter 2  → story2.html
+                   Chapter 3  → story3.html
+                   Chapter 4  → story4.html
+                   etc.
+                   ===================================== */
 
-                const link =
-                    "story.html?id=" +
-                    chapter.id;
+                let link;
+
+                if (chapter.chapter_number === 1) {
+
+                    link = "story.html";
+
+                } else {
+
+                    link =
+                        "story" +
+                        chapter.chapter_number +
+                        ".html";
+
+                }
 
 
                 card.innerHTML = `
 
                     <div class="card-icon">
                         📖
+                    </div>
+
+                    <div class="chapter-number">
+                        Chapter ${chapter.chapter_number}
                     </div>
 
                     <a href="${link}">
@@ -442,7 +495,9 @@ async function loadCourse() {
     }
 
 
-    /* HIDE LOADING */
+    /* =========================
+       HIDE LOADING
+       ========================= */
 
     document.getElementById(
         "loading"
@@ -480,7 +535,9 @@ function showError(message) {
 }
 
 
-/* START */
+/* =========================
+   START
+   ========================= */
 
 loadCourse();
 
@@ -488,4 +545,3 @@ loadCourse();
 
 </body>
 </html>
-```
