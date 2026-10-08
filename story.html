@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,11 +165,14 @@ header p {
 
     white-space: nowrap;
 
+    border-left: 4px solid transparent;
+
     transition:
         background .2s ease,
         color .2s ease,
         transform .2s ease,
-        box-shadow .2s ease;
+        box-shadow .2s ease,
+        border-color .2s ease;
 }
 
 .nav-buttons a:hover {
@@ -178,6 +182,31 @@ header p {
     transform: translateX(5px);
 
     box-shadow: 0 5px 12px rgba(16,42,86,.18);
+}
+
+/* ============================= */
+/* ACTIVE MENU BUTTON */
+/* ============================= */
+
+.nav-buttons a.active {
+    background: linear-gradient(90deg, #102a56, #1d4f91);
+
+    color: white;
+
+    border-left: 4px solid #4da3ff;
+
+    transform: translateX(5px);
+
+    box-shadow:
+        0 5px 14px rgba(16,42,86,.25);
+
+    font-weight: bold;
+}
+
+.nav-buttons a.active:hover {
+    background: linear-gradient(90deg, #0d2348, #19457f);
+
+    color: white;
 }
 
 .nav-buttons a:active {
@@ -693,6 +722,10 @@ footer {
         padding: 10px 7px;
 
         font-size: 13px;
+    }
+
+    .nav-buttons a.active {
+        transform: translateY(-2px);
     }
 
     .container {
@@ -2072,17 +2105,121 @@ Who said this? To whom? Where? On what occasion?
 
 <script>
 
+/* ============================= */
+/* QUESTION ANSWERS */
+/* ============================= */
+
 function toggleAnswer(index) {
 
     const answer =
         document.getElementById("answer-" + index);
 
-    answer.classList.toggle("show");
+    if (answer) {
+        answer.classList.toggle("show");
+    }
 
 }
+
+
+/* ============================= */
+/* ACTIVE SIDE MENU */
+/* ============================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sections =
+        Array.from(document.querySelectorAll(".section[id]"));
+
+    const menuLinks =
+        Array.from(document.querySelectorAll(".nav-buttons a"));
+
+    function setActiveSection(id) {
+
+        menuLinks.forEach(link => {
+
+            const linkTarget =
+                link.getAttribute("href");
+
+            if (linkTarget === "#" + id) {
+
+                link.classList.add("active");
+
+            } else {
+
+                link.classList.remove("active");
+
+            }
+
+        });
+
+    }
+
+
+    function updateActiveSection() {
+
+        const scrollPosition =
+            window.scrollY + 180;
+
+        let currentSection = sections[0];
+
+        sections.forEach(section => {
+
+            const sectionTop =
+                section.offsetTop;
+
+            if (scrollPosition >= sectionTop) {
+
+                currentSection = section;
+
+            }
+
+        });
+
+        if (currentSection) {
+
+            setActiveSection(
+                currentSection.id
+            );
+
+        }
+
+    }
+
+
+    /* Initial active section */
+
+    updateActiveSection();
+
+
+    /* Update while scrolling */
+
+    window.addEventListener(
+        "scroll",
+        updateActiveSection,
+        { passive: true }
+    );
+
+
+    /* Update after clicking menu */
+
+    menuLinks.forEach(link => {
+
+        link.addEventListener("click", function () {
+
+            const targetId =
+                this.getAttribute("href").replace("#", "");
+
+            setActiveSection(targetId);
+
+        });
+
+    });
+
+});
 
 </script>
 
 </body>
 
 </html>
+```
