@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -59,6 +60,11 @@
             color: #1e3a8a;
         }
 
+        .welcome-box p {
+            margin-bottom: 0;
+            color: #64748b;
+        }
+
         .section-title {
             text-align: center;
             margin: 45px 0 25px;
@@ -109,11 +115,6 @@
             line-height: 1.5;
         }
 
-        .card a {
-            text-decoration: none;
-            color: inherit;
-        }
-
         /* STORY */
 
         .story-section {
@@ -129,7 +130,7 @@
             margin-bottom: 25px;
         }
 
-        .story-header .story-main-icon {
+        .story-main-icon {
             font-size: 55px;
             margin-bottom: 10px;
         }
@@ -161,7 +162,7 @@
         }
 
         .chapter-icon {
-            font-size: 48px;
+            font-size: 50px;
             margin-bottom: 12px;
         }
 
@@ -188,7 +189,8 @@
             margin-top: 18px;
             padding: 10px 18px;
             background: #1e3a8a;
-            color: white !important;
+            color: white;
+            text-decoration: none;
             border-radius: 10px;
             font-size: 14px;
             font-weight: bold;
@@ -246,7 +248,9 @@
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -258,6 +262,7 @@
 
 
 <div class="container">
+
 
     <!-- WELCOME -->
 
@@ -286,6 +291,7 @@
 
     </div>
 
+
     <div id="unitsContainer" class="cards">
 
         <div class="loading">
@@ -299,13 +305,16 @@
 
     <div class="story-section">
 
+
         <div class="story-header">
 
             <div class="story-main-icon">
                 📖
             </div>
 
-            <h2>The Story</h2>
+            <h2>
+                The Story
+            </h2>
 
             <p>
                 Read the story chapter by chapter.
@@ -322,7 +331,9 @@
 
         </div>
 
+
     </div>
+
 
 </div>
 
@@ -336,11 +347,17 @@
 
 <script>
 
+
+    /* ================================
+       SUPABASE
+    ================================= */
+
     const SUPABASE_URL =
         "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
     const SUPABASE_KEY =
         "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
 
     const supabaseClient =
         window.supabase.createClient(
@@ -349,23 +366,29 @@
         );
 
 
+
+    /* ================================
+       LOAD COURSE
+    ================================= */
+
     async function loadCourse() {
 
         try {
 
-            /* =========================
-               GET LOGGED-IN USER
-            ========================= */
+
+            /* ============================
+               CHECK LOGIN
+            ============================ */
 
             const {
-                data: {
-                    user
-                },
-                error: userError
-            } = await supabaseClient.auth.getUser();
+                data: sessionData
+            } = await supabaseClient.auth.getSession();
 
 
-            if (userError || !user) {
+            if (
+                !sessionData ||
+                !sessionData.session
+            ) {
 
                 window.location.href = "login.html";
 
@@ -374,27 +397,38 @@
             }
 
 
-            /* =========================
-               GET STUDENT INFORMATION
-            ========================= */
+
+            /* ============================
+               GET STUDENT
+               USE THE WORKING RPC
+            ============================ */
 
             const {
                 data: student,
                 error: studentError
             } = await supabaseClient
-                .from("students")
-                .select("*")
-                .eq("email", user.email)
-                .limit(1)
-                .maybeSingle();
+                .rpc("get_my_student");
+
+
+            console.log("Student:", student);
 
 
             if (studentError) {
 
-                console.error(studentError);
+                console.error(
+                    "Student error:",
+                    studentError
+                );
 
-                document.getElementById("welcome").textContent =
+                document.getElementById(
+                    "welcome"
+                ).textContent =
                     "Unable to load student information.";
+
+                document.getElementById(
+                    "yearTitle"
+                ).textContent =
+                    "Please try again.";
 
                 return;
 
@@ -403,28 +437,46 @@
 
             if (!student) {
 
-                document.getElementById("welcome").textContent =
+                document.getElementById(
+                    "welcome"
+                ).textContent =
                     "Student information not found.";
+
+                document.getElementById(
+                    "yearTitle"
+                ).textContent =
+                    "Please log in again.";
 
                 return;
 
             }
 
 
-            /* =========================
-               WELCOME
-            ========================= */
 
-            document.getElementById("welcome").textContent =
-                "Welcome, " + student.student_name + "!";
+            /* ============================
+               STUDENT DATA
+            ============================ */
 
-            document.getElementById("yearTitle").textContent =
-                "You are studying " + student.grade + ".";
+            document.getElementById(
+                "welcome"
+            ).textContent =
+                "Welcome, " +
+                student.student_name +
+                "!";
 
 
-            /* =========================
+            document.getElementById(
+                "yearTitle"
+            ).textContent =
+                "You are studying " +
+                student.grade +
+                ".";
+
+
+
+            /* ============================
                LOAD UNITS
-            ========================= */
+            ============================ */
 
             const {
                 data: units,
@@ -433,81 +485,110 @@
                 .from("course_units")
                 .select("*")
                 .eq("year_group", student.grade)
-                .order("unit_number", {
-                    ascending: true
-                });
+                .order(
+                    "unit_number",
+                    {
+                        ascending: true
+                    }
+                );
 
 
             if (unitsError) {
 
-                console.error(unitsError);
+                console.error(
+                    "Units error:",
+                    unitsError
+                );
 
-                document.getElementById("unitsContainer").innerHTML =
-                    `<div class="error">
+                document.getElementById(
+                    "unitsContainer"
+                ).innerHTML = `
+                    <div class="error">
                         Unable to load course units.
-                    </div>`;
+                    </div>
+                `;
 
             } else {
 
+
                 const unitsContainer =
-                    document.getElementById("unitsContainer");
+                    document.getElementById(
+                        "unitsContainer"
+                    );
+
 
                 unitsContainer.innerHTML = "";
 
 
-                if (!units || units.length === 0) {
+                if (
+                    !units ||
+                    units.length === 0
+                ) {
 
-                    unitsContainer.innerHTML =
-                        `<div class="loading">
+                    unitsContainer.innerHTML = `
+                        <div class="loading">
                             No course units have been added yet.
-                        </div>`;
+                        </div>
+                    `;
 
                 } else {
 
-                    units.forEach(unit => {
 
-                        const card =
-                            document.createElement("div");
-
-                        card.className = "card";
+                    units.forEach(
+                        unit => {
 
 
-                        card.innerHTML = `
-
-                            <div class="card-icon">
-                                📘
-                            </div>
-
-                            <h3>
-                                ${unit.title}
-                            </h3>
-
-                            <p>
-                                Vocabulary • Grammar • Writing • Test
-                            </p>
-
-                            <a
-                                href="unit.html?id=${unit.id}"
-                                class="read-button"
-                            >
-                                Open Unit →
-                            </a>
-
-                        `;
+                            const card =
+                                document.createElement(
+                                    "div"
+                                );
 
 
-                        unitsContainer.appendChild(card);
+                            card.className =
+                                "card";
 
-                    });
+
+                            card.innerHTML = `
+
+                                <div class="card-icon">
+                                    📘
+                                </div>
+
+                                <h3>
+                                    ${unit.title}
+                                </h3>
+
+                                <p>
+                                    Vocabulary • Grammar • Writing • Test
+                                </p>
+
+                                <a
+                                    href="unit.html?id=${unit.id}"
+                                    class="read-button"
+                                >
+                                    Open Unit →
+                                </a>
+
+                            `;
+
+
+                            unitsContainer.appendChild(
+                                card
+                            );
+
+
+                        }
+                    );
 
                 }
 
             }
 
 
-            /* =========================
+
+            /* ============================
                LOAD STORY CHAPTERS
-            ========================= */
+            ============================ */
 
             const {
                 data: chapters,
@@ -515,160 +596,227 @@
             } = await supabaseClient
                 .from("story_chapters")
                 .select("*")
-                .eq("year_group", student.grade)
-                .order("chapter_number", {
-                    ascending: true
-                });
+                .eq(
+                    "year_group",
+                    student.grade
+                )
+                .order(
+                    "chapter_number",
+                    {
+                        ascending: true
+                    }
+                );
 
 
             if (chaptersError) {
 
-                console.error(chaptersError);
+                console.error(
+                    "Story error:",
+                    chaptersError
+                );
 
-                document.getElementById("storyContainer").innerHTML =
-                    `<div class="error">
+                document.getElementById(
+                    "storyContainer"
+                ).innerHTML = `
+                    <div class="error">
                         Unable to load story chapters.
-                    </div>`;
+                    </div>
+                `;
 
                 return;
 
             }
 
 
+
             const storyContainer =
-                document.getElementById("storyContainer");
+                document.getElementById(
+                    "storyContainer"
+                );
+
 
             storyContainer.innerHTML = "";
 
 
-            /* =========================
-               FINAL 12 CHAPTER NAMES
-            ========================= */
+
+            /* ============================
+               FINAL CHAPTER NAMES
+            ============================ */
 
             const chapterNames = {
 
-                1: "Shipwrecked and Alone",
+                1:
+                    "Shipwrecked and Alone",
 
-                2: "Returning to the Wreck",
+                2:
+                    "Returning to the Wreck",
 
-                3: "Building Projects",
+                3:
+                    "Building Projects",
 
-                4: "More Treasures from the Ship",
+                4:
+                    "More Treasures from the Ship",
 
-                5: "Improving Our Home",
+                5:
+                    "Improving Our Home",
 
-                6: "Preparing for Winter",
+                6:
+                    "Preparing for Winter",
 
-                7: "Giving Thanks for Our Blessings",
+                7:
+                    "Giving Thanks for Our Blessings",
 
-                8: "The Stranded Whale",
+                8:
+                    "The Stranded Whale",
 
-                9: "The Death of a Monster",
+                9:
+                    "The Death of a Monster",
 
-                10: "Exploring the Island",
+                10:
+                    "Exploring the Island",
 
-                11: "Home Again",
+                11:
+                    "Home Again",
 
-                12: "Jenny"
+                12:
+                    "Jenny"
 
             };
 
 
-            if (!chapters || chapters.length === 0) {
 
-                storyContainer.innerHTML =
-                    `<div class="loading">
+            /* ============================
+               CREATE CHAPTER CARDS
+            ============================ */
+
+            if (
+                !chapters ||
+                chapters.length === 0
+            ) {
+
+                storyContainer.innerHTML = `
+                    <div class="loading">
                         No story chapters have been added yet.
-                    </div>`;
+                    </div>
+                `;
 
             } else {
 
-                chapters.forEach(chapter => {
 
-                    const number =
-                        Number(chapter.chapter_number);
-
-
-                    const title =
-                        chapterNames[number] ||
-                        chapter.title ||
-                        `Chapter ${number}`;
+                chapters.forEach(
+                    chapter => {
 
 
-                    let link;
+                        const number =
+                            Number(
+                                chapter.chapter_number
+                            );
 
 
-                    if (number === 1) {
+                        const title =
+                            chapterNames[number] ||
+                            chapter.title ||
+                            "Untitled Chapter";
 
-                        link = "story.html";
 
-                    } else {
+                        let link;
 
-                        link = `story${number}.html`;
+
+                        if (
+                            number === 1
+                        ) {
+
+                            link =
+                                "story.html";
+
+                        } else {
+
+                            link =
+                                "story" +
+                                number +
+                                ".html";
+
+                        }
+
+
+
+                        const card =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        card.className =
+                            "chapter-card";
+
+
+                        card.innerHTML = `
+
+                            <div class="chapter-icon">
+                                📖
+                            </div>
+
+                            <div class="chapter-number">
+                                Chapter ${number}
+                            </div>
+
+                            <div class="chapter-title">
+                                ${title}
+                            </div>
+
+                            <a
+                                href="${link}"
+                                class="read-button"
+                            >
+                                Read Chapter →
+                            </a>
+
+                        `;
+
+
+                        storyContainer.appendChild(
+                            card
+                        );
+
 
                     }
-
-
-                    const card =
-                        document.createElement("div");
-
-                    card.className =
-                        "chapter-card";
-
-
-                    card.innerHTML = `
-
-                        <div class="chapter-icon">
-                            📖
-                        </div>
-
-                        <div class="chapter-number">
-                            Chapter ${number}
-                        </div>
-
-                        <div class="chapter-title">
-                            ${title}
-                        </div>
-
-                        <a
-                            href="${link}"
-                            class="read-button"
-                        >
-                            Read Chapter →
-                        </a>
-
-                    `;
-
-
-                    storyContainer.appendChild(card);
-
-                });
+                );
 
             }
 
+
         }
+
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                "General error:",
+                error
+            );
 
-            document.getElementById("unitsContainer").innerHTML =
-                `<div class="error">
-                    Something went wrong while loading your course.
-                </div>`;
+
+            document.getElementById(
+                "welcome"
+            ).textContent =
+                "Something went wrong.";
+
 
         }
 
     }
 
 
-    /* =========================
+
+    /* ================================
        START
-    ========================= */
+    ================================= */
 
     loadCourse();
 
+
 </script>
+
 
 </body>
 
