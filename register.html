@@ -1,17 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Register | The Blueprint</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     font-family: Arial, sans-serif;
@@ -19,7 +15,6 @@ body {
     color: #172033;
 }
 
-/* Header */
 header {
     background: #102a56;
     color: white;
@@ -29,22 +24,10 @@ header {
     align-items: center;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-}
+.logo { font-size: 25px; font-weight: bold; }
+.logo span { color: #f4c542; }
+.back-link { color: white; text-decoration: none; font-size: 15px; }
 
-.logo span {
-    color: #f4c542;
-}
-
-.back-link {
-    color: white;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-/* Registration */
 .container {
     min-height: calc(100vh - 75px);
     display: flex;
@@ -74,9 +57,7 @@ header {
     margin-bottom: 30px;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
+.form-group { margin-bottom: 20px; }
 
 label {
     display: block;
@@ -84,8 +65,7 @@ label {
     font-weight: bold;
 }
 
-input,
-select {
+input, select {
     width: 100%;
     padding: 13px;
     border: 1px solid #d5dbe5;
@@ -93,8 +73,7 @@ select {
     font-size: 15px;
 }
 
-input:focus,
-select:focus {
+input:focus, select:focus {
     outline: none;
     border-color: #1f4b91;
 }
@@ -111,9 +90,8 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    opacity: 0.9;
-}
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.6; cursor: wait; }
 
 .note {
     margin-top: 20px;
@@ -128,171 +106,82 @@ button:hover {
 </head>
 
 <body>
-
 <header>
-
-    <div class="logo">
-        THE <span>BLUEPRINT</span>
-    </div>
-
-    <a href="index.html" class="back-link">
-        ← Home
-    </a>
-
+    <div class="logo">THE <span>BLUEPRINT</span></div>
+    <a href="index.html" class="back-link">← Home</a>
 </header>
 
-
 <div class="container">
-
     <div class="register-box">
-
         <h1>Student Registration</h1>
 
         <p class="subtitle">
             Join The Blueprint and start your English learning journey.
         </p>
 
-
         <form id="registrationForm">
-
             <div class="form-group">
-
-                <label for="studentName">
-                    Student Name
-                </label>
-
-                <input
-                    type="text"
-                    id="studentName"
-                    placeholder="Enter student's full name"
-                    required
-                >
-
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName"
+                       placeholder="Enter student's full name" required>
             </div>
 
-
             <div class="form-group">
-
-                <label for="parentPhone">
-                    Parent / Guardian WhatsApp
-                </label>
-
-                <input
-                    type="tel"
-                    id="parentPhone"
-                    placeholder="Enter WhatsApp number"
-                    required
-                >
-
+                <label for="parentPhone">Parent / Guardian WhatsApp</label>
+                <input type="tel" id="parentPhone"
+                       placeholder="Enter WhatsApp number" required>
             </div>
 
-<div class="form-group">
-
-    <label for="username">
-        Username
-    </label>
-
-    <input
-        type="text"
-        id="username"
-        placeholder="Choose a username"
-        required
-    >
-
-</div>
             <div class="form-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter email address"
-                    required
-                >
-
+                <label for="username">Username</label>
+                <input type="text" id="username"
+                       placeholder="Choose a username" required>
             </div>
 
-<div class="form-group">
-
-    <label for="password">
-        Password
-    </label>
-
-    <input
-        type="password"
-        id="password"
-        placeholder="Create a password"
-        required
-    >
-
-</div>
             <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email"
+                       placeholder="Enter email address" required>
+            </div>
 
-                <label for="grade">
-                    Stage / Grade
-                </label>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password"
+                       placeholder="Create a password"
+                       minlength="6" required>
+            </div>
 
+            <div class="form-group">
+                <label for="grade">Stage / Grade</label>
                 <select id="grade" required>
-
-                    <option value="">
-                        Select your stage
-                    </option>
-
-                <option value="Year 4">
-    Year 4
-</option>
-
-<option value="Year 5">
-    Year 5
-</option>
-
-<option value="Year 6">
-    Year 6
-</option>
-
-<option value="Year 7">
-    Year 7
-</option>
-
-<option value="Year 8">
-    Year 8
-</option>
-
-<option value="Year 9">
-    Year 9
-</option>
+                    <option value="">Select your stage</option>
+                    <option value="Year 4">Year 4</option>
+                    <option value="Year 5">Year 5</option>
+                    <option value="Year 6">Year 6</option>
+                    <option value="Year 7">Year 7</option>
+                    <option value="Year 8">Year 8</option>
+                    <option value="Year 9">Year 9</option>
                 </select>
-
             </div>
 
-
-            <button type="submit">
-                Register
-            </button>
-
+            <button type="submit" id="registerButton">Register</button>
         </form>
-<p id="registrationMessage" style="text-align:center; margin-top:15px;"></p>
+
+        <p id="registrationMessage"
+           role="status"
+           style="text-align:center; margin-top:15px; line-height:1.5;"></p>
 
         <div class="note">
-
             After submitting your registration, you will receive
             a registration code from The Blueprint to activate
             your student account.
-
         </div>
-
     </div>
-
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-
 const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
 const supabaseClient = supabase.createClient(
@@ -302,82 +191,87 @@ const supabaseClient = supabase.createClient(
 
 const registrationForm = document.getElementById("registrationForm");
 const registrationMessage = document.getElementById("registrationMessage");
+const registerButton = document.getElementById("registerButton");
 
 registrationForm.addEventListener("submit", async function(event) {
-
     event.preventDefault();
 
     const studentName = document.getElementById("studentName").value.trim();
     const parentPhone = document.getElementById("parentPhone").value.trim();
-    const email = document.getElementById("email").value.trim();
-const username = document.getElementById("username").value.trim();
-const password = document.getElementById("password").value;
-const grade = document.getElementById("grade").value;
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const grade = document.getElementById("grade").value;
 
-   registrationMessage.textContent = "Processing registration...";
+    registerButton.disabled = true;
+    registrationMessage.style.color = "#172033";
+    registrationMessage.textContent = "Processing registration...";
 
-const { data: authData, error: authError } =
-  
-const { data: signUpData, error: authError } =
-    await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
+    try {
+        // Check whether this email or username is already registered.
+        const { data: existing, error: lookupError } = await supabaseClient
+            .from("students")
+            .select("email, username")
+            .or("email.eq." + email + ",username.eq." + username)
+            .limit(10);
 
-if (authError) {
-    console.error("AUTH SIGNUP ERROR:", authError);
-    registrationMessage.textContent = authError.message;
-    registrationMessage.style.color = "red";
-    return;
-}
-
-console.log("AUTH SIGNUP SUCCESS:", signUpData);
-
-if (authError) {
-
-    console.error(authError);
-
-    registrationMessage.textContent =
-        authError.message;
-
-    registrationMessage.style.color = "red";
-
-    return;
-}
-
-const { data, error } = await supabaseClient
-    .from("students")
-    .insert([
-        {
-            student_name: studentName,
-            parent_phone: parentPhone,
-            email: email,
-            username: username,
-            grade: grade
+        if (lookupError) {
+            throw new Error("Could not check existing student details: " + lookupError.message);
         }
-    ])
-    .select();
-    if (error) {
 
-        console.error(error);
+        if (existing && existing.some(s => s.email === email)) {
+            throw new Error("This email already has student details. Please use the login page or contact the administrator.");
+        }
 
+        if (existing && existing.some(s => s.username === username)) {
+            throw new Error("This username is already taken. Please choose another username.");
+        }
+
+        // Create the authentication account.
+        const { data: authData, error: authError } =
+            await supabaseClient.auth.signUp({
+                email: email,
+                password: password
+            });
+
+        if (authError) {
+            throw new Error("Account creation failed: " + authError.message);
+        }
+
+        // Save the student's profile.
+        const { error: insertError } = await supabaseClient
+            .from("students")
+            .insert([{
+                student_name: studentName,
+                parent_phone: parentPhone,
+                email: email,
+                username: username,
+                grade: grade
+            }]);
+
+        if (insertError) {
+            console.error("STUDENT INSERT ERROR:", insertError);
+            throw new Error(
+                "The login account may have been created, but saving student details failed: " +
+                insertError.message +
+                ". Do not keep registering with this email. Contact the administrator to repair the incomplete registration."
+            );
+        }
+
+        registrationMessage.style.color = "green";
         registrationMessage.textContent =
-            "Registration failed. Please try again.";
+            "Registration submitted successfully! You can now follow the instructions from The Blueprint.";
 
+        registrationForm.reset();
+
+    } catch (error) {
+        console.error("REGISTRATION ERROR:", error);
         registrationMessage.style.color = "red";
-
-        return;
+        registrationMessage.textContent = error.message || "Registration failed. Please try again.";
+    } finally {
+        registerButton.disabled = false;
     }
-
-    registrationMessage.textContent =
-        "Registration submitted successfully!";
-
-    registrationMessage.style.color = "green";
-
-    registrationForm.reset();
-
 });
-
 </script>
 </body>
 </html>
