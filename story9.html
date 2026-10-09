@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,12 @@
 
 <style>
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 25px;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -16,6 +22,7 @@ body {
     color: #1d2939;
     line-height: 1.7;
 }
+
 header {
     background: linear-gradient(135deg, #102a56, #1d4f91);
     color: white;
@@ -24,8 +31,18 @@ header {
     margin-left: 255px;
     box-shadow: 0 5px 20px rgba(0,0,0,.15);
 }
-header h1 { margin: 0; font-size: 34px; letter-spacing: .5px; }
-header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+    letter-spacing: .5px;
+}
+
+header p {
+    margin: 8px 0 0;
+    font-size: 18px;
+    opacity: .92;
+}
 
 .lesson-nav {
     position: fixed;
@@ -39,17 +56,20 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     overflow-y: auto;
     z-index: 1000;
 }
+
 .lesson-nav h2 {
     text-align: center;
     color: #102a56;
     font-size: 20px;
     margin: 0 0 20px;
 }
+
 .nav-buttons {
     display: flex;
     flex-direction: column;
     gap: 7px;
 }
+
 .nav-buttons a {
     text-decoration: none;
     color: #102a56;
@@ -58,12 +78,14 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     border-radius: 9px;
     font-size: 14px;
     font-weight: bold;
-    transition: .25s ease;
+    transition: background .25s ease, transform .25s ease;
 }
+
 .nav-buttons a:hover {
     background: #dce8f7;
     transform: translateX(4px);
 }
+
 .nav-buttons a.active {
     background: #102a56;
     color: white;
@@ -74,8 +96,9 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
 .container {
     margin-left: 255px;
     padding: 35px;
-    max-width: 1250px;
+    max-width: 1500px;
 }
+
 .section {
     background: white;
     margin-bottom: 30px;
@@ -85,17 +108,28 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     scroll-margin-top: 25px;
     animation: fadeUp .6s ease;
 }
+
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 .section h2 {
     color: #102a56;
     margin-top: 0;
     border-bottom: 3px solid #dbe7f5;
     padding-bottom: 10px;
 }
-.section h3 { color: #1d4f91; }
+
+.section h3 {
+    color: #1d4f91;
+}
 
 .story-text {
     background: #f8fbff;
@@ -104,7 +138,11 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     border-radius: 12px;
     font-size: 17px;
 }
-.story-text p { margin-bottom: 20px; }
+
+.story-text p {
+    margin-bottom: 20px;
+}
+
 .highlight {
     background: #fff3cd;
     border-left: 5px solid #e0a800;
@@ -113,6 +151,7 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     font-weight: bold;
     margin: 20px 0;
 }
+
 .quote {
     background: #eef5ff;
     border-left: 5px solid #102a56;
@@ -127,31 +166,41 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 18px;
 }
+
 .info-card {
     background: #f7faff;
     border: 1px solid #dce6f2;
     padding: 20px;
     border-radius: 14px;
     transition: .25s ease;
+    margin-bottom: 12px;
 }
+
 .info-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 18px rgba(0,0,0,.08);
 }
-.info-card h3 { margin-top: 0; }
+
+.info-card h3 {
+    margin-top: 0;
+}
 
 .vocab-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 15px;
 }
+
 .vocab-item {
     background: #f8fbff;
     border: 1px solid #dce6f2;
     padding: 17px;
     border-radius: 12px;
 }
-.vocab-item strong { color: #102a56; }
+
+.vocab-item strong {
+    color: #102a56;
+}
 
 .question {
     background: #f8fafc;
@@ -160,22 +209,50 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     margin: 15px 0;
     border-radius: 12px;
 }
-.question strong { color: #102a56; }
+
+.question strong {
+    color: #102a56;
+}
+
+/* Unified answer button styling */
 .answer-btn,
 .show-answer {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    max-width: fit-content;
     border: none;
     background: #1d4f91;
     color: white;
-    padding: 8px 15px;
-    border-radius: 7px;
+    padding: 10px 17px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 12px;
     font-weight: bold;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
 }
+
 .answer-btn:hover,
-.show-answer:hover { background: #102a56; }
-.answer {
+.show-answer:hover {
+    background: #102a56;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(16,42,86,.18);
+}
+
+.answer-btn:focus-visible,
+.show-answer:focus-visible {
+    outline: 3px solid #e0a800;
+    outline-offset: 3px;
+}
+
+/* All answer types use the same show/hide mechanism */
+.answer,
+.fill-answer,
+.quote-answer {
     display: none;
     margin-top: 12px;
     background: #eaf4ea;
@@ -183,7 +260,12 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     padding: 12px 15px;
     border-radius: 8px;
 }
-.answer.show { display: block; }
+
+.answer.show,
+.fill-answer.show,
+.quote-answer.show {
+    display: block;
+}
 
 .fill-item {
     background: #f8fbff;
@@ -192,17 +274,13 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     border-radius: 10px;
     margin: 10px 0;
 }
+
 .fill-number {
     color: #102a56;
     font-weight: bold;
 }
+
 .fill-answer {
-    display: none;
-    margin-top: 10px;
-    background: #eaf4ea;
-    border-left: 4px solid #3d8b40;
-    padding: 10px 14px;
-    border-radius: 8px;
     font-weight: bold;
     color: #102a56;
 }
@@ -214,6 +292,7 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     margin: 18px 0;
     border-radius: 14px;
 }
+
 .quote-card blockquote {
     margin: 0 0 15px;
     padding: 15px;
@@ -223,10 +302,16 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     font-style: italic;
     font-size: 17px;
 }
+
 .quote-details {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 10px;
+    margin-top: 12px;
+}
+
+.quote-details.show {
+    display: grid;
 }
 .quote-details div {
     background: white;
@@ -234,23 +319,19 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     padding: 10px;
     border-radius: 8px;
 }
-.quote-details strong { color: #102a56; }
-.quote-answer {
-    display: none;
-    margin-top: 15px;
-    background: #eaf4ea;
-    border-left: 4px solid #3d8b40;
-    padding: 15px;
-    border-radius: 8px;
+
+.quote-details strong {
+    color: #102a56;
 }
 
 .quiz-title {
     background: linear-gradient(135deg, #102a56, #1d4f91);
-    color: white;
+    color: white !important;
     padding: 18px 22px;
     border-radius: 12px;
     margin-bottom: 20px;
 }
+
 .quiz-question {
     background: #f8fafc;
     border: 1px solid #dde5ee;
@@ -258,6 +339,7 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     margin: 15px 0;
     border-radius: 10px;
 }
+
 .answer-line {
     border-bottom: 1px solid #7d8997;
     min-height: 35px;
@@ -274,6 +356,7 @@ header p { margin: 8px 0 0; font-size: 18px; opacity: .92; }
     font-weight: bold;
     transition: .25s ease;
 }
+
 .back-button:hover {
     background: #1d4f91;
     transform: translateY(-2px);
@@ -293,19 +376,57 @@ footer {
         position: relative;
         width: 100%;
         height: auto;
+        max-height: none;
     }
+
     .nav-buttons {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
+
+    .nav-buttons a:hover,
+    .nav-buttons a.active {
+        transform: none;
+    }
+
     .container {
         margin-left: 0;
         padding: 18px;
     }
-    footer { margin-left: 0; }
-    header { margin-left: 0; }
-    header h1 { font-size: 27px; }
-    .section { padding: 22px; }
+
+    footer {
+        margin-left: 0;
+    }
+
+    header {
+        margin-left: 0;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+
+    .section {
+        padding: 22px;
+    }
+
+    .story-text {
+        padding: 18px;
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
 }
 </style>
 </head>
@@ -774,66 +895,105 @@ footer {
 </footer>
 
 <script>
+/* Show or hide a comprehension answer */
 function toggleAnswer(index) {
     const answer = document.getElementById("answer-" + index);
-    answer.classList.toggle("show");
+
+    if (answer) {
+        answer.classList.toggle("show");
+    }
 }
 
+/* Show or hide a fill-in-the-blanks answer */
 function toggleFill(index) {
     const answer = document.getElementById("fill-" + index);
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
+
+    if (answer) {
+        answer.classList.toggle("show");
     }
 }
 
+/* Show or hide a quotation answer */
 function toggleQuote(index) {
+    const details = document.querySelector(
+        `.quote-card:has(#quote-${index}) .quote-details`
+    );
+
     const answer = document.getElementById("quote-" + index);
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
+
+    if (!details || !answer) return;
+
+    const isHidden = !details.classList.contains("show");
+
+    details.classList.toggle("show", isHidden);
+    answer.classList.toggle("show", isHidden);
+
+    const button = answer.parentElement.querySelector(".show-answer");
+
+    if (button) {
+        button.textContent = isHidden
+            ? "🙈 Hide Answer"
+            : "👁️ Show Answer";
     }
 }
 
+/* Show or hide a quiz answer */
 function toggleQuiz(id) {
     const answer = document.getElementById(id);
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
+
+    if (answer) {
+        answer.classList.toggle("show");
     }
 }
 
+/* Highlight the sidebar link for the section currently being read */
 const sections = document.querySelectorAll(".section[id]");
 const menuLinks = document.querySelectorAll(".nav-buttons a");
 
-const observer = new IntersectionObserver(
-    entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                menuLinks.forEach(link => {
-                    link.classList.remove("active");
-                });
+function setActiveLink(sectionId) {
+    menuLinks.forEach(link => {
+        const target = link.getAttribute("href");
 
-                const activeLink = document.querySelector(
-                    `.nav-buttons a[href="#${entry.target.id}"]`
-                );
+        if (target === "#" + sectionId) {
+            link.classList.add("active");
+        } else {
+            link.classList.remove("active");
+        }
+    });
+}
 
-                if (activeLink) {
-                    activeLink.classList.add("active");
-                }
+if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+        entries => {
+            const visibleSections = entries
+                .filter(entry => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+            if (visibleSections.length > 0) {
+                setActiveLink(visibleSections[0].target.id);
             }
-        });
-    },
-    { rootMargin: "-20% 0px -65% 0px" }
-);
+        },
+        {
+            root: null,
+            rootMargin: "-15% 0px -65% 0px",
+            threshold: [0, 0.1, 0.25, 0.5, 0.75]
+        }
+    );
 
-sections.forEach(section => observer.observe(section));
+    sections.forEach(section => observer.observe(section));
+}
 
+/* Set the correct link when a sidebar item is clicked */
+menuLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        const targetId = link.getAttribute("href").slice(1);
+        setActiveLink(targetId);
+    });
+});
+
+/* Set an initial active item */
 if (menuLinks.length > 0) {
-    menuLinks[0].classList.add("active");
+    setActiveLink("reading");
 }
 </script>
 
