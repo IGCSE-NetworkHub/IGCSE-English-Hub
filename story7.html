@@ -1,21 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Chapter 7 - Giving Thanks for Our Blessings | IGCSE English Hub</title>
 
 <style>
+* { box-sizing: border-box; }
 
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
     margin: 0;
@@ -25,7 +19,6 @@ body {
     line-height: 1.7;
 }
 
-/* HEADER */
 header {
     background: linear-gradient(135deg, #102a56, #1d4f91);
     color: white;
@@ -47,14 +40,13 @@ header p {
     opacity: .92;
 }
 
-/* SIDEBAR */
 .lesson-nav {
     position: fixed;
     left: 0;
     top: 0;
     width: 255px;
     height: 100vh;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 3px 0 15px rgba(0,0,0,.08);
     padding: 25px 15px;
     overflow-y: auto;
@@ -97,14 +89,12 @@ header p {
     box-shadow: 0 5px 12px rgba(16,42,86,.18);
 }
 
-/* MAIN */
 .container {
     margin-left: 255px;
     padding: 35px;
-    max-width: 1250px;
+    max-width: 1500px;
 }
 
-/* SECTIONS */
 .section {
     background: white;
     margin-bottom: 30px;
@@ -116,14 +106,8 @@ header p {
 }
 
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .section h2 {
@@ -133,11 +117,8 @@ header p {
     padding-bottom: 10px;
 }
 
-.section h3 {
-    color: #1d4f91;
-}
+.section h3 { color: #1d4f91; }
 
-/* STORY */
 .story-text {
     background: #f8fbff;
     border-left: 5px solid #1d4f91;
@@ -146,9 +127,7 @@ header p {
     font-size: 17px;
 }
 
-.story-text p {
-    margin-bottom: 20px;
-}
+.story-text p { margin-bottom: 20px; }
 
 .highlight {
     background: #fff3cd;
@@ -168,7 +147,6 @@ header p {
     font-style: italic;
 }
 
-/* INFO GRID */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -181,6 +159,7 @@ header p {
     padding: 20px;
     border-radius: 14px;
     transition: .25s ease;
+    margin-bottom: 15px;
 }
 
 .info-card:hover {
@@ -188,11 +167,8 @@ header p {
     box-shadow: 0 8px 18px rgba(0,0,0,.08);
 }
 
-.info-card h3 {
-    margin-top: 0;
-}
+.info-card h3 { margin-top: 0; }
 
-/* VOCABULARY */
 .vocab-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -206,11 +182,8 @@ header p {
     border-radius: 12px;
 }
 
-.vocab-item strong {
-    color: #102a56;
-}
+.vocab-item strong { color: #102a56; }
 
-/* QUESTIONS */
 .question {
     background: #f8fafc;
     border: 1px solid #e1e8f0;
@@ -219,9 +192,7 @@ header p {
     border-radius: 12px;
 }
 
-.question strong {
-    color: #102a56;
-}
+.question strong { color: #102a56; }
 
 .answer-btn,
 .show-answer {
@@ -237,9 +208,7 @@ header p {
 }
 
 .answer-btn:hover,
-.show-answer:hover {
-    background: #102a56;
-}
+.show-answer:hover { background: #102a56; }
 
 .answer {
     display: none;
@@ -250,11 +219,8 @@ header p {
     border-radius: 8px;
 }
 
-.answer.show {
-    display: block;
-}
+.answer.show { display: block; }
 
-/* FILL */
 .fill-item {
     background: #f8fbff;
     border: 1px solid #dfe7f0;
@@ -279,7 +245,6 @@ header p {
     color: #102a56;
 }
 
-/* COMMENTS */
 .quote-card {
     background: #f8fbff;
     border: 1px solid #dce6f2;
@@ -304,6 +269,11 @@ header p {
     gap: 10px;
 }
 
+/* Keep Comment Question details hidden until requested. */
+.quote-details[hidden] {
+    display: none !important;
+}
+
 .quote-details div {
     background: white;
     border: 1px solid #e0e7ef;
@@ -311,9 +281,7 @@ header p {
     border-radius: 8px;
 }
 
-.quote-details strong {
-    color: #102a56;
-}
+.quote-details strong { color: #102a56; }
 
 .quote-answer {
     display: none;
@@ -324,13 +292,17 @@ header p {
     border-radius: 8px;
 }
 
-/* QUIZ */
 .quiz-title {
     background: linear-gradient(135deg, #102a56, #1d4f91);
     color: white;
     padding: 18px 22px;
     border-radius: 12px;
     margin-bottom: 20px;
+}
+
+.quiz-title h2 {
+    color: white;
+    border-bottom-color: rgba(255,255,255,.3);
 }
 
 .quiz-question {
@@ -347,7 +319,6 @@ header p {
     margin-top: 12px;
 }
 
-/* BUTTON */
 .back-button {
     display: inline-block;
     text-decoration: none;
@@ -364,7 +335,6 @@ header p {
     transform: translateY(-2px);
 }
 
-/* FOOTER */
 footer {
     margin-left: 255px;
     text-align: center;
@@ -374,9 +344,7 @@ footer {
     margin-top: 30px;
 }
 
-/* MOBILE */
 @media (max-width: 850px) {
-
     .lesson-nav {
         position: relative;
         width: 100%;
@@ -393,23 +361,12 @@ footer {
         padding: 18px;
     }
 
-    footer {
-        margin-left: 0;
-    }
+    footer, header { margin-left: 0; }
 
-    header {
-        margin-left: 0;
-    }
+    header h1 { font-size: 27px; }
 
-    header h1 {
-        font-size: 27px;
-    }
-
-    .section {
-        padding: 22px;
-    }
+    .section { padding: 22px; }
 }
-
 </style>
 </head>
 
@@ -421,11 +378,8 @@ footer {
 </header>
 
 <nav class="lesson-nav">
-
     <h2>📚 Chapter 7</h2>
-
     <div class="nav-buttons">
-
         <a href="#reading">📖 Reading</a>
         <a href="#summary">📝 Summary</a>
         <a href="#characters">👨‍👩‍👦 Characters</a>
@@ -437,258 +391,71 @@ footer {
         <a href="#quiz1">🧠 Quiz 1</a>
         <a href="#quiz2">🧠 Quiz 2</a>
         <a href="#back">↩️ Back</a>
-
     </div>
-
 </nav>
 
 <main class="container">
 
-<!-- READING -->
-
 <section class="section" id="reading">
-
     <h2>📖 Reading — Giving Thanks for Our Blessings</h2>
-
     <div class="story-text">
-
-        <p>
-            The next day was an important day for us. It marked our second anniversary on the island.
-            Father decided that we should celebrate by making it a holiday.
-        </p>
-
-        <p>
-            We had a great feast and held contests in wrestling, running, swimming, shooting and horseback riding.
-            The boys had been practising these activities for two years.
-        </p>
-
-        <p>
-            Fritz was the champion swimmer and the best shot. His prizes were an English rifle and a hunting knife.
-            Ernest was the best runner, so he received a gold watch.
-        </p>
-
-        <p>
-            Jack was the best at riding the donkey. He won a pair of silver spurs and a riding whip.
-            Franz won the buffalo-riding contest and received stirrups and a driving whip.
-        </p>
-
-        <p>
-            Father also gave Mother a lovely workbox containing fine needles and sewing supplies.
-            She was very pleased with her gift.
-        </p>
-
-        <div class="highlight">
-            The family celebrated their second anniversary by remembering their blessings,
-            enjoying each other's company and rewarding the boys for their hard work.
-        </div>
-
-        <p>
-            The next day we returned to our usual work because the rainy season was approaching.
-            The boys caught fish and preserved them by salting them.
-            The salt from the cave made this easy.
-        </p>
-
-        <p>
-            We also gathered bags of sweet acorns to store for the winter.
-        </p>
-
-        <p>
-            Jack decided to make a private expedition to the swamp to collect reeds for baskets and hen coops.
-            He went farther into the swamp because the reeds there were better.
-        </p>
-
-        <p>
-            Suddenly, Jack's foot slipped and he sank into the thick, soft mud.
-            At first he was only over his ankles, but soon he had sunk as far as his knees.
-        </p>
-
-        <p>
-            Jack called for help, but nobody heard him.
-            Then Fangs, his faithful jackal, appeared.
-            Fangs could not pull Jack out by himself, but he ran backwards and forwards between Jack and the bank.
-        </p>
-
-        <p>
-            Jack cut the reeds that he could reach and tied them into a bundle.
-            He leaned on the bundle and managed to free his legs.
-            Then he got astride the reeds.
-        </p>
-
-        <p>
-            Fangs ran towards the bank.
-            Jack grabbed Fangs by the tail and allowed the reeds to act like a raft.
-            Fangs pulled him towards dry land.
-        </p>
-
-        <div class="quote">
-            "Fangs is a hero — it's a good thing he was with you!"
-        </div>
-
-        <p>
-            When Jack returned, he was muddy and exhausted.
-            Father was relieved that he was safe and praised Fangs for helping him.
-        </p>
-
-        <p>
-            Father was pleased with the reeds because he had a new plan.
-            He wanted to build a loom for Mother.
-        </p>
-
-        <p>
-            A week later, Father gave Mother the loom.
-            She was delighted because she could now weave cloth for clothing for the whole family.
-        </p>
-
-        <p>
-            The family continued preparing for winter.
-            They gathered roots, fruits, grains, potatoes, rice, sweet acorns and pine cones
-            and stored them in the cavern.
-        </p>
-
-        <p>
-            After all their hard work, the family was ready for another winter.
-        </p>
-
-        <div class="highlight">
-            Through teamwork, cleverness, faith and gratitude, the family continued to build a safe life on the island.
-        </div>
-
+        <p>The next day was an important day for us. It marked our second anniversary on the island. Father decided that we should celebrate by making it a holiday.</p>
+        <p>We had a great feast and held contests in wrestling, running, swimming, shooting and horseback riding. The boys had been practising these activities for two years.</p>
+        <p>Fritz was the champion swimmer and the best shot. His prizes were an English rifle and a hunting knife. Ernest was the best runner, so he received a gold watch.</p>
+        <p>Jack was the best at riding the donkey. He won a pair of silver spurs and a riding whip. Franz won the buffalo-riding contest and received stirrups and a driving whip.</p>
+        <p>Father also gave Mother a lovely workbox containing fine needles and sewing supplies. She was very pleased with her gift.</p>
+        <div class="highlight">The family celebrated their second anniversary by remembering their blessings, enjoying each other's company and rewarding the boys for their hard work.</div>
+        <p>The next day we returned to our usual work because the rainy season was approaching. The boys caught fish and preserved them by salting them. The salt from the cave made this easy.</p>
+        <p>We also gathered bags of sweet acorns to store for the winter.</p>
+        <p>Jack decided to make a private expedition to the swamp to collect reeds for baskets and hen coops. He went farther into the swamp because the reeds there were better.</p>
+        <p>Suddenly, Jack's foot slipped and he sank into the thick, soft mud. At first he was only over his ankles, but soon he had sunk as far as his knees.</p>
+        <p>Jack called for help, but nobody heard him. Then Fangs, his faithful jackal, appeared. Fangs could not pull Jack out by himself, but he ran backwards and forwards between Jack and the bank.</p>
+        <p>Jack cut the reeds that he could reach and tied them into a bundle. He leaned on the bundle and managed to free his legs. Then he got astride the reeds.</p>
+        <p>Fangs ran towards the bank. Jack grabbed Fangs by the tail and allowed the reeds to act like a raft. Fangs pulled him towards dry land.</p>
+        <div class="quote">"Fangs is a hero — it's a good thing he was with you!"</div>
+        <p>When Jack returned, he was muddy and exhausted. Father was relieved that he was safe and praised Fangs for helping him.</p>
+        <p>Father was pleased with the reeds because he had a new plan. He wanted to build a loom for Mother.</p>
+        <p>A week later, Father gave Mother the loom. She was delighted because she could now weave cloth for clothing for the whole family.</p>
+        <p>The family continued preparing for winter. They gathered roots, fruits, grains, potatoes, rice, sweet acorns and pine cones and stored them in the cavern.</p>
+        <p>After all their hard work, the family was ready for another winter.</p>
+        <div class="highlight">Through teamwork, cleverness, faith and gratitude, the family continued to build a safe life on the island.</div>
     </div>
-
 </section>
-
-
-<!-- SUMMARY -->
 
 <section class="section" id="summary">
-
     <h2>📝 Summary</h2>
-
     <div class="info-card">
-
         <h3>1. A Special Anniversary</h3>
-
-        <p>
-            The family celebrated their second anniversary on the island with a feast
-            and several contests. Fritz won swimming and shooting, Ernest won running,
-            Jack won donkey riding and Franz won buffalo riding. Father also gave Mother
-            a beautiful workbox containing sewing materials.
-        </p>
-
+        <p>The family celebrated their second anniversary on the island with a feast and several contests. Fritz won swimming and shooting, Ernest won running, Jack won donkey riding and Franz won buffalo riding. Father also gave Mother a beautiful workbox containing sewing materials.</p>
     </div>
-
     <div class="info-card">
-
         <h3>2. Jack's Dangerous Expedition</h3>
-
-        <p>
-            As the rainy season approached, the family prepared food for winter.
-            Jack went into the swamp to collect reeds but became trapped in deep,
-            soft mud. Fangs, his faithful jackal, helped him escape. Jack used a bundle
-            of reeds as a raft and held Fangs' tail while the jackal pulled him to safety.
-        </p>
-
+        <p>As the rainy season approached, the family prepared food for winter. Jack went into the swamp to collect reeds but became trapped in deep, soft mud. Fangs, his faithful jackal, helped him escape. Jack used a bundle of reeds as a raft and held Fangs' tail while the jackal pulled him to safety.</p>
     </div>
-
     <div class="info-card">
-
         <h3>3. A New Loom</h3>
-
-        <p>
-            Father used the reeds to make a loom for Mother.
-            She was delighted because she could now weave cloth and make clothing
-            for the family. The family continued gathering food and storing it in
-            the cavern until they were ready for another winter.
-        </p>
-
+        <p>Father used the reeds to make a loom for Mother. She was delighted because she could now weave cloth and make clothing for the family. The family continued gathering food and storing it in the cavern until they were ready for another winter.</p>
     </div>
-
 </section>
-
-
-<!-- CHARACTERS -->
 
 <section class="section" id="characters">
-
     <h2>👨‍👩‍👦 Characters</h2>
-
     <div class="info-grid">
-
-        <div class="info-card">
-            <h3>Father</h3>
-            <p>
-                The narrator and leader of the family. He organises the celebration,
-                appreciates Jack's escape and uses the reeds to make a loom.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Mother</h3>
-            <p>
-                She receives a workbox and later a loom. She can use the loom
-                to weave cloth and make clothing for the family.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Fritz</h3>
-            <p>
-                A strong swimmer and expert shot. He wins an English rifle
-                and a hunting knife.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Ernest</h3>
-            <p>
-                The best runner in the family. He receives a gold watch.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Jack</h3>
-            <p>
-                Adventurous, independent and clever. He gets trapped in the swamp
-                but uses reeds and Fangs' help to escape.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Franz</h3>
-            <p>
-                He wins the buffalo-riding contest and receives stirrups
-                and a driving whip.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Fangs</h3>
-            <p>
-                Jack's faithful jackal. He plays an important role in helping Jack
-                escape from the swamp.
-            </p>
-        </div>
-
+        <div class="info-card"><h3>Father</h3><p>The narrator and leader of the family. He organises the celebration, appreciates Jack's escape and uses the reeds to make a loom.</p></div>
+        <div class="info-card"><h3>Mother</h3><p>She receives a workbox and later a loom. She can use the loom to weave cloth and make clothing for the family.</p></div>
+        <div class="info-card"><h3>Fritz</h3><p>A strong swimmer and expert shot. He wins an English rifle and a hunting knife.</p></div>
+        <div class="info-card"><h3>Ernest</h3><p>The best runner in the family. He receives a gold watch.</p></div>
+        <div class="info-card"><h3>Jack</h3><p>Adventurous, independent and clever. He gets trapped in the swamp but uses reeds and Fangs' help to escape.</p></div>
+        <div class="info-card"><h3>Franz</h3><p>He wins the buffalo-riding contest and receives stirrups and a driving whip.</p></div>
+        <div class="info-card"><h3>Fangs</h3><p>Jack's faithful jackal. He plays an important role in helping Jack escape from the swamp.</p></div>
     </div>
-
 </section>
 
-
-<!-- THEME -->
-
 <section class="section" id="theme">
-
     <h2>💡 Main Theme</h2>
-
     <div class="info-card">
-
         <h3>Gratitude and Ingenuity in the Face of Isolation</h3>
-
-        <p>
-            The family continues to survive by being thankful for what they have
-            and by using their skills and imagination to solve problems.
-        </p>
-
+        <p>The family continues to survive by being thankful for what they have and by using their skills and imagination to solve problems.</p>
         <ul>
             <li><strong>Gratitude:</strong> They celebrate their blessings and survival.</li>
             <li><strong>Unity:</strong> The family works together.</li>
@@ -697,967 +464,332 @@ footer {
             <li><strong>Inventiveness:</strong> Father turns reeds into a useful loom.</li>
             <li><strong>Cooperation:</strong> Jack and Fangs work together to escape.</li>
         </ul>
-
     </div>
-
 </section>
-
-
-<!-- VOCABULARY -->
 
 <section class="section" id="vocabulary">
-
     <h2>📚 Vocabulary</h2>
-
     <div class="vocab-grid">
-
-        <div class="vocab-item">
-            <strong>Anniversary</strong>
-            <p>A yearly recurrence of a date marking a past event.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Declare</strong>
-            <p>To announce something formally or officially.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Celebration</strong>
-            <p>A joyful occasion for festivities.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Contests</strong>
-            <p>Competitive activities with rules and a goal of winning.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Expert</strong>
-            <p>Highly skilled or knowledgeable.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Stirrups</strong>
-            <p>Metal loops on a saddle supporting a rider's feet.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Workbox</strong>
-            <p>A container holding sewing materials and tools.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Preserved</strong>
-            <p>Stored to prevent decay or spoilage.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Swamp</strong>
-            <p>Wet, soft, muddy land often covered with water.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Slime</strong>
-            <p>A slippery, sticky and unpleasant substance.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Ankles</strong>
-            <p>The joints connecting the foot with the leg.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Marsh</strong>
-            <p>Low wet land with reeds or grasses.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Struggled</strong>
-            <p>Fought to escape or achieve something difficult.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Faithful</strong>
-            <p>Loyal and reliable.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Raft</strong>
-            <p>A flat floating structure used for support in water or soft ground.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Loom</strong>
-            <p>A machine or frame for weaving thread or yarn into fabric.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Weave</strong>
-            <p>To make fabric by crossing threads together.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Cavern</strong>
-            <p>A large cave, typically underground.</p>
-        </div>
-
+        <div class="vocab-item"><strong>Anniversary</strong><p>A yearly recurrence of a date marking a past event.</p></div>
+        <div class="vocab-item"><strong>Declare</strong><p>To announce something formally or officially.</p></div>
+        <div class="vocab-item"><strong>Celebration</strong><p>A joyful occasion for festivities.</p></div>
+        <div class="vocab-item"><strong>Contests</strong><p>Competitive activities with rules and a goal of winning.</p></div>
+        <div class="vocab-item"><strong>Expert</strong><p>Highly skilled or knowledgeable.</p></div>
+        <div class="vocab-item"><strong>Stirrups</strong><p>Metal loops on a saddle supporting a rider's feet.</p></div>
+        <div class="vocab-item"><strong>Workbox</strong><p>A container holding sewing materials and tools.</p></div>
+        <div class="vocab-item"><strong>Preserved</strong><p>Stored to prevent decay or spoilage.</p></div>
+        <div class="vocab-item"><strong>Swamp</strong><p>Wet, soft, muddy land often covered with water.</p></div>
+        <div class="vocab-item"><strong>Slime</strong><p>A slippery, sticky and unpleasant substance.</p></div>
+        <div class="vocab-item"><strong>Ankles</strong><p>The joints connecting the foot with the leg.</p></div>
+        <div class="vocab-item"><strong>Marsh</strong><p>Low wet land with reeds or grasses.</p></div>
+        <div class="vocab-item"><strong>Struggled</strong><p>Fought to escape or achieve something difficult.</p></div>
+        <div class="vocab-item"><strong>Faithful</strong><p>Loyal and reliable.</p></div>
+        <div class="vocab-item"><strong>Raft</strong><p>A flat floating structure used for support in water or soft ground.</p></div>
+        <div class="vocab-item"><strong>Loom</strong><p>A machine or frame for weaving thread or yarn into fabric.</p></div>
+        <div class="vocab-item"><strong>Weave</strong><p>To make fabric by crossing threads together.</p></div>
+        <div class="vocab-item"><strong>Cavern</strong><p>A large cave, typically underground.</p></div>
     </div>
-
 </section>
-
-
-<!-- QUESTIONS -->
 
 <section class="section" id="questions">
-
     <h2>❓ Comprehension Questions</h2>
-
-
-    <div class="question">
-        <strong>1. What special occasion was the family celebrating?</strong>
-        <button class="show-answer" onclick="toggleAnswer(1)">👁️ Show Answer</button>
-        <div class="answer" id="answer-1">They were celebrating their second anniversary on the island.</div>
-    </div>
-
-    <div class="question">
-        <strong>2. How did the family mark the anniversary?</strong>
-        <button class="show-answer" onclick="toggleAnswer(2)">👁️ Show Answer</button>
-        <div class="answer" id="answer-2">They made it a holiday and held a feast and several contests.</div>
-    </div>
-
-    <div class="question">
-        <strong>3. What activities were included in the contests?</strong>
-        <button class="show-answer" onclick="toggleAnswer(3)">👁️ Show Answer</button>
-        <div class="answer" id="answer-3">Wrestling, running, swimming, shooting and horseback riding.</div>
-    </div>
-
-    <div class="question">
-        <strong>4. What was the purpose of the contests?</strong>
-        <button class="show-answer" onclick="toggleAnswer(4)">👁️ Show Answer</button>
-        <div class="answer" id="answer-4">They were held to identify the champions and reward the boys.</div>
-    </div>
-
-    <div class="question">
-        <strong>5. What prizes did Fritz win?</strong>
-        <button class="show-answer" onclick="toggleAnswer(5)">👁️ Show Answer</button>
-        <div class="answer" id="answer-5">An English rifle and a hunting knife.</div>
-    </div>
-
-    <div class="question">
-        <strong>6. What prize did Ernest receive?</strong>
-        <button class="show-answer" onclick="toggleAnswer(6)">👁️ Show Answer</button>
-        <div class="answer" id="answer-6">A gold watch.</div>
-    </div>
-
-    <div class="question">
-        <strong>7. What did Jack win?</strong>
-        <button class="show-answer" onclick="toggleAnswer(7)">👁️ Show Answer</button>
-        <div class="answer" id="answer-7">Silver spurs and a riding whip.</div>
-    </div>
-
-    <div class="question">
-        <strong>8. What did Franz receive?</strong>
-        <button class="show-answer" onclick="toggleAnswer(8)">👁️ Show Answer</button>
-        <div class="answer" id="answer-8">Stirrups and a driving whip.</div>
-    </div>
-
-    <div class="question">
-        <strong>9. What gift did Father give Mother?</strong>
-        <button class="show-answer" onclick="toggleAnswer(9)">👁️ Show Answer</button>
-        <div class="answer" id="answer-9">A lovely workbox containing fine needles and sewing supplies.</div>
-    </div>
-
-    <div class="question">
-        <strong>10. How did the family prepare for the rainy season and winter?</strong>
-        <button class="show-answer" onclick="toggleAnswer(10)">👁️ Show Answer</button>
-        <div class="answer" id="answer-10">They salted fish, gathered sweet acorns and collected other food supplies.</div>
-    </div>
-
-    <div class="question">
-        <strong>11. What problem did Jack face?</strong>
-        <button class="show-answer" onclick="toggleAnswer(11)">👁️ Show Answer</button>
-        <div class="answer" id="answer-11">He became trapped in thick, soft mud in the swamp.</div>
-    </div>
-
-    <div class="question">
-        <strong>12. Why had Jack gone into the swamp?</strong>
-        <button class="show-answer" onclick="toggleAnswer(12)">👁️ Show Answer</button>
-        <div class="answer" id="answer-12">He wanted to collect reeds for baskets and hen coops.</div>
-    </div>
-
-    <div class="question">
-        <strong>13. How deep did Jack sink into the mud?</strong>
-        <button class="show-answer" onclick="toggleAnswer(13)">👁️ Show Answer</button>
-        <div class="answer" id="answer-13">He eventually sank as far as his knees.</div>
-    </div>
-
-    <div class="question">
-        <strong>14. Who came to help Jack?</strong>
-        <button class="show-answer" onclick="toggleAnswer(14)">👁️ Show Answer</button>
-        <div class="answer" id="answer-14">Fangs, his faithful jackal.</div>
-    </div>
-
-    <div class="question">
-        <strong>15. Why could Fangs not help Jack immediately?</strong>
-        <button class="show-answer" onclick="toggleAnswer(15)">👁️ Show Answer</button>
-        <div class="answer" id="answer-15">Fangs could only make noise and run backwards and forwards between Jack and the bank.</div>
-    </div>
-
-    <div class="question">
-        <strong>16. How did Jack use the reeds to escape?</strong>
-        <button class="show-answer" onclick="toggleAnswer(16)">👁️ Show Answer</button>
-        <div class="answer" id="answer-16">He bundled the reeds together, leaned on them to free his legs and used them like a raft.</div>
-    </div>
-
-    <div class="question">
-        <strong>17. How did Fangs help Jack reach dry land?</strong>
-        <button class="show-answer" onclick="toggleAnswer(17)">👁️ Show Answer</button>
-        <div class="answer" id="answer-17">Jack held Fangs' tail while Fangs pulled him towards the bank.</div>
-    </div>
-
-    <div class="question">
-        <strong>18. How did Father react when Jack returned?</strong>
-        <button class="show-answer" onclick="toggleAnswer(18)">👁️ Show Answer</button>
-        <div class="answer" id="answer-18">He was concerned and grateful that Jack was safe, and he praised Fangs.</div>
-    </div>
-
-    <div class="question">
-        <strong>19. What did Father plan to make with the reeds?</strong>
-        <button class="show-answer" onclick="toggleAnswer(19)">👁️ Show Answer</button>
-        <div class="answer" id="answer-19">He planned to make a loom for Mother.</div>
-    </div>
-
-    <div class="question">
-        <strong>20. How did Mother react to the loom?</strong>
-        <button class="show-answer" onclick="toggleAnswer(20)">👁️ Show Answer</button>
-        <div class="answer" id="answer-20">She was very pleased because she could weave cloth.</div>
-    </div>
-
-    <div class="question">
-        <strong>21. What food and materials did the family gather for winter?</strong>
-        <button class="show-answer" onclick="toggleAnswer(21)">👁️ Show Answer</button>
-        <div class="answer" id="answer-21">Roots, fruits, grains, potatoes, rice, sweet acorns and pine cones.</div>
-    </div>
-
-    <div class="question">
-        <strong>22. Where did the family store their supplies?</strong>
-        <button class="show-answer" onclick="toggleAnswer(22)">👁️ Show Answer</button>
-        <div class="answer" id="answer-22">They stored them in the cavern.</div>
-    </div>
-
-    <div class="question">
-        <strong>23. Why was preserving fish easier for the family?</strong>
-        <button class="show-answer" onclick="toggleAnswer(23)">👁️ Show Answer</button>
-        <div class="answer" id="answer-23">Because they had plenty of salt in the salt cave.</div>
-    </div>
-
-    <div class="question">
-        <strong>24. Why did Jack go farther into the swamp?</strong>
-        <button class="show-answer" onclick="toggleAnswer(24)">👁️ Show Answer</button>
-        <div class="answer" id="answer-24">Because the reeds were better farther into the swamp.</div>
-    </div>
-
-    <div class="question">
-        <strong>25. Why did Jack make a bundle of reeds?</strong>
-        <button class="show-answer" onclick="toggleAnswer(25)">👁️ Show Answer</button>
-        <div class="answer" id="answer-25">The bundle gave him support and helped him get out of the mud.</div>
-    </div>
-
-    <div class="question">
-        <strong>26. What does Jack's behaviour show about his character?</strong>
-        <button class="show-answer" onclick="toggleAnswer(26)">👁️ Show Answer</button>
-        <div class="answer" id="answer-26">He is independent, adventurous, clever and determined.</div>
-    </div>
-
-    <div class="question">
-        <strong>27. How does Father show resourcefulness?</strong>
-        <button class="show-answer" onclick="toggleAnswer(27)">👁️ Show Answer</button>
-        <div class="answer" id="answer-27">He uses the reeds to make a loom that helps the family make clothing.</div>
-    </div>
-
-    <div class="question">
-        <strong>28. How has the family grown stronger?</strong>
-        <button class="show-answer" onclick="toggleAnswer(28)">👁️ Show Answer</button>
-        <div class="answer" id="answer-28">They have developed useful skills, adapted to island life and worked together.</div>
-    </div>
-
-    <div class="question">
-        <strong>29. Why was Fangs important in this chapter?</strong>
-        <button class="show-answer" onclick="toggleAnswer(29)">👁️ Show Answer</button>
-        <div class="answer" id="answer-29">His loyalty and actions helped Jack escape from the dangerous swamp.</div>
-    </div>
-
-    <div class="question">
-        <strong>30. What deeper message does the chapter communicate?</strong>
-        <button class="show-answer" onclick="toggleAnswer(30)">👁️ Show Answer</button>
-        <div class="answer" id="answer-30">The chapter shows the importance of gratitude, unity, faith, cooperation and making the best of difficult situations.</div>
-    </div>
-
+    <div id="question-list"></div>
 </section>
-
-
-<!-- FILL IN THE BLANKS -->
 
 <section class="section" id="fill">
-
     <h2>✏️ Fill in the Blanks</h2>
-
-    <div class="fill-item">
-        <span class="fill-number">1.</span> The family celebrated its second __________ on the island.
-        <button class="show-answer" onclick="toggleFill(1)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-1">anniversary</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">2.</span> Father declared the next day a __________.
-        <button class="show-answer" onclick="toggleFill(2)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-2">holiday</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">3.</span> Fritz won an English __________ and a hunting knife.
-        <button class="show-answer" onclick="toggleFill(3)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-3">rifle</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">4.</span> Ernest won a gold __________.
-        <button class="show-answer" onclick="toggleFill(4)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-4">watch</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">5.</span> Jack won silver __________ and a riding whip.
-        <button class="show-answer" onclick="toggleFill(5)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-5">spurs</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">6.</span> Franz received __________ for riding the buffalo.
-        <button class="show-answer" onclick="toggleFill(6)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-6">stirrups</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">7.</span> Mother received a __________ containing sewing materials.
-        <button class="show-answer" onclick="toggleFill(7)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-7">workbox</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">8.</span> The boys preserved the fish by __________ them.
-        <button class="show-answer" onclick="toggleFill(8)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-8">salting</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">9.</span> The family gathered sweet __________ for winter.
-        <button class="show-answer" onclick="toggleFill(9)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-9">acorns</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">10.</span> Jack went into the __________ to collect reeds.
-        <button class="show-answer" onclick="toggleFill(10)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-10">swamp</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">11.</span> Jack went into the swamp to collect __________.
-        <button class="show-answer" onclick="toggleFill(11)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-11">reeds</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">12.</span> Jack used the bundle of reeds like a __________.
-        <button class="show-answer" onclick="toggleFill(12)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-12">raft</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">13.</span> Jack held Fangs by his __________.
-        <button class="show-answer" onclick="toggleFill(13)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-13">tail</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">14.</span> __________ was Jack's faithful jackal.
-        <button class="show-answer" onclick="toggleFill(14)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-14">Fangs</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">15.</span> Jack's __________ became stuck in the soft mud.
-        <button class="show-answer" onclick="toggleFill(15)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-15">shoe</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">16.</span> The mud was thick and __________.
-        <button class="show-answer" onclick="toggleFill(16)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-16">soft</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">17.</span> Father used the reeds to make a __________.
-        <button class="show-answer" onclick="toggleFill(17)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-17">loom</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">18.</span> Mother could use the loom to __________ cloth.
-        <button class="show-answer" onclick="toggleFill(18)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-18">weave</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">19.</span> The __________ season was approaching.
-        <button class="show-answer" onclick="toggleFill(19)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-19">rainy</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">20.</span> The family collected roots, fruits, grains and __________.
-        <button class="show-answer" onclick="toggleFill(20)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-20">pine cones</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">21.</span> The family stored their supplies in the __________.
-        <button class="show-answer" onclick="toggleFill(21)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-21">cavern</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">22.</span> The boys competed in several __________.
-        <button class="show-answer" onclick="toggleFill(22)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-22">contests</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">23.</span> Jack went on a private __________ to the swamp.
-        <button class="show-answer" onclick="toggleFill(23)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-23">expedition</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">24.</span> Jack began __________ for help.
-        <button class="show-answer" onclick="toggleFill(24)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-24">calling</div>
-    </div>
-
-    <div class="fill-item">
-        <span class="fill-number">25.</span> Father said Jack had a __________ escape.
-        <button class="show-answer" onclick="toggleFill(25)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-25">lucky</div>
-    </div>
-
+    <div id="fill-list"></div>
 </section>
-
-
-<!-- COMMENTS -->
 
 <section class="section" id="comments">
-
     <h2>💬 Comment Questions</h2>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Tomorrow is an important day for us. Do you realise that it will mark our second anniversary on the island?”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Mother</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> He is reminding Mother about their second anniversary and planning the celebration.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “That’s why I’m going to declare tomorrow a holiday—a special day of celebration.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Mother</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> He explains how the family will celebrate their second anniversary.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Fangs is a hero — it’s a good thing he was with you!”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Jack</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> Father praises Fangs after learning how he helped Jack escape.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “They’re exactly what I needed for a new plan I have in mind.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Jack</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> Father explains that the reeds will be useful for his plan to make a loom.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “For two years, they’d been practicing wrestling, running, swimming, shooting and horseback riding.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> The reader</div>
-            <div><strong>Place:</strong> During the celebration</div>
-            <div><strong>Occasion:</strong> He describes the boys' progress before the contests.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “I tried to jump from one spot to another. But my foot slipped and I sank in over my ankles.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Jack</div>
-            <div><strong>To whom:</strong> Father</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> Jack explains how he became trapped in the swamp.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “No matter how I struggled, I kept sinking deeper and deeper!”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Jack</div>
-            <div><strong>To whom:</strong> Father</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> Jack describes how dangerous the swamp became.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Now go and get clean. That slimy mud will be hard to wash off.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Jack</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> Father responds after Jack returns covered in mud.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Now she could weave cloth, which she could use to make clothing for all of us.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> The reader</div>
-            <div><strong>Place:</strong> Falcon's Nest</div>
-            <div><strong>Occasion:</strong> He explains the usefulness of the new loom.</div>
-
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “At last we were ready for another winter.”
-        </blockquote>
-
-        <div class="quote-details">
-
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> The reader</div>
-            <div><strong>Place:</strong> The island</div>
-            <div><strong>Occasion:</strong> The family has finished gathering and storing supplies for winter.</div>
-
-        </div>
-
-    </div>
-
+    <div id="comment-list"></div>
 </section>
 
-
-<!-- QUIZ 1 -->
-
 <section class="section" id="quiz1">
-
     <div class="quiz-title">
         <h2>🧠 Quiz 1</h2>
         <p>Check your understanding of Chapter 7.</p>
     </div>
-
-
-    <div class="quiz-question">
-        <strong>1. What special occasion did the family celebrate?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-1')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-1">Their second anniversary on the island.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>2. What prize did Ernest win?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-2')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-2">A gold watch.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>3. What useful gift did Mother receive?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-3')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-3">A workbox containing fine needles and sewing supplies.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>4. Why did Jack become covered in mud?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-4')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-4">He became trapped in a swamp while collecting reeds.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>5. What helped Jack escape?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-5')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-5">A bundle of reeds and Fangs' help.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>6. What was used to preserve the fish?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-6')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-6">Salt.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>7. What did Jack collect in the swamp?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-7')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-7">Reeds.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>8. What did Father make from the reeds?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-8')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-8">A loom.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>9. What part of Fangs did Jack hold?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-9')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-9">His tail.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>10. Who said: “Tomorrow is an important day for us”?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-10')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-10">Father said it to Mother at Falcon's Nest while discussing their second anniversary.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>11. Who said: “At last, who should appear but Fangs, my faithful jackal!”?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-11')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-11">Jack said it to Father at Falcon's Nest while describing his escape from the swamp.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>12. What was the purpose of the loom?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-12')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-12">It allowed Mother to weave cloth that could be used to make clothing for the family.</div>
-    </div>
-
+    <div id="quiz1-list"></div>
 </section>
 
-
-<!-- QUIZ 2 -->
-
 <section class="section" id="quiz2">
-
     <div class="quiz-title">
         <h2>🧠 Quiz 2</h2>
         <p>Think carefully and show what you remember.</p>
     </div>
-
-
-    <div class="quiz-question">
-        <strong>1. What two activities did Fritz win?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-1')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-1">Swimming and shooting.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>2. What reward did Jack receive?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-2')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-2">Silver spurs and a riding whip.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>3. Why did Father make the anniversary a holiday?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-3')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-3">To celebrate their second anniversary, survival and blessings.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>4. What food did the family collect for winter?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-4')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-4">Roots, fruits, grains, potatoes, rice, sweet acorns and pine cones.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>5. What did Father build with the reeds?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-5')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-5">A loom.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>6. What kind of animal was Fangs?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-6')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-6">A jackal.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>7. What did the reeds become useful for?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-7')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-7">They were used to make a loom.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>8. What was the mud in the swamp like?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-8')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-8">It was thick, soft and slimy.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>9. What could Mother do with the loom?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-9')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-9">She could weave cloth for the family's clothing.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>10. Who said: “Now go and get clean. That slimy mud will be hard to wash off.”?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-10')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-10">Father said it to Jack at Falcon's Nest after Jack returned from the swamp.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>11. Who said: “He seemed surprised that I didn’t follow him!”?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-11')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-11">Jack said it to Father at Falcon's Nest while describing Fangs' actions during the rescue.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>12. What does the chapter show about the family's life on the island?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-12')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-12">They survive through gratitude, teamwork, resourcefulness, courage and cooperation.</div>
-    </div>
-
+    <div id="quiz2-list"></div>
 </section>
 
-
-<!-- BACK -->
-
 <section class="section" id="back">
-
     <h2>↩️ Back to My Course</h2>
-
-    <p>
-        Return to your Year 6 story chapters.
-    </p>
-
-    <a href="my-course.html" class="back-button">
-        ← Back to My Course
-    </a>
-
+    <p>Return to your Year 6 story chapters.</p>
+    <a href="my-course.html" class="back-button">← Back to My Course</a>
 </section>
 
 </main>
 
-
-<footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
-</footer>
-
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
+const questions = [
+["What special occasion was the family celebrating?","They were celebrating their second anniversary on the island."],
+["How did the family mark the anniversary?","They made it a holiday and held a feast and several contests."],
+["What activities were included in the contests?","Wrestling, running, swimming, shooting and horseback riding."],
+["What was the purpose of the contests?","They were held to identify the champions and reward the boys."],
+["What prizes did Fritz win?","An English rifle and a hunting knife."],
+["What prize did Ernest receive?","A gold watch."],
+["What did Jack win?","Silver spurs and a riding whip."],
+["What did Franz receive?","Stirrups and a driving whip."],
+["What gift did Father give Mother?","A lovely workbox containing fine needles and sewing supplies."],
+["How did the family prepare for the rainy season and winter?","They salted fish, gathered sweet acorns and collected other food supplies."],
+["What problem did Jack face?","He became trapped in thick, soft mud in the swamp."],
+["Why had Jack gone into the swamp?","He wanted to collect reeds for baskets and hen coops."],
+["How deep did Jack sink into the mud?","He eventually sank as far as his knees."],
+["Who came to help Jack?","Fangs, his faithful jackal."],
+["Why could Fangs not help Jack immediately?","Fangs could not pull Jack out by himself, so he ran between Jack and the bank."],
+["How did Jack use the reeds to escape?","He bundled the reeds together, leaned on them to free his legs and used them like a raft."],
+["How did Fangs help Jack reach dry land?","Jack held Fangs' tail while Fangs pulled him towards the bank."],
+["How did Father react when Jack returned?","He was relieved that Jack was safe and praised Fangs."],
+["What did Father plan to make with the reeds?","He planned to make a loom for Mother."],
+["How did Mother react to the loom?","She was very pleased because she could weave cloth."],
+["What food and materials did the family gather for winter?","Roots, fruits, grains, potatoes, rice, sweet acorns and pine cones."],
+["Where did the family store their supplies?","They stored them in the cavern."],
+["Why was preserving fish easier for the family?","Because they had plenty of salt from the cave."],
+["Why did Jack go farther into the swamp?","Because the reeds were better farther into the swamp."],
+["Why did Jack make a bundle of reeds?","The bundle gave him support and helped him get out of the mud."],
+["What does Jack's behaviour show about his character?","He is independent, adventurous, clever and determined."],
+["How does Father show resourcefulness?","He uses the reeds to make a loom that helps the family make clothing."],
+["How has the family grown stronger?","They have developed useful skills, adapted to island life and worked together."],
+["Why was Fangs important in this chapter?","His loyalty and actions helped Jack escape from the dangerous swamp."],
+["What deeper message does the chapter communicate?","The importance of gratitude, unity, cooperation and making the best of difficult situations."]
+];
 
-function toggleAnswer(index) {
+const fills = [
+["The family celebrated its second __________ on the island.","anniversary"],
+["Father declared the next day a __________.","holiday"],
+["Fritz won an English __________ and a hunting knife.","rifle"],
+["Ernest won a gold __________.","watch"],
+["Jack won silver __________ and a riding whip.","spurs"],
+["Franz received __________ for riding the buffalo.","stirrups"],
+["Mother received a __________ containing sewing materials.","workbox"],
+["The boys preserved the fish by __________ them.","salting"],
+["The family gathered sweet __________ for winter.","acorns"],
+["Jack went into the __________ to collect reeds.","swamp"],
+["Jack went into the swamp to collect __________.","reeds"],
+["Jack used the bundle of reeds like a __________.","raft"],
+["Jack held Fangs by his __________.","tail"],
+["__________ was Jack's faithful jackal.","Fangs"],
+["Jack's __________ became stuck in the soft mud.","shoe"],
+["The mud was thick and __________.","soft"],
+["Father used the reeds to make a __________.","loom"],
+["Mother could use the loom to __________ cloth.","weave"],
+["The __________ season was approaching.","rainy"],
+["The family collected roots, fruits, grains and __________.","pine cones"],
+["The family stored their supplies in the __________.","cavern"],
+["The boys competed in several __________.","contests"],
+["Jack went on a private __________ to the swamp.","expedition"],
+["Jack began __________ for help.","calling"],
+["Father said Jack had a __________ escape.","lucky"]
+];
 
-    const answer = document.getElementById("answer-" + index);
+const comments = [
+["Tomorrow is an important day for us. Do you realise that it will mark our second anniversary on the island?","Father","Mother","Falcon's Nest","He reminds Mother about their anniversary and the planned celebration."],
+["That’s why I’m going to declare tomorrow a holiday—a special day of celebration.","Father","Mother","Falcon's Nest","He explains how the family will celebrate their second anniversary."],
+["Fangs is a hero — it’s a good thing he was with you!","Father","Jack","Falcon's Nest","Father praises Fangs after learning how he helped Jack escape."],
+["They’re exactly what I needed for a new plan I have in mind.","Father","Jack","Falcon's Nest","Father explains that the reeds will be useful for making a loom."],
+["For two years, they’d been practicing wrestling, running, swimming, shooting and horseback riding.","Father / Narrator","The reader","During the celebration","He describes the boys' progress before the contests."],
+["I tried to jump from one spot to another. But my foot slipped and I sank in over my ankles.","Jack","Father","Falcon's Nest","Jack explains how he became trapped in the swamp."],
+["No matter how I struggled, I kept sinking deeper and deeper!","Jack","Father","Falcon's Nest","Jack describes how dangerous the swamp became."],
+["Now go and get clean. That slimy mud will be hard to wash off.","Father","Jack","Falcon's Nest","Father responds after Jack returns covered in mud."],
+["Now she could weave cloth, which she could use to make clothing for all of us.","Father / Narrator","The reader","Falcon's Nest","He explains the usefulness of the new loom."],
+["At last we were ready for another winter.","Father / Narrator","The reader","The island","The family has finished gathering and storing supplies."]
+];
 
-    answer.classList.toggle("show");
+const quiz1 = [
+["What special occasion did the family celebrate?","Their second anniversary on the island."],
+["What prize did Ernest win?","A gold watch."],
+["What useful gift did Mother receive?","A workbox containing fine needles and sewing supplies."],
+["Why did Jack become covered in mud?","He became trapped in a swamp while collecting reeds."],
+["What helped Jack escape?","A bundle of reeds and Fangs' help."],
+["What was used to preserve the fish?","Salt."],
+["What did Jack collect in the swamp?","Reeds."],
+["What did Father make from the reeds?","A loom."],
+["What part of Fangs did Jack hold?","His tail."],
+["Who said: “Tomorrow is an important day for us”?","Father said it to Mother at Falcon's Nest while discussing their anniversary."],
+["Who said: “At last, who should appear but Fangs, my faithful jackal!”?","Jack said it to Father while describing his escape."],
+["What was the purpose of the loom?","It allowed Mother to weave cloth for the family's clothing."]
+];
 
-}
+const quiz2 = [
+["What two activities did Fritz win?","Swimming and shooting."],
+["What reward did Jack receive?","Silver spurs and a riding whip."],
+["Why did Father make the anniversary a holiday?","To celebrate their second anniversary, survival and blessings."],
+["What food did the family collect for winter?","Roots, fruits, grains, potatoes, rice, sweet acorns and pine cones."],
+["What did Father build with the reeds?","A loom."],
+["What kind of animal was Fangs?","A jackal."],
+["What did the reeds become useful for?","They were used to make a loom."],
+["What was the mud in the swamp like?","It was thick, soft and slimy."],
+["What could Mother do with the loom?","She could weave cloth for the family's clothing."],
+["Who said: “Now go and get clean. That slimy mud will be hard to wash off”?","Father said it to Jack after he returned from the swamp."],
+["Who said: “He seemed surprised that I didn’t follow him!”?","Jack said it to Father while describing Fangs' actions during the rescue."],
+["What does the chapter show about the family's life on the island?","They survive through gratitude, teamwork, resourcefulness, courage and cooperation."]
+];
 
+function createAnswerItem(containerId, items, type) {
+    const container = document.getElementById(containerId);
 
-function toggleFill(index) {
+    items.forEach((item, index) => {
+        const card = document.createElement("div");
 
-    const answer = document.getElementById("fill-" + index);
+        card.className =
+            type === "question" ? "question" :
+            type === "fill" ? "fill-item" :
+            "quiz-question";
 
-    if (answer.style.display === "block") {
+        const prompt = document.createElement("strong");
+        prompt.textContent = (index + 1) + ". " + item[0];
+        card.appendChild(prompt);
 
+        const button = document.createElement("button");
+        button.className = "show-answer";
+        button.textContent = "👁️ Show Answer";
+        button.type = "button";
+
+        const answer = document.createElement("div");
+        answer.className = type === "fill" ? "fill-answer" : "answer";
+        answer.textContent = item[1];
+
+        // Every answer starts hidden.
         answer.style.display = "none";
 
-    } else {
+        button.addEventListener("click", () => {
+            const isVisible = type === "fill"
+                ? answer.style.display === "block"
+                : answer.classList.contains("show");
 
-        answer.style.display = "block";
-
-    }
-
-}
-
-
-function toggleQuiz(id) {
-
-    const answer = document.getElementById(id);
-
-    if (answer.style.display === "block") {
-
-        answer.style.display = "none";
-
-    } else {
-
-        answer.style.display = "block";
-
-    }
-
-}
-
-
-const sections = document.querySelectorAll(".section[id]");
-
-const menuLinks = document.querySelectorAll(".nav-buttons a");
-
-
-const observer = new IntersectionObserver(
-
-    entries => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                menuLinks.forEach(link => {
-
-                    link.classList.remove("active");
-
-                });
-
-
-                const activeLink = document.querySelector(
-                    `.nav-buttons a[href="#${entry.target.id}"]`
-                );
-
-
-                if (activeLink) {
-
-                    activeLink.classList.add("active");
-
-                }
-
+            if (type === "fill") {
+                answer.style.display = isVisible ? "none" : "block";
+            } else {
+                answer.classList.toggle("show", !isVisible);
             }
 
+            button.textContent = isVisible
+                ? "👁️ Show Answer"
+                : "🙈 Hide Answer";
         });
 
-    },
-
-    {
-        rootMargin: "-20% 0px -65% 0px"
-    }
-
-);
-
-
-sections.forEach(section => observer.observe(section));
-
-
-if (menuLinks.length > 0) {
-
-    menuLinks[0].classList.add("active");
-
+        card.appendChild(button);
+        card.appendChild(answer);
+        container.appendChild(card);
+    });
 }
 
+function createComments() {
+    const container = document.getElementById("comment-list");
+
+    comments.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "quote-card";
+
+        const quote = document.createElement("blockquote");
+        quote.textContent = "“" + item[0] + "”";
+        card.appendChild(quote);
+
+        const details = document.createElement("div");
+        details.className = "quote-details";
+
+        // FIX: Hide the details when the page first loads.
+        details.hidden = true;
+
+        [
+            ["Speaker", item[1]],
+            ["To whom", item[2]],
+            ["Place", item[3]],
+            ["Occasion", item[4]]
+        ].forEach(detail => {
+            const div = document.createElement("div");
+
+            const strong = document.createElement("strong");
+            strong.textContent = detail[0] + ": ";
+
+            div.appendChild(strong);
+            div.appendChild(document.createTextNode(detail[1]));
+            details.appendChild(div);
+        });
+
+        card.appendChild(details);
+
+        const button = document.createElement("button");
+        button.className = "show-answer";
+        button.type = "button";
+        button.textContent = "👁️ Show Details";
+        button.setAttribute("aria-expanded", "false");
+
+        button.addEventListener("click", () => {
+            const shouldShow = details.hidden;
+
+            details.hidden = !shouldShow;
+
+            button.textContent = shouldShow
+                ? "🙈 Hide Details"
+                : "👁️ Show Details";
+
+            button.setAttribute("aria-expanded", String(shouldShow));
+        });
+
+        card.appendChild(button);
+        container.appendChild(card);
+    });
+}
+
+createAnswerItem("question-list", questions, "question");
+createAnswerItem("fill-list", fills, "fill");
+createComments();
+createAnswerItem("quiz1-list", quiz1, "quiz");
+createAnswerItem("quiz2-list", quiz2, "quiz");
+
+const sections = document.querySelectorAll(".section[id]");
+const menuLinks = document.querySelectorAll(".nav-buttons a");
+
+function setActiveLink(id) {
+    menuLinks.forEach(link => {
+        link.classList.toggle(
+            "active",
+            link.getAttribute("href") === "#" + id
+        );
+    });
+}
+
+menuLinks.forEach(link => {
+    link.addEventListener("click", function () {
+        setActiveLink(this.getAttribute("href").substring(1));
+    });
+});
+
+if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+        const visibleSections = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visibleSections.length) {
+            setActiveLink(visibleSections[0].target.id);
+        }
+    }, {
+        rootMargin: "-15% 0px -65% 0px",
+        threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach(section => observer.observe(section));
+}
+
+if (window.location.hash) {
+    setActiveLink(window.location.hash.substring(1));
+} else {
+    setActiveLink("reading");
+}
 </script>
 
 </body>
