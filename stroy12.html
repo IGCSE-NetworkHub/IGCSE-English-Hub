@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 12 - Jenny | IGCSE English Hub</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1d2939;line-height:1.7}
+
+header{
+    background:linear-gradient(135deg,#102a56,#1d4f91);
+    color:white;text-align:center;padding:42px 20px;
+    margin-left:255px;box-shadow:0 5px 20px #0002
+}
+header h1{margin:0;font-size:34px;letter-spacing:.5px}
+header p{margin:8px 0 0;font-size:18px;opacity:.92}
+
+.lesson-nav{
+    position:fixed;left:0;top:0;width:255px;height:100vh;
+    background:white;box-shadow:3px 0 15px #0001;
+    padding:25px 15px;overflow-y:auto;z-index:1000
+}
+.lesson-nav h2{text-align:center;color:#102a56;font-size:20px;margin:0 0 20px}
+.nav-buttons{display:flex;flex-direction:column;gap:7px}
+.nav-buttons a{
+    text-decoration:none;color:#102a56;background:#eef3f9;
+    padding:10px 13px;border-radius:9px;font-size:14px;
+    font-weight:bold;transition:.2s
+}
+.nav-buttons a:hover{background:#dce8f7;transform:translateX(4px)}
+.nav-buttons a.active{
+    background:#102a56;color:white;transform:translateX(4px);
+    box-shadow:0 5px 12px #102a562e
+}
+
+.container{margin-left:255px;padding:35px;max-width:1500px}
+.section{
+    background:white;margin-bottom:30px;padding:32px;border-radius:18px;
+    box-shadow:0 5px 20px #0000000f;scroll-margin-top:25px;
+    animation:fadeUp .5s ease
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+}
+.section h2{
+    color:#102a56;margin-top:0;border-bottom:3px solid #dbe7f5;
+    padding-bottom:10px
+}
+.section h3{color:#1d4f91}
+
+.intro{
+    background:#edf4ff;border-left:5px solid #1d4f91;
+    padding:15px 18px;border-radius:9px;margin:15px 0 20px
+}
+
+.story-text{
+    background:#f8fbff;border-left:5px solid #1d4f91;
+    padding:25px;border-radius:12px;font-size:17px
+}
+.story-text p{margin:0 0 18px}
+.story-text p:last-child{margin-bottom:0}
+
+.info-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px
+}
+.info-card{
+    background:#f7faff;border:1px solid #dce6f2;
+    padding:20px;border-radius:14px;transition:.2s
+}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px #00000014}
+.info-card h3{margin-top:0}
+
+.vocab-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px
+}
+.vocab-item{
+    background:#f8fbff;border:1px solid #dce6f2;
+    padding:17px;border-radius:12px
+}
+.vocab-item strong{color:#102a56}
+.vocab-item p{margin:7px 0}
+
+.question,.quiz-question{
+    background:#f8fafc;border:1px solid #e1e8f0;
+    padding:18px;margin:15px 0;border-radius:12px
+}
+.question strong,.quiz-question strong{color:#102a56;display:block}
+
+.show-answer{
+    display:block;width:fit-content;max-width:100%;
+    border:0;background:#1d4f91;color:white;padding:9px 16px;
+    border-radius:8px;cursor:pointer;margin-top:12px;
+    font-weight:bold;font-size:14px;transition:.2s
+}
+.show-answer:hover{background:#102a56;transform:translateY(-1px)}
+
+.answer{
+    display:none;margin-top:12px;background:#eaf4ea;
+    border-left:4px solid #3d8b40;padding:12px 15px;border-radius:8px
+}
+.answer.show{display:block}
+
+.fill-item{
+    background:#f8fbff;border:1px solid #dfe7f0;
+    padding:14px 18px;border-radius:10px;margin:10px 0
+}
+.fill-number{color:#102a56;font-weight:bold}
+.fill-answer{
+    display:none;margin-top:10px;background:#eaf4ea;
+    border-left:4px solid #3d8b40;padding:10px 14px;
+    border-radius:8px;font-weight:bold;color:#102a56
+}
+.fill-answer.show{display:block}
+
+.quote-card{
+    background:#f8fbff;border:1px solid #dce6f2;
+    padding:22px;margin:18px 0;border-radius:14px
+}
+.quote-card blockquote{
+    margin:0;padding:15px;background:#eef5ff;
+    border-left:5px solid #102a56;border-radius:8px;
+    font-style:italic;font-size:17px
+}
+.quote-details{
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:10px;margin-top:14px
+}
+.quote-details.show{display:grid}
+.quote-details div{
+    background:white;border:1px solid #e0e7ef;
+    padding:12px;border-radius:8px;overflow-wrap:anywhere
+}
+.quote-details strong{color:#102a56}
+
+.quiz-title{
+    background:linear-gradient(135deg,#102a56,#1d4f91);
+    color:white;padding:18px 22px;border-radius:12px;margin-bottom:20px
+}
+.quiz-title h2{color:white;border:0;margin:0;padding:0}
+.quiz-title p{margin:5px 0 0}
+
+.back-button{
+    display:inline-block;text-decoration:none;background:#102a56;
+    color:white;padding:13px 22px;border-radius:10px;
+    font-weight:bold;transition:.2s
+}
+.back-button:hover{background:#1d4f91;transform:translateY(-2px)}
+
+footer{
+    margin-left:255px;text-align:center;background:#102a56;
+    color:white;padding:22px;margin-top:30px
+}
+
+@media(max-width:850px){
+    .lesson-nav{position:relative;width:100%;height:auto;padding:18px}
+    .nav-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .nav-buttons a{font-size:13px;padding:10px}
+    .container{margin-left:0;padding:18px}
+    footer,header{margin-left:0}
+    header{padding:30px 15px}
+    header h1{font-size:28px}
+    .section{padding:22px}
+    .story-text{padding:18px;font-size:16px}
+}
+@media(max-width:420px){
+    .nav-buttons{grid-template-columns:1fr}
+    .info-grid,.vocab-grid{grid-template-columns:1fr}
+    .quote-card{padding:14px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Chapter 12</h1>
+    <p>Jenny</p>
+</header>
+
+<nav class="lesson-nav">
+    <h2>📚 Chapter 12</h2>
+    <div class="nav-buttons">
+        <a href="#reading">📖 Reading</a>
+        <a href="#summary">📝 Summary</a>
+        <a href="#characters">👨‍👩‍👦 Characters</a>
+        <a href="#theme">💡 Main Themes</a>
+        <a href="#vocabulary">📚 Vocabulary</a>
+        <a href="#questions">❓ Questions</a>
+        <a href="#fill">✏️ Fill in the Blanks</a>
+        <a href="#comments">💬 Comment Questions</a>
+        <a href="#quiz1">🧠 Quiz 1</a>
+        <a href="#quiz2">🧠 Quiz 2</a>
+        <a href="#back">↩️ Back</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<section class="section" id="reading">
+    <h2>📖 Reading — Jenny</h2>
+    <div class="intro">
+        <strong>Reading focus:</strong> Follow Fritz's discovery of the message, Jenny's rescue, the arrival of the English ship and the family's final decisions.
+    </div>
+    <div class="story-text" id="story"></div>
+</section>
+
+<section class="section" id="summary">
+    <h2>📝 Summary</h2>
+    <div class="story-text">
+        <p>Fritz explores an unfamiliar cove and discovers oysters containing valuable pearls. Later, he finds a message tied to a seabird's leg asking people to save an English woman from the smoking rock.</p>
+        <p>At first, Father doubts the message because he thinks it may be old and the woman may already be dead. However, Fritz notices smoke rising from a distant island and decides to investigate.</p>
+        <p>After five days, Fritz returns with Jenny Montrose. She explains that she has survived alone on the island for three years. She built a hut, kept a fire burning to attract attention and trained a bird to bring her food and carry her message.</p>
+        <p>The family welcomes Jenny with a feast. Later, they hear gunshots and discover an English ship. Its captain knows Jenny's father, Colonel Montrose, and has been searching for her.</p>
+        <p>Father and Mother decide to remain in New Switzerland. Ernest and Jack stay with them, while Fritz, Jenny and Franz prepare to return to Europe. Fritz hopes to marry Jenny, and Father gives him the journal of their adventures.</p>
+    </div>
+</section>
+
+<section class="section" id="characters">
+    <h2>👨‍👩‍👦 Characters</h2>
+    <div class="info-grid">
+        <div class="info-card"><h3>Father</h3><p>The narrator. He is cautious about the message, welcomes Jenny and helps the family decide their future.</p></div>
+        <div class="info-card"><h3>Fritz</h3><p>The eldest son. He discovers the message, searches for Jenny, rescues her and plans to return to Europe with her.</p></div>
+        <div class="info-card"><h3>Jenny Montrose</h3><p>A British young woman who survives alone on an island for three years before Fritz rescues her.</p></div>
+        <div class="info-card"><h3>Mother</h3><p>A caring and practical woman who welcomes Jenny and chooses to remain in New Switzerland.</p></div>
+        <div class="info-card"><h3>Ernest</h3><p>One of the sons. He decides to stay with his parents in New Switzerland.</p></div>
+        <div class="info-card"><h3>Jack</h3><p>One of the sons. He also chooses to remain on the island with his family.</p></div>
+        <div class="info-card"><h3>Franz</h3><p>The youngest son. He wants to attend a good school and leaves with Fritz and Jenny.</p></div>
+        <div class="info-card"><h3>The English Captain</h3><p>A friendly captain who knows Jenny's father and has been searching for her.</p></div>
+        <div class="info-card"><h3>Colonel Montrose</h3><p>Jenny's father, a British officer who never gives up hope of finding his daughter.</p></div>
+        <div class="info-card"><h3>Jenny's Bird</h3><p>A trained seabird that brings Jenny food and carries the message that eventually leads to her rescue.</p></div>
+    </div>
+</section>
+
+<section class="section" id="theme">
+    <h2>💡 Main Themes</h2>
+    <div class="info-grid">
+        <div class="info-card"><h3>Hope and Survival</h3><p>Jenny keeps trying to attract attention and never gives up hope of being rescued.</p></div>
+        <div class="info-card"><h3>Exploration and Discovery</h3><p>Fritz's curiosity leads him to discover pearls, the message and the island where Jenny lives.</p></div>
+        <div class="info-card"><h3>Family and Belonging</h3><p>The family welcomes Jenny and considers each son's wishes when deciding who will stay and who will leave.</p></div>
+        <div class="info-card"><h3>Communication</h3><p>The message on the bird's leg connects Jenny with Fritz and leads to her rescue.</p></div>
+        <div class="info-card"><h3>Love and New Beginnings</h3><p>Fritz falls in love with Jenny, and their departure begins a new stage in their lives.</p></div>
+        <div class="info-card"><h3>Home and Identity</h3><p>Father and Mother choose New Switzerland as their permanent home and hope it will become a prosperous colony.</p></div>
+    </div>
+</section>
+
+<section class="section" id="vocabulary">
+    <h2>📚 Essential Vocabulary</h2>
+    <p>Study the meaning of each word and how it is used in the story.</p>
+    <div class="vocab-grid" id="vocab"></div>
+</section>
+
+<section class="section" id="questions">
+    <h2>❓ Comprehension Questions</h2>
+    <div class="intro">Try to answer each question before revealing the model answer.</div>
+    <div id="qbox"></div>
+</section>
+
+<section class="section" id="fill">
+    <h2>✏️ Fill in the Blanks</h2>
+    <p>Complete each sentence, then click <strong>Show Answer</strong>.</p>
+    <div id="fillbox"></div>
+</section>
+
+<section class="section" id="comments">
+    <h2>💬 Comment Questions</h2>
+    <p>Read each quotation. Click <strong>👁️ Show Answer</strong> to reveal the speaker, listener, place and occasion.</p>
+    <div id="commentbox"></div>
+</section>
+
+<section class="section" id="quiz1">
+    <div class="quiz-title">
+        <h2>🧠 Quiz 1 — Chapter 12</h2>
+        <p>Total: 15 marks</p>
+    </div>
+    <div id="quiz1box"></div>
+</section>
+
+<section class="section" id="quiz2">
+    <div class="quiz-title">
+        <h2>🏆 Quiz 2 — Chapter 12</h2>
+        <p>Total: 15 marks</p>
+    </div>
+    <div id="quiz2box"></div>
+</section>
+
+<section class="section" id="back">
+    <h2>↩️ Back to My Course</h2>
+    <a class="back-button" href="my-course.html">← Back to My Course</a>
+</section>
+
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+const paragraphs = [
+`One day, Fritz came back from one of his expeditions with some very interesting news. He took me aside and told me his story.`,
+`Fritz had taken the boat all the way to the other side of the island. This was a spot we'd seen, but not explored. He said that he'd come to a cove, very calm and clear. Gazing into the water, he saw beds of large oysters. Thinking that they'd be good to eat, he raised up several clusters with his boat hook. Opening one up, he found a beautiful pearl inside! When he opened several more, he found a pearl in each one. He quickly gathered many more of these oysters to take home.`,
+`After stopping for lunch, Fritz continued exploring the coast. As he came to another cove, thousands of seabirds flew about him. They were screaming and flapping their wings at him. Fritz stood up and struck out with the boat hook. To his surprise, he hit one of the birds with such force that it fell to the water. Then Fritz noticed a piece of rag wrapped around one of the bird's legs. He removed it and was surprised to see English words written on it. It said: "Save the English woman from the smoking rock!"`,
+`"My dear son," I said, "let us not tell the others about this yet. It is possible that these words were written long ago. This woman might have died already. 'Smoking rock' must mean a volcano—of which there are none around here." But Fritz was sure that I was wrong. He was convinced that smoke could have another source besides a volcano.`,
+`The next day we all went out to Pearl Bay, the name we had chosen for the cove of large oysters. We thought we should collect the pearls in case the boys should ever return to Europe. They would need money then and the pearls were worth a great deal.`,
+`While we were there, Fritz noticed smoke drifting from an island in the distance. He decided to take the boat out there and look around. Maybe the note had come from there!`,
+`Fritz was gone for five days. I was beginning to get worried when at last I saw the sailboat approaching. We all hurried down to the beach to wait for him. As the boat got closer and closer, we stared in amazement. We could see that he had a young woman with him!`,
+`She told us that her name was Jenny Montrose. She had been born in India, the daughter of a British officer who served there. When Jenny was three years old, her mother had died. When Jenny was seventeen, her father was ordered back to England. He did not wish for her to travel in the ship with the troops. So he put her on a different ship that was sailing at about the same time. A week after she left Calcutta, a big storm came up.`,
+`The crew was finally forced to abandon ship and take to the boats. The boats became separated in the wild storm. Jenny's boat was capsized and she was the only one to reach shore. A few useful things washed ashore after the wreck. Among them were some fishing supplies, knives and other tools. There was also a chest of sailors' clothes.`,
+`She had been alone on the island for three years. She had built herself a hut. She kept a fire going constantly, hoping to attract attention. She had tamed a large bird that brought her food of all kinds, such as fish, birds and rabbits. This bird had been her only companion. Although it often took off for long periods of time, the bird always returned. This, of course, was the bird she had sent with the message.`,
+`We welcomed Jenny into our family. My wife prepared a feast to celebrate her arrival. We used all our best china, silver and glassware. The table was set with white linen and a vase of flowers was placed in the centre. We had pineapples, oranges, apples and pears. Deer was served, along with chicken and ham. It was, indeed, a perfect feast. Tears of joy showed the woman's appreciation.`,
+`After dinner, we went for a stroll along the beach. Jack and Franz decided to do some target practice. After setting up a barrel as a target, they fired and blew the cask into pieces. Then, as if in answer to the boys' shots, we heard three loud gunshots booming across the water from the west!`,
+`We looked at each other, speechless. Had we really heard guns from a strange ship?`,
+`Feelings of fear, joy and hope rushed over us. Was it a European ship close upon our shores? Were we about to be linked once more to civilised life? Or were the strangers pirates who would rob and murder us? Were they friends who would help us? Were they enemies who would attack us? Or were they people in need of our help?`,
+`Our questions were soon answered. Within a few minutes, a ship with an English flag came into view. Fritz and I took our sailboat out to meet it. The captain welcomed us warmly. He led us to his cabin and asked us to explain why we were there.`,
+`I told him the history of the wreck and our life on the island. I talked to him about Jenny, too. It turned out that the officer knew her father. In fact, he had brought his ship to this area in hopes of finding Jenny. He said that Colonel Montrose had never given up hope of finding his daughter.`,
+`That night I had a long and serious talk with my wife. We had to decide whether or not we really wanted to return to Europe. It didn't take us long to discover that neither one of us wanted to leave the peaceful island!`,
+`My dear wife told me that she would be happy to spend the rest of her life in New Switzerland. If I—and at least two of her sons—would stay, she would willingly part with the other two if they chose to return to Europe. But she wanted her sons to send out more people to join us so we could form a prosperous colony. She also wanted to keep the name of New Switzerland, even when colonists from England came. I heartily agreed with her.`,
+`Later that day, we showed the captain and his officers our island. They were astonished at how much we had done. Some of the ship's passengers even decided to stay with us in New Switzerland!`,
+`The only thing that remained was for my sons to decide if they wanted to go or stay. Fritz decided to go to England. He wanted to bring happiness to a sad father by returning his missing daughter. Ernest chose to stay with us in New Switzerland, as did Jack.`,
+`The youngest boy, Franz, was eager to go to a good school. So it was decided: Fritz, Jenny and Franz would soon sail away on the English ship!`,
+`The captain of the ship was very pleased. "My orders were to search for survivors of a shipwrecked crew," he said. "Instead, I have found survivors from two wrecks!"`,
+`We packed up everything that could contribute to our children's comfort. We gave them pearls, corals, furs, spices and other valuables to help them make their way in the world. They took the private papers, money and jewels that had belonged to our ill-fated captain. If possible, I told them to hand the objects over to the captain's family. And I gave information about the wreck, with the names of the crew, to the English captain.`,
+`Fritz was already in love. He told me that he wanted to marry Jenny. I told him to talk to her father about this as soon as possible. My wife and I gladly gave them our blessing.`,
+`On the evening before they departed, I gave Fritz the journal I had been keeping. I told him of my fond wish that the story of our adventures might be printed and published.`,
+`"As you know, I wrote this journal for my children," I said. "But who knows? Our story might well be interesting and useful to other young people as well."`,
+`Now night has fallen. It is the last night my family will be together. Tomorrow, this final chapter of our adventures will go into the hands of my eldest son.`,
+`From afar I greet you, Europe! And I greet you, dear old Switzerland! Like you, may New Switzerland always be good, happy and free!`
+];
+
+document.getElementById('story').innerHTML =
+    paragraphs.map(p => `<p>${p}</p>`).join('');
+
+const vocab = [
+['Expedition','A journey made for a particular purpose, especially exploration.','Fritz returned from his expedition with exciting news.'],
+['Cove','A small sheltered bay on the coast.','Fritz discovered a calm, clear cove.'],
+['Oyster','A sea animal with a shell that can contain pearls.','He opened an oyster and found a pearl inside.'],
+['Pearl','A hard, shiny object formed inside an oyster.','The pearls were valuable.'],
+['Rag','A small piece of cloth, often torn or used.','A rag with a message was tied to the bird.'],
+['Volcano','A mountain that erupts with lava, smoke and ash.','Father thought the smoking rock might be a volcano.'],
+['Drifting','Being carried slowly by a current or breeze.','They saw smoke drifting from an island.'],
+['Capsized','Turned over in the water.','Jenny’s boat capsized during the storm.'],
+['Tamed','Trained to behave and no longer be wild.','Jenny tamed a bird that brought her food.'],
+['Companion','A friend or someone who keeps you company.','The bird was Jenny’s only companion.'],
+['Feast','A large, special meal.','The family prepared a feast for Jenny.'],
+['Speechless','Unable to speak because of surprise or emotion.','They were speechless when they heard gunshots.'],
+['Pirates','People who attack ships and rob them.','The family feared the strangers might be pirates.'],
+['Prosperous','Successful and wealthy.','Mother hoped to form a prosperous colony.'],
+['Colonists','People who settle in a new land.','She wanted colonists to join them.'],
+['Survivor','Someone who lives through a disaster.','The captain found survivors from two wrecks.'],
+['Valuables','Expensive or useful items.','They packed pearls and other valuables.'],
+['Blessing','Approval or good wishes.','The parents gave Fritz and Jenny their blessing.'],
+['Published','Printed and made available to the public.','Father hoped his journal would be published.'],
+['Journal','A written record of events and experiences.','Father gave Fritz his journal.'],
+['Abandon','To leave something behind.','The crew had to abandon the ship.'],
+['Isolated','Far away from other people or places.','Jenny lived an isolated life for three years.'],
+['Appreciation','A feeling of gratitude or recognition.','Jenny showed her appreciation for the family’s kindness.'],
+['Astonished','Extremely surprised.','The captain was astonished by the family’s achievements.'],
+['Prospect','The possibility of something happening in the future.','The ship offered the prospect of returning to Europe.']
+];
+
+document.getElementById('vocab').innerHTML = vocab.map((v,i) => `
+    <div class="vocab-item">
+        <strong>${i+1}. ${v[0]}</strong>
+        <p><b>Meaning:</b> ${v[1]}</p>
+        <p><b>Example:</b> <em>${v[2]}</em></p>
+    </div>
+`).join('');
+
+const questions = [
+['Where did Fritz go at the beginning of the chapter?','He went to the other side of the island, to a cove the family had seen but not explored.'],
+['What did Fritz discover inside the oysters?','He discovered valuable pearls.'],
+['What did Fritz use to raise the oysters?','He used his boat hook.'],
+['What message did Fritz find on the bird?','“Save the English woman from the smoking rock!”'],
+['Where was the message attached?','It was written on a rag tied around a seabird’s leg.'],
+['Why did Father initially doubt the message?','He thought it might be old and that the woman might already be dead. He also thought the smoking rock referred to a volcano.'],
+['What did Fritz notice from Pearl Bay?','He noticed smoke drifting from a distant island.'],
+['How long was Fritz away on his search?','He was away for five days.'],
+['Who did Fritz bring back?','He brought back Jenny Montrose.'],
+['How long had Jenny been alone on the island?','She had been alone for three years.'],
+['How did Jenny survive alone?','She built a hut, kept a fire burning, used supplies washed ashore and trained a bird to bring her food.'],
+['Why was Jenny’s bird important?','It brought her food and carried the message that led to her rescue.'],
+['How did the family celebrate Jenny’s arrival?','They prepared a feast and used their best china, silver and glassware.'],
+['What happened after Jack and Franz practised shooting?','The family heard three loud gunshots from across the water.'],
+['What emotions did the family feel when they heard the gunshots?','They felt fear, joy and hope, wondering whether the strangers were friends or enemies.'],
+['What flag did the approaching ship fly?','It flew the English flag.'],
+['What was the captain’s connection to Jenny?','He knew Colonel Montrose, Jenny’s father, and had been searching for her.'],
+['What did Jenny’s parents decide about returning to Europe?','They decided to remain in New Switzerland.'],
+['Which sons stayed on the island?','Ernest and Jack stayed with their parents.'],
+['Which family members left on the English ship?','Fritz, Jenny and Franz left.'],
+['Why did Fritz want to return to England?','He wanted to return Jenny to her father and had fallen in love with her.'],
+['What did Mother hope for New Switzerland?','She hoped more people would join them and help form a prosperous colony while keeping the name New Switzerland.'],
+['What did the family give the departing travellers?','They gave them pearls, corals, furs, spices and other valuables.'],
+['What did Father give Fritz before he left?','He gave Fritz the journal he had kept about their adventures.'],
+['What did Father hope would happen to his journal?','He hoped that it would be published and prove interesting and useful to young people.'],
+['What is the meaning of the final farewell?','Father expresses affection for Europe and Switzerland and hopes New Switzerland will remain good, happy and free.']
+];
+
+document.getElementById('qbox').innerHTML = questions.map((q,i) => `
+    <div class="question">
+        <strong>${i+1}. ${q[0]}</strong>
+        <button class="show-answer" onclick="toggleAnswer('qa${i}',this)">👁️ Show Answer</button>
+        <div class="answer" id="qa${i}">${q[1]}</div>
+    </div>
+`).join('');
+
+const fillQ = [
+['Fritz discovered a cove containing large ______.','oysters'],
+['Inside the oysters, Fritz found valuable ______.','pearls'],
+['The message was tied to a seabird’s ______.','leg'],
+['The message asked people to save the English ______.','woman'],
+['Father thought the smoking rock might be a ______.','volcano'],
+['The family named the cove ______ Bay.','Pearl'],
+['Fritz noticed ______ drifting from a distant island.','smoke'],
+['Fritz was away for ______ days.','five'],
+['The rescued woman was called Jenny ______.','Montrose'],
+['Jenny had survived alone for ______ years.','three'],
+['Jenny built herself a ______ on the island.','hut'],
+['She kept a ______ burning to attract attention.','fire'],
+['Jenny’s bird was her only ______.','companion'],
+['The family celebrated Jenny’s arrival with a ______.','feast'],
+['The family heard three loud ______ from across the water.','gunshots'],
+['The approaching ship flew the ______ flag.','English'],
+['Jenny’s father was Colonel ______.','Montrose'],
+['Mother hoped to form a prosperous ______.','colony'],
+['Ernest and ______ chose to stay on the island.','Jack'],
+['Fritz, Jenny and ______ left on the English ship.','Franz'],
+['Fritz wanted to ______ Jenny.','marry'],
+['Father gave Fritz his ______.','journal'],
+['Father hoped the journal would be ______.','published'],
+['The family gave the travellers pearls, corals, furs and ______.','spices'],
+['The father wished New Switzerland would remain good, happy and ______.','free']
+];
+
+document.getElementById('fillbox').innerHTML = fillQ.map((q,i) => `
+    <div class="fill-item">
+        <span class="fill-number">${i+1}.</span> ${q[0]}
+        <button class="show-answer" onclick="toggleAnswer('fa${i}',this)">👁️ Show Answer</button>
+        <div class="fill-answer" id="fa${i}">${q[1]}</div>
+    </div>
+`).join('');
+
+const comments = [
+{
+quote:'Save the English woman from the smoking rock!',
+speaker:'Jenny Montrose',
+listener:'Anyone who might find the bird carrying the message.',
+place:'On a piece of rag tied around a seabird’s leg.',
+occasion:'Jenny had been stranded alone on the island for three years. She used her trained bird to send a message asking for help and hoping someone would rescue her.'
+},
+{
+quote:'My dear son, let us not tell the others about this yet.',
+speaker:'Father',
+listener:'Fritz',
+place:'At Rock House.',
+occasion:'Fritz told Father about the message found on the bird. Father was unsure whether it was recent and feared that the woman might already have died. He did not want to raise false hopes in the family.'
+},
+{
+quote:'This woman might have died already.',
+speaker:'Father',
+listener:'Fritz',
+place:'At Rock House, while discussing the message.',
+occasion:'Father warned Fritz that the message might have been written a long time earlier. He wanted his son to remain cautious because there was no proof that the woman was still alive.'
+},
+{
+quote:'Smoking rock must mean a volcano—of which there are none around here.',
+speaker:'Father',
+listener:'Fritz',
+place:'At Rock House.',
+occasion:'Father tried to interpret the message logically. He believed that “smoking rock” meant a volcano, but he knew there were no volcanoes nearby, so he doubted that the message would lead them to a living woman.'
+},
+{
+quote:'She had tamed a large bird that brought her food of all kinds.',
+speaker:'Father, as the narrator',
+listener:'The reader',
+place:'At New Switzerland, while recounting Jenny’s experiences.',
+occasion:'Jenny explained how she had survived alone for three years after her boat capsized. She trained a large bird to bring her food, and the bird later carried her message. It was her only companion.'
+},
+{
+quote:'Tears of joy showed the woman’s appreciation.',
+speaker:'Father, as the narrator',
+listener:'The reader',
+place:'At Rock House, during Jenny’s welcome feast.',
+occasion:'The family prepared a special meal and welcomed Jenny warmly after rescuing her from three years of isolation. Jenny was deeply moved by their kindness and expressed her gratitude through tears of joy.'
+},
+{
+quote:'Had we really heard guns from a strange ship?',
+speaker:'Father, as the narrator',
+listener:'The reader',
+place:'On the beach, after the family heard three gunshots from the west.',
+occasion:'Jack and Franz had been practising target shooting when the family heard gunshots from across the water. They wondered whether a ship was nearby and whether its passengers might rescue them or pose a danger.'
+},
+{
+quote:'My orders were to search for survivors of a shipwrecked crew.',
+speaker:'The English ship’s captain',
+listener:'Father and Fritz',
+place:'Aboard the English ship, in the captain’s cabin.',
+occasion:'After Father and Fritz met the ship, the captain welcomed them and asked them to explain their presence on the island. He explained that he had originally been sent to search for survivors of a shipwreck.'
+},
+{
+quote:'Instead, I have found survivors from two wrecks!',
+speaker:'The English ship’s captain',
+listener:'The family',
+place:'Aboard the English ship, while talking to the family.',
+occasion:'The captain discovered that he had found the Swiss family, who had survived their shipwreck, and Jenny, who had survived a separate shipwreck. He was surprised by this unexpected discovery.'
+},
+{
+quote:'My dear wife told me that she would be happy to spend the rest of her life in New Switzerland.',
+speaker:'Father, as the narrator',
+listener:'The reader',
+place:'At the family home on the island, while recounting his conversation with his wife.',
+occasion:'After meeting the English captain, Father and Mother discussed whether to return to Europe. They realised that they preferred their peaceful life on the island and agreed to remain in New Switzerland.'
+},
+{
+quote:'Fritz was already in love.',
+speaker:'Father, as the narrator',
+listener:'The reader',
+place:'At New Switzerland, after Jenny’s rescue.',
+occasion:'Father explained that Fritz had fallen in love with Jenny and wanted to marry her. He advised Fritz to speak to Jenny’s father about his intentions and gladly gave the couple his blessing.'
+},
+{
+quote:'As you know, I wrote this journal for my children.',
+speaker:'Father',
+listener:'Fritz',
+place:'At New Switzerland, on the evening before Fritz’s departure.',
+occasion:'Father gave Fritz the journal he had kept throughout their adventures. He explained that he had originally written it for his children but hoped that their experiences might eventually be published and prove useful to other young people.'
+},
+{
+quote:'Like you, may New Switzerland always be good, happy and free!',
+speaker:'Father, as the narrator',
+listener:'The reader, as part of his closing farewell',
+place:'At New Switzerland, at the end of the story.',
+occasion:'On the final night before Fritz, Jenny and Franz left for Europe, Father reflected on the family’s adventures. He said farewell to Europe and Switzerland and expressed his hope that New Switzerland would remain a peaceful, happy and free home.'
+}
+];
+
+document.getElementById('commentbox').innerHTML = comments.map((q,i) => `
+    <div class="quote-card">
+        <blockquote>“${q.quote}”</blockquote>
+        <button type="button" class="show-answer" onclick="toggleQuote(this)">
+            👁️ Show Answer
+        </button>
+        <div class="quote-details">
+            <div><strong>Speaker:</strong><br>${q.speaker}</div>
+            <div><strong>To whom?</strong><br>${q.listener}</div>
+            <div><strong>Place:</strong><br>${q.place}</div>
+            <div><strong>Occasion / Context:</strong><br>${q.occasion}</div>
+        </div>
+    </div>
+`).join('');
+
+const quiz1 = [
+['Why did Fritz explore the other side of the island?','He wanted to explore an area the family had seen but had not yet explored.'],
+['What did Fritz discover inside the oysters?','Valuable pearls.'],
+['What message did Fritz find tied to the bird’s leg?','“Save the English woman from the smoking rock!”'],
+['Why did Father suggest keeping the message secret at first?','He feared that the message might be old and that the woman might already be dead.'],
+['Describe how Jenny ended up living alone on the island.','Her boat capsized in a storm. She was the only person from her boat to reach shore and survived there for three years.'],
+['Why did Jenny keep a fire burning constantly?','To attract attention and increase her chances of being rescued.'],
+['Fritz found a beautiful ______ inside an oyster.','Pearl.'],
+['A piece of ______ was tied around the bird’s leg.','Rag.'],
+['After the shipwreck, Jenny built herself a ______.','Hut.'],
+['The family welcomed Jenny by preparing a large ______.','Feast.'],
+['Comment on: “Save the English woman from the smoking rock!”','Jenny wrote the message. It was important because it led Fritz to search for her and rescue her.'],
+['Comment on: “Feelings of fear, joy and hope rushed over us.”','The family had heard gunshots from an unknown ship. Their mixed emotions show their hope of rescue and their fear of possible danger.']
+];
+
+const quiz2 = [
+['What name did the family give the bay where Fritz found oysters?','Pearl Bay.'],
+['What did Fritz find on the bird’s leg?','A rag carrying a written message.'],
+['How did Fritz retrieve the message?','He struck the bird with his boat hook, causing it to fall into the water, and removed the rag.'],
+['How did Father react to the message?','He was cautious and thought the message might be old and the woman might be dead.'],
+['Describe at least two ways Jenny survived on the island.','She built a hut, kept a fire burning, used supplies washed ashore and tamed a bird that brought food.'],
+['How did the family welcome Jenny?','They prepared a feast and used their finest tableware.'],
+['Jenny kept a ______ burning to attract attention.','Fire.'],
+['The family named the cove ______ Bay.','Pearl.'],
+['Jenny’s only companion was a large ______.','Bird.'],
+['The feast included deer, chicken and ______.','Ham.'],
+['Comment on: “It is possible that these words were written long ago.”','Father said this to Fritz. It shows that he was cautious and did not want to assume that Jenny was still alive.'],
+['Comment on: “Instead, I have found survivors from two wrecks!”','The English captain said this. He meant that he had unexpectedly found survivors from two different shipwrecks: Jenny and the Swiss family.']
+];
+
+function renderQuiz(arr,id){
+    document.getElementById(id).innerHTML = arr.map((q,i) => `
+        <div class="quiz-question">
+            <strong>${i+1}. ${q[0]}</strong>
+            <button class="show-answer" onclick="toggleAnswer('${id}a${i}',this)">👁️ Show Answer</button>
+            <div class="answer" id="${id}a${i}">${q[1]}</div>
+        </div>
+    `).join('');
+}
+
+renderQuiz(quiz1,'quiz1box');
+renderQuiz(quiz2,'quiz2box');
+
+function toggleAnswer(id,button){
+    const answer = document.getElementById(id);
+    if(!answer) return;
+
+    const opening = !answer.classList.contains('show');
+    answer.classList.toggle('show',opening);
+
+    button.textContent = opening ? '🙈 Hide Answer' : '👁️ Show Answer';
+}
+
+function toggleQuote(button){
+    const card = button.closest('.quote-card');
+    if(!card) return;
+
+    const details = card.querySelector('.quote-details');
+    if(!details) return;
+
+    const opening = !details.classList.contains('show');
+    details.classList.toggle('show',opening);
+
+    button.textContent = opening ? '🙈 Hide Answer' : '👁️ Show Answer';
+}
+
+const sections = document.querySelectorAll('.section[id]');
+const links = document.querySelectorAll('.nav-buttons a');
+
+if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                links.forEach(a => a.classList.remove('active'));
+                const active = document.querySelector(
+                    `.nav-buttons a[href="#${entry.target.id}"]`
+                );
+                if(active) active.classList.add('active');
+            }
+        });
+    },{rootMargin:'-15% 0px -70% 0px'});
+
+    sections.forEach(section => observer.observe(section));
+}
+
+links.forEach(link => {
+    link.addEventListener('click',function(){
+        links.forEach(a => a.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+if(links.length && !document.querySelector('.nav-buttons a.active')){
+    links[0].classList.add('active');
+}
+</script>
+
+</body>
+</html>
