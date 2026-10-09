@@ -317,10 +317,21 @@ const grade = document.getElementById("grade").value;
    registrationMessage.textContent = "Processing registration...";
 
 const { data: authData, error: authError } =
+  
+const { data: signUpData, error: authError } =
     await supabaseClient.auth.signUp({
         email: email,
         password: password
     });
+
+if (authError) {
+    console.error("AUTH SIGNUP ERROR:", authError);
+    registrationMessage.textContent = authError.message;
+    registrationMessage.style.color = "red";
+    return;
+}
+
+console.log("AUTH SIGNUP SUCCESS:", signUpData);
 
 if (authError) {
 
