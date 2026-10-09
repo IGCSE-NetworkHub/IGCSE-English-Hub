@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11 - Home Again | IGCSE English Hub</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1d2939;line-height:1.7}
+
+header{
+    background:linear-gradient(135deg,#102a56,#1d4f91);
+    color:white;text-align:center;padding:42px 20px;
+    margin-left:255px;box-shadow:0 5px 20px #0002
+}
+header h1{margin:0;font-size:34px;letter-spacing:.5px}
+header p{margin:8px 0 0;font-size:18px;opacity:.92}
+
+.lesson-nav{
+    position:fixed;left:0;top:0;width:255px;height:100vh;
+    background:white;box-shadow:3px 0 15px #0001;
+    padding:25px 15px;overflow-y:auto;z-index:1000
+}
+.lesson-nav h2{text-align:center;color:#102a56;font-size:20px;margin:0 0 20px}
+.nav-buttons{display:flex;flex-direction:column;gap:7px}
+.nav-buttons a{
+    text-decoration:none;color:#102a56;background:#eef3f9;
+    padding:10px 13px;border-radius:9px;font-size:14px;
+    font-weight:bold;transition:.2s
+}
+.nav-buttons a:hover{background:#dce8f7;transform:translateX(4px)}
+.nav-buttons a.active{
+    background:#102a56;color:white;transform:translateX(4px);
+    box-shadow:0 5px 12px #102a562e
+}
+
+.container{margin-left:255px;padding:35px;max-width:1500px}
+.section{
+    background:white;margin-bottom:30px;padding:32px;border-radius:18px;
+    box-shadow:0 5px 20px #0000000f;scroll-margin-top:25px;
+    animation:fadeUp .5s ease
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+}
+.section h2{
+    color:#102a56;margin-top:0;border-bottom:3px solid #dbe7f5;
+    padding-bottom:10px
+}
+.section h3{color:#1d4f91}
+
+.story-text{
+    background:#f8fbff;border-left:5px solid #1d4f91;
+    padding:25px;border-radius:12px;font-size:17px
+}
+.story-text p{margin:0 0 18px}
+.story-text p:last-child{margin-bottom:0}
+
+.info-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px
+}
+.info-card{
+    background:#f7faff;border:1px solid #dce6f2;
+    padding:20px;border-radius:14px;transition:.2s
+}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px #00000014}
+.info-card h3{margin-top:0}
+
+.vocab-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px
+}
+.vocab-item{
+    background:#f8fbff;border:1px solid #dce6f2;
+    padding:17px;border-radius:12px
+}
+.vocab-item strong{color:#102a56}
+.vocab-item p{margin:8px 0 0;font-size:14px;color:#475467}
+
+.question,.quiz-question{
+    background:#f8fafc;border:1px solid #e1e8f0;
+    padding:18px;margin:15px 0;border-radius:12px
+}
+.question strong,.quiz-question strong{color:#102a56;display:block}
+
+.show-answer{
+    display:block;width:fit-content;max-width:100%;
+    border:0;background:#1d4f91;color:white;padding:9px 16px;
+    border-radius:8px;cursor:pointer;margin-top:12px;
+    font-weight:bold;font-size:14px;transition:.2s
+}
+.show-answer:hover{background:#102a56;transform:translateY(-1px)}
+
+.answer{
+    display:none;margin-top:12px;background:#eaf4ea;
+    border-left:4px solid #3d8b40;padding:12px 15px;border-radius:8px
+}
+.answer.show{display:block}
+
+.fill-item{
+    background:#f8fbff;border:1px solid #dfe7f0;
+    padding:14px 18px;border-radius:10px;margin:10px 0
+}
+.fill-number{color:#102a56;font-weight:bold}
+.fill-answer{
+    display:none;margin-top:10px;background:#eaf4ea;
+    border-left:4px solid #3d8b40;padding:10px 14px;
+    border-radius:8px;font-weight:bold;color:#102a56
+}
+.fill-answer.show{display:block}
+
+.quote-card{
+    background:#f8fbff;border:1px solid #dce6f2;
+    padding:22px;margin:18px 0;border-radius:14px
+}
+.quote-card blockquote{
+    margin:0;padding:15px;background:#eef5ff;
+    border-left:5px solid #102a56;border-radius:8px;
+    font-style:italic;font-size:17px
+}
+.quote-details{
+    display:none;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:10px;margin-top:14px
+}
+.quote-details.show{display:grid}
+.quote-details div{
+    background:white;border:1px solid #e0e7ef;
+    padding:12px;border-radius:8px
+}
+.quote-details strong{color:#102a56}
+
+.quiz-title{
+    background:linear-gradient(135deg,#102a56,#1d4f91);
+    color:white;padding:18px 22px;border-radius:12px;margin-bottom:20px
+}
+.quiz-title h2{color:white;border:0;margin:0;padding:0}
+.quiz-title p{margin:5px 0 0}
+
+.back-button{
+    display:inline-block;text-decoration:none;background:#102a56;
+    color:white;padding:13px 22px;border-radius:10px;
+    font-weight:bold;transition:.2s
+}
+.back-button:hover{background:#1d4f91;transform:translateY(-2px)}
+
+footer{
+    margin-left:255px;text-align:center;background:#102a56;
+    color:white;padding:22px;margin-top:30px
+}
+
+@media(max-width:850px){
+    .lesson-nav{position:relative;width:100%;height:auto;padding:18px}
+    .nav-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .nav-buttons a{font-size:13px;padding:10px}
+    .container{margin-left:0;padding:18px}
+    footer,header{margin-left:0}
+    header{padding:30px 15px}
+    header h1{font-size:28px}
+    .section{padding:22px}
+    .story-text{padding:18px;font-size:16px}
+}
+@media(max-width:420px){
+    .nav-buttons{grid-template-columns:1fr}
+    .info-grid,.vocab-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Chapter 11</h1>
+    <p>Home Again</p>
+</header>
+
+<nav class="lesson-nav">
+    <h2>📚 Chapter 11</h2>
+    <div class="nav-buttons">
+        <a href="#reading">📖 Reading</a>
+        <a href="#summary">📝 Summary</a>
+        <a href="#characters">👨‍👩‍👦 Characters</a>
+        <a href="#theme">💡 Main Theme</a>
+        <a href="#vocabulary">📚 Vocabulary</a>
+        <a href="#questions">❓ Questions</a>
+        <a href="#fill">✏️ Fill in the Blanks</a>
+        <a href="#comments">💬 Comment Questions</a>
+        <a href="#quiz1">🧠 Quiz 1</a>
+        <a href="#quiz2">🧠 Quiz 2</a>
+        <a href="#back">↩️ Back</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<section class="section" id="reading">
+    <h2>📖 Reading — Home Again</h2>
+    <div class="story-text">
+        <p>After a long journey, the family returned to Rock House with a blindfolded ostrich. The journey took two days. On their way home, they visited their farm and were delighted to find that their pigs, goats and chickens had increased in number. They also noticed that the antelope herd had settled peacefully near their land. They brought chickens back with them.</p>
+
+        <p>When they arrived at Rock House, they opened the doors and windows to let in fresh air. They tied the ostrich between two bamboo posts. However, taming the bird proved difficult. For an entire week, it remained wild and would not allow anyone to approach it.</p>
+
+        <p>The father eventually used smoke, the same method he had used to tame the eagle. The ostrich became calm, but refused to eat. For three days, it grew weaker and weaker. The mother fed it balls made from cornflour and butter. Gradually, the bird recovered and began eating rice, guavas, corn and small pebbles.</p>
+
+        <p>Franz was surprised to see the ostrich eating pebbles. His father explained that birds swallow small stones to help them digest their food. The father then invented a special hood with movable blinkers to guide the ostrich. He also designed a saddle and reins to control its movement and speed.</p>
+
+        <p>The family named the ostrich Hurricane because of its speed and power. Eventually, everyone learned to manage and ride it. Their life at Rock House became more comfortable as the family grew crops such as wheat, barley, corn, potatoes and other vegetables.</p>
+
+        <p>The father also began making hats from rat skin and India rubber, producing a material similar to felt. He dyed the hats red, shaped them on a wooden block and decorated them with ostrich feathers. The mother helped with the silk linings. Everyone liked the first cap, which was made for Franz.</p>
+
+        <p>Ten years had passed on the island. The father reflected proudly on how his sons had grown. Fritz, aged twenty-five, was strong and active. Ernest, aged twenty-three, was mild, calm and studious. Jack, aged twenty, was graceful and witty. Franz, aged eighteen, combined the qualities of his brothers and had a good sense of humour. They had become kind, loving and God-fearing young men.</p>
+    </div>
+    <p><em>Note: This reading section is a chapter overview, not a verbatim reproduction of the original story.</em></p>
+</section>
+
+<section class="section" id="summary">
+    <h2>📝 Summary</h2>
+    <div class="story-text">
+        <p>After a long journey, the family returned home to Rock House, bringing with them the blindfolded ostrich. Along the way, they visited their farm and were happy to find that their animals, including pigs, goats and chickens, had increased in number. They also noticed that the antelope herd had settled peacefully near their territory. Once home, they opened their cave home and secured the ostrich between two bamboo posts.</p>
+
+        <p>Taming the ostrich proved difficult. For an entire week, the bird remained wild and untouchable. The narrator then used the same smoke technique that had worked on taming the eagle. Although the ostrich calmed down, it refused to eat. His wife fed it buttered cornflour balls, which helped the ostrich regain its appetite and strength. Over time, the bird responded to training. The narrator invented a special hood and a saddle with reins to control its movement. They named him Hurricane, and soon the entire family learned how to ride and guide him.</p>
+
+        <p>The family's life became stable and productive. Their land yielded crops like wheat, barley, corn and potatoes. The narrator also found time for hobbies, such as crafting hats from rat skin. He created a felt-like material using India rubber, dyed it red and decorated the hats with ostrich feathers.</p>
+
+        <p>Finally, the chapter reflects on the passing of time. The family had now lived on the island for ten years. The boys had grown into fine young men, each with different strengths but all united in love for one another and their parents.</p>
+    </div>
+</section>
+
+<section class="section" id="characters">
+    <h2>👨‍👩‍👦 Characters</h2>
+    <div class="info-grid">
+        <div class="info-card"><h3>The Father (Narrator)</h3><p>Leads the family home, invents useful tools and trains the ostrich.</p></div>
+        <div class="info-card"><h3>Fritz</h3><p>The eldest son, aged 25; strong, active and helpful.</p></div>
+        <div class="info-card"><h3>Ernest</h3><p>Aged 23; mild, calm, intelligent and studious.</p></div>
+        <div class="info-card"><h3>Jack</h3><p>Aged 20; graceful, witty and adventurous.</p></div>
+        <div class="info-card"><h3>Franz</h3><p>Aged 18; witty, curious and humorous. He receives the first handmade cap.</p></div>
+        <div class="info-card"><h3>The Mother</h3><p>Caring and wise; helps feed the ostrich and makes hat linings.</p></div>
+        <div class="info-card"><h3>Hurricane</h3><p>The wild ostrich the family gradually tames and learns to ride.</p></div>
+        <div class="info-card"><h3>Farm Animals</h3><p>The pigs, goats and chickens have increased in number during the family's absence.</p></div>
+        <div class="info-card"><h3>The Antelope Herd</h3><p>Lives peacefully near the family's land.</p></div>
+        <div class="info-card"><h3>Juno</h3><p>The family dog, mentioned as part of the family group.</p></div>
+        <div class="info-card"><h3>The Eagle</h3><p>Previously tamed by the narrator using a method later applied to Hurricane.</p></div>
+        <div class="info-card"><h3>The Rat</h3><p>Its skin is used with India rubber to make felt-like material for hats.</p></div>
+    </div>
+</section>
+
+<section class="section" id="theme">
+    <h2>💡 Main Themes</h2>
+    <div class="info-grid">
+        <div class="info-card"><h3>Adaptation and Innovation</h3><p>The family creates useful tools, clothing and new ways of working with available resources.</p></div>
+        <div class="info-card"><h3>Taming and Training Animals</h3><p>The taming of Hurricane demonstrates patience, observation and practical knowledge.</p></div>
+        <div class="info-card"><h3>Growth and Maturity</h3><p>The boys grow into responsible young men with distinct personalities and strengths.</p></div>
+        <div class="info-card"><h3>Family Unity and Cooperation</h3><p>Family members work together in farming, feeding animals and making clothing.</p></div>
+        <div class="info-card"><h3>Resourcefulness and Self-Reliance</h3><p>The family uses materials found on the island to meet its needs.</p></div>
+        <div class="info-card"><h3>Passage of Time and Reflection</h3><p>After ten years on the island, the narrator reflects with pride and gratitude.</p></div>
+    </div>
+</section>
+
+<section class="section" id="vocabulary">
+    <h2>📚 Essential Vocabulary</h2>
+    <div class="vocab-grid" id="vocab"></div>
+</section>
+
+<section class="section" id="questions">
+    <h2>❓ Comprehension Questions</h2>
+    <div id="qbox"></div>
+</section>
+
+<section class="section" id="fill">
+    <h2>✏️ Fill in the Blanks</h2>
+    <div id="fillbox"></div>
+</section>
+
+<section class="section" id="comments">
+    <h2>💬 Comment Questions</h2>
+    <p>Read each quotation. Click <strong>Show Answer</strong> to reveal the speaker, listener, place and occasion.</p>
+    <div id="commentbox"></div>
+</section>
+
+<section class="section" id="quiz1">
+    <div class="quiz-title">
+        <h2>🧠 Quiz 1 — Chapter 11</h2>
+        <p>Total: 15 marks</p>
+    </div>
+    <div id="quiz1box"></div>
+</section>
+
+<section class="section" id="quiz2">
+    <div class="quiz-title">
+        <h2>🧠 Quiz 2 — Chapter 11</h2>
+        <p>Total: 15 marks</p>
+    </div>
+    <div id="quiz2box"></div>
+</section>
+
+<section class="section" id="back">
+    <h2>↩️ Back to My Course</h2>
+    <a class="back-button" href="my-course.html">← Back to My Course</a>
+</section>
+
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+const vocab = [
+['Caravan','A group of travellers or pack animals moving together','We made quite a caravan as we led the blindfolded ostrich home.'],
+['Tame','To train or domesticate a wild animal','We tried hard to tame the ostrich, but he remained wild.'],
+['In vain','Without success or result','All our efforts to tame the ostrich seemed in vain at first.'],
+['Pined','To grow weak or waste away from grief or hunger','The ostrich pined for three days and grew weaker.'],
+['Pebbles','Small stones that help birds digest their food','Franz was surprised to see the ostrich eating pebbles.'],
+['Blinkers','Flaps that can be lowered to block an animal’s vision in one eye','The ostrich turned based on which blinker was closed.'],
+['Reins','Straps used to control a riding animal’s movement','Pulling the reins made Hurricane run faster.'],
+['Gallop','To run very fast','After training, the ostrich could gallop on command.'],
+['Nap','The soft, fuzzy surface on fabric','I passed a hot iron to smooth out the nap of the cap.'],
+['Felt','A soft cloth made by pressing fibres together','I made a kind of felt using India rubber and rat skin.'],
+['Studious','Serious and focused on learning','Ernest was described as calm, mild and studious.'],
+['Graceful','Elegant in movement or manner','Jack was more graceful than Fritz.'],
+['Wit','The ability to think and express ideas cleverly and humorously','Franz had great wit and made everyone laugh.'],
+['God-fearing','Deeply respectful and obedient towards God','All the boys grew into kind, God-fearing young men.']
+];
+
+document.getElementById('vocab').innerHTML = vocab.map(v => `
+    <div class="vocab-item">
+        <strong>${v[0]}</strong>
+        <div>${v[1]}.</div>
+        <p><em>Example:</em> ${v[2]}</p>
+    </div>
+`).join('');
+
+const questions = [
+['What was the condition of the ostrich when the family began their journey home?','The ostrich was blindfolded and led as part of the caravan back to Rock House.'],
+['How long did the journey from their campsite to Rock House take?','Two days.'],
+['What did the family observe when they visited their farm on the way home?','Their pigs, goats and poultry had greatly increased in number.'],
+['What did they bring back with them from the farm?','Chickens.'],
+['How did the family make their home fresh again upon arrival?','They opened all the doors and windows to let in fresh air.'],
+['Where did they tie the ostrich after returning to Rock House?','Between two bamboo posts in front of the cave.'],
+['What difficulty did the family face in trying to tame the ostrich at first?','It remained wild and untamed even after a week of effort.'],
+['What method did the narrator eventually use to calm the ostrich?','He used smoke, the same way he had tamed the eagle.'],
+['What was the immediate effect of the smoke on the ostrich?','The ostrich collapsed, then got up calm but refused to eat.'],
+['How did the narrator’s wife manage to get the ostrich to eat again?','She fed it balls of cornflour and butter directly into its beak.'],
+['What food did the ostrich eventually eat willingly?','Rice, guavas, corn and small pebbles.'],
+['Why did Franz find it odd that the ostrich ate pebbles?','He was surprised, but his father explained that birds eat pebbles to help digest food.'],
+['What did the narrator invent to control the ostrich’s movement?','A leather hood with movable flaps over the eyes to direct the bird.'],
+['How did the eye flaps work in training the ostrich?','Both open meant run straight; closing the left blinker made it turn right; closing the right made it turn left; closing both made it stop.'],
+['What unusual feature did the ostrich reins have?','Pulling them tight made it go faster; loosening them slowed it down, the opposite of usual reins.'],
+['What name did they give the ostrich and why?','Hurricane, because of his speed and power.'],
+['What types of crops were growing on the family’s land?','Wheat, barley, corn, potatoes and various vegetables.'],
+['What new skill did the narrator attempt after fieldwork settled?','Making hats using felted rat skin, dyed red, lined with silk and decorated with ostrich feathers.'],
+['Who received the first hat made by the narrator?','Franz.'],
+['Describe the personalities of the four boys as summarized at the end of the chapter.','Fritz (25) was strong and active; Ernest (23) was mild, calm and studious; Jack (20) was graceful and witty; Franz (18) combined his brothers’ traits and had a good sense of humour.']
+];
+
+document.getElementById('qbox').innerHTML = questions.map((q,i) => `
+    <div class="question">
+        <strong>${i+1}. ${q[0]}</strong>
+        <button class="show-answer" onclick="toggleAnswer('qa${i}',this)">👁️ Show Answer</button>
+        <div class="answer" id="qa${i}">${q[1]}</div>
+    </div>
+`).join('');
+
+const fillQ = [
+['It took the family ___ days to return home after the journey.','Two'],
+['The ___ was blindfolded and tied between two bamboo posts.','Ostrich'],
+['On the way home, the family stopped at their ___ and saw that their animals had multiplied.','Farm'],
+['They brought some ___ back with them from the farm.','Chickens'],
+['When they arrived at Rock House, they opened all the ___ and ___ to let in fresh air.','Windows, doors'],
+['The ostrich was still ___ after a week of training.','Wild'],
+['The narrator used ___ to calm the ostrich, as he had done with the eagle.','Smoke'],
+['The bird refused food for ___ days, growing weaker and weaker.','Three'],
+['The narrator’s wife made food balls from ___ and ___ to feed the ostrich.','Cornflour, butter'],
+['After being hand-fed, the ostrich began eating ___, ___ and ___.','Rice, guavas, corn'],
+['Franz was surprised when the ostrich ate small ___.','Pebbles'],
+['The narrator explained that birds needed pebbles to help them ___ their food.','Digest'],
+['The narrator made a leather ___ with eye flaps to control the bird.','Hood'],
+['The bird turned ___ when its left eye was closed, and ___ when the right was closed.','Right, left'],
+['The ostrich galloped forward when both ___ were open.','Blinkers'],
+['The special saddle was fitted with ___ to control the ostrich.','Reins'],
+['Pulling the reins tight made the bird go ___.','Faster'],
+['The family named the ostrich ___.','Hurricane'],
+['The family’s crops included ___, ___ and ___.','Wheat, barley, corn'],
+['On the other side of Jackal River, they planted ___ and other vegetables.','Potatoes'],
+['The narrator made hats using the skin of a ___.','Rat'],
+['He turned the skin into a kind of felt by adding ___.','India rubber'],
+['The hat was dyed ___ and shaped on a wooden block.','Red'],
+['The first red Swiss cap was worn by ___.','Franz'],
+['The hat was lined with ___ and decorated with ostrich ___.','Silk, feathers'],
+['The family had spent ___ years on the island.','Ten'],
+['Fritz, the eldest, was ___ years old.','Twenty-five (25)'],
+['Ernest, the second son, was described as ___, ___ and ___.','Mild, calm, studious'],
+['Jack, aged ___, was graceful and adventurous like Fritz.','Twenty (20)'],
+['Franz, the youngest, had ___, ___ and a good sense of ___.','Wit, humour, humour']
+];
+
+document.getElementById('fillbox').innerHTML = fillQ.map((q,i) => `
+    <div class="fill-item">
+        <span class="fill-number">${i+1}.</span> ${q[0]}
+        <button class="show-answer" onclick="toggleAnswer('fa${i}',this)">👁️ Show Answer</button>
+        <div class="fill-answer" id="fa${i}">${q[1]}</div>
+    </div>
+`).join('');
+
+const comments = [
+['It took us two days to get back to Rock House.','The narrator / Father','The reader; it is part of the narration','On the journey back from the exploration','Describing the time it took for the family to return home'],
+['He must have some food!','The narrator / Father','His wife','At Rock House, near the ostrich','When the ostrich was weak from refusing food and they were desperate to feed it'],
+['Too bad we weren’t able to take that glorious bird alive!','Fritz','His father and brothers','After the eagle killed the male ostrich','Expressing regret that they could not capture the bird for taming'],
+['Franz was surprised when the ostrich ate small pebbles.','The narrator, reporting Franz’s reaction','The reader; it is part of the narration','At Rock House','While observing the ostrich’s eating habits'],
+['We all learned to manage Hurricane, as we’d decided to name him.','The narrator / Father','The reader; it is part of the narration','Rock House','After the ostrich was successfully trained'],
+['Everyone was so delighted with the cap that I made some more.','The narrator / Father','The reader; it is part of the narration','At Rock House','After making the first red Swiss cap for Franz'],
+['All were good, God-fearing young men.','The narrator / Father','The reader; it is part of the narration','Reflecting at Rock House after ten years','Reflecting proudly on his sons’ character']
+];
+
+document.getElementById('commentbox').innerHTML = comments.map(q => `
+    <div class="quote-card">
+        <blockquote>“${q[0]}”</blockquote>
+        <button class="show-answer" onclick="toggleQuote(this)">👁️ Show Answer</button>
+        <div class="quote-details">
+            <div><strong>Speaker:</strong><br>${q[1]}</div>
+            <div><strong>To whom:</strong><br>${q[2]}</div>
+            <div><strong>Place:</strong><br>${q[3]}</div>
+            <div><strong>Occasion:</strong><br>${q[4]}</div>
+        </div>
+    </div>
+`).join('');
+
+const quiz1 = [
+['Why was the ostrich tied between two bamboo posts?','It was kept there for safety and training. (1 mark)'],
+['What happened when they tried to tame the ostrich in the first week?','It remained wild and untamed. (1 mark)'],
+['Why did the narrator decide to use smoke on the ostrich?','Because it had worked earlier with the eagle. (1 mark)'],
+['What did the ostrich do after it was affected by the smoke?','It sank to the ground, then got up and walked calmly. (1 mark)'],
+['How did the family manage to feed the ostrich after it refused food?','They fed it cornflour and butter balls. (1 mark)'],
+['What surprising thing did Franz notice about the ostrich’s eating habits?','The ostrich ate small pebbles. (1 mark)'],
+['What purpose do the blinkers on the ostrich’s hood serve?','To control the direction the ostrich ran. (1 mark)'],
+['How was the ostrich named and trained?','It was named Hurricane and trained using voice commands and blinkers. (1 mark)'],
+['Fill in the blank: “When the reins were drawn tight, he would go ______.”','Fast. (1 mark)'],
+['Fill in the blank: “The ostrich would stand still when ______.”','Both blinkers were closed. (1 mark)'],
+['How did the narrator make the red Swiss cap? Mention two materials used.','He used rat skin and India rubber to make a felt-like material. (1 mark)'],
+['Comment on: “At last, however, we all learned to manage Hurricane, as we’d decided to name him.”','Who: The narrator (0.5). To whom: The family (0.5). Meaning: It shows successful taming and naming of the ostrich (2). Total: 3 marks.'],
+['Describe each of the four boys briefly as they were ten years later.','Fritz (25, strong and active); Ernest (23, mild, calm and studious); Jack (20, graceful and witty); Franz (18, witty and humorous). (2 marks)']
+];
+
+const quiz2 = [
+['Why did the narrator blindfold the ostrich?','To keep it calm during travel and taming. (1 mark)'],
+['What condition was the ostrich in after three days of not eating?','It was weak and close to death. (1 mark)'],
+['What food revived the ostrich?','Cornflour balls mixed with butter. (1 mark)'],
+['Why did the narrator explain about pebbles to Franz?','Because Franz noticed the ostrich eating pebbles, and the narrator explained that they helped digestion. (1 mark)'],
+['Fill in the blank: The ostrich was tied between two ______ posts.','Bamboo. (1 mark)'],
+['What was unusual about the way reins controlled Hurricane?','Tight reins meant faster movement, while loose reins meant slower movement. (1 mark)'],
+['Why was it hard to remember how to slow the ostrich down?','Because the reins worked in the opposite way to ordinary reins. (1 mark)'],
+['What were the reins used for?','To control the ostrich’s speed. (1 mark)'],
+['Comment on: “He took it and looked around for more.”','He = the ostrich (0.5). It shows that its appetite had returned (1). This was important because eating helped save its life (1.5). Total: 3 marks.'],
+['Fill in the blank: The red Swiss cap was dyed a bright ______.','Red. (1 mark)'],
+['What items were used to decorate the cap?','Ostrich feathers; the cap also had a silk lining. (1 mark)'],
+['What did the narrator say about the boys’ character after ten years?','They were good, loving and God-fearing young men. (1 mark)'],
+['What crops did the family plant on the other side of Jackal River?','Potatoes and other vegetables. (1 mark)']
+];
+
+function renderQuiz(arr,id){
+    document.getElementById(id).innerHTML = arr.map((q,i) => `
+        <div class="quiz-question">
+            <strong>${i+1}. ${q[0]}</strong>
+            <button class="show-answer" onclick="toggleAnswer('${id}a${i}',this)">👁️ Show Answer</button>
+            <div class="answer" id="${id}a${i}">${q[1]}</div>
+        </div>
+    `).join('');
+}
+
+renderQuiz(quiz1,'quiz1box');
+renderQuiz(quiz2,'quiz2box');
+
+function toggleAnswer(id,button){
+    const answer = document.getElementById(id);
+    if(!answer) return;
+
+    const opening = !answer.classList.contains('show');
+    answer.classList.toggle('show',opening);
+    button.textContent = opening ? '🙈 Hide Answer' : '👁️ Show Answer';
+}
+
+function toggleQuote(button){
+    const card = button.closest('.quote-card');
+    if(!card) return;
+
+    const details = card.querySelector('.quote-details');
+    if(!details) return;
+
+    const opening = !details.classList.contains('show');
+    details.classList.toggle('show',opening);
+    button.textContent = opening ? '🙈 Hide Answer' : '👁️ Show Answer';
+}
+
+const sections = document.querySelectorAll('.section[id]');
+const links = document.querySelectorAll('.nav-buttons a');
+
+if('IntersectionObserver' in window){
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                links.forEach(a => a.classList.remove('active'));
+                const active = document.querySelector(
+                    `.nav-buttons a[href="#${entry.target.id}"]`
+                );
+                if(active) active.classList.add('active');
+            }
+        });
+    },{rootMargin:'-15% 0px -70% 0px'});
+
+    sections.forEach(section => observer.observe(section));
+}
+
+links.forEach(link => {
+    link.addEventListener('click',function(){
+        links.forEach(a => a.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+if(links.length && !document.querySelector('.nav-buttons a.active')){
+    links[0].classList.add('active');
+}
+</script>
+
+</body>
+</html>
