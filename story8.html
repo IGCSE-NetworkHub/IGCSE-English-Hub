@@ -1,417 +1,100 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Chapter 8 - The Stranded Whale | IGCSE English Hub</title>
 
 <style>
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f7fb;
-    color: #1d2939;
-    line-height: 1.7;
-}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1d2939;line-height:1.7}
 
 /* HEADER */
-header {
-    background: linear-gradient(135deg, #102a56, #1d4f91);
-    color: white;
-    text-align: center;
-    padding: 42px 20px;
-    margin-left: 255px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.15);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 34px;
-    letter-spacing: .5px;
-}
-
-header p {
-    margin: 8px 0 0;
-    font-size: 18px;
-    opacity: .92;
-}
+header{background:linear-gradient(135deg,#102a56,#1d4f91);color:white;text-align:center;padding:42px 20px;margin-left:255px;box-shadow:0 5px 20px #0002}
+header h1{margin:0;font-size:34px;letter-spacing:.5px}
+header p{margin:8px 0 0;font-size:18px;opacity:.92}
 
 /* SIDEBAR */
-.lesson-nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 255px;
-    height: 100vh;
-    background: #ffffff;
-    box-shadow: 3px 0 15px rgba(0,0,0,.08);
-    padding: 25px 15px;
-    overflow-y: auto;
-    z-index: 1000;
-}
-
-.lesson-nav h2 {
-    text-align: center;
-    color: #102a56;
-    font-size: 20px;
-    margin: 0 0 20px;
-}
-
-.nav-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.nav-buttons a {
-    text-decoration: none;
-    color: #102a56;
-    background: #eef3f9;
-    padding: 10px 13px;
-    border-radius: 9px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: .25s ease;
-}
-
-.nav-buttons a:hover {
-    background: #dce8f7;
-    transform: translateX(4px);
-}
-
-.nav-buttons a.active {
-    background: #102a56;
-    color: white;
-    transform: translateX(5px);
-    box-shadow: 0 5px 12px rgba(16,42,86,.18);
-}
+.lesson-nav{position:fixed;left:0;top:0;width:255px;height:100vh;background:#fff;box-shadow:3px 0 15px #0001;padding:25px 15px;overflow-y:auto;z-index:1000}
+.lesson-nav h2{text-align:center;color:#102a56;font-size:20px;margin:0 0 20px}
+.nav-buttons{display:flex;flex-direction:column;gap:7px}
+.nav-buttons a{text-decoration:none;color:#102a56;background:#eef3f9;padding:10px 13px;border-radius:9px;font-size:14px;font-weight:bold;transition:.25s ease}
+.nav-buttons a:hover{background:#dce8f7;transform:translateX(4px)}
+.nav-buttons a.active{background:#102a56;color:#fff;transform:translateX(5px);box-shadow:0 5px 12px #102a562e}
 
 /* MAIN */
-.container {
-    margin-left: 255px;
-    padding: 35px;
-    max-width: 1250px;
-}
-
-/* SECTIONS */
-.section {
-    background: white;
-    margin-bottom: 30px;
-    padding: 32px;
-    border-radius: 18px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    scroll-margin-top: 25px;
-    animation: fadeUp .6s ease;
-}
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.section h2 {
-    color: #102a56;
-    margin-top: 0;
-    border-bottom: 3px solid #dbe7f5;
-    padding-bottom: 10px;
-}
-
-.section h3 {
-    color: #1d4f91;
-}
+.container{margin-left:255px;padding:35px;max-width:1500px}
+.section{background:#fff;margin-bottom:30px;padding:32px;border-radius:18px;box-shadow:0 5px 20px #0000000f;scroll-margin-top:25px;animation:fadeUp .6s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.section h2{color:#102a56;margin-top:0;border-bottom:3px solid #dbe7f5;padding-bottom:10px}
+.section h3{color:#1d4f91}
 
 /* STORY */
-.story-text {
-    background: #f8fbff;
-    border-left: 5px solid #1d4f91;
-    padding: 25px;
-    border-radius: 12px;
-    font-size: 17px;
-}
+.story-text{background:#f8fbff;border-left:5px solid #1d4f91;padding:25px;border-radius:12px;font-size:17px}
+.story-text p{margin-bottom:20px}
+.highlight{background:#fff3cd;border-left:5px solid #e0a800;padding:16px 20px;border-radius:10px;font-weight:bold;margin:20px 0}
+.quote{background:#eef5ff;border-left:5px solid #102a56;padding:18px 22px;margin:20px 0;border-radius:10px;font-style:italic}
 
-.story-text p {
-    margin-bottom: 20px;
-}
-
-.highlight {
-    background: #fff3cd;
-    border-left: 5px solid #e0a800;
-    padding: 16px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.quote {
-    background: #eef5ff;
-    border-left: 5px solid #102a56;
-    padding: 18px 22px;
-    margin: 20px 0;
-    border-radius: 10px;
-    font-style: italic;
-}
-
-/* INFO GRID */
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 18px;
-}
-
-.info-card {
-    background: #f7faff;
-    border: 1px solid #dce6f2;
-    padding: 20px;
-    border-radius: 14px;
-    transition: .25s ease;
-}
-
-.info-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(0,0,0,.08);
-}
-
-.info-card h3 {
-    margin-top: 0;
-}
+/* INFO */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.info-card{background:#f7faff;border:1px solid #dce6f2;padding:20px;border-radius:14px;transition:.25s ease;margin-bottom:15px}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 8px 18px #00000012}
+.info-card h3{margin-top:0}
 
 /* VOCABULARY */
-.vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 15px;
-}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.vocab-item{background:#f8fbff;border:1px solid #dce6f2;padding:17px;border-radius:12px}
+.vocab-item strong{color:#102a56}
 
-.vocab-item {
-    background: #f8fbff;
-    border: 1px solid #dce6f2;
-    padding: 17px;
-    border-radius: 12px;
-}
+/* QUESTIONS AND ANSWERS */
+.question,.quiz-question{background:#f8fafc;border:1px solid #e1e8f0;padding:18px;margin:15px 0;border-radius:12px}
+.question strong,.quiz-question strong{color:#102a56}
+.answer-btn,.show-answer{display:block;border:none;background:#1d4f91;color:#fff;padding:8px 15px;border-radius:7px;cursor:pointer;margin-top:12px;font-weight:bold;transition:.2s}
+.answer-btn:hover,.show-answer:hover{background:#102a56;transform:translateY(-1px)}
+.answer{display:none;margin-top:12px;background:#eaf4ea;border-left:4px solid #3d8b40;padding:12px 15px;border-radius:8px}
+.answer.show{display:block}
 
-.vocab-item strong {
-    color: #102a56;
-}
+/* FILL IN THE BLANKS */
+.fill-item{background:#f8fbff;border:1px solid #dfe7f0;padding:14px 18px;border-radius:10px;margin:10px 0}
+.fill-number{color:#102a56;font-weight:bold}
+.fill-answer{display:none;margin-top:10px;background:#eaf4ea;border-left:4px solid #3d8b40;padding:10px 14px;border-radius:8px;font-weight:bold;color:#102a56}
 
-/* QUESTIONS */
-.question {
-    background: #f8fafc;
-    border: 1px solid #e1e8f0;
-    padding: 18px;
-    margin: 15px 0;
-    border-radius: 12px;
-}
+/* COMMENT QUESTIONS */
+.quote-card{background:#f8fbff;border:1px solid #dce6f2;padding:22px;margin:18px 0;border-radius:14px}
+.quote-card blockquote{margin:0;padding:15px;background:#eef5ff;border-left:5px solid #102a56;border-radius:8px;font-style:italic;font-size:17px}
+.quote-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+.quote-details[hidden]{display:none!important}
+.quote-details div{background:#fff;border:1px solid #e0e7ef;padding:10px;border-radius:8px}
+.quote-details strong{color:#102a56}
+.show-details-btn{display:inline-block;border:none;background:#1d4f91;color:#fff;padding:9px 16px;border-radius:8px;cursor:pointer;margin:12px 0 0;font-weight:bold;transition:.25s ease}
+.show-details-btn:hover{background:#102a56;transform:translateY(-2px)}
+.quote-answer{display:none;margin-top:15px;background:#eaf4ea;border-left:4px solid #3d8b40;padding:15px;border-radius:8px}
 
-.question strong {
-    color: #102a56;
-}
+/* QUIZZES */
+.quiz-title{background:linear-gradient(135deg,#102a56,#1d4f91);color:#fff;padding:18px 22px;border-radius:12px;margin-bottom:20px}
+.quiz-title h2{color:#fff;border:none;padding:0;margin:0 0 5px}
+.quiz-title p{margin:0}
 
-.answer-btn,
-.show-answer {
-    display: block;
-    border: none;
-    background: #1d4f91;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 7px;
-    cursor: pointer;
-    margin-top: 12px;
-    font-weight: bold;
-}
-
-.answer-btn:hover,
-.show-answer:hover {
-    background: #102a56;
-}
-
-.answer {
-    display: none;
-    margin-top: 12px;
-    background: #eaf4ea;
-    border-left: 4px solid #3d8b40;
-    padding: 12px 15px;
-    border-radius: 8px;
-}
-
-.answer.show {
-    display: block;
-}
-
-/* FILL */
-.fill-item {
-    background: #f8fbff;
-    border: 1px solid #dfe7f0;
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin: 10px 0;
-}
-
-.fill-number {
-    color: #102a56;
-    font-weight: bold;
-}
-
-.fill-answer {
-    display: none;
-    margin-top: 10px;
-    background: #eaf4ea;
-    border-left: 4px solid #3d8b40;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-weight: bold;
-    color: #102a56;
-}
-
-/* COMMENTS */
-.quote-card {
-    background: #f8fbff;
-    border: 1px solid #dce6f2;
-    padding: 22px;
-    margin: 18px 0;
-    border-radius: 14px;
-}
-
-.quote-card blockquote {
-    margin: 0 0 15px;
-    padding: 15px;
-    background: #eef5ff;
-    border-left: 5px solid #102a56;
-    border-radius: 8px;
-    font-style: italic;
-    font-size: 17px;
-}
-
-.quote-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 10px;
-}
-
-.quote-details div {
-    background: white;
-    border: 1px solid #e0e7ef;
-    padding: 10px;
-    border-radius: 8px;
-}
-
-.quote-details strong {
-    color: #102a56;
-}
-
-.quote-answer {
-    display: none;
-    margin-top: 15px;
-    background: #eaf4ea;
-    border-left: 4px solid #3d8b40;
-    padding: 15px;
-    border-radius: 8px;
-}
-
-/* QUIZ */
-.quiz-title {
-    background: linear-gradient(135deg, #102a56, #1d4f91);
-    color: white;
-    padding: 18px 22px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.quiz-title h2 {
-    color: white;
-    border: none;
-    padding: 0;
-    margin: 0 0 5px;
-}
-
-.quiz-question {
-    background: #f8fafc;
-    border: 1px solid #dde5ee;
-    padding: 18px;
-    margin: 15px 0;
-    border-radius: 10px;
-}
-
-/* BUTTON */
-.back-button {
-    display: inline-block;
-    text-decoration: none;
-    background: #102a56;
-    color: white;
-    padding: 13px 22px;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: .25s ease;
-}
-
-.back-button:hover {
-    background: #1d4f91;
-    transform: translateY(-2px);
-}
+/* BACK BUTTON */
+.back-button{display:inline-block;text-decoration:none;background:#102a56;color:#fff;padding:13px 22px;border-radius:10px;font-weight:bold;transition:.25s ease}
+.back-button:hover{background:#1d4f91;transform:translateY(-2px)}
 
 /* FOOTER */
-footer {
-    margin-left: 255px;
-    text-align: center;
-    background: #102a56;
-    color: white;
-    padding: 22px;
-    margin-top: 30px;
-}
+footer{margin-left:255px;text-align:center;background:#102a56;color:#fff;padding:22px;margin-top:30px}
 
 /* MOBILE */
-@media (max-width: 850px) {
-
-    .lesson-nav {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-
-    .nav-buttons {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    }
-
-    .container {
-        margin-left: 0;
-        padding: 18px;
-    }
-
-    footer {
-        margin-left: 0;
-    }
-
-    header {
-        margin-left: 0;
-    }
-
-    header h1 {
-        font-size: 27px;
-    }
-
-    .section {
-        padding: 22px;
-    }
+@media(max-width:850px){
+ .lesson-nav{position:relative;width:100%;height:auto;padding:20px 15px}
+ .nav-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+ .nav-buttons a:hover,.nav-buttons a.active{transform:none}
+ .container{margin-left:0;padding:18px}
+ footer,header{margin-left:0}
+ header h1{font-size:27px}
+ .section{padding:22px}
+ .story-text{padding:18px}
 }
-
 </style>
 </head>
 
@@ -423,11 +106,8 @@ footer {
 </header>
 
 <nav class="lesson-nav">
-
     <h2>📚 Chapter 8</h2>
-
     <div class="nav-buttons">
-
         <a href="#reading">📖 Reading</a>
         <a href="#summary">📝 Summary</a>
         <a href="#characters">👨‍👩‍👦 Characters</a>
@@ -439,1454 +119,440 @@ footer {
         <a href="#quiz1">🧠 Quiz 1</a>
         <a href="#quiz2">🧠 Quiz 2</a>
         <a href="#back">↩️ Back</a>
-
     </div>
-
 </nav>
 
 <main class="container">
 
-
 <!-- READING -->
-
 <section class="section" id="reading">
+<h2>📖 Reading — The Stranded Whale</h2>
+<div class="story-text">
 
-    <h2>📖 Reading — The Stranded Whale</h2>
+<p>Snug in our new Rock House, we were not as bored as we had been the previous winter. We had many projects to keep us busy and plenty of room to work. We hung up a ship's lantern to give us light.</p>
 
-    <div class="story-text">
+<p>After Ernest and Franz put up shelves for our library, we unpacked the books we had taken from the wreck. There were books of voyages, travels and natural history. And there were history and science books, as well as fiction in several languages. There were also maps, charts and a pair of globes.</p>
 
-        <p>
-            Snug in our new Rock House, we were not as bored as we had been the previous winter.
-            We had many projects to keep us busy and plenty of room to work.
-            We hung up a ship's lantern to give us light.
-        </p>
+<p>Fritz and I set up a fine workshop. The carpenter's bench was put into place. All of our tools and instruments were neatly hung on the walls.</p>
 
-        <p>
-            After Ernest and Franz put up shelves for our library, we unpacked the books we had taken from the wreck.
-            There were books of voyages, travels and natural history.
-            And there were history and science books, as well as fiction in several languages.
-            There were also maps, charts and a pair of globes.
-        </p>
+<p>We still needed so many things! We built shelves, tables, benches and movable steps. We also made cupboards, pegs, doorhandles and bolts. At home in Switzerland, we had taken all these things for granted! Now we had to use imagination and hard work to get the same comforts.</p>
 
-        <p>
-            Fritz and I set up a fine workshop.
-            The carpenter's bench was put into place.
-            All of our tools and instruments were neatly hung on the walls.
-        </p>
+<div class="highlight">Working towards a set of goals gave the family purpose and helped them stay happy during the winter.</div>
 
-        <p>
-            We still needed so many things!
-            We built shelves, tables, benches and movable steps.
-            We also made cupboards, pegs, doorhandles and bolts.
-            At home in Switzerland, we had taken all these things for granted!
-            Now we had to use imagination and hard work to get the same comforts.
-        </p>
+<p>In reality, however, the more there was to do, the better it was for us. Our adventures on the island had taught me that working towards a set of goals is the main element of happiness!</p>
 
-        <div class="highlight">
-            Working towards a set of goals gave the family purpose and helped them stay happy during the winter.
-        </div>
+<p>We made a wide porch along the front of the cave and sheltered it with bamboo.</p>
 
-        <p>
-            In reality, however, the more there was to do, the better it was for us.
-            Our adventures on the island had taught me that working towards a set of goals
-            is the main element of happiness!
-        </p>
+<p>Sometimes we would amuse ourselves by opening chests and packages that had not yet been touched. Many treasures were brought to light. We found mirrors, wardrobes and tables with marble tops. We also found some writing tables and good chairs, several clocks and a music box. Soon our winter home was fitted up like a palace!</p>
 
-        <p>
-            We made a wide porch along the front of the cave and sheltered it with bamboo.
-        </p>
+<p>It seemed that the rainy season went by quickly. Time didn't hang heavy on anyone's hands. Soon it was spring again.</p>
 
-        <p>
-            Sometimes we would amuse ourselves by opening chests and packages that had not yet been touched.
-            Many treasures were brought to light.
-            We found mirrors, wardrobes and tables with marble tops.
-            We also found some writing tables and good chairs, several clocks and a music box.
-            Soon our winter home was fitted up like a palace!
-        </p>
+<p>We were glad to be able to leave the cave. Once again we were free to roam in the open air. We crossed Jackal River one day and were walking along the coast. Then Fritz saw something on the small island near Flamingo Marsh. From our point of view, it looked like an overturned boat!</p>
 
-        <p>
-            It seemed that the rainy season went by quickly.
-            Time didn't hang heavy on anyone's hands.
-            Soon it was spring again.
-        </p>
+<p>We decided to walk closer to see what we could find. It was not a boat! The enormous object turned out to be a huge whale that had become stranded and then died.</p>
 
-        <p>
-            We were glad to be able to leave the cave.
-            Once again we were free to roam in the open air.
-            We crossed Jackal River one day and were walking along the coast.
-            Then Fritz saw something on the small island near Flamingo Marsh.
-            From our point of view, it looked like an overturned boat!
-        </p>
+<div class="quote">"What a huge brute! He's ever so much larger than he seemed from a distance!"</div>
 
-        <p>
-            We decided to walk closer to see what we could find.
-            It was not a boat!
-            The enormous object turned out to be a huge whale that had become stranded and then died.
-        </p>
+<p>Fritz cried out in surprise. The whale was enormous, and the family immediately began thinking about how they could make use of it.</p>
 
-        <div class="quote">
-            "What a huge brute! He's ever so much larger than he seemed from a distance!"
-        </div>
+<p>"You'd be surprised at the many ways an animal such as this can be useful," I said. "For one thing, it can supply us with oil to use in our lantern."</p>
 
-        <p>
-            Fritz cried out in surprise.
-            The whale was enormous, and the family immediately began thinking about how they could make use of it.
-        </p>
+<p>We immediately returned to Rock House to get the tools we would need. The next day we went back to the island near Flamingo Marsh. The whole family came along, as we had much work to do.</p>
 
-        <p>
-            "You'd be surprised at the many ways an animal such as this can be useful,"
-            I said.
-            "For one thing, it can supply us with oil to use in our lantern."
-        </p>
+<p>We had so many things to carry! We brought all the barrels and casks that we could squeeze into the boat. We also took knives and hatchets. Since the wind was with us, we soon landed close to the whale.</p>
 
-        <p>
-            We immediately returned to Rock House to get the tools we would need.
-            The next day we went back to the island near Flamingo Marsh.
-            The whole family came along, as we had much work to do.
-        </p>
+<p>Its enormous size astonished my wife and our youngest boy. The creature was almost 20 metres long and about 10 metres round. Its weight could not have been less than 23,000 kilograms!</p>
 
-        <p>
-            We had so many things to carry!
-            We brought all the barrels and casks that we could squeeze into the boat.
-            We also took knives and hatchets.
-            Since the wind was with us, we soon landed close to the whale.
-        </p>
+<p>The whale was black in colour. Its huge head was about one-third the length of the entire body. The eyes were quite small — not much larger than those of an ox. Its ears were almost impossible to see.</p>
 
-        <p>
-            Its enormous size astonished my wife and our youngest boy.
-            The creature was almost 20 metres long and about 10 metres round.
-            Its weight could not have been less than 23,000 kilograms!
-        </p>
+<p>The animal's huge jaw was nearly five metres long. The most interesting part of the great beast was the substance known as whalebone. This whalebone appeared all along both jaws. It was solid at the base, but toward the top it was split into a kind of fringe.</p>
 
-        <p>
-            The whale was black in colour.
-            Its huge head was about one-third the length of the entire body.
-            The eyes were quite small — not much larger than those of an ox.
-            Its ears were almost impossible to see.
-        </p>
+<p>The tongue was quite large, soft and full of oil. Strangely, the opening of the throat was very small — only about five centimetres wide!</p>
 
-        <p>
-            The animal's huge jaw was nearly five metres long.
-            The most interesting part of the great beast was the substance known as whalebone.
-            This whalebone appeared all along both jaws.
-            It was solid at the base, but toward the top it was split into a kind of fringe.
-        </p>
+<div class="quote">"Look at that narrow throat! Whatever can this great creature eat?"</div>
 
-        <p>
-            The tongue was quite large, soft and full of oil.
-            Strangely, the opening of the throat was very small — only about five centimetres wide!
-        </p>
+<p>Fritz was amazed by the contrast between the whale's enormous body and its tiny throat.</p>
 
-        <div class="quote">
-            "Look at that narrow throat! Whatever can this great creature eat?"
-        </div>
+<p>"Let me explain it to you," I said. "This huge animal eats just the smallest of sea creatures. Only prawns, tiny fish, lobsters and other small creatures form its diet."</p>
 
-        <p>
-            Fritz was amazed by the contrast between the whale's enormous body and its tiny throat.
-        </p>
+<p>The whale swims with open mouth through areas where these creatures live. It takes them into its mouth by the millions! When the mouth is full of prey, it closes its jaws. Next, it forces the water out through the whalebone — but the captured animals cannot get through the fringe. Then it can swallow the food at its leisure.</p>
 
-        <p>
-            "Let me explain it to you," I said.
-            "This huge animal eats just the smallest of sea creatures.
-            Only prawns, tiny fish, lobsters and other small creatures form its diet."
-        </p>
+<div class="highlight">The family learned how the whale uses its whalebone to filter tiny sea creatures from the water.</div>
 
-        <p>
-            The whale swims with open mouth through areas where these creatures live.
-            It takes them into its mouth by the millions!
-            When the mouth is full of prey, it closes its jaws.
-            Next, it forces the water out through the whalebone —
-            but the captured animals cannot get through the fringe.
-            Then it can swallow the food at its leisure.
-        </p>
+<p>"And now, boys, let me see you climb this slippery mountain of flesh. It's time to cut it up."</p>
 
-        <div class="highlight">
-            The family learned how the whale uses its whalebone to filter tiny sea creatures from the water.
-        </div>
+<p>Fritz and Jack got started right away. First, they helped me cut away the lips, so we could get to the whalebone.</p>
 
-        <p>
-            "And now, boys, let me see you climb this slippery mountain of flesh.
-            It's time to cut it up."
-        </p>
+<p>Then Ernest worked at the creature's side, cutting out big slabs of blubber. My wife and Franz helped as well as they could to put everything in casks.</p>
 
-        <p>
-            Fritz and Jack got started right away.
-            First, they helped me cut away the lips, so we could get to the whalebone.
-        </p>
+<p>It took us several days of hard work to get everything useful from the whale. We even took some of the skin to turn into leather for harnesses and such.</p>
 
-        <p>
-            Then Ernest worked at the creature's side, cutting out big slabs of blubber.
-            My wife and Franz helped as well as they could to put everything in casks.
-        </p>
+<p>When we had taken all we could, we left the whale's remains to the birds of prey. With a full cargo, we set sail for land.</p>
 
-        <p>
-            It took us several days of hard work to get everything useful from the whale.
-            We even took some of the skin to turn into leather for harnesses and such.
-        </p>
+<p>We were glad to get home. We needed to rest, because we had a lot of work to do the next day. A refreshing bath, clean clothes and a good supper cheered us all. That night we slept in peace.</p>
 
-        <p>
-            When we had taken all we could, we left the whale's remains to the birds of prey.
-            With a full cargo, we set sail for land.
-        </p>
+<p>The next morning, we began to boil the blubber in big tubs. Then we skimmed and strained the water through a coarse cloth. In this manner, we obtained an ample supply of excellent oil.</p>
 
-        <p>
-            We were glad to get home.
-            We needed to rest, because we had a lot of work to do the next day.
-            A refreshing bath, clean clothes and a good supper cheered us all.
-            That night we slept in peace.
-        </p>
+<p>After pouring it into bottles, we stored the oil in our back storeroom. Now we had enough oil to keep our lanterns burning for many years.</p>
 
-        <p>
-            The next morning, we began to boil the blubber in big tubs.
-            Then we skimmed and strained the water through a coarse cloth.
-            In this manner, we obtained an ample supply of excellent oil.
-        </p>
-
-        <p>
-            After pouring it into bottles, we stored the oil in our back storeroom.
-            Now we had enough oil to keep our lanterns burning for many years.
-        </p>
-
-    </div>
-
+</div>
 </section>
-
 
 <!-- SUMMARY -->
-
 <section class="section" id="summary">
-
-    <h2>📝 Summary</h2>
-
-    <div class="info-card">
-
-        <h3>1. Life in Rock House</h3>
-
-        <p>
-            The family settles comfortably in Rock House during the rainy season.
-            They keep busy by building furniture, shelves, cupboards and other useful objects.
-            They also unpack books, maps and globes from the wreck and organise a workshop.
-            Their productive routine prevents boredom.
-        </p>
-
-    </div>
-
-    <div class="info-card">
-
-        <h3>2. Discovering the Whale</h3>
-
-        <p>
-            When spring arrives, the family explores the coast near Flamingo Marsh.
-            Fritz discovers what appears to be an overturned boat, but they soon realise
-            that it is a huge stranded whale. The father explains the whale's body,
-            diet and special whalebone.
-        </p>
-
-    </div>
-
-    <div class="info-card">
-
-        <h3>3. Making Use of the Whale</h3>
-
-        <p>
-            The whole family works together to collect useful materials from the whale.
-            They take blubber, whalebone, skin and other materials.
-            Back at Rock House, they boil and strain the blubber to produce oil.
-            The oil is stored in bottles and will keep their lanterns burning for many years.
-        </p>
-
-    </div>
-
+<h2>📝 Summary</h2>
+<div class="info-card">
+<h3>1. Life in Rock House</h3>
+<p>The family settles comfortably in Rock House during the rainy season. They keep busy by building furniture, shelves, cupboards and other useful objects. They also unpack books, maps and globes from the wreck and organise a workshop. Their productive routine prevents boredom.</p>
+</div>
+<div class="info-card">
+<h3>2. Discovering the Whale</h3>
+<p>When spring arrives, the family explores the coast near Flamingo Marsh. Fritz discovers what appears to be an overturned boat, but they soon realise that it is a huge stranded whale. The father explains the whale's body, diet and special whalebone.</p>
+</div>
+<div class="info-card">
+<h3>3. Making Use of the Whale</h3>
+<p>The whole family works together to collect useful materials from the whale. They take blubber, whalebone, skin and other materials. Back at Rock House, they boil and strain the blubber to produce oil. The oil is stored in bottles and will keep their lanterns burning for many years.</p>
+</div>
 </section>
-
 
 <!-- CHARACTERS -->
-
 <section class="section" id="characters">
-
-    <h2>👨‍👩‍👦 Characters</h2>
-
-    <div class="info-grid">
-
-        <div class="info-card">
-            <h3>Father / Narrator</h3>
-            <p>
-                He leads the whale expedition, explains the whale's biology
-                and organises the work of collecting its useful resources.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Fritz</h3>
-            <p>
-                He discovers the stranded whale and helps cut it up.
-                He is curious about its unusual features.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Jack</h3>
-            <p>
-                He helps Fritz and Father cut the whale and collect useful materials.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Ernest</h3>
-            <p>
-                He helps organise the library and later cuts large slabs of blubber
-                from the whale.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Franz</h3>
-            <p>
-                He helps put up the library shelves and later assists with
-                collecting and storing materials from the whale.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h3>Mother</h3>
-            <p>
-                She helps the family during the whale expedition and assists
-                with collecting and storing the useful materials.
-            </p>
-        </div>
-
-    </div>
-
+<h2>👨‍👩‍👦 Characters</h2>
+<div class="info-grid">
+<div class="info-card"><h3>Father / Narrator</h3><p>He leads the whale expedition, explains the whale's biology and organises the work of collecting its useful resources.</p></div>
+<div class="info-card"><h3>Fritz</h3><p>He discovers the stranded whale and helps cut it up. He is curious about its unusual features.</p></div>
+<div class="info-card"><h3>Jack</h3><p>He helps Fritz and Father cut the whale and collect useful materials.</p></div>
+<div class="info-card"><h3>Ernest</h3><p>He helps organise the library and later cuts large slabs of blubber from the whale.</p></div>
+<div class="info-card"><h3>Franz</h3><p>He helps put up the library shelves and later assists with collecting and storing materials from the whale.</p></div>
+<div class="info-card"><h3>Mother</h3><p>She helps the family during the whale expedition and assists with collecting and storing the useful materials.</p></div>
+</div>
 </section>
-
 
 <!-- THEME -->
-
 <section class="section" id="theme">
-
-    <h2>💡 Main Theme</h2>
-
-    <div class="info-card">
-
-        <h3>Resourcefulness and Teamwork in the Face of Nature's Gifts</h3>
-
-        <p>
-            The chapter shows how the family makes the most of what nature provides.
-            Instead of wasting the stranded whale, they use knowledge, hard work
-            and teamwork to turn it into useful resources.
-        </p>
-
-        <ul>
-            <li><strong>Resourcefulness:</strong> The family finds many uses for the whale.</li>
-            <li><strong>Teamwork:</strong> Every family member contributes to the work.</li>
-            <li><strong>Knowledge:</strong> Father explains how the whale feeds.</li>
-            <li><strong>Industry:</strong> The family works continuously towards useful goals.</li>
-            <li><strong>Gratitude:</strong> They appreciate the resources available to them.</li>
-            <li><strong>Survival:</strong> The whale provides materials that improve their life.</li>
-        </ul>
-
-    </div>
-
+<h2>💡 Main Theme</h2>
+<div class="info-card">
+<h3>Resourcefulness and Teamwork in the Face of Nature's Gifts</h3>
+<p>The chapter shows how the family makes the most of what nature provides. Instead of wasting the stranded whale, they use knowledge, hard work and teamwork to turn it into useful resources.</p>
+<ul>
+<li><strong>Resourcefulness:</strong> The family finds many uses for the whale.</li>
+<li><strong>Teamwork:</strong> Every family member contributes to the work.</li>
+<li><strong>Knowledge:</strong> Father explains how the whale feeds.</li>
+<li><strong>Industry:</strong> The family works continuously towards useful goals.</li>
+<li><strong>Gratitude:</strong> They appreciate the resources available to them.</li>
+<li><strong>Survival:</strong> The whale provides materials that improve their life.</li>
+</ul>
+</div>
 </section>
-
 
 <!-- VOCABULARY -->
-
 <section class="section" id="vocabulary">
-
-    <h2>📚 Vocabulary</h2>
-
-    <div class="vocab-grid">
-
-        <div class="vocab-item">
-            <strong>Snug</strong>
-            <p>Comfortable and warm in a small, safe space.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Charts</strong>
-            <p>Maps used for navigation, especially at sea.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Globes</strong>
-            <p>Spherical models of Earth.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Carpenter's Bench</strong>
-            <p>A sturdy worktable used for woodworking.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Bolts</strong>
-            <p>Metal fasteners used to lock or secure doors.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Fringe</strong>
-            <p>Threads or strips hanging loosely.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Prawns</strong>
-            <p>Small sea creatures similar to shrimp.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Blubber</strong>
-            <p>The thick fat layer of a whale.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Casks</strong>
-            <p>Large wooden barrels used for storing liquids or solids.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Harnesses</strong>
-            <p>Straps or fittings used for animals or equipment.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Lanterns</strong>
-            <p>Portable lights that use oil, candles or batteries.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Coarse Cloth</strong>
-            <p>Rough fabric used for filtering or straining.</p>
-        </div>
-
-        <div class="vocab-item">
-            <strong>Strained</strong>
-            <p>Filtered or purified by removing unwanted parts.</p>
-        </div>
-
-    </div>
-
+<h2>📚 Vocabulary</h2>
+<div class="vocab-grid">
+<div class="vocab-item"><strong>Snug</strong><p>Comfortable and warm in a small, safe space.</p></div>
+<div class="vocab-item"><strong>Charts</strong><p>Maps used for navigation, especially at sea.</p></div>
+<div class="vocab-item"><strong>Globes</strong><p>Spherical models of Earth.</p></div>
+<div class="vocab-item"><strong>Carpenter's Bench</strong><p>A sturdy worktable used for woodworking.</p></div>
+<div class="vocab-item"><strong>Bolts</strong><p>Metal fasteners used to lock or secure doors.</p></div>
+<div class="vocab-item"><strong>Fringe</strong><p>Threads or strips hanging loosely.</p></div>
+<div class="vocab-item"><strong>Prawns</strong><p>Small sea creatures similar to shrimp.</p></div>
+<div class="vocab-item"><strong>Blubber</strong><p>The thick fat layer of a whale.</p></div>
+<div class="vocab-item"><strong>Casks</strong><p>Large wooden barrels used for storing liquids or solids.</p></div>
+<div class="vocab-item"><strong>Harnesses</strong><p>Straps or fittings used for animals or equipment.</p></div>
+<div class="vocab-item"><strong>Lanterns</strong><p>Portable lights that use oil, candles or batteries.</p></div>
+<div class="vocab-item"><strong>Coarse Cloth</strong><p>Rough fabric used for filtering or straining.</p></div>
+<div class="vocab-item"><strong>Strained</strong><p>Filtered or purified by removing unwanted parts.</p></div>
+</div>
 </section>
 
-
-<!-- QUESTIONS -->
-
+<!-- QUESTIONS: generated from the complete question-and-answer list -->
 <section class="section" id="questions">
-
-    <h2>❓ Comprehension Questions</h2>
-
-
-    <div class="question">
-        <strong>1. Why was the family less bored during their second winter in Rock House?</strong>
-        <button class="show-answer" onclick="toggleAnswer(1)">👁️ Show Answer</button>
-        <div class="answer" id="answer-1">
-            Because they had many projects to work on and plenty of space to stay active.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>2. What did the family use to light Rock House during the winter?</strong>
-        <button class="show-answer" onclick="toggleAnswer(2)">👁️ Show Answer</button>
-        <div class="answer" id="answer-2">
-            A ship's lantern.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>3. What kind of books did Ernest and Franz arrange on the new shelves?</strong>
-        <button class="show-answer" onclick="toggleAnswer(3)">👁️ Show Answer</button>
-        <div class="answer" id="answer-3">
-            Books about voyages, travels, natural history, history, science and fiction in several languages.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>4. What subjects were covered in the family's library?</strong>
-        <button class="show-answer" onclick="toggleAnswer(4)">👁️ Show Answer</button>
-        <div class="answer" id="answer-4">
-            Natural history, science, history, voyages, travels and fiction, along with maps, charts and globes.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>5. What did the family realise about household objects they once took for granted?</strong>
-        <button class="show-answer" onclick="toggleAnswer(5)">👁️ Show Answer</button>
-        <div class="answer" id="answer-5">
-            They realised that things such as shelves, pegs, handles and furniture had to be made themselves.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>6. Why did Father believe that having work to do made them happier?</strong>
-        <button class="show-answer" onclick="toggleAnswer(6)">👁️ Show Answer</button>
-        <div class="answer" id="answer-6">
-            Because working towards clear goals gave them purpose and made them feel content.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>7. What was the purpose of building a wide porch along the front of the cave?</strong>
-        <button class="show-answer" onclick="toggleAnswer(7)">👁️ Show Answer</button>
-        <div class="answer" id="answer-7">
-            It provided shelter and extra working space outside the cave.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>8. What surprising items did they find in the untouched chests and packages?</strong>
-        <button class="show-answer" onclick="toggleAnswer(8)">👁️ Show Answer</button>
-        <div class="answer" id="answer-8">
-            Mirrors, wardrobes, marble-topped tables, writing tables, good chairs, clocks and a music box.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>9. How did the family react to decorating Rock House with these items?</strong>
-        <button class="show-answer" onclick="toggleAnswer(9)">👁️ Show Answer</button>
-        <div class="answer" id="answer-9">
-            They felt that their winter home was fitted up like a palace.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>10. What change marked the end of the rainy season?</strong>
-        <button class="show-answer" onclick="toggleAnswer(10)">👁️ Show Answer</button>
-        <div class="answer" id="answer-10">
-            The arrival of spring.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>11. What did Fritz first notice while exploring near Flamingo Marsh?</strong>
-        <button class="show-answer" onclick="toggleAnswer(11)">👁️ Show Answer</button>
-        <div class="answer" id="answer-11">
-            He saw a large object on a small island that looked like an overturned boat.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>12. How did the family discover that the object was a whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(12)">👁️ Show Answer</button>
-        <div class="answer" id="answer-12">
-            They walked closer and discovered that it was the body of a huge stranded whale.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>13. What did Father say about the possible uses of the whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(13)">👁️ Show Answer</button>
-        <div class="answer" id="answer-13">
-            He said that the whale could provide oil for their lantern and other useful materials.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>14. Why did the entire family go together to the whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(14)">👁️ Show Answer</button>
-        <div class="answer" id="answer-14">
-            Because there was a lot of work to do and many things to carry.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>15. What tools and materials did they bring?</strong>
-        <button class="show-answer" onclick="toggleAnswer(15)">👁️ Show Answer</button>
-        <div class="answer" id="answer-15">
-            Barrels, casks, knives and hatchets.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>16. How long and how round was the whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(16)">👁️ Show Answer</button>
-        <div class="answer" id="answer-16">
-            It was almost 20 metres long and about 10 metres round.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>17. How did the family react to seeing the whale up close?</strong>
-        <button class="show-answer" onclick="toggleAnswer(17)">👁️ Show Answer</button>
-        <div class="answer" id="answer-17">
-            They were astonished by its enormous size.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>18. What were the key features of the whale's head, jaw and throat?</strong>
-        <button class="show-answer" onclick="toggleAnswer(18)">👁️ Show Answer</button>
-        <div class="answer" id="answer-18">
-            It had a huge head, small eyes and ears, a massive jaw with whalebone fringes and a very narrow throat.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>19. Why was the whale's throat surprising?</strong>
-        <button class="show-answer" onclick="toggleAnswer(19)">👁️ Show Answer</button>
-        <div class="answer" id="answer-19">
-            Because it was only about five centimetres wide despite the whale's enormous size.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>20. How did the whale feed?</strong>
-        <button class="show-answer" onclick="toggleAnswer(20)">👁️ Show Answer</button>
-        <div class="answer" id="answer-20">
-            It swam with its mouth open, took in tiny sea creatures and filtered the water through its whalebone.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>21. How did Fritz and Jack begin cutting up the whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(21)">👁️ Show Answer</button>
-        <div class="answer" id="answer-21">
-            They helped Father cut away the lips so they could reach the whalebone.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>22. What role did Ernest play?</strong>
-        <button class="show-answer" onclick="toggleAnswer(22)">👁️ Show Answer</button>
-        <div class="answer" id="answer-22">
-            He cut large slabs of blubber from the whale's side.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>23. How did Franz and Mother contribute?</strong>
-        <button class="show-answer" onclick="toggleAnswer(23)">👁️ Show Answer</button>
-        <div class="answer" id="answer-23">
-            They helped collect and store the materials in casks.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>24. What was done with the whale's skin?</strong>
-        <button class="show-answer" onclick="toggleAnswer(24)">👁️ Show Answer</button>
-        <div class="answer" id="answer-24">
-            Some of it was taken to be turned into leather for harnesses and other items.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>25. What happened to the remaining parts of the whale?</strong>
-        <button class="show-answer" onclick="toggleAnswer(25)">👁️ Show Answer</button>
-        <div class="answer" id="answer-25">
-            They were left for the birds of prey.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>26. How did the family feel when they returned home?</strong>
-        <button class="show-answer" onclick="toggleAnswer(26)">👁️ Show Answer</button>
-        <div class="answer" id="answer-26">
-            They were tired but happy to rest, bathe, eat and sleep peacefully.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>27. How did the family process the whale oil?</strong>
-        <button class="show-answer" onclick="toggleAnswer(27)">👁️ Show Answer</button>
-        <div class="answer" id="answer-27">
-            They boiled the blubber, skimmed it and strained the liquid through coarse cloth.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>28. How was the oil stored?</strong>
-        <button class="show-answer" onclick="toggleAnswer(28)">👁️ Show Answer</button>
-        <div class="answer" id="answer-28">
-            It was poured into bottles and stored in the back storeroom.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>29. What was the long-term benefit of collecting the whale oil?</strong>
-        <button class="show-answer" onclick="toggleAnswer(29)">👁️ Show Answer</button>
-        <div class="answer" id="answer-29">
-            They had enough oil to keep their lanterns burning for many years.
-        </div>
-    </div>
-
-
-    <div class="question">
-        <strong>30. What lesson does the family's peaceful sleep at the end suggest?</strong>
-        <button class="show-answer" onclick="toggleAnswer(30)">👁️ Show Answer</button>
-        <div class="answer" id="answer-30">
-            Hard work, comfort and safety can bring peace of mind and satisfaction.
-        </div>
-    </div>
-
+<h2>❓ Comprehension Questions</h2>
+<div id="questions-list"></div>
 </section>
-
 
 <!-- FILL IN THE BLANKS -->
-
 <section class="section" id="fill">
-
-    <h2>✏️ Fill in the Blanks</h2>
-
-
-    <div class="fill-item">
-        <span class="fill-number">1.</span>
-        The family lived snugly in their new __________ during the second winter.
-        <button class="show-answer" onclick="toggleFill(1)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-1">Rock House</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">2.</span>
-        The boys hung up a ship's __________ to provide light.
-        <button class="show-answer" onclick="toggleFill(2)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-2">lantern</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">3.</span>
-        Ernest and Franz installed __________ for the family library.
-        <button class="show-answer" onclick="toggleFill(3)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-3">shelves</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">4.</span>
-        The books included fiction, natural history and __________ books.
-        <button class="show-answer" onclick="toggleFill(4)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-4">science</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">5.</span>
-        There were also __________ and a pair of globes.
-        <button class="show-answer" onclick="toggleFill(5)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-5">maps and charts</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">6.</span>
-        Fritz and his father set up a fine __________.
-        <button class="show-answer" onclick="toggleFill(6)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-6">workshop</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">7.</span>
-        They used their imagination and __________ to make their home comfortable.
-        <button class="show-answer" onclick="toggleFill(7)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-7">hard work</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">8.</span>
-        They built pegs, bolts, tables, benches and __________ steps.
-        <button class="show-answer" onclick="toggleFill(8)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-8">movable</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">9.</span>
-        A wide __________ was built along the front of the cave.
-        <button class="show-answer" onclick="toggleFill(9)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-9">porch</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">10.</span>
-        They found several clocks and a music __________.
-        <button class="show-answer" onclick="toggleFill(10)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-10">box</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">11.</span>
-        The rainy season passed quickly because no one felt __________.
-        <button class="show-answer" onclick="toggleFill(11)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-11">bored</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">12.</span>
-        Fritz saw something that looked like an overturned __________.
-        <button class="show-answer" onclick="toggleFill(12)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-12">boat</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">13.</span>
-        The object turned out to be a dead __________.
-        <button class="show-answer" onclick="toggleFill(13)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-13">whale</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">14.</span>
-        The whale could supply them with __________ for their lantern.
-        <button class="show-answer" onclick="toggleFill(14)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-14">oil</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">15.</span>
-        The family brought barrels, knives and __________.
-        <button class="show-answer" onclick="toggleFill(15)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-15">hatchets</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">16.</span>
-        The whale was almost __________ metres long.
-        <button class="show-answer" onclick="toggleFill(16)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-16">20</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">17.</span>
-        The whale's head was about __________ of the length of its body.
-        <button class="show-answer" onclick="toggleFill(17)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-17">one-third</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">18.</span>
-        Its ears were almost __________ to see.
-        <button class="show-answer" onclick="toggleFill(18)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-18">impossible</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">19.</span>
-        The whale's __________ was nearly five metres long.
-        <button class="show-answer" onclick="toggleFill(19)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-19">jaw</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">20.</span>
-        A substance called __________ appeared along both jaws.
-        <button class="show-answer" onclick="toggleFill(20)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-20">whalebone</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">21.</span>
-        Whalebone was solid at the base but split into a fringe at the __________.
-        <button class="show-answer" onclick="toggleFill(21)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-21">top</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">22.</span>
-        The creature's __________ was soft, large and full of oil.
-        <button class="show-answer" onclick="toggleFill(22)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-22">tongue</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">23.</span>
-        The throat was only about __________ centimetres wide.
-        <button class="show-answer" onclick="toggleFill(23)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-23">five</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">24.</span>
-        The whale ate small sea animals like __________ and tiny fish.
-        <button class="show-answer" onclick="toggleFill(24)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-24">prawns</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">25.</span>
-        The whale filtered food by pushing water through the __________.
-        <button class="show-answer" onclick="toggleFill(25)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-25">whalebone</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">26.</span>
-        Father told the boys it was time to start __________ the whale.
-        <button class="show-answer" onclick="toggleFill(26)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-26">cutting</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">27.</span>
-        Fritz and Jack first cut away the __________.
-        <button class="show-answer" onclick="toggleFill(27)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-27">lips</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">28.</span>
-        Ernest cut out large __________ of blubber.
-        <button class="show-answer" onclick="toggleFill(28)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-28">slabs</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">29.</span>
-        The blubber was boiled in large __________.
-        <button class="show-answer" onclick="toggleFill(29)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-29">tubs</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">30.</span>
-        The oil was strained using a coarse __________.
-        <button class="show-answer" onclick="toggleFill(30)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-30">cloth</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">31.</span>
-        The final product was bottled and stored in the back __________.
-        <button class="show-answer" onclick="toggleFill(31)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-31">storeroom</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">32.</span>
-        Some whale __________ was turned into leather.
-        <button class="show-answer" onclick="toggleFill(32)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-32">skin</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">33.</span>
-        The whale's remains were left to the __________.
-        <button class="show-answer" onclick="toggleFill(33)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-33">birds of prey</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">34.</span>
-        After their long work, the family slept in __________.
-        <button class="show-answer" onclick="toggleFill(34)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-34">peace</div>
-    </div>
-
-
-    <div class="fill-item">
-        <span class="fill-number">35.</span>
-        The whale weighed about __________ kilograms.
-        <button class="show-answer" onclick="toggleFill(35)">👁️ Show Answer</button>
-        <div class="fill-answer" id="fill-35">23,000</div>
-    </div>
-
+<h2>✏️ Fill in the Blanks</h2>
+<div id="fill-list"></div>
 </section>
-
 
 <!-- COMMENTS -->
-
 <section class="section" id="comments">
-
-    <h2>💬 Comment Questions</h2>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Working towards a set of goals is the main element of happiness!”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> Reader</div>
-            <div><strong>Place:</strong> Rock House</div>
-            <div><strong>Occasion:</strong> Reflecting on the value of staying busy with projects during winter.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “What a huge brute! He’s ever so much larger than he seemed from a distance!”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Fritz</div>
-            <div><strong>To whom:</strong> His father and the family</div>
-            <div><strong>Place:</strong> Small island near Flamingo Marsh</div>
-            <div><strong>Occasion:</strong> Upon seeing the enormous stranded whale for the first time.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “You’d be surprised at the many ways an animal such as this can be useful.”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Fritz</div>
-            <div><strong>Place:</strong> Near the dead whale</div>
-            <div><strong>Occasion:</strong> Explaining how the whale's remains could provide oil and other useful materials.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Look at that narrow throat! Whatever can this great creature eat?”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Fritz</div>
-            <div><strong>To whom:</strong> His father</div>
-            <div><strong>Place:</strong> At the whale's carcass</div>
-            <div><strong>Occasion:</strong> After discovering how small the whale's throat is despite its enormous size.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “This huge animal eats just the smallest of sea creatures.”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> His sons</div>
-            <div><strong>Place:</strong> Beside the whale</div>
-            <div><strong>Occasion:</strong> Explaining how whales feed by filtering tiny sea creatures through their whalebone.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “It’s time to cut it up.”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father</div>
-            <div><strong>To whom:</strong> Fritz and Jack</div>
-            <div><strong>Place:</strong> At the whale's body</div>
-            <div><strong>Occasion:</strong> Giving the signal to begin processing the whale for useful materials.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Time didn’t hang heavy on anyone’s hands.”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> Reader</div>
-            <div><strong>Place:</strong> Rock House</div>
-            <div><strong>Occasion:</strong> Commenting on how quickly the winter passed because everyone was productively occupied.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “Soon our winter home was fitted up like a palace!”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> Reader</div>
-            <div><strong>Place:</strong> Inside Rock House</div>
-            <div><strong>Occasion:</strong> After arranging elegant furniture and items found in unopened crates.</div>
-        </div>
-
-    </div>
-
-
-    <div class="quote-card">
-
-        <blockquote>
-            “We were glad to get home. We needed to rest, because we had a lot of work to do the next day.”
-        </blockquote>
-
-        <div class="quote-details">
-            <div><strong>Speaker:</strong> Father / Narrator</div>
-            <div><strong>To whom:</strong> Reader</div>
-            <div><strong>Place:</strong> Rock House</div>
-            <div><strong>Occasion:</strong> After returning from several days of hard work harvesting the whale.</div>
-        </div>
-
-    </div>
-
+<h2>💬 Comment Questions</h2>
+<div id="comments-list"></div>
 </section>
-
 
 <!-- QUIZ 1 -->
-
 <section class="section" id="quiz1">
-
-    <div class="quiz-title">
-        <h2>🧠 Quiz 1</h2>
-        <p>Total Marks: 15</p>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>1. What did the family use to light their Rock House during the winter?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-1')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-1">A ship's lantern.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>2. Why was the whale's throat a surprising feature?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-2')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-2">Because it was only about five centimetres wide despite the whale's enormous size.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>3. How did the family obtain oil from the whale?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-3')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-3">They boiled the blubber and then skimmed and strained it through coarse cloth.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>4. What was built at the front of Rock House to provide shelter?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-4')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-4">A wide porch sheltered with bamboo.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>5. Why was time not boring for the family during this winter?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-5')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-5">Because they had many projects and goals to keep them busy.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>6. The family used the whale's __________ to make oil for their lanterns.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-6')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-6">blubber</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>7. The whale's jaw contained __________, which helped it trap food.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-7')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-7">whalebone</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>8. The boys built __________ inside Rock House for storing their books.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-8')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-8">shelves</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>9. The porch was sheltered using __________.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-9')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-9">bamboo</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>10. Quotation: “Working towards a set of goals is the main element of happiness!” Who said it, and why?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-10')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-10">Father said it as the narrator, reflecting on how useful projects gave the family purpose during winter.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>11. Quotation: “What a huge brute! He’s ever so much larger than he seemed from a distance!” Who said it and when?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-11')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-11">Fritz said it when the family first saw the stranded whale near Flamingo Marsh.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>12. Quotation: “You’d be surprised at the many ways an animal such as this can be useful.” Who said it and what did he mean?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz1-12')">👁️ Show Answer</button>
-        <div class="answer" id="quiz1-12">Father said it to Fritz, explaining that the whale could provide oil and other useful materials.</div>
-    </div>
-
+<div class="quiz-title"><h2>🧠 Quiz 1</h2><p>Total Marks: 15</p></div>
+<div id="quiz1-list"></div>
 </section>
-
 
 <!-- QUIZ 2 -->
-
 <section class="section" id="quiz2">
-
-    <div class="quiz-title">
-        <h2>🧠 Quiz 2</h2>
-        <p>Total Marks: 15</p>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>1. What kind of books did the family find in the unopened crates?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-1')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-1">Books about voyages, travels, natural history, history, science and fiction in several languages.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>2. What was the whale's skin later used for?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-2')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-2">It was turned into leather for harnesses and similar items.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>3. How did the family transport the whale materials home?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-3')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-3">They loaded the materials into barrels and casks and transported them by boat.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>4. Why did the family leave the whale's remains behind?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-4')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-4">They had taken everything useful they could and left the remains for the birds of prey.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>5. What was the first part of the whale that the family cut away?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-5')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-5">The lips.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>6. The family's winter home was called __________.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-6')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-6">Rock House</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>7. The whale was about __________ metres long.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-7')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-7">20</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>8. The whale's tongue was full of __________.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-8')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-8">oil</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>9. The whale's body was described as being __________ in colour.</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-9')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-9">black</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>10. Quotation: “This huge animal eats just the smallest of sea creatures.” Who said it and what was he explaining?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-10')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-10">Father said it to his sons, explaining the whale's diet and how it feeds on tiny sea creatures.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>11. Quotation: “Time didn’t hang heavy on anyone’s hands.” What does this mean?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-11')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-11">It means that nobody was bored because everyone had useful work and projects to do.</div>
-    </div>
-
-
-    <div class="quiz-question">
-        <strong>12. Quotation: “It’s time to cut it up.” Who said it and what was about to happen?</strong>
-        <button class="show-answer" onclick="toggleQuiz('quiz2-12')">👁️ Show Answer</button>
-        <div class="answer" id="quiz2-12">Father said it to Fritz and Jack, giving them the signal to begin cutting up the whale and collecting its useful materials.</div>
-    </div>
-
+<div class="quiz-title"><h2>🧠 Quiz 2</h2><p>Total Marks: 15</p></div>
+<div id="quiz2-list"></div>
 </section>
 
-
 <!-- BACK -->
-
 <section class="section" id="back">
-
-    <h2>↩️ Back to My Course</h2>
-
-    <p>
-        Return to your Year 6 story chapters.
-    </p>
-
-    <a href="my-course.html" class="back-button">
-        ← Back to My Course
-    </a>
-
+<h2>↩️ Back to My Course</h2>
+<p>Return to your Year 6 story chapters.</p>
+<a href="my-course.html" class="back-button">← Back to My Course</a>
 </section>
 
 </main>
 
-
-<footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
-</footer>
-
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
+/* COMPREHENSION QUESTIONS */
+const questions = [
+["Why was the family less bored during their second winter in Rock House?","Because they had many projects to work on and plenty of space to stay active."],
+["What did the family use to light Rock House during the winter?","A ship's lantern."],
+["What kind of books did Ernest and Franz arrange on the new shelves?","Books about voyages, travels, natural history, history, science and fiction in several languages."],
+["What subjects were covered in the family's library?","Natural history, science, history, voyages, travels and fiction, along with maps, charts and globes."],
+["What did the family realise about household objects they once took for granted?","They realised that things such as shelves, pegs, handles and furniture had to be made themselves."],
+["Why did Father believe that having work to do made them happier?","Because working towards clear goals gave them purpose and made them feel content."],
+["What was the purpose of building a wide porch along the front of the cave?","It provided shelter and extra working space outside the cave."],
+["What surprising items did they find in the untouched chests and packages?","Mirrors, wardrobes, marble-topped tables, writing tables, good chairs, clocks and a music box."],
+["How did the family react to decorating Rock House with these items?","They felt that their winter home was fitted up like a palace."],
+["What change marked the end of the rainy season?","The arrival of spring."],
+["What did Fritz first notice while exploring near Flamingo Marsh?","He saw a large object on a small island that looked like an overturned boat."],
+["How did the family discover that the object was a whale?","They walked closer and discovered that it was the body of a huge stranded whale."],
+["What did Father say about the possible uses of the whale?","He said that the whale could provide oil for their lantern and other useful materials."],
+["Why did the entire family go together to the whale?","Because there was a lot of work to do and many things to carry."],
+["What tools and materials did they bring?","Barrels, casks, knives and hatchets."],
+["How long and how round was the whale?","It was almost 20 metres long and about 10 metres round."],
+["How did the family react to seeing the whale up close?","They were astonished by its enormous size."],
+["What were the key features of the whale's head, jaw and throat?","It had a huge head, small eyes and ears, a massive jaw with whalebone fringes and a very narrow throat."],
+["Why was the whale's throat surprising?","Because it was only about five centimetres wide despite the whale's enormous size."],
+["How did the whale feed?","It swam with its mouth open, took in tiny sea creatures and filtered the water through its whalebone."],
+["How did Fritz and Jack begin cutting up the whale?","They helped Father cut away the lips so they could reach the whalebone."],
+["What role did Ernest play?","He cut large slabs of blubber from the whale's side."],
+["How did Franz and Mother contribute?","They helped collect and store the materials in casks."],
+["What was done with the whale's skin?","Some of it was taken to be turned into leather for harnesses and other items."],
+["What happened to the remaining parts of the whale?","They were left for the birds of prey."],
+["How did the family feel when they returned home?","They were tired but happy to rest, bathe, eat and sleep peacefully."],
+["How did the family process the whale oil?","They boiled the blubber, skimmed it and strained the liquid through coarse cloth."],
+["How was the oil stored?","It was poured into bottles and stored in the back storeroom."],
+["What was the long-term benefit of collecting the whale oil?","They had enough oil to keep their lanterns burning for many years."],
+["What lesson does the family's peaceful sleep at the end suggest?","Hard work, comfort and safety can bring peace of mind and satisfaction."]
+];
 
-function toggleAnswer(index) {
+/* FILL IN THE BLANKS */
+const fills = [
+["The family lived snugly in their new __________ during the second winter.","Rock House"],
+["The boys hung up a ship's __________ to provide light.","lantern"],
+["Ernest and Franz installed __________ for the family library.","shelves"],
+["The books included fiction, natural history and __________ books.","science"],
+["There were also __________ and a pair of globes.","maps and charts"],
+["Fritz and his father set up a fine __________.","workshop"],
+["They used their imagination and __________ to make their home comfortable.","hard work"],
+["They built pegs, bolts, tables, benches and __________ steps.","movable"],
+["A wide __________ was built along the front of the cave.","porch"],
+["They found several clocks and a music __________.","box"],
+["The rainy season passed quickly because no one felt __________.","bored"],
+["Fritz saw something that looked like an overturned __________.","boat"],
+["The object turned out to be a dead __________.","whale"],
+["The whale could supply them with __________ for their lantern.","oil"],
+["The family brought barrels, knives and __________.","hatchets"],
+["The whale was almost __________ metres long.","20"],
+["The whale's head was about __________ of the length of its body.","one-third"],
+["Its ears were almost __________ to see.","impossible"],
+["The whale's __________ was nearly five metres long.","jaw"],
+["A substance called __________ appeared along both jaws.","whalebone"],
+["Whalebone was solid at the base but split into a fringe at the __________.","top"],
+["The creature's __________ was soft, large and full of oil.","tongue"],
+["The throat was only about __________ centimetres wide.","five"],
+["The whale ate small sea animals like __________ and tiny fish.","prawns"],
+["The whale filtered food by pushing water through the __________.","whalebone"],
+["Father told the boys it was time to start __________ the whale.","cutting"],
+["Fritz and Jack first cut away the __________.","lips"],
+["Ernest cut out large __________ of blubber.","slabs"],
+["The blubber was boiled in large __________.","tubs"],
+["The oil was strained using a coarse __________.","cloth"],
+["The final product was bottled and stored in the back __________.","storeroom"],
+["Some whale __________ was turned into leather.","skin"],
+["The whale's remains were left to the __________.","birds of prey"],
+["After their long work, the family slept in __________.","peace"],
+["The whale weighed about __________ kilograms.","23,000"]
+];
 
-    const answer = document.getElementById("answer-" + index);
+/* COMMENT QUESTIONS */
+const comments = [
+["“Working towards a set of goals is the main element of happiness!”","Father / Narrator","Reader","Rock House","Reflecting on the value of staying busy with projects during winter."],
+["“What a huge brute! He’s ever so much larger than he seemed from a distance!”","Fritz","His father and the family","Small island near Flamingo Marsh","Upon seeing the enormous stranded whale for the first time."],
+["“You’d be surprised at the many ways an animal such as this can be useful.”","Father","Fritz","Near the dead whale","Explaining how the whale's remains could provide oil and other useful materials."],
+["“Look at that narrow throat! Whatever can this great creature eat?”","Fritz","His father","At the whale's carcass","After discovering how small the whale's throat is despite its enormous size."],
+["“This huge animal eats just the smallest of sea creatures.”","Father","His sons","Beside the whale","Explaining how whales feed by filtering tiny sea creatures through their whalebone."],
+["“It’s time to cut it up.”","Father","Fritz and Jack","At the whale's body","Giving the signal to begin processing the whale for useful materials."],
+["“Time didn’t hang heavy on anyone’s hands.”","Father / Narrator","Reader","Rock House","Commenting on how quickly the winter passed because everyone was productively occupied."],
+["“Soon our winter home was fitted up like a palace!”","Father / Narrator","Reader","Inside Rock House","After arranging elegant furniture and items found in unopened crates."],
+["“We were glad to get home. We needed to rest, because we had a lot of work to do the next day.”","Father / Narrator","Reader","Rock House","After returning from several days of hard work harvesting the whale."]
+];
 
-    answer.classList.toggle("show");
+/* QUIZ 1 */
+const quiz1 = [
+["What did the family use to light their Rock House during the winter?","A ship's lantern."],
+["Why was the whale's throat a surprising feature?","Because it was only about five centimetres wide despite the whale's enormous size."],
+["How did the family obtain oil from the whale?","They boiled the blubber and then skimmed and strained it through coarse cloth."],
+["What was built at the front of Rock House to provide shelter?","A wide porch sheltered with bamboo."],
+["Why was time not boring for the family during this winter?","Because they had many projects and goals to keep them busy."],
+["The family used the whale's __________ to make oil for their lanterns.","blubber"],
+["The whale's jaw contained __________, which helped it trap food.","whalebone"],
+["The boys built __________ inside Rock House for storing their books.","shelves"],
+["The porch was sheltered using __________.","bamboo"],
+["Quotation: “Working towards a set of goals is the main element of happiness!” Who said it, and why?","Father said it as the narrator, reflecting on how useful projects gave the family purpose during winter."],
+["Quotation: “What a huge brute! He’s ever so much larger than he seemed from a distance!” Who said it and when?","Fritz said it when the family first saw the stranded whale near Flamingo Marsh."],
+["Quotation: “You’d be surprised at the many ways an animal such as this can be useful.” Who said it and what did he mean?","Father said it to Fritz, explaining that the whale could provide oil and other useful materials."]
+];
 
-}
+/* QUIZ 2 */
+const quiz2 = [
+["What kind of books did the family find in the unopened crates?","Books about voyages, travels, natural history, history, science and fiction in several languages."],
+["What was the whale's skin later used for?","It was turned into leather for harnesses and similar items."],
+["How did the family transport the whale materials home?","They loaded the materials into barrels and casks and transported them by boat."],
+["Why did the family leave the whale's remains behind?","They had taken everything useful they could and left the remains for the birds of prey."],
+["What was the first part of the whale that the family cut away?","The lips."],
+["The family's winter home was called __________.","Rock House"],
+["The whale was about __________ metres long.","20"],
+["The whale's tongue was full of __________.","oil"],
+["The whale's body was described as being __________ in colour.","black"],
+["Quotation: “This huge animal eats just the smallest of sea creatures.” Who said it and what was he explaining?","Father said it to his sons, explaining the whale's diet and how it feeds on tiny sea creatures."],
+["Quotation: “Time didn’t hang heavy on anyone’s hands.” What does this mean?","It means that nobody was bored because everyone had useful work and projects to do."],
+["Quotation: “It’s time to cut it up.” Who said it and what was about to happen?","Father said it to Fritz and Jack, giving them the signal to begin cutting up the whale and collecting its useful materials."]
+];
 
+/* BUILD QUESTION AND ANSWER ITEMS */
+function createQuestionList(targetId, data, prefix, type) {
+    const target = document.getElementById(targetId);
 
-function toggleFill(index) {
+    data.forEach((item, index) => {
+        const number = index + 1;
+        const card = document.createElement("div");
+        card.className = type === "fill" ? "fill-item" :
+                         type === "quiz" ? "quiz-question" : "question";
 
-    const answer = document.getElementById("fill-" + index);
+        const question = document.createElement("strong");
+        if (type === "fill") {
+            question.innerHTML = '<span class="fill-number">' + number + '.</span> ' + item[0];
+        } else {
+            question.textContent = number + ". " + item[0];
+        }
 
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
-    }
+        const button = document.createElement("button");
+        button.className = "show-answer";
+        button.type = "button";
+        button.textContent = "👁️ Show Answer";
+        button.setAttribute("aria-expanded", "false");
 
-}
+        const answer = document.createElement("div");
+        answer.className = type === "fill" ? "fill-answer" : "answer";
+        answer.id = prefix + "-" + number;
+        answer.textContent = item[1];
 
-
-function toggleQuiz(id) {
-
-    const answer = document.getElementById(id);
-
-    if (answer.style.display === "block") {
-        answer.style.display = "none";
-    } else {
-        answer.style.display = "block";
-    }
-
-}
-
-
-const sections = document.querySelectorAll(".section[id]");
-
-const menuLinks = document.querySelectorAll(".nav-buttons a");
-
-
-const observer = new IntersectionObserver(
-
-    entries => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                menuLinks.forEach(link => {
-                    link.classList.remove("active");
-                });
-
-                const activeLink = document.querySelector(
-                    `.nav-buttons a[href="#${entry.target.id}"]`
-                );
-
-                if (activeLink) {
-                    activeLink.classList.add("active");
-                }
-
-            }
-
+        button.addEventListener("click", () => {
+            const isVisible = answer.style.display === "block";
+            answer.style.display = isVisible ? "none" : "block";
+            if (type !== "fill") answer.classList.toggle("show", !isVisible);
+            button.textContent = isVisible ? "👁️ Show Answer" : "🙈 Hide Answer";
+            button.setAttribute("aria-expanded", String(!isVisible));
         });
 
-    },
-
-    {
-        rootMargin: "-20% 0px -65% 0px"
-    }
-
-);
-
-
-sections.forEach(section => observer.observe(section));
-
-
-if (menuLinks.length > 0) {
-    menuLinks[0].classList.add("active");
+        card.appendChild(question);
+        card.appendChild(button);
+        card.appendChild(answer);
+        target.appendChild(card);
+    });
 }
 
+createQuestionList("questions-list", questions, "answer", "question");
+createQuestionList("fill-list", fills, "fill", "fill");
+createQuestionList("quiz1-list", quiz1, "quiz1", "quiz");
+createQuestionList("quiz2-list", quiz2, "quiz2", "quiz");
+
+/* COMMENT DETAILS: HIDDEN UNTIL THE BUTTON IS PRESSED */
+comments.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "quote-card";
+
+    const quote = document.createElement("blockquote");
+    quote.textContent = item[0];
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "show-details-btn";
+    button.textContent = "👁️ Show Details";
+    button.setAttribute("aria-expanded", "false");
+
+    const details = document.createElement("div");
+    details.className = "quote-details";
+    details.hidden = true;
+
+    const labels = ["Speaker", "To whom", "Place", "Occasion"];
+
+    item.slice(1).forEach((value, index) => {
+        const detail = document.createElement("div");
+        const label = document.createElement("strong");
+        label.textContent = labels[index] + ": ";
+        detail.appendChild(label);
+        detail.appendChild(document.createTextNode(value));
+        details.appendChild(detail);
+    });
+
+    button.addEventListener("click", () => {
+        const show = details.hidden;
+        details.hidden = !show;
+        button.textContent = show ? "🙈 Hide Details" : "👁️ Show Details";
+        button.setAttribute("aria-expanded", String(show));
+    });
+
+    card.appendChild(quote);
+    card.appendChild(button);
+    card.appendChild(details);
+    document.getElementById("comments-list").appendChild(card);
+});
+
+/* SIDEBAR ACTIVE SECTION HIGHLIGHT */
+const sections = document.querySelectorAll(".section[id]");
+const menuLinks = document.querySelectorAll(".nav-buttons a");
+
+function setActiveLink(id) {
+    menuLinks.forEach(link => {
+        const active = link.getAttribute("href") === "#" + id;
+        link.classList.toggle("active", active);
+    });
+}
+
+menuLinks.forEach(link => {
+    link.addEventListener("click", () => {
+        const id = link.getAttribute("href").slice(1);
+        setActiveLink(id);
+    });
+});
+
+if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+        const visibleEntries = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visibleEntries.length) {
+            setActiveLink(visibleEntries[0].target.id);
+        }
+    }, {
+        rootMargin: "-15% 0px -65% 0px",
+        threshold: [0, 0.1, 0.25, 0.5]
+    });
+
+    sections.forEach(section => observer.observe(section));
+}
+
+if (menuLinks.length) {
+    setActiveLink("reading");
+}
 </script>
 
 </body>
