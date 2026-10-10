@@ -19,17 +19,273 @@ header{background:linear-gradient(135deg,#102a56,#174a8b);color:white;padding:25
 <header><h1>Chapter 3</h1><p>Building Projects</p></header>
 <div id="activationGate"><h2>🔐 Chapter 3: Building Projects</h2><p>Enter your chapter activation code to access the lesson.</p><input id="activationCode" type="text" autocomplete="off" placeholder="Enter activation code"><button id="activateButton" onclick="activateChapter()">Activate Chapter</button><div id="status" role="status"></div></div>
 <main id="lessonHost" class="container hidden"></main><footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 const CHAPTER_ID = 10;
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const gate=document.getElementById('activationGate'), host=document.getElementById('lessonHost'), statusBox=document.getElementById('status');
-function showStatus(msg,ok=false){statusBox.textContent=msg;statusBox.style.color=ok?'#237044':'#b42318'}
-async function loadChapter(silent=false){const {data,error}=await client.rpc('get_unlocked_content',{p_content_type:'chapter',p_content_id:CHAPTER_ID});if(error){if(!silent)showStatus('Could not load the chapter. Please check your activation and try again.');return false}let body='';if(typeof data==='string')body=data;else if(Array.isArray(data)&&data.length)body=data[0].body||Object.values(data[0])[0]||'';else if(data&&typeof data==='object')body=data.body||Object.values(data)[0]||'';if(!body){if(!silent)showStatus('The chapter content was not returned. Please contact your teacher.');return false}renderLesson(body);return true}
-async function activateChapter(){const code=document.getElementById('activationCode').value.trim();if(!code){showStatus('Please enter your activation code.');return}document.getElementById('activateButton').disabled=true;showStatus('Checking code…');const {error}=await client.rpc('activate_content_code',{p_code:code});document.getElementById('activateButton').disabled=false;if(error){showStatus(error.message||'Activation failed. Check the code and try again.');return}showStatus('Code accepted. Opening chapter…',true);const loaded=await loadChapter();if(!loaded)showStatus('The code was accepted, but the chapter did not load. Please send your teacher a screenshot of this message.')}
-function renderLesson(source){const parser=new DOMParser();const doc=parser.parseFromString(source,'text/html');const styleText=Array.from(doc.querySelectorAll('style')).map(s=>s.textContent).join('\n');if(styleText){const st=document.createElement('style');st.textContent=styleText;document.head.appendChild(st)}const innerNav=doc.querySelector('.lesson-nav');if(innerNav)innerNav.remove();const innerHeader=doc.querySelector('body > header');if(innerHeader)innerHeader.remove();const innerFooter=doc.querySelector('body > footer');if(innerFooter)innerFooter.remove();const originalContainer=doc.querySelector('body > .container');if(originalContainer){originalContainer.style.marginLeft='0';originalContainer.style.maxWidth='none';originalContainer.style.padding='0';host.innerHTML=originalContainer.innerHTML}else{host.innerHTML=doc.body.innerHTML}host.classList.remove('hidden');gate.classList.add('hidden');document.querySelectorAll('.lesson-nav a').forEach(a=>a.addEventListener('click',e=>{const target=host.querySelector(a.getAttribute('href'));if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'})}}));host.querySelectorAll('script').forEach(old=>{const s=document.createElement('script');s.textContent=old.textContent;old.replaceWith(s)});if(typeof window.toggleAnswer!=='function'){window.toggleAnswer=function(id,button){const answer=document.getElementById(id);if(!answer)return;const open=answer.classList.toggle('show');button.textContent=open?'🙈 Hide Answer':'👁️ Show Answer'}};const sections=host.querySelectorAll('.section');const links=document.querySelectorAll('.lesson-nav a');window.addEventListener('scroll',()=>{let current='';sections.forEach(s=>{if(window.scrollY>=s.getBoundingClientRect().top+window.scrollY-150)current=s.id});links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current))});}
-// Check whether this student has already activated the chapter.
-// If not, keep the activation form visible without showing an error.
-loadChapter(true);
+
+const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const gate = document.getElementById("activationGate");
+const host = document.getElementById("lessonHost");
+const statusBox = document.getElementById("status");
+const codeInput = document.getElementById("activationCode");
+const activateButton = document.getElementById("activateButton");
+
+function showStatus(message, success = false) {
+    statusBox.textContent = message;
+    statusBox.style.color = success ? "#237044" : "#b42318";
+}
+
+async function loadChapter() {
+    try {
+        const { data, error } = await client.rpc(
+            "get_unlocked_content",
+            {
+                p_content_type: "chapter",
+                p_content_id: CHAPTER_ID
+            }
+        );
+
+        if (error) {
+            console.error("Chapter loading error:", error);
+            return false;
+        }
+
+        let body = "";
+
+        if (typeof data === "string") {
+            body = data;
+        } else if (Array.isArray(data) && data.length) {
+            body = data[0].body || "";
+        } else if (data && typeof data === "object") {
+            body = data.body || "";
+        }
+
+        if (!body) return false;
+
+        renderLesson(body);
+        return true;
+
+    } catch (error) {
+        console.error("Unexpected loading error:", error);
+        return false;
+    }
+}
+
+async function initializeChapter() {
+    showStatus("Checking your login and chapter access...");
+
+    try {
+        const { data, error } = await client.auth.getSession();
+
+        if (error || !data.session) {
+            showStatus(
+                "Please log in first, then return to this chapter."
+            );
+
+            const loginLink = document.createElement("a");
+            loginLink.href = "login.html";
+            loginLink.textContent = " Open Student Login";
+            loginLink.style.display = "inline-block";
+            loginLink.style.marginLeft = "6px";
+            loginLink.style.fontWeight = "bold";
+
+            statusBox.appendChild(loginLink);
+            return;
+        }
+
+        const loaded = await loadChapter();
+
+        if (loaded) {
+            showStatus("Chapter 3 is ready.", true);
+        } else {
+            showStatus(
+                "This chapter is locked. Enter your activation code."
+            );
+        }
+
+    } catch (error) {
+        console.error("Initialization error:", error);
+        showStatus(
+            "Could not check your access. Please refresh the page."
+        );
+    }
+}
+
+async function activateChapter() {
+    const code = codeInput.value.trim();
+
+    if (!code) {
+        showStatus("Please enter your activation code.");
+        return;
+    }
+
+    activateButton.disabled = true;
+    showStatus("Checking your activation code...");
+
+    try {
+        // Confirm the student is logged in first.
+        const { data: sessionData, error: sessionError } =
+            await client.auth.getSession();
+
+        if (sessionError || !sessionData.session) {
+            showStatus(
+                "Please log in first, then return to this chapter."
+            );
+            return;
+        }
+
+        // Activate the supplied code.
+        const { data, error } = await client.rpc(
+            "activate_content_code",
+            { p_code: code }
+        );
+
+        if (error) {
+            console.error("Activation error:", error);
+            showStatus(
+                error.message || "Activation failed. Please try again."
+            );
+            return;
+        }
+
+        // Confirm the returned code belongs to Chapter 3.
+        const matched = Array.isArray(data) && data.some(item =>
+            item.content_type === "chapter" &&
+            Number(item.content_id) === CHAPTER_ID
+        );
+
+        if (!matched) {
+            showStatus(
+                "This code is invalid, already used, or assigned to another chapter or student."
+            );
+            return;
+        }
+
+        showStatus("Code accepted. Opening Chapter 3...", true);
+
+        const loaded = await loadChapter();
+
+        if (!loaded) {
+            showStatus(
+                "The code was accepted, but the chapter could not be loaded. Please contact your teacher."
+            );
+        }
+
+    } catch (error) {
+        console.error("Unexpected activation error:", error);
+        showStatus(
+            "Something went wrong. Please refresh the page and try again."
+        );
+
+    } finally {
+        activateButton.disabled = false;
+    }
+}
+
+function renderLesson(source) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(source, "text/html");
+
+    // Preserve the lesson's own styling.
+    const styleText = Array.from(
+        doc.querySelectorAll("style")
+    ).map(style => style.textContent).join("\n");
+
+    if (styleText) {
+        const style = document.createElement("style");
+        style.textContent = styleText;
+        document.head.appendChild(style);
+    }
+
+    // Remove duplicate layout elements from the protected content.
+    doc.querySelector(".lesson-nav")?.remove();
+    doc.querySelector("body > header")?.remove();
+    doc.querySelector("body > footer")?.remove();
+
+    const originalContainer = doc.querySelector("body > .container");
+
+    if (originalContainer) {
+        originalContainer.style.marginLeft = "0";
+        originalContainer.style.maxWidth = "none";
+        originalContainer.style.padding = "0";
+        host.innerHTML = originalContainer.innerHTML;
+    } else {
+        host.innerHTML = doc.body.innerHTML;
+    }
+
+    host.classList.remove("hidden");
+    gate.classList.add("hidden");
+
+    // Restore lesson scripts after inserting the lesson HTML.
+    host.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        newScript.textContent = oldScript.textContent;
+        oldScript.replaceWith(newScript);
+    });
+
+    // Keep answer buttons working.
+    if (typeof window.toggleAnswer !== "function") {
+        window.toggleAnswer = function(id, button) {
+            const answer = document.getElementById(id);
+            if (!answer) return;
+
+            const open = answer.classList.toggle("show");
+            button.textContent = open
+                ? "🙈 Hide Answer"
+                : "👁️ Show Answer";
+        };
+    }
+
+    // Highlight the current section in the sidebar.
+    const sections = host.querySelectorAll(".section");
+    const links = document.querySelectorAll(".lesson-nav a");
+
+    links.forEach(link => {
+        link.addEventListener("click", event => {
+            const target = host.querySelector(
+                link.getAttribute("href")
+            );
+
+            if (target) {
+                event.preventDefault();
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
+    });
+
+    window.addEventListener("scroll", () => {
+        let current = "";
+
+        sections.forEach(section => {
+            if (
+                window.scrollY >=
+                section.getBoundingClientRect().top +
+                window.scrollY - 150
+            ) {
+                current = section.id;
+            }
+        });
+
+        links.forEach(link => {
+            link.classList.toggle(
+                "active",
+                link.getAttribute("href") === "#" + current
+            );
+        });
+    });
+}
+
+// Start only after checking the student's login session.
+initializeChapter();
+</script>
+
 </script></body></html>
