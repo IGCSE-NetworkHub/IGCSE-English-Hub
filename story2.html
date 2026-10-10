@@ -441,10 +441,61 @@ footer {
 }
 
 
-/* Access gate styling */
-#access-gate { margin: 35px auto; max-width: 850px; }
-#access-gate .section { background: #fff; border-radius: 14px; padding: 28px; box-shadow: 0 5px 18px rgba(0,0,0,.07); }
-#protected-lesson { display: none; }
+/* ================= ACCESS GATE + PROTECTED CONTENT LAYOUT ================= */
+/* Keep the access panel clear of the fixed sidebar. */
+#access-gate {
+    margin: 35px 0 35px 255px;
+    width: calc(100% - 255px);
+    max-width: none;
+    padding: 0 30px;
+}
+
+#access-gate .section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 28px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+#protected-lesson {
+    display: none;
+    width: 100%;
+}
+
+/* The protected database body includes its original header, sidebar and footer.
+   Hide those duplicates and use the page's single outer header/sidebar/footer. */
+#protected-lesson > header,
+#protected-lesson > nav.lesson-nav,
+#protected-lesson > footer {
+    display: none !important;
+}
+
+#protected-lesson .main-content {
+    margin-left: 255px;
+    padding: 30px;
+}
+
+@media (max-width: 850px) {
+    #access-gate {
+        margin: 25px 0;
+        width: 100%;
+        padding: 0 18px;
+    }
+
+    #protected-lesson .main-content {
+        margin-left: 0;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 500px) {
+    #access-gate .section {
+        padding: 20px;
+    }
+}
 </style>
 </head>
 <body>
