@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Student Login | The Blueprint</title>
 
 <style>
@@ -110,6 +110,11 @@ button:hover {
     opacity: 0.9;
 }
 
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
 .register-note {
     text-align: center;
     margin-top: 20px;
@@ -128,82 +133,52 @@ button:hover {
 <body>
 
 <header>
-
-    <div class="logo">
-        THE <span>BLUEPRINT</span>
-    </div>
-
-    <a href="index.html" class="back-link">
-        ← Home
-    </a>
-
+    <div class="logo">THE <span>BLUEPRINT</span></div>
+    <a href="index.html" class="back-link">← Home</a>
 </header>
 
 <div class="container">
-
     <div class="login-box">
-
         <h1>Student Login</h1>
+        <p class="subtitle">Welcome back to The Blueprint.</p>
 
-        <p class="subtitle">
-            Welcome back to The Blueprint.
-        </p>
-
-<form id="loginForm">
+        <form id="loginForm">
             <div class="form-group">
-
-                <label for="username">
-                    Username
-                </label>
-
+                <label for="username">Username</label>
                 <input
                     type="text"
                     id="username"
                     placeholder="Enter your username"
+                    autocomplete="username"
                     required
                 >
-
             </div>
 
             <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
+                <label for="password">Password</label>
                 <input
                     type="password"
                     id="password"
                     placeholder="Enter your password"
+                    autocomplete="current-password"
                     required
                 >
-
             </div>
 
-            <button type="submit">
-                Login
-            </button>
-
+            <button type="submit" id="loginButton">Login</button>
         </form>
 
         <div class="register-note">
-
             Don't have an account?
             <a href="register.html">Register here</a>
-
         </div>
-
     </div>
-
 </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-
 const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
 const supabaseClient = supabase.createClient(
@@ -212,46 +187,66 @@ const supabaseClient = supabase.createClient(
 );
 
 const loginForm = document.getElementById("loginForm");
+const loginButton = document.getElementById("loginButton");
 
 loginForm.addEventListener("submit", async function(event) {
-
     event.preventDefault();
 
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabaseClient.rpc(
-        "get_student_login",
-        { p_username: username }
-    );
+    loginButton.disabled = true;
+    loginButton.textContent = "Signing in...";
 
-    if (error) {
-        alert(error.message);
-        return;
+    try {
+        // Find the email associated with the username.
+        const { data, error } = await supabaseClient.rpc(
+            "get_student_login",
+            { p_username: username }
+        );
+
+        if (error) {
+            throw new Error("Unable to look up the username: " + error.message);
+        }
+
+        if (!data || data.length === 0 || !data[0].email) {
+            throw new Error(
+                "Student not found. Check the username and try again."
+            );
+        }
+
+        // Sign in using the associated email and the entered password.
+        const { data: authData, error: loginError } =
+            await supabaseClient.auth.signInWithPassword({
+                email: data[0].email,
+                password: password
+            });
+
+        if (loginError) {
+            throw new Error("Login failed: " + loginError.message);
+        }
+
+        if (!authData.session || !authData.user) {
+            throw new Error("Login did not create a valid session. Please try again.");
+        }
+
+        // Confirm the session exists before opening the dashboard.
+        const { data: sessionData, error: sessionError } =
+            await supabaseClient.auth.getSession();
+
+        if (sessionError || !sessionData.session) {
+            throw new Error("Your session could not be verified. Please sign in again.");
+        }
+
+        window.location.href = "dashboard.html";
+
+    } catch (error) {
+        alert(error.message || "An unexpected error occurred.");
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
     }
-
-    if (!data || data.length === 0) {
-        alert("Student not found.");
-        return;
-    }
-
-    const email = data[0].email;
-
-    const { error: loginError } =
-        await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-
-    if (loginError) {
-        alert(loginError.message);
-        return;
-    }
-
-    window.location.href = "dashboard.html";
-
 });
-
 </script>
+
 </body>
 </html>
