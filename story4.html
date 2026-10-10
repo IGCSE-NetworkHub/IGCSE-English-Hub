@@ -7,8 +7,8 @@
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;padding-left:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1d2939;line-height:1.7}
-header{background:linear-gradient(135deg,#102a56,#1d4f91);color:#fff;text-align:center;padding:35px 20px;box-shadow:0 5px 20px rgba(0,0,0,.15)}
+body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1d2939;line-height:1.7}
+header{margin-left:245px;width:calc(100% - 245px);background:linear-gradient(135deg,#102a56,#1d4f91);color:#fff;text-align:center;padding:35px 20px;box-shadow:0 5px 20px rgba(0,0,0,.15)}
 header h1{margin:0;font-size:32px}
 header p{margin:8px 0 0;font-size:17px}
 .lesson-nav{position:fixed;left:0;top:0;width:245px;height:100vh;background:#fff;box-shadow:3px 0 15px rgba(0,0,0,.08);padding:22px 14px;overflow-y:auto;z-index:1000}
@@ -24,18 +24,21 @@ header p{margin:8px 0 0;font-size:17px}
 #activateButton{background:#102a56;color:#fff;border:0;border-radius:8px;padding:12px 20px;font-size:15px;font-weight:bold;cursor:pointer}
 #activateButton:disabled{opacity:.6;cursor:wait}
 #status{margin-top:12px;line-height:1.5}
-#lessonHost{margin-top:35px;margin-right:30px;margin-bottom:35px;margin-left:300px;padding:0 20px;max-width:1050px;width:calc(100% - 320px)}
+#lessonHost{margin:30px 20px 35px 265px;padding:0 15px;max-width:none;width:calc(100% - 285px)}
 .hidden{display:none!important}
 footer{text-align:center;background:#102a56;color:#fff;padding:20px;margin-top:30px}
 @media(max-width:1000px){
  .lesson-nav{width:235px}
- #lessonHost{width:calc(100% - 265px);margin:35px 10px 35px 250px;padding:0 15px;max-width:none}
+ header{margin-left:235px;width:calc(100% - 235px)}
+ #lessonHost{width:calc(100% - 255px);margin:30px 10px 35px 245px;padding:0 12px;max-width:none}
 }
 @media(max-width:700px){
  .lesson-nav{position:relative;left:auto;top:auto;width:calc(100% - 30px);height:auto;max-height:none;overflow:visible;margin:20px 15px 25px;padding:18px;border-radius:16px;border:1px solid #dfe6ef;box-shadow:0 5px 18px rgba(0,0,0,.10)}
  .nav-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
- header,.container,footer{margin-left:0}
+ header{margin-left:0;width:100%;padding:28px 16px}
+ #activationGate{margin:25px auto}
  #lessonHost{width:auto;margin:20px auto;padding:0 15px;max-width:none}
+ footer{margin-left:0}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -52,7 +55,6 @@ footer{text-align:center;background:#102a56;color:#fff;padding:20px;margin-top:3
  </div>
 </nav>
 <header><h1>Chapter 4</h1><p>More Treasures from the Ship</p></header>
-
 <section id="activationGate">
  <div class="gate-card">
   <h2>🔐 Chapter 4 Access</h2>
@@ -67,7 +69,6 @@ footer{text-align:center;background:#102a56;color:#fff;padding:20px;margin-top:3
 </section>
 <main id="lessonHost" class="hidden container"></main>
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
-
 <script>
 (() => {
  const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
@@ -81,30 +82,22 @@ footer{text-align:center;background:#102a56;color:#fff;padding:20px;margin-top:3
  const activateButton=document.getElementById("activateButton");
  const loginLink=document.getElementById("loginLink");
  const lessonHost=document.getElementById("lessonHost");
-
- function showMessage(text,ok=false){
-  message.textContent=text;
-  message.style.color=ok?"#237044":"#b42318";
- }
+ function showMessage(text,ok=false){message.textContent=text;message.style.color=ok?"#237044":"#b42318"}
  function getBody(data){
-  if(typeof data==="string") return data;
-  if(Array.isArray(data)&&data.length) return data[0].body||Object.values(data[0])[0]||"";
-  if(data&&typeof data==="object") return data.body||Object.values(data)[0]||"";
+  if(typeof data==="string")return data;
+  if(Array.isArray(data)&&data.length)return data[0].body||Object.values(data[0])[0]||"";
+  if(data&&typeof data==="object")return data.body||Object.values(data)[0]||"";
   return "";
  }
  async function loadProtectedChapter(){
   const {data,error}=await client.rpc("get_unlocked_content",{p_content_type:"chapter",p_content_id:CHAPTER_ID});
   if(error){console.error(error);return false}
-  const body=getBody(data);
-  if(!body)return false;
-  renderLesson(body);
-  return true;
+  const body=getBody(data);if(!body)return false;renderLesson(body);return true;
  }
  async function activateChapter(){
   const code=codeInput.value.trim();
   if(!code){showMessage("Please enter your activation code.");return}
-  activateButton.disabled=true;
-  showMessage("Checking activation code…",true);
+  activateButton.disabled=true;showMessage("Checking activation code…",true);
   const {error}=await client.rpc("activate_content_code",{p_code:code});
   activateButton.disabled=false;
   if(error){console.error(error);showMessage(error.message||"Activation failed. Check the code and try again.");return}
@@ -119,53 +112,22 @@ footer{text-align:center;background:#102a56;color:#fff;padding:20px;margin-top:3
   doc.querySelector(".lesson-nav")?.remove();
   doc.querySelector("body > header")?.remove();
   doc.querySelector("body > footer")?.remove();
-  const backSection=doc.querySelector("#back");
-  if(backSection)backSection.remove();
+  const backSection=doc.querySelector("#back");if(backSection)backSection.remove();
   doc.querySelectorAll('a[href="#back"]').forEach(a=>a.remove());
   const originalMain=doc.querySelector("body > main.container")||doc.querySelector("main.container");
-  if(originalMain)lessonHost.innerHTML=originalMain.innerHTML;
-  else lessonHost.innerHTML=doc.body.innerHTML;
-  lessonHost.classList.remove("hidden");
-  gate.classList.add("hidden");
-
-  lessonHost.querySelectorAll("script").forEach(oldScript=>{
-   const newScript=document.createElement("script");
-   newScript.textContent=oldScript.textContent;
-   oldScript.replaceWith(newScript);
-  });
-
-  document.querySelectorAll(".nav-buttons a").forEach(link=>{
-   link.addEventListener("click",event=>{
-    const target=lessonHost.querySelector(link.getAttribute("href"));
-    if(target){event.preventDefault();target.scrollIntoView({behavior:"smooth",block:"start"});}
-   });
-  });
-  const sections=lessonHost.querySelectorAll(".section[id]");
-  const links=document.querySelectorAll(".nav-buttons a");
-  if("IntersectionObserver" in window){
-   const observer=new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-     if(entry.isIntersecting){
-      links.forEach(link=>link.classList.toggle("active",link.getAttribute("href")==="#"+entry.target.id));
-     }
-    });
-   },{rootMargin:"-20% 0px -65% 0px"});
-   sections.forEach(section=>observer.observe(section));
-  }
+  if(originalMain)lessonHost.innerHTML=originalMain.innerHTML;else lessonHost.innerHTML=doc.body.innerHTML;
+  lessonHost.classList.remove("hidden");gate.classList.add("hidden");
+  lessonHost.querySelectorAll("script").forEach(oldScript=>{const newScript=document.createElement("script");newScript.textContent=oldScript.textContent;oldScript.replaceWith(newScript)});
+  document.querySelectorAll(".nav-buttons a").forEach(link=>{link.addEventListener("click",event=>{const target=lessonHost.querySelector(link.getAttribute("href"));if(target){event.preventDefault();target.scrollIntoView({behavior:"smooth",block:"start"})}})});
+  const sections=lessonHost.querySelectorAll(".section[id]");const links=document.querySelectorAll(".nav-buttons a");
+  if("IntersectionObserver" in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){links.forEach(link=>link.classList.toggle("active",link.getAttribute("href")==="#"+entry.target.id))}})},{rootMargin:"-20% 0px -65% 0px"});sections.forEach(section=>observer.observe(section))}
   window.scrollTo({top:0,behavior:"smooth"});
  }
  async function initialise(){
   const {data:{session}}=await client.auth.getSession();
-  if(!session){
-   showMessage("You need to log in before opening this chapter.");
-   loginLink.classList.remove("hidden");
-   return;
-  }
+  if(!session){showMessage("You need to log in before opening this chapter.");loginLink.classList.remove("hidden");return}
   const loaded=await loadProtectedChapter();
-  if(!loaded){
-   showMessage("Enter your Chapter 4 activation code to access the lesson.");
-   form.classList.remove("hidden");
-  }
+  if(!loaded){showMessage("Enter your Chapter 4 activation code to access the lesson.");form.classList.remove("hidden")}
  }
  activateButton.addEventListener("click",activateChapter);
  codeInput.addEventListener("keydown",event=>{if(event.key==="Enter")activateChapter()});
