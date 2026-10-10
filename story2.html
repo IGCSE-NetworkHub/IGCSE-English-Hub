@@ -5,81 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chapter 2 - Returning to the Wreck | IGCSE English Hub</title>
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#222}
-header{background:linear-gradient(135deg,#102a56,#1e4f91);color:#fff;padding:42px 20px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.15);margin-left:255px}
-header h1{margin:0;font-size:38px;letter-spacing:.5px}
-header p{margin:10px 0 0;font-size:20px;opacity:.95}
-.lesson-nav{position:fixed;left:0;top:0;width:255px;height:100vh;background:#fff;border-right:1px solid #d9e0ea;padding:25px 15px;overflow-y:auto;z-index:1000;box-shadow:3px 0 12px rgba(0,0,0,.05)}
-.lesson-nav h3{text-align:center;color:#102a56;margin:5px 0 20px;font-size:20px}
-.nav-buttons{display:flex;flex-direction:column;gap:8px}
-.nav-buttons a{text-decoration:none;color:#102a56;background:#eef3f9;padding:11px 13px;border-radius:9px;font-size:14px;font-weight:bold;transition:.2s}
-.nav-buttons a:hover{background:#dbe7f5;transform:translateX(3px)}
-.nav-buttons a.active{background:#102a56;color:#fff;transform:translateX(5px);box-shadow:0 5px 12px rgba(16,42,86,.18)}
-.container{max-width:1100px;margin:auto}
-.section{background:#fff;margin-bottom:28px;padding:30px;border-radius:16px;box-shadow:0 5px 18px rgba(0,0,0,.07);scroll-margin-top:25px}
-.section h2{margin-top:0;color:#102a56;border-bottom:3px solid #dbe7f5;padding-bottom:12px}
-.section h3{color:#1e4f91}
-.story-text{font-size:18px;line-height:1.85}
-.story-text p{margin-bottom:20px}
-.quote{background:#f0f5fb;border-left:5px solid #1e4f91;padding:18px;margin:20px 0;border-radius:8px;font-style:italic}
-.highlight{background:#fff7d6;padding:3px 7px;border-radius:5px}
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.info-card{background:#f6f8fc;padding:20px;border-radius:12px;border:1px solid #dce4ef}
-.info-card h3{margin-top:0}
-.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-.vocab-item{background:#f7f9fc;border:1px solid #dce4ef;border-radius:10px;padding:15px}
-.vocab-item strong{color:#102a56}
-.question,.quiz-question{background:#f8fafc;border:1px solid #dce4ef;border-radius:10px;padding:17px;margin-bottom:14px}
-.question strong,.quiz-question strong{color:#102a56;display:block;line-height:1.6}
-.answer,.fill-answer,.quote-details,.quiz-answer{display:none;margin-top:12px;background:#eef5ff;border-left:4px solid #1e4f91;padding:13px;border-radius:6px;line-height:1.7}
-.answer.show,.fill-answer.show,.quote-details.show,.quiz-answer.show{display:block;animation:openAnswer .3s ease}
-.answer-btn{margin-top:12px;border:0;background:#102a56;color:#fff;padding:9px 16px;border-radius:7px;cursor:pointer;font-weight:bold}
-.answer-btn:hover{background:#1e4f91}
-@keyframes openAnswer{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-.fill-item{background:#f8fafc;border:1px solid #dce4ef;border-radius:9px;padding:15px;margin-bottom:12px}
-.fill-question{font-weight:bold;color:#102a56;line-height:1.6}
-.quote-card{background:#f8fafc;border:1px solid #dce4ef;border-radius:12px;padding:20px;margin-bottom:18px}
-.quote-card blockquote{margin:0 0 15px;padding:15px;background:#eef5ff;border-left:5px solid #1e4f91;border-radius:7px;font-style:italic;line-height:1.7}
-.quote-details{background:#fff;border:1px solid #dce4ef;margin-top:12px}
-.quote-details strong{color:#102a56}
-.quiz-title{color:#102a56;font-size:25px;margin-bottom:20px}
-.answer-line{margin-top:15px;border-bottom:1px solid #888;height:25px}
-.back-button{display:inline-block;text-decoration:none;background:#102a56;color:#fff;padding:13px 22px;border-radius:9px;font-weight:bold;transition:.2s}
-.back-button:hover{background:#1e4f91;transform:translateY(-2px)}
-footer{margin-left:255px;background:#102a56;color:#fff;text-align:center;padding:22px}
-/* Layout fix: reserve a real column for the fixed sidebar. */
-#access-gate{display:block!important;position:relative;z-index:1;width:auto!important;max-width:none!important;margin:35px 30px 35px 285px!important;padding:0!important}
-#access-gate .section{width:100%;max-width:1000px;margin:0 auto 28px;padding:28px;background:#fff;border-radius:14px;box-shadow:0 5px 18px rgba(0,0,0,.07)}
-#protected-lesson{display:none;width:auto;margin-left:255px;padding:30px;min-width:0}
-#protected-lesson>header,#protected-lesson>nav.lesson-nav,#protected-lesson>footer{display:none!important}
-#protected-lesson .main-content{margin-left:0!important;padding:0!important}
-#protected-lesson .container{width:100%;max-width:1100px;margin:0 auto}
-@media(max-width:850px){
- .lesson-nav{position:relative;width:100%;height:auto;top:auto;left:auto;border-right:0;border-bottom:1px solid #d9e0ea}
- .nav-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
- header{margin-left:0;padding:32px 18px}
- header h1{font-size:30px} header p{font-size:18px}
- #access-gate{width:auto!important;margin:22px 18px!important;padding:0!important}
- #protected-lesson{width:auto;margin-left:0;padding:18px}
- #protected-lesson .main-content{margin-left:0!important;padding:0!important}
- footer{margin-left:0}
-}
-@media(max-width:500px){.nav-buttons{grid-template-columns:1fr}.section{padding:20px}.story-text{font-size:16px}#access-gate .section{padding:20px}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#222}
+header{background:linear-gradient(135deg,#102a56,#1d4f91);color:#fff;text-align:center;padding:55px 20px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.06);right:-100px;top:-120px}
+header h1{margin:0;font-size:42px;position:relative;z-index:1}header p{font-size:21px;margin-top:12px;position:relative;z-index:1}
+.lesson-nav{position:fixed;left:0;top:0;width:280px;height:100vh;overflow-y:auto;overflow-x:hidden;background:#fff;padding:28px 18px;border:0;border-right:1px solid #dfe6ef;box-shadow:4px 0 20px rgba(16,42,86,.12);z-index:10000;margin:0;animation:menuSlide .5s ease}
+.lesson-nav h3{margin:0 0 20px;color:#102a56;font-size:20px;padding:0 5px 17px;border-bottom:2px solid #edf1f6;text-align:left}
+.nav-buttons{display:flex;flex-direction:column;gap:9px}.nav-buttons a{display:flex;align-items:center;width:100%;min-height:46px;text-decoration:none;color:#102a56;background:#edf3fb;padding:11px 14px;border-radius:10px;font-size:14px;line-height:1.3;white-space:nowrap;border-left:4px solid transparent;transition:background .2s,color .2s,transform .2s,box-shadow .2s,border-color .2s}
+.nav-buttons a:hover{background:#102a56;color:#fff;transform:translateX(5px);box-shadow:0 5px 12px rgba(16,42,86,.18)}.nav-buttons a.active{background:linear-gradient(90deg,#102a56,#1d4f91);color:#fff;border-left:4px solid #4da3ff;transform:translateX(5px);box-shadow:0 5px 14px rgba(16,42,86,.25);font-weight:bold}
+.container{width:calc(100% - 320px);max-width:1050px;margin:35px 30px 35px 300px;padding:0 20px}
+@keyframes menuSlide{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}@keyframes openAnswer{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+/* Match Chapter 1's section cards while supporting Chapter 2's existing lesson markup. */
+.section{background:#fff;margin-bottom:25px;border-radius:18px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.07);animation:fadeUp .6s ease;scroll-margin-top:25px;padding:0}
+.section>h2{margin:0;padding:22px 25px;background:linear-gradient(90deg,#102a56,#1d4f91);color:#fff;font-size:24px;border:0}
+.section>h3{color:#102a56}.section>p,.section>.story-text,.section>.info-grid,.section>.vocab-grid,.section>.question,.section>.fill-item,.section>.quote-card,.section>.quiz-title,.section>.quiz-question,.section>ul,.section>ol,.section>.highlight,.section>.quote,.section>div:not(.section-title):not(.section-content){margin-left:28px;margin-right:28px}
+.section>p:first-of-type{margin-top:25px}.section>p:last-child{margin-bottom:28px}.section>.story-text{padding-bottom:10px}
+.section h3{color:#102a56}.story-text{font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.9}.story-text p{margin-bottom:24px}
+.quote{border-left:5px solid #1d4f91;background:#f1f6fc;padding:18px 22px;margin:20px 0;font-style:italic;border-radius:0 10px 10px 0;transition:.25s}.quote:hover{transform:translateX(4px);background:#eaf2fb}
+.highlight{background:#fff8df;border-left:5px solid #e2b400;padding:15px 18px;margin:20px 0;border-radius:0 8px 8px 0}
+.info-grid,.vocab-grid,.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px;margin-bottom:24px}
+.info-card,.vocab-item,.card{background:#f7f9fc;border:1px solid #e1e7ef;border-radius:14px;padding:20px;transition:transform .25s ease,box-shadow .25s ease}.info-card:hover,.vocab-item:hover,.card:hover{transform:translateY(-3px);box-shadow:0 9px 22px rgba(0,0,0,.08)}.info-card h3,.card h3{margin-top:0;color:#102a56}.vocab-item strong,.vocab-card strong{color:#102a56}
+.question,.quiz-question,.fill-item,.quote-card{border:1px solid #e1e7ef;border-radius:12px;margin-bottom:14px;padding:18px;background:#fff}.question strong,.quiz-question strong{display:block;color:#102a56;line-height:1.6}.answer,.fill-answer,.quote-details,.quiz-answer{display:none;padding:18px;margin-top:14px;line-height:1.7;background:#f8fbff;border-top:1px solid #e5e9ef;border-radius:8px}.answer.show,.fill-answer.show,.quote-details.show,.quiz-answer.show{display:block;animation:openAnswer .3s ease}
+.answer-btn,.show-answer-btn{display:inline-block;margin-top:14px;padding:9px 16px;border:0;border-radius:8px;background:#102a56;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;transition:.2s}.answer-btn:hover,.show-answer-btn:hover{background:#1d4f91;transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,42,86,.2)}
+.fill-question{font-weight:bold;color:#102a56;line-height:1.6}.quote-card blockquote{margin:0 0 15px;padding:15px;background:#f1f6fc;border-left:5px solid #1d4f91;border-radius:0 8px 8px 0;font-style:italic;line-height:1.7}.quote-details strong{color:#102a56}.quiz-title{color:#102a56;font-size:25px;margin:20px 28px}.answer-line{margin-top:15px;border-bottom:1px solid #888;height:25px}
+.back-button{display:inline-block;text-decoration:none;background:#102a56;color:#fff;padding:14px 24px;border-radius:10px;font-weight:bold;margin:10px 0 40px;transition:.2s}.back-button:hover{background:#0b1d3d;transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.15)}
+footer{text-align:center;padding:30px;color:#666;margin-left:280px}
+#access-gate{width:calc(100% - 320px);max-width:1050px;margin:35px 30px 35px 300px;padding:0 20px;position:relative;z-index:1}
+#access-gate .section{max-width:700px;margin:0 auto 28px}
+#access-gate .gate-content{padding:28px}.gate-content p{line-height:1.7}.gate-content label{display:block;font-weight:bold;margin:12px 0 8px}.gate-content input{width:100%;max-width:420px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}.gate-content button{display:block;margin-top:12px;padding:12px 20px;border:0;border-radius:8px;background:#102a56;color:white;font-weight:bold;cursor:pointer}.gate-content button:disabled{opacity:.6;cursor:wait}
+#protected-lesson{display:none;width:calc(100% - 320px);max-width:1050px;margin:35px 30px 35px 300px;padding:0 20px;min-width:0}#protected-lesson .container{width:100%;max-width:none;margin:0;padding:0}#protected-lesson>header,#protected-lesson>nav.lesson-nav,#protected-lesson>footer{display:none!important}
+@media(max-width:1000px){.lesson-nav{width:235px;padding:24px 14px}.container,#access-gate,#protected-lesson{width:calc(100% - 265px);margin-left:250px;margin-right:10px;padding:0 15px}footer{margin-left:235px}}
+@media(max-width:700px){header{padding:40px 15px}header h1{font-size:31px}header p{font-size:18px}.lesson-nav{position:relative;left:auto;top:auto;width:calc(100% - 30px);height:auto;max-height:none;overflow:visible;margin:20px 15px 25px;padding:18px;border-radius:16px;border:1px solid #dfe6ef;box-shadow:0 5px 18px rgba(0,0,0,.1)}.lesson-nav h3{text-align:center}.nav-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.nav-buttons a{justify-content:center;text-align:center;white-space:normal;min-height:46px;padding:10px 7px;font-size:13px}.nav-buttons a.active{transform:translateY(-2px)}.container,#access-gate,#protected-lesson{width:auto;margin:20px auto;padding:0 15px}.section>h2{padding:19px 20px;font-size:21px}.section>p,.section>.story-text,.section>.info-grid,.section>.vocab-grid,.section>.question,.section>.fill-item,.section>.quote-card,.section>.quiz-title,.section>.quiz-question,.section>ul,.section>ol,.section>.highlight,.section>.quote,.section>div:not(.section-title):not(.section-content){margin-left:20px;margin-right:20px}.story-text{font-size:17px;line-height:1.8}.info-grid,.vocab-grid,.cards{grid-template-columns:1fr}.gate-content{padding:20px!important}footer{margin-left:0}}
+@media(max-width:430px){.nav-buttons{grid-template-columns:1fr}.nav-buttons a{justify-content:flex-start;text-align:left;padding-left:15px}header h1{font-size:28px}header p{font-size:16px}}
 </style>
 </head>
 <body>
 <header><h1>Chapter 2</h1><p>Returning to the Wreck</p></header>
-<nav class="lesson-nav"><h3>📖 Chapter 2</h3><div class="nav-buttons">
-<a href="#reading">📖 Reading</a><a href="#summary">📝 Summary</a><a href="#theme">💡 Theme</a><a href="#characters">👥 Characters</a><a href="#vocabulary">📚 Vocabulary</a><a href="#questions">❓ Questions</a><a href="#fill">✏️ Fill in</a><a href="#quotations">💬 Quotations</a><a href="#quiz1">🧠 Quiz 1</a><a href="#quiz2">🏆 Quiz 2</a>
+<nav class="lesson-nav"><h3>📚 Chapter Menu</h3><div class="nav-buttons">
+<a href="#reading">📖 Read</a><a href="#summary">📘 Summary</a><a href="#theme">🎯 Theme</a><a href="#characters">👥 Characters</a><a href="#vocabulary">📚 Vocabulary</a><a href="#questions">❓ Questions</a><a href="#fill">✏️ Fill in</a><a href="#quotations">💬 Quotations</a><a href="#quiz1">🧠 Quiz 1</a><a href="#quiz2">🏆 Quiz 2</a>
 </div></nav>
-<div id="access-gate" class="container"><div class="section">
-<h2>🔐 Chapter 2 Access</h2><p id="access-message">Checking your access...</p>
-<div id="activation-form" style="display:none;margin-top:18px"><label for="activation-code" style="display:block;font-weight:bold;margin-bottom:8px">Enter your Chapter 2 activation code</label><input id="activation-code" type="text" autocomplete="off" style="width:100%;max-width:420px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:16px"><button id="activate-button" type="button" style="display:block;margin-top:12px;padding:12px 20px;border:0;border-radius:8px;background:#102a56;color:white;font-weight:bold;cursor:pointer">Activate Chapter 2</button></div>
-<p id="login-link" style="display:none"><a href="login.html">Please log in first</a>.</p><p><a href="my-course.html" class="back-button">← Back to My Course</a></p>
-</div></div>
-<div id="protected-lesson"></div>
+<div id="access-gate"><div class="section"><h2>🔐 Chapter 2 Access</h2><div class="gate-content"><p id="access-message">Checking your access...</p><div id="activation-form" style="display:none"><label for="activation-code">Enter your Chapter 2 activation code</label><input id="activation-code" type="text" autocomplete="off"><button id="activate-button" type="button">Activate Chapter 2</button></div><p id="login-link" style="display:none"><a href="login.html">Please log in first</a>.</p></div></div></div>
+<main id="protected-lesson"></main>
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -93,17 +60,38 @@ footer{margin-left:255px;background:#102a56;color:#fff;text-align:center;padding
  function showLoginRequired(){showMessage("You need to log in before opening this chapter.");loginLink.style.display="block";form.style.display="none"}
  async function loadProtectedLesson(){
   const {data,error}=await client.rpc("get_unlocked_content",{p_content_type:"chapter",p_content_id:CHAPTER_ID});
-  if(error){showMessage("We couldn't verify access. Please refresh the page or contact your teacher.");console.error(error);return false}
+  if(error){console.error(error);showMessage("We couldn't verify access. Please refresh the page or contact your teacher.");return false}
   if(!data||!data.length||!data[0].body)return false;
   lessonHost.innerHTML=data[0].body;
   gate.style.display="none";lessonHost.style.display="block";
   lessonHost.querySelectorAll("script").forEach(oldScript=>{const newScript=document.createElement("script");newScript.textContent=oldScript.textContent;oldScript.replaceWith(newScript)});
   lessonHost.addEventListener("contextmenu",event=>event.preventDefault());lessonHost.addEventListener("copy",event=>event.preventDefault());lessonHost.addEventListener("cut",event=>event.preventDefault());
-  return true
+  setupSidebar();return true
+ }
+ function setupSidebar(){
+  const links=document.querySelectorAll(".lesson-nav .nav-buttons a");
+  links.forEach(link=>link.addEventListener("click",event=>{const id=link.getAttribute("href");const target=lessonHost.querySelector(id);if(target){event.preventDefault();target.scrollIntoView({behavior:"smooth",block:"start"})}}));
+  const sections=lessonHost.querySelectorAll(".section,[id]");
+  const update=()=>{let current="";sections.forEach(section=>{if(section.id&&window.scrollY>=section.getBoundingClientRect().top+window.scrollY-150)current=section.id});links.forEach(link=>link.classList.toggle("active",link.getAttribute("href")==="#"+current))};
+  window.addEventListener("scroll",update);update();
  }
  async function initialize(){const {data:sessionData,error:sessionError}=await client.auth.getSession();if(sessionError||!sessionData.session){showLoginRequired();return}const alreadyUnlocked=await loadProtectedLesson();if(!alreadyUnlocked){showMessage("This chapter is locked. Enter the activation code assigned to your account.");form.style.display="block"}}
- activateButton.addEventListener("click",async()=>{const code=codeInput.value.trim();if(!code){showMessage("Enter your activation code first.");return}activateButton.disabled=true;showMessage("Checking your activation code...");const {data,error}=await client.rpc("activate_content_code",{p_code:code});activateButton.disabled=false;if(error){showMessage("The code couldn't be checked. Please try again.");console.error(error);return}const matched=Array.isArray(data)&&data.some(item=>item.content_type==="chapter"&&Number(item.content_id)===CHAPTER_ID);if(!matched){showMessage("This code is invalid, already used, or assigned to a different chapter/student.");return}showMessage("Code accepted. Opening Chapter 2...");const loaded=await loadProtectedLesson();if(!loaded)showMessage("The code was accepted, but the protected lesson is not ready yet. Please contact your teacher.")});
- codeInput.addEventListener("keydown",event=>{if(event.key==="Enter")activateButton.click()});initialize();
+ activateButton.addEventListener("click",async()=>{
+  const code=codeInput.value.trim();if(!code){showMessage("Enter your activation code first.");return}
+  activateButton.disabled=true;showMessage("Checking your activation code...");
+  try{
+   const {data:sessionData,error:sessionError}=await client.auth.getSession();if(sessionError||!sessionData.session){showLoginRequired();return}
+   const {data,error}=await client.rpc("activate_content_code",{p_code:code});
+   if(error){console.error(error);showMessage("The code couldn't be checked. Please try again.");return}
+   const matched=Array.isArray(data)&&data.some(item=>item.content_type==="chapter"&&Number(item.content_id)===CHAPTER_ID);
+   if(!matched){showMessage("This code is invalid, already used, or assigned to a different chapter/student.");return}
+   showMessage("Code accepted. Opening Chapter 2...");
+   const loaded=await loadProtectedLesson();if(!loaded)showMessage("The code was accepted, but the protected lesson is not ready yet. Please contact your teacher.");
+  }catch(error){console.error(error);showMessage("Something went wrong. Please refresh the page and try again.")}
+  finally{activateButton.disabled=false}
+ });
+ codeInput.addEventListener("keydown",event=>{if(event.key==="Enter")activateButton.click()});
+ initialize();
 })();
 </script>
 </body>
