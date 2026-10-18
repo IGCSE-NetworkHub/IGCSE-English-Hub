@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard | IGCSE English Hub</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #1e293b;
+}
+
+header {
+    background: #183153;
+    color: white;
+    padding: 22px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 23px;
+}
+
+header p {
+    margin: 6px 0 0;
+    color: #d5e2f2;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.logout {
+    background: white;
+    color: #183153;
+}
+
+main {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.card .icon {
+    font-size: 32px;
+}
+
+.card h3 {
+    margin: 15px 0 10px;
+}
+
+.card p {
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.status {
+    padding: 18px;
+    border-radius: 10px;
+    background: white;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.hidden {
+    display: none !important;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    padding: 30px 15px;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>IGCSE English Hub</h1>
+        <p>Teacher Administration Panel</p>
+    </div>
+
+    <button id="logoutButton" class="logout" hidden>
+        Log Out
+    </button>
+</header>
+
+<main>
+    <div id="status" class="status">
+        Checking your account permissions...
+    </div>
+
+    <section id="dashboard" class="hidden">
+        <div class="welcome">
+            <h2>Welcome, Teacher!</h2>
+            <p>
+                Manage your courses, lessons, homework and tests
+                from one place.
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="icon">📚</div>
+                <h3>Manage Courses</h3>
+                <p>
+                    Organise Year 6 and other year groups,
+                    units and course sessions.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">📝</div>
+                <h3>Lessons & Sessions</h3>
+                <p>
+                    Prepare Vocabulary, Grammar and Writing
+                    lessons for each session.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🏠</div>
+                <h3>Homework</h3>
+                <p>
+                    Prepare homework activities and practice
+                    tasks for your students.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">✅</div>
+                <h3>Tests & Revision</h3>
+                <p>
+                    Plan revision activities and end-of-unit
+                    assessments.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">📊</div>
+                <h3>Student Progress</h3>
+                <p>
+                    A future section for reviewing student
+                    results and learning progress.
+                </p>
+            </div>
+        </div>
+
+        <div class="status" style="margin-top:25px">
+            <strong>Next stage:</strong>
+            We will connect these sections to your existing
+            course database and build the lesson editor.
+            No course content has been changed by this page.
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script>
+const SUPABASE_URL =
+    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+// Use the same public publishable key as the existing website.
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+const statusBox = document.getElementById("status");
+const dashboard = document.getElementById("dashboard");
+const logoutButton = document.getElementById("logoutButton");
+
+function showStatus(message) {
+    statusBox.textContent = message;
+    statusBox.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+}
+
+async function checkTeacherAccess() {
+    showStatus("Checking your account permissions...");
+
+    const {
+        data: { session },
+        error: sessionError
+    } = await supabaseClient.auth.getSession();
+
+    if (sessionError || !session) {
+        window.location.replace("login.html");
+        return;
+    }
+
+    logoutButton.hidden = false;
+
+    const { data: roleRecord, error: roleError } =
+        await supabaseClient
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", session.user.id)
+            .maybeSingle();
+
+    if (roleError) {
+        console.error("Role check failed:", roleError);
+        showStatus(
+            "Unable to verify your permissions. Please try again later."
+        );
+        return;
+    }
+
+    if (!roleRecord || roleRecord.role !== "teacher") {
+        showStatus(
+            "Access denied. This page is only available to authorised teachers."
+        );
+        return;
+    }
+
+    statusBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+}
+
+logoutButton.addEventListener("click", async () => {
+    logoutButton.disabled = true;
+
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+        logoutButton.disabled = false;
+        showStatus("Unable to log out. Please try again.");
+        return;
+    }
+
+    window.location.replace("login.html");
+});
+
+checkTeacherAccess();
+</script>
+
+</body>
+</html>
