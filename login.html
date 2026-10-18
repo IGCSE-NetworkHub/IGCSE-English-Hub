@@ -5,238 +5,81 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login | The Blueprint</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    color: #172033;
-}
-
-header {
-    background: #102a56;
-    color: white;
-    padding: 20px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #f4c542;
-}
-
-.back-link {
-    color: white;
-    text-decoration: none;
-}
-
-.container {
-    min-height: calc(100vh - 75px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-}
-
-.login-box {
-    background: white;
-    width: 100%;
-    max-width: 450px;
-    padding: 35px;
-    border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-}
-
-h1 {
-    text-align: center;
-    color: #102a56;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #657084;
-    margin-bottom: 25px;
-    line-height: 1.5;
-}
-
-.tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 25px;
-}
-
-.tab {
-    flex: 1;
-    padding: 12px 8px;
-    border: 1px solid #d5dbe5;
-    background: #fff;
-    border-radius: 7px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.tab.active {
-    background: #102a56;
-    color: white;
-    border-color: #102a56;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #d5dbe5;
-    border-radius: 7px;
-    font-size: 15px;
-}
-
-button.submit {
-    width: 100%;
-    padding: 14px;
-    background: #f4c542;
-    color: #172033;
-    border: none;
-    border-radius: 7px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: wait;
-}
-
-.note {
-    text-align: center;
-    margin-top: 20px;
-    color: #657084;
-    font-size: 14px;
-}
-
-.note a {
-    color: #1f4b91;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-#errorMessage {
-    display: none;
-    background: #fff0f0;
-    color: #a11;
-    padding: 12px;
-    border-radius: 7px;
-    margin-bottom: 18px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
-}
-
-.hidden {
-    display: none;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f5f7fb; color: #172033; }
+header { background: #102a56; color: white; padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 25px; font-weight: bold; }
+.logo span { color: #f4c542; }
+.back-link { color: white; text-decoration: none; }
+.container { min-height: calc(100vh - 75px); display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+.login-box { background: white; width: 100%; max-width: 450px; padding: 35px; border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.08); }
+h1 { text-align: center; color: #102a56; margin-bottom: 10px; }
+.subtitle { text-align: center; color: #657084; margin-bottom: 25px; line-height: 1.5; }
+.tabs { display: flex; gap: 8px; margin-bottom: 25px; }
+.tab { flex: 1; padding: 12px 8px; border: 1px solid #d5dbe5; background: #fff; border-radius: 7px; font-weight: bold; cursor: pointer; }
+.tab.active { background: #102a56; color: white; border-color: #102a56; }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: bold; }
+input { width: 100%; padding: 13px; border: 1px solid #d5dbe5; border-radius: 7px; font-size: 15px; }
+button.submit { width: 100%; padding: 14px; background: #f4c542; color: #172033; border: none; border-radius: 7px; font-size: 16px; font-weight: bold; cursor: pointer; }
+button:disabled { opacity: .6; cursor: wait; }
+.note { text-align: center; margin-top: 20px; color: #657084; font-size: 14px; line-height: 1.7; }
+.note a { color: #1f4b91; font-weight: bold; text-decoration: none; }
+#errorMessage { display: none; background: #fff0f0; color: #a11; padding: 12px; border-radius: 7px; margin-bottom: 18px; line-height: 1.5; overflow-wrap: anywhere; }
+.hidden { display: none !important; }
 </style>
 </head>
 
 <body>
-
 <header>
     <div class="logo">THE <span>BLUEPRINT</span></div>
     <a href="index.html" class="back-link">← Home</a>
 </header>
 
 <div class="container">
-    <div class="login-box">
+<div class="login-box">
+    <h1 id="pageTitle">Student Login</h1>
+    <p class="subtitle" id="subtitle">Welcome back to The Blueprint.</p>
 
-        <h1 id="pageTitle">Student Login</h1>
-        <p class="subtitle" id="subtitle">
-            Welcome back to The Blueprint.
-        </p>
-
-        <div class="tabs">
-            <button type="button" class="tab active" id="studentTab">
-                Student
-            </button>
-            <button type="button" class="tab" id="teacherTab">
-                Teacher
-            </button>
-        </div>
-
-        <div id="errorMessage" role="alert"></div>
-
-        <form id="loginForm">
-
-            <div class="form-group">
-                <label for="loginId" id="loginLabel">Username</label>
-                <input
-                    type="text"
-                    id="loginId"
-                    placeholder="Enter your username"
-                    autocomplete="username"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="submit" id="loginButton">
-                Login
-            </button>
-
-        </form>
-
-        <div class="note" id="registerNote">
-            Don't have an account?
-            <a href="register.html">Register here</a>
-        </div>
-
+    <div class="tabs">
+        <button type="button" class="tab active" id="studentTab">Student</button>
+        <button type="button" class="tab" id="teacherTab">Teacher</button>
     </div>
+
+    <div id="errorMessage" role="alert"></div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="loginId" id="loginLabel">Username</label>
+            <input type="text" id="loginId" placeholder="Enter your username" autocomplete="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="submit" id="loginButton">Login</button>
+    </form>
+
+    <div class="note hidden" id="forgotNote">
+        <a href="#" id="forgotPassword">Forgot your password?</a>
+    </div>
+
+    <div class="note" id="registerNote">
+        Don't have an account? <a href="register.html">Register here</a>
+    </div>
+</div>
 </div>
 
 <script>
-const SUPABASE_URL =
-    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const SUPABASE_KEY =
-    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const loginForm = document.getElementById("loginForm");
 const loginId = document.getElementById("loginId");
@@ -249,6 +92,8 @@ const pageTitle = document.getElementById("pageTitle");
 const subtitle = document.getElementById("subtitle");
 const loginLabel = document.getElementById("loginLabel");
 const registerNote = document.getElementById("registerNote");
+const forgotNote = document.getElementById("forgotNote");
+const forgotPassword = document.getElementById("forgotPassword");
 
 let loginMode = "student";
 
@@ -271,34 +116,70 @@ function setMode(mode) {
     studentTab.classList.toggle("active", isStudent);
     teacherTab.classList.toggle("active", !isStudent);
 
-    pageTitle.textContent = isStudent
-        ? "Student Login"
-        : "Teacher Login";
-
+    pageTitle.textContent = isStudent ? "Student Login" : "Teacher Login";
     subtitle.textContent = isStudent
         ? "Welcome back to The Blueprint."
         : "Sign in to your teacher account.";
 
-    loginLabel.textContent = isStudent
-        ? "Username"
-        : "Teacher Email";
-
-    loginId.placeholder = isStudent
-        ? "Enter your username"
-        : "Enter your teacher email";
-
+    loginLabel.textContent = isStudent ? "Username" : "Teacher Email";
+    loginId.placeholder = isStudent ? "Enter your username" : "Enter your teacher email";
     loginId.type = isStudent ? "text" : "email";
     loginId.autocomplete = isStudent ? "username" : "email";
 
+    password.autocomplete = "current-password";
     registerNote.classList.toggle("hidden", !isStudent);
+    forgotNote.classList.toggle("hidden", isStudent);
 }
 
 studentTab.addEventListener("click", () => setMode("student"));
 teacherTab.addEventListener("click", () => setMode("teacher"));
 
+forgotPassword.addEventListener("click", async function(event) {
+    event.preventDefault();
+    clearError();
+
+    const email = loginId.value.trim();
+
+    if (!email) {
+        showError("Enter your teacher email in the email field first.");
+        loginId.focus();
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("Please enter a valid email address.");
+        loginId.focus();
+        return;
+    }
+
+    forgotPassword.style.pointerEvents = "none";
+    forgotPassword.textContent = "Sending reset link...";
+
+    try {
+        const redirectTo =
+            "https://igcse-networkhub.github.io/IGCSE-English-Hub/reset-password.html";
+
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: redirectTo
+        });
+
+        if (error) throw error;
+
+        showError("If this email belongs to an account, a password reset email has been requested. Check your inbox and spam folder.");
+        errorMessage.style.display = "block";
+        errorMessage.style.background = "#edf8ef";
+        errorMessage.style.color = "#17632a";
+
+    } catch (error) {
+        showError("Could not request a password reset: " + error.message);
+    } finally {
+        forgotPassword.style.pointerEvents = "";
+        forgotPassword.textContent = "Forgot your password?";
+    }
+});
+
 loginForm.addEventListener("submit", async function(event) {
     event.preventDefault();
-
     clearError();
 
     const enteredId = loginId.value.trim();
@@ -309,39 +190,30 @@ loginForm.addEventListener("submit", async function(event) {
 
     try {
         if (loginMode === "student") {
-            // Keep the existing student username login flow.
             const { data, error } = await supabaseClient.rpc(
                 "get_student_login",
                 { p_username: enteredId }
             );
 
             if (error) {
-                throw new Error(
-                    "Unable to look up the username: " + error.message
-                );
+                throw new Error("Unable to look up the username: " + error.message);
             }
 
             if (!data || data.length === 0 || !data[0].email) {
-                throw new Error(
-                    "Student not found. Check your username and try again."
-                );
+                throw new Error("Student not found. Check your username and try again.");
             }
 
-            const { error: loginError } =
-                await supabaseClient.auth.signInWithPassword({
-                    email: data[0].email,
-                    password: enteredPassword
-                });
+            const { error: loginError } = await supabaseClient.auth.signInWithPassword({
+                email: data[0].email,
+                password: enteredPassword
+            });
 
-            if (loginError) {
-                throw new Error("Login failed: " + loginError.message);
-            }
+            if (loginError) throw new Error("Login failed: " + loginError.message);
 
             window.location.replace("dashboard.html");
             return;
         }
 
-        // Teacher login uses the separate Supabase Auth account.
         const { data: authData, error: authError } =
             await supabaseClient.auth.signInWithPassword({
                 email: enteredId,
@@ -349,51 +221,38 @@ loginForm.addEventListener("submit", async function(event) {
             });
 
         if (authError) {
-            throw new Error(
-                "Teacher login failed. Check the email and password."
-            );
+            throw new Error("Teacher login failed: " + authError.message);
         }
 
         if (!authData.user || !authData.session) {
             throw new Error("Login did not create a valid session.");
         }
 
-        // Verify the teacher role from the database.
-        const { data: roleRecord, error: roleError } =
-            await supabaseClient
-                .from("user_roles")
-                .select("role")
-                .eq("user_id", authData.user.id)
-                .maybeSingle();
+        const { data: roleRecord, error: roleError } = await supabaseClient
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", authData.user.id)
+            .maybeSingle();
 
         if (roleError) {
             await supabaseClient.auth.signOut();
-
-            throw new Error(
-                "Unable to verify teacher permissions: " +
-                roleError.message
-            );
+            throw new Error("Unable to verify teacher permissions: " + roleError.message);
         }
 
         if (!roleRecord || roleRecord.role !== "teacher") {
             await supabaseClient.auth.signOut();
-
-            throw new Error(
-                "This account is not authorised as a teacher."
-            );
+            throw new Error("This account is not authorised as a teacher.");
         }
 
         window.location.replace("teacher-dashboard.html");
 
     } catch (error) {
         showError(error.message || "An unexpected error occurred.");
-
     } finally {
         loginButton.disabled = false;
         loginButton.textContent = "Login";
     }
 });
 </script>
-
 </body>
 </html>
