@@ -233,18 +233,75 @@ function showStatus(message) {
     dashboard.classList.add("hidden");
 }
 
+
 async function checkTeacherAccess() {
     showStatus("Checking your account permissions...");
 
-    const {
-        data: { session },
-        error: sessionError
-    } = await supabaseClient.auth.getSession();
+    try {
+        const {
+            data: { session },
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
 
-    if (sessionError || !session) {
-        window.location.replace("login.html");
-        return;
+        if (sessionError) {
+            console.error("Session error:", sessionError);
+            showStatus("Session error: " + sessionError.message);
+            return;
+        }
+
+        if (!session) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        logoutButton.hidden = false;
+
+        const { data: roleRecord, error: roleError } =
+            await supabaseClient
+                .from("user_roles")
+                .select("role")
+                .eq("user_id", session.user.id)
+                .maybeSingle();
+
+        if (roleError) {
+            console.error("Role check failed:", roleError);
+
+            showStatus(
+                "Database error: " +
+                roleError.message +
+                " | Code: " +
+                (roleError.code || "unknown")
+            );
+            return;
+        }
+
+        if (!roleRecord) {
+            showStatus(
+                "No role record found for signed-in account: " +
+                session.user.id
+            );
+            return;
+        }
+
+        if (roleRecord.role !== "teacher") {
+            showStatus(
+                "Wrong role: " + roleRecord.role
+            );
+            return;
+        }
+
+        statusBox.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+
+    } catch (error) {
+        console.error("Unexpected error:", error);
+
+        showStatus(
+            "Unexpected error: " +
+            (error.message || String(error))
+        );
     }
+}
 
     logoutButton.hidden = false;
 
