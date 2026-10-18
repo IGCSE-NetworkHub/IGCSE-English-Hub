@@ -20,13 +20,17 @@ main{max-width:1100px;margin:35px auto;padding:0 20px}
 .welcome h2{margin-bottom:8px}
 .welcome p{color:#64748b;line-height:1.6}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-.card{background:white;padding:25px;border-radius:14px;box-shadow:0 3px 14px #0000000f;border:1px solid #e2e8f0}
+.card{display:block;width:100%;text-align:left;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 14px #0000000f;border:1px solid #e2e8f0;color:inherit;font-family:inherit;transition:transform .2s,box-shadow .2s,border-color .2s}
+.card.clickable{cursor:pointer}
+.card.clickable:hover{transform:translateY(-4px);box-shadow:0 8px 22px #00000014;border-color:#3478c9}
+.card:focus-visible{outline:3px solid #3478c9;outline-offset:3px}
 .card .icon{font-size:32px}
-.card h3{margin:15px 0 10px}
-.card p{color:#64748b;line-height:1.6;font-size:14px}
+.card h3{margin:15px 0 10px;font-size:18px}
+.card p{color:#64748b;line-height:1.6;font-size:14px;margin-bottom:0}
 .status{padding:18px;border-radius:10px;background:white;margin-bottom:25px;line-height:1.6;overflow-wrap:anywhere}
 .hidden{display:none!important}
 footer{text-align:center;color:#64748b;padding:30px 15px;font-size:13px}
+@media(max-width:500px){main{margin:24px auto}.card{padding:20px}}
 </style>
 </head>
 
@@ -51,37 +55,48 @@ footer{text-align:center;color:#64748b;padding:30px 15px;font-size:13px}
         </div>
 
         <div class="grid">
-            <div class="card">
+
+            <button type="button" class="card clickable"
+                onclick="window.location.href='teacher-courses.html'"
+                aria-label="Manage Courses">
                 <div class="icon">📚</div>
                 <h3>Manage Courses</h3>
-                <p>Organise Year 6 and other year groups, units and course sessions.</p>
-            </div>
-            <div class="card">
+                <p>Organise year groups, units and course sessions. Click to open course management.</p>
+            </button>
+
+            <button type="button" class="card"
+                onclick="alert('Lessons & Sessions will be available in the next stage.')">
                 <div class="icon">📝</div>
                 <h3>Lessons &amp; Sessions</h3>
                 <p>Prepare Vocabulary, Grammar and Writing lessons for each session.</p>
-            </div>
-            <div class="card">
+            </button>
+
+            <button type="button" class="card"
+                onclick="alert('Homework management will be available in the next stage.')">
                 <div class="icon">🏠</div>
                 <h3>Homework</h3>
                 <p>Prepare homework activities and practice tasks for your students.</p>
-            </div>
-            <div class="card">
+            </button>
+
+            <button type="button" class="card"
+                onclick="alert('Tests & Revision will be available in the next stage.')">
                 <div class="icon">✅</div>
                 <h3>Tests &amp; Revision</h3>
                 <p>Plan revision activities and end-of-unit assessments.</p>
-            </div>
-            <div class="card">
+            </button>
+
+            <button type="button" class="card"
+                onclick="alert('Student Progress will be available in the next stage.')">
                 <div class="icon">📊</div>
                 <h3>Student Progress</h3>
-                <p>A future section for reviewing student results and learning progress.</p>
-            </div>
+                <p>Review student results and learning progress in a future update.</p>
+            </button>
+
         </div>
 
         <div class="status" style="margin-top:25px">
             <strong>Next stage:</strong>
-            We will connect these sections to your existing course database and build the lesson editor.
-            No course content has been changed by this page.
+            We will connect Lessons &amp; Sessions, Homework, Tests and Student Progress to the course database.
         </div>
     </section>
 </main>
@@ -132,6 +147,7 @@ async function checkTeacherAccess() {
                 .from("user_roles")
                 .select("role")
                 .eq("user_id", session.user.id)
+                .eq("role", "teacher")
                 .maybeSingle();
 
         if (roleError) {
@@ -142,7 +158,7 @@ async function checkTeacherAccess() {
             );
         }
 
-        if (!roleRecord || roleRecord.role !== "teacher") {
+        if (!roleRecord) {
             await supabaseClient.auth.signOut();
             window.location.replace("login.html");
             return;
