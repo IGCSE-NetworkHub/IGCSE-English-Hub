@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Courses | IGCSE English Hub</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
+header{background:#142b4a;color:white;padding:24px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;color:#dbe6f5}
+button,.button{border:0;border-radius:8px;padding:11px 16px;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-block}
+.primary{background:#1769d2;color:white}
+.secondary{background:#e8eef7;color:#183451}
+.danger{background:#ffe7e7;color:#a21c1c}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+.panel{background:white;border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 4px 18px #152b4a0d}
+.panel h2{margin-top:0}
+.notice{padding:13px 15px;border-radius:8px;background:#e8f2ff;color:#17457c;margin:15px 0}
+.error{background:#fff0f0;color:#a21c1c}
+.success{background:#e8f8ed;color:#176534}
+label{display:block;font-weight:bold;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd5e2;border-radius:8px;font:inherit;background:white}
+textarea{min-height:85px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:1/-1}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
+.course{border:1px solid #dce4ef;border-radius:10px;padding:18px;margin-top:15px}
+.course h3{margin:0 0 8px}
+.muted{color:#65748b}
+.status{font-size:13px;font-weight:bold;padding:5px 9px;border-radius:20px;background:#fff1cf;color:#795200}
+.status.published{background:#e1f7e8;color:#176534}
+.unit-list{margin-top:12px;padding-left:20px}
+.unit-list li{padding:5px 0}
+#loading{text-align:center;padding:30px}
+footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
+@media(max-width:650px){.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}header h1{font-size:21px}.panel{padding:18px}}
+</style>
+</head>
+
+<body>
+<header>
+  <div>
+    <h1>Manage Courses</h1>
+    <p>IGCSE English Hub — Teacher Dashboard</p>
+  </div>
+  <div class="actions">
+    <a class="button secondary" href="teacher-dashboard.html">Back to Dashboard</a>
+    <button class="secondary" id="logoutBtn">Log Out</button>
+  </div>
+</header>
+
+<main>
+  <div id="message" class="notice">Checking your teacher account...</div>
+
+  <section class="panel">
+    <h2>Create a Course</h2>
+    <p class="muted">Create a course for a year group. You can publish it when its content is ready.</p>
+
+    <form id="courseForm">
+      <div class="form-grid">
+        <div>
+          <label for="courseTitle">Course title</label>
+          <input id="courseTitle" required maxlength="150" placeholder="e.g. Year 7 English Course">
+        </div>
+        <div>
+          <label for="yearGroup">Year group</label>
+          <select id="yearGroup" required>
+            <option value="">Choose a year group</option>
+            <option>Year 6</option>
+            <option>Year 7</option>
+            <option>Year 8</option>
+            <option>Year 9</option>
+            <option>Year 10</option>
+            <option>Year 11</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="courseDescription">Description</label>
+          <textarea id="courseDescription" placeholder="Describe the course..."></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" type="submit" id="createCourseBtn">Create Course</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Your Courses</h2>
+    <p class="muted">Manage course details and see the units already connected to each course.</p>
+    <div id="coursesList">Loading courses...</div>
+  </section>
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const message = document.getElementById("message");
+const coursesList = document.getElementById("coursesList");
+const courseForm = document.getElementById("courseForm");
+const createCourseBtn = document.getElementById("createCourseBtn");
+
+let teacherVerified = false;
+
+function showMessage(text, type = "") {
+  message.textContent = text;
+  message.className = "notice" + (type ? " " + type : "");
+}
+
+async function checkTeacher() {
+  const { data: sessionData, error: sessionError } = await db.auth.getSession();
+
+  if (sessionError || !sessionData.session) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  const user = sessionData.session.user;
+
+  const { data: role, error: roleError } = await db
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", user.id)
+    .eq("role", "teacher")
+    .maybeSingle();
+
+  if (roleError || !role) {
+    showMessage("Access denied. This page is for teachers only.", "error");
+    courseForm.style.display = "none";
+    coursesList.textContent = "You do not have permission to manage courses.";
+    return;
+  }
+
+  teacherVerified = true;
+  showMessage("Teacher access verified.", "success");
+  await loadCourses();
+}
+
+async function loadCourses() {
+  coursesList.textContent = "Loading courses...";
+
+  const { data: courses, error } = await db
+    .from("courses")
+    .select("id,title,year_group,description,sort_order,is_published")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error) {
+    coursesList.textContent = "Could not load courses: " + error.message;
+    return;
+  }
+
+  if (!courses || courses.length === 0) {
+    coursesList.textContent = "No courses have been created yet.";
+    return;
+  }
+
+  coursesList.replaceChildren();
+
+  for (const course of courses) {
+    const card = document.createElement("article");
+    card.className = "course";
+
+    const title = document.createElement("h3");
+    title.textContent = course.title;
+
+    const year = document.createElement("p");
+    year.className = "muted";
+    year.textContent = course.year_group;
+
+    const status = document.createElement("span");
+    status.className = "status" + (course.is_published ? " published" : "");
+    status.textContent = course.is_published ? "Published" : "Draft";
+
+    const description = document.createElement("p");
+    description.textContent = course.description || "No description provided.";
+
+    const unitsHeading = document.createElement("strong");
+    unitsHeading.textContent = "Course units";
+
+    const unitList = document.createElement("div");
+    unitList.className = "muted";
+    unitList.textContent = "Loading units...";
+
+    const editButton = document.createElement("button");
+    editButton.className = "secondary";
+    editButton.textContent = "Edit Course Details";
+    editButton.addEventListener("click", () => editCourse(course));
+
+    const unitsButton = document.createElement("button");
+    unitsButton.className = "secondary";
+    unitsButton.textContent = "Add Unit";
+    unitsButton.addEventListener("click", () => addUnit(course));
+
+    const publishButton = document.createElement("button");
+    publishButton.className = course.is_published ? "danger" : "primary";
+    publishButton.textContent = course.is_published ? "Unpublish Course" : "Publish Course";
+    publishButton.addEventListener("click", () => togglePublish(course));
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    actions.append(editButton, unitsButton, publishButton);
+
+    card.append(title, year, status, description, unitsHeading, unitList, actions);
+    coursesList.append(card);
+
+    const { data: units, error: unitsError } = await db
+      .from("course_units")
+      .select("id,title,unit_number")
+      .eq("course_id", course.id)
+      .order("unit_number", { ascending: true });
+
+    if (unitsError) {
+      unitList.textContent = "Could not load units: " + unitsError.message;
+    } else if (!units || units.length === 0) {
+      unitList.textContent = "No units linked to this course yet.";
+    } else {
+      const list = document.createElement("ol");
+      for (const unit of units) {
+        const item = document.createElement("li");
+        item.textContent = "Unit " + unit.unit_number + ": " + unit.title;
+        list.append(item);
+      }
+      unitList.replaceChildren(list);
+    }
+  }
+}
+
+async function editCourse(course) {
+  const title = prompt("Course title:", course.title);
+  if (title === null) return;
+  if (!title.trim()) {
+    alert("Course title cannot be empty.");
+    return;
+  }
+
+  const description = prompt("Course description:", course.description || "");
+  if (description === null) return;
+
+  const yearGroup = prompt(
+    "Year group (e.g. Year 6):",
+    course.year_group
+  );
+  if (yearGroup === null) return;
+
+  const allowedYears = ["Year 6","Year 7","Year 8","Year 9","Year 10","Year 11"];
+  if (!allowedYears.includes(yearGroup.trim())) {
+    alert("Please enter one of the listed year groups, exactly as shown.");
+    return;
+  }
+
+  const { error } = await db
+    .from("courses")
+    .update({
+      title: title.trim(),
+      description: description.trim() || null,
+      year_group: yearGroup.trim()
+    })
+    .eq("id", course.id);
+
+  if (error) {
+    alert("Could not update course: " + error.message);
+    return;
+  }
+
+  showMessage("Course details updated.", "success");
+  await loadCourses();
+}
+
+async function addUnit(course) {
+  const title = prompt("Enter the unit title:");
+  if (title === null) return;
+  if (!title.trim()) {
+    alert("Unit title cannot be empty.");
+    return;
+  }
+
+  const numberText = prompt("Enter the unit number:");
+  if (numberText === null) return;
+
+  const unitNumber = Number(numberText);
+  if (!Number.isInteger(unitNumber) || unitNumber < 1) {
+    alert("Enter a positive whole number for the unit number.");
+    return;
+  }
+
+  const { data: existing, error: lookupError } = await db
+    .from("course_units")
+    .select("id")
+    .eq("course_id", course.id)
+    .eq("unit_number", unitNumber);
+
+  if (lookupError) {
+    alert("Could not check existing units: " + lookupError.message);
+    return;
+  }
+
+  if (existing && existing.length > 0) {
+    alert("This unit number is already used in this course.");
+    return;
+  }
+
+  const { error } = await db
+    .from("course_units")
+    .insert({
+      title: title.trim(),
+      year_group: course.year_group,
+      unit_number: unitNumber,
+      course_id: course.id
+    });
+
+  if (error) {
+    alert("Could not create unit: " + error.message);
+    return;
+  }
+
+  showMessage("Unit created successfully.", "success");
+  await loadCourses();
+}
+
+async function togglePublish(course) {
+  const nextValue = !course.is_published;
+  const action = nextValue ? "publish" : "unpublish";
+
+  if (!confirm("Are you sure you want to " + action + " this course?")) return;
+
+  const { error } = await db
+    .from("courses")
+    .update({ is_published: nextValue })
+    .eq("id", course.id);
+
+  if (error) {
+    alert("Could not change publishing status: " + error.message);
+    return;
+  }
+
+  showMessage(nextValue ? "Course published." : "Course unpublished.", "success");
+  await loadCourses();
+}
+
+courseForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  if (!teacherVerified) return;
+
+  createCourseBtn.disabled = true;
+  createCourseBtn.textContent = "Creating...";
+
+  const title = document.getElementById("courseTitle").value.trim();
+  const yearGroup = document.getElementById("yearGroup").value;
+  const description = document.getElementById("courseDescription").value.trim();
+
+  const { data: lastCourses, error: orderError } = await db
+    .from("courses")
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1);
+
+  if (orderError) {
+    showMessage("Could not determine course order: " + orderError.message, "error");
+    createCourseBtn.disabled = false;
+    createCourseBtn.textContent = "Create Course";
+    return;
+  }
+
+  const nextOrder = lastCourses && lastCourses.length
+    ? Number(lastCourses[0].sort_order) + 1
+    : 1;
+
+  const { error } = await db.from("courses").insert({
+    title,
+    year_group: yearGroup,
+    description: description || null,
+    sort_order: nextOrder,
+    is_published: false
+  });
+
+  createCourseBtn.disabled = false;
+  createCourseBtn.textContent = "Create Course";
+
+  if (error) {
+    showMessage("Could not create course: " + error.message, "error");
+    return;
+  }
+
+  courseForm.reset();
+  showMessage("Course created successfully as a draft.", "success");
+  await loadCourses();
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async function() {
+  await db.auth.signOut();
+  window.location.replace("login.html");
+});
+
+checkTeacher();
+</script>
+</body>
+</html>
