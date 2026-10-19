@@ -40,6 +40,10 @@ textarea{min-height:75px;resize:vertical}.form-grid{display:grid;grid-template-c
 .empty{padding:12px;color:#65748b;background:#f8fafc;border-radius:8px;margin:8px 0}
 #loading{text-align:center;padding:30px}footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 @media(max-width:650px){.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}header h1{font-size:21px}.panel{padding:17px}}
+
+.modal-backdrop{position:fixed;inset:0;background:#0b1830aa;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow:auto;z-index:1000}
+.modal-backdrop.open{display:flex}.modal{background:#fff;width:min(900px,100%);border-radius:14px;padding:22px;box-shadow:0 20px 60px #0003}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head h2{margin:0}.question-row{border:1px solid #dce4ef;border-radius:10px;padding:14px;margin:10px 0}.question-row p{white-space:pre-wrap}.hint{font-size:13px;color:#65748b;line-height:1.5}.hidden{display:none!important}
+
 </style>
 </head>
 <body>
@@ -72,6 +76,42 @@ textarea{min-height:75px;resize:vertical}.form-grid{display:grid;grid-template-c
     <div id="coursesList">Loading courses...</div>
   </section>
 </main>
+
+<div class="modal-backdrop" id="questionModal" role="dialog" aria-modal="true" aria-labelledby="questionModalTitle">
+ <section class="modal">
+  <div class="modal-head"><h2 id="questionModalTitle">Manage Test Questions</h2><button type="button" class="secondary" id="closeQuestionModal">Close</button></div>
+  <p id="questionTestInfo" class="muted"></p><div id="questionMessage" class="notice">Questions are saved as part of this test.</div>
+  <div id="questionList"></div>
+  <h3>Add a question</h3>
+  <form id="questionForm">
+   <div class="form-grid">
+    <div><label for="questionType">Question type</label><select id="questionType" required>
+     <option value="mcq">Multiple choice</option><option value="true_false">True / False</option><option value="short_answer">Short answer</option><option value="writing">Writing task</option><option value="dropdown_gap">Dropdown gap-fill</option><option value="open_gap">Open gap-fill (up to 4 accepted answers per gap)</option><option value="multiple_matching">Multiple matching (sentences and profiles)</option><option value="dialogue_gap">Dialogue gap-fill (each option used once)</option>
+    </select></div>
+    <div><label for="questionMarks">Marks</label><input id="questionMarks" type="number" min="0.5" step="0.5" value="1" required></div>
+    <div class="full"><label for="questionText">Question instructions / passage</label><textarea id="questionText" required placeholder="Enter the question, passage, or task instructions"></textarea></div>
+    <div class="full"><label for="questionData">Question data (one item per line where applicable)</label><textarea id="questionData" rows="6" placeholder="MCQ / Dropdown: one option per line
+Open gap: separate gaps with [gap]
+Matching: put sentences and profiles in the format shown below"></textarea><p class="hint" id="questionHelp">Choose a type to see the expected format.</p></div>
+    <div class="full"><label for="questionAnswer">Correct answer / answer key</label><textarea id="questionAnswer" rows="3" placeholder="For MCQ use the exact option; for True/False use True or False; for open gaps separate gaps with | and accepted answers with ;"></textarea></div>
+    <div class="full"><label for="questionExplanation">Explanation shown after submission (optional)</label><textarea id="questionExplanation" placeholder="Explain why the answer is correct"></textarea></div>
+   </div>
+   <div class="actions"><button class="primary" type="submit" id="saveQuestionBtn">Save Question</button></div>
+  </form>
+  <div class="section-title"><h3>Exam-wide settings</h3></div>
+  <form id="testSettingsForm"><div class="form-grid">
+   <div><label for="testDurationSetting">Duration (minutes)</label><input id="testDurationSetting" type="number" min="1" step="1"></div>
+   <div><label for="writingMinWords">Writing minimum words</label><input id="writingMinWords" type="number" min="0" step="1" value="0"></div>
+   <div><label for="writingMaxWords">Writing maximum words</label><input id="writingMaxWords" type="number" min="1" step="1" value="250"></div>
+   <div class="full"><label for="writingNotes">Student task notes / instructions</label><textarea id="writingNotes"></textarea></div>
+   <div><label><input id="settingShowAnswers" type="checkbox" style="width:auto"> Show correct answers after submission</label></div>
+   <div><label><input id="settingShowExplanations" type="checkbox" style="width:auto"> Show explanations after submission</label></div>
+   <div><label><input id="settingAllowReview" type="checkbox" style="width:auto"> Allow review after submission</label></div>
+   <div><label><input id="settingRequireApproval" type="checkbox" checked style="width:auto"> Require teacher approval for writing marks</label></div>
+  </div><div class="actions"><button class="primary" type="submit">Save Exam Settings</button></div></form>
+ </section>
+</div>
+
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
@@ -256,6 +296,93 @@ async function toggleSessionPublish(session) {
   showMessage(next ? "Session published." : "Session unpublished.", "success");
   await loadCourses();
 }
+
+let activeTestForQuestions = null;
+const questionModal = document.getElementById("questionModal");
+const questionList = document.getElementById("questionList");
+const questionMessage = document.getElementById("questionMessage");
+function setQuestionMessage(text, type="") { questionMessage.textContent=text; questionMessage.className="notice"+(type?" "+type:""); }
+const typeHelp = {
+ mcq:"Enter each option on a separate line. Correct answer must match an option exactly.",
+ true_false:"Use True or False as the correct answer.",
+ short_answer:"Enter accepted answers separated by semicolons (;).",
+ writing:"Enter task instructions in the question text. Answer key can contain a rubric or marking guidance.",
+ dropdown_gap:"Write passage with [gap] where each dropdown belongs. Enter dropdown options one per line. Correct answers in order separated by |.",
+ open_gap:"Write passage with [gap] for each answer field. For each gap, accepted answers are separated by ; and gaps by |. Maximum four accepted answers per gap.",
+ multiple_matching:"Question data format: write a line starting SENTENCES:, then one sentence per line; then PROFILES:, then one profile per line. Maximum 15 in each list. Answer key: sentence-number=profile-number, one pair per line. A profile may be reused.",
+ dialogue_gap:"Write dialogue with [gap] markers. Question data contains the numbered sentence options, one per line. Answer key: one option number per gap, separated by |. Each option can be used only once."
+};
+document.getElementById("questionType").addEventListener("change",()=>{document.getElementById("questionHelp").textContent=typeHelp[document.getElementById("questionType").value]||"";});
+document.getElementById("closeQuestionModal").addEventListener("click",()=>questionModal.classList.remove("open"));
+questionModal.addEventListener("click",e=>{if(e.target===questionModal)questionModal.classList.remove("open")});
+async function openQuestionManager(test){
+ activeTestForQuestions=test;
+ document.getElementById("questionTestInfo").textContent="Test: "+test.title+" · Current total: "+(test.total_marks??0)+" marks";
+ document.getElementById("testDurationSetting").value=test.duration_minutes||45;
+ document.getElementById("writingMinWords").value=test.writing_min_words??0;
+ document.getElementById("writingMaxWords").value=test.writing_max_words??250;
+ document.getElementById("writingNotes").value=test.writing_notes||"";
+ document.getElementById("settingShowAnswers").checked=!!test.show_answers_after_submit;
+ document.getElementById("settingShowExplanations").checked=!!test.show_explanations_after_submit;
+ document.getElementById("settingAllowReview").checked=!!test.allow_review_after_submit;
+ document.getElementById("settingRequireApproval").checked=test.require_teacher_approval!==false;
+ document.getElementById("questionForm").reset();document.getElementById("questionMarks").value="1";
+ questionModal.classList.add("open"); await loadQuestionList();
+}
+async function loadQuestionList(){
+ if(!activeTestForQuestions)return;
+ questionList.textContent="Loading questions...";
+ const {data:qs,error}=await db.from("unit_test_questions").select("id,question_text,question_type,options,correct_answer,marks,sort_order").eq("test_id",activeTestForQuestions.id).order("sort_order",{ascending:true});
+ if(error){questionList.textContent="Could not load questions: "+error.message;return;}
+ questionList.replaceChildren();
+ if(!qs||!qs.length)questionList.append(make("div","empty","No questions added yet."));
+ for(const q of qs){const row=make("div","question-row");row.append(make("strong","","Q"+q.sort_order+" · "+q.question_type+" · "+q.marks+" marks"),make("p","",q.question_text));
+  const actions=make("div","actions");addButton(actions,"Delete question","danger",async()=>{if(!confirm("Delete this question?"))return;const {error}=await db.from("unit_test_questions").delete().eq("id",q.id);if(error){setQuestionMessage("Delete failed: "+error.message,"error");return;}setQuestionMessage("Question deleted.","success");await loadQuestionList();await syncTestMarks();});row.append(actions);questionList.append(row);}
+}
+function parseQuestionPayload(type, raw){
+ const lines=raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ if(type==="mcq"||type==="dropdown_gap"||type==="dialogue_gap")return {options:lines};
+ if(type==="multiple_matching"){
+  const s=raw.split(/PROFILES:/i);const left=s[0].replace(/SENTENCES:/i,"").trim();return {sentences:left.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,15),profiles:(s[1]||"").split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,15)};
+ }
+ return {raw:raw};
+}
+document.getElementById("questionForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!activeTestForQuestions)return;
+ const type=document.getElementById("questionType").value,text=document.getElementById("questionText").value.trim(),raw=document.getElementById("questionData").value,answer=document.getElementById("questionAnswer").value.trim(),marks=Number(document.getElementById("questionMarks").value),explanation=document.getElementById("questionExplanation").value.trim();
+ if(!text||!Number.isFinite(marks)||marks<=0){alert("Enter question text and a positive mark value.");return;}
+ const payload=parseQuestionPayload(type,raw);
+ if(type==="multiple_matching"&&(payload.sentences.length>15||payload.profiles.length>15)){alert("Maximum 15 sentences and 15 profiles.");return;}
+ if(type==="multiple_matching"&&(!payload.sentences.length||!payload.profiles.length)){alert("For matching, use SENTENCES: followed by sentences, then PROFILES: followed by profiles.");return;}
+ if(type==="open_gap"&&answer.split("|").some(a=>a.split(";").filter(Boolean).length>4)){alert("Maximum four accepted answers per gap.");return;}
+ if(["mcq","dropdown_gap","dialogue_gap"].includes(type)&&!payload.options.length){alert("Enter the answer options, one per line.");return;}
+ const {data:existing,error:lookupErr}=await db.from("unit_test_questions").select("sort_order").eq("test_id",activeTestForQuestions.id).order("sort_order",{ascending:false}).limit(1);
+ if(lookupErr){setQuestionMessage("Could not determine question order: "+lookupErr.message,"error");return;}
+ const row={test_id:activeTestForQuestions.id,question_text:text,question_type:type,options:{...payload,explanation},correct_answer:answer||null,marks,sort_order:existing?.length?Number(existing[0].sort_order)+1:1};
+ const btn=document.getElementById("saveQuestionBtn");btn.disabled=true;
+ const {error}=await db.from("unit_test_questions").insert(row);btn.disabled=false;
+ if(error){setQuestionMessage("Could not save question: "+error.message,"error");return;}
+ e.target.reset();document.getElementById("questionMarks").value="1";setQuestionMessage("Question saved.","success");await loadQuestionList();await syncTestMarks();
+});
+async function syncTestMarks(){
+ if(!activeTestForQuestions)return;
+ const {data,error}=await db.from("unit_test_questions").select("marks").eq("test_id",activeTestForQuestions.id);
+ if(error){setQuestionMessage("Questions saved, but marks could not be recalculated: "+error.message,"error");return;}
+ const total=(data||[]).reduce((sum,q)=>sum+Number(q.marks||0),0);
+ const {error:updateError}=await db.from("unit_tests").update({total_marks:total}).eq("id",activeTestForQuestions.id);
+ if(updateError){setQuestionMessage("Question saved, but total marks could not be updated. Run the setup SQL first. "+updateError.message,"error");return;}
+ activeTestForQuestions.total_marks=total;document.getElementById("questionTestInfo").textContent="Test: "+activeTestForQuestions.title+" · Current total: "+total+" marks";
+}
+document.getElementById("testSettingsForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!activeTestForQuestions)return;
+ const duration=Number(document.getElementById("testDurationSetting").value),min=Number(document.getElementById("writingMinWords").value),max=Number(document.getElementById("writingMaxWords").value);
+ if(!Number.isInteger(duration)||duration<1||!Number.isInteger(min)||min<0||!Number.isInteger(max)||max<1||max<min){alert("Check duration and writing word limits.");return;}
+ const update={duration_minutes:duration,writing_min_words:min,writing_max_words:max,writing_notes:document.getElementById("writingNotes").value.trim()||null,show_answers_after_submit:document.getElementById("settingShowAnswers").checked,show_explanations_after_submit:document.getElementById("settingShowExplanations").checked,allow_review_after_submit:document.getElementById("settingAllowReview").checked,require_teacher_approval:document.getElementById("settingRequireApproval").checked};
+ const {error}=await db.from("unit_tests").update(update).eq("id",activeTestForQuestions.id);
+ if(error){setQuestionMessage("Could not save settings. Run the setup SQL first. "+error.message,"error");return;}
+ Object.assign(activeTestForQuestions,update);setQuestionMessage("Exam settings saved.","success");
+});
+
 async function loadTests(unit, area) {
   const {data:tests, error} = await db.from("unit_tests")
     .select("id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published")
@@ -277,6 +404,7 @@ async function loadTests(unit, area) {
       link.href = test.file_url; link.target = "_blank"; link.rel = "noopener noreferrer"; box.append(link);
     }
     const actions = make("div","actions");
+    addButton(actions, "Manage Questions", "secondary", () => openQuestionManager(test));
     addButton(actions,test.is_published ? "Unpublish Test" : "Publish Test",
       test.is_published ? "danger" : "primary", () => toggleTestPublish(test));
     box.append(actions);
