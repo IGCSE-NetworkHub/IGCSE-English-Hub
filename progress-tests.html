@@ -1,27 +1,642 @@
+ 
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progress & Tests - IGCSE English Hub</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress & Tests - IGCSE English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#f5f7fa;color:#222}header{background:#fff;padding:24px;text-align:center;border-bottom:1px solid #ddd}.container{max-width:1000px;margin:30px auto;padding:16px}.box,.test-card,.question{background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px #0000000d;margin-bottom:16px}button,.btn{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:bold;background:#1769d2;color:#fff;text-decoration:none;display:inline-block}button:disabled{opacity:.5}.secondary{background:#e8eef7;color:#183451}.muted{color:#65748b}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.notice{padding:12px;border-radius:8px;background:#e8f2ff;margin:12px 0}.error{background:#fff0f0;color:#a21c1c}.question textarea,.question input[type=text]{width:100%;padding:10px;border:1px solid #ccd5e2;border-radius:8px;font:inherit}.question label{display:block;margin:8px 0}.hidden{display:none!important}.timer{font-size:20px;font-weight:bold;color:#a21c1c}.back{display:inline-block;margin:15px 0}footer{text-align:center;padding:25px;color:#666}@media(max-width:650px){.box,.question{padding:15px}}</style></head><body>
-<header><h1>Progress & Tests</h1><p>IGCSE English Hub</p></header><main class="container"><div id="notice" class="notice">Checking your account...</div><section class="box"><h2>Your Progress</h2><p class="muted">Your grades and learning progress will appear here as your submissions are recorded.</p><div id="progressSummary"></div></section><section class="box"><h2>Published Tests</h2><div id="testsList">Loading tests...</div></section><section id="examPanel" class="box hidden"><div class="row"><div><h2 id="examTitle">Test</h2><p id="examDescription" class="muted"></p></div><div id="timer" class="timer"></div></div><div id="examNotice" class="notice"></div><form id="examForm"><div id="questionsArea"></div><div class="row"><button type="submit" id="submitExam">Submit Test</button><button type="button" id="cancelExam" class="secondary">Close</button></div></form><div id="examResult"></div></section><a href="dashboard.html" class="back">← Back to My Learning Hub</a></main><footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:#f5f7fa;color:#222}
+header{background:#fff;padding:24px;text-align:center;border-bottom:1px solid #ddd}
+.container{max-width:1000px;margin:30px auto;padding:16px}
+.box,.test-card,.question{background:white;padding:22px;border-radius:12px;box-shadow:0 2px 8px #0000000d;margin-bottom:16px}
+button,.btn{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:bold;background:#1769d2;color:#fff;text-decoration:none;display:inline-block}
+button:disabled{opacity:.5;cursor:not-allowed}
+.secondary{background:#e8eef7;color:#183451}
+.muted{color:#65748b}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.notice{padding:12px;border-radius:8px;background:#e8f2ff;margin:12px 0}
+.error{background:#fff0f0;color:#a21c1c}
+.question textarea,.question input[type=text]{width:100%;padding:10px;border:1px solid #ccd5e2;border-radius:8px;font:inherit}
+.question label{display:block;margin:8px 0}
+.hidden{display:none!important}
+.timer{font-size:20px;font-weight:bold;color:#a21c1c}
+.back{display:inline-block;margin:15px 0}
+footer{text-align:center;padding:25px;color:#666}
+.test-card h3{margin-top:0}
+.question select,.question input[type=file]{max-width:100%}
+@media(max-width:650px){.box,.question{padding:15px}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Progress & Tests</h1>
+<p>IGCSE English Hub</p>
+</header>
+
+<main class="container">
+<div id="notice" class="notice">Checking your account...</div>
+
+<section class="box">
+<h2>Your Progress</h2>
+<p class="muted">Your grades and learning progress will appear here as your submissions are recorded.</p>
+<div id="progressSummary"></div>
+</section>
+
+<section class="box">
+<h2>Published Tests</h2>
+<div id="testsList">Loading tests...</div>
+</section>
+
+<section id="examPanel" class="box hidden">
+<div class="row">
+<div>
+<h2 id="examTitle">Test</h2>
+<p id="examDescription" class="muted"></p>
+</div>
+<div id="timer" class="timer"></div>
+</div>
+
+<div id="examNotice" class="notice"></div>
+
+<form id="examForm">
+<div id="questionsArea"></div>
+<div class="row">
+<button type="submit" id="submitExam">Submit Test</button>
+<button type="button" id="cancelExam" class="secondary">Close</button>
+</div>
+</form>
+
+<div id="examResult"></div>
+</section>
+
+<a href="dashboard.html" class="back">← Back to My Learning Hub</a>
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
 <script>
-const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const notice=document.getElementById('notice'),testsList=document.getElementById('testsList'),examPanel=document.getElementById('examPanel');let currentUser=null,currentTest=null,currentQuestions=[],timerHandle=null,deadline=null;
-function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}function msg(t,error=false){notice.textContent=t;notice.className='notice'+(error?' error':'')}
-async function init(){const {data,error}=await db.auth.getSession();if(error||!data.session){msg('Please log in to view tests.',true);testsList.textContent='You need to sign in first.';return}currentUser=data.session.user;msg('Signed in. Loading published tests.');await loadTests();await loadProgress()}
-async function loadTests(){testsList.textContent='Loading...';const {data:tests,error}=await db.from('unit_tests').select('id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published,writing_min_words,writing_max_words,writing_notes,show_answers_after_submit,show_explanations_after_submit,allow_review_after_submit,require_teacher_approval').eq('is_published',true).order('sort_order',{ascending:true});if(error){testsList.textContent='Could not load tests: '+error.message;return}testsList.replaceChildren();if(!tests?.length){testsList.textContent='No published tests are available yet.';return}for(const test of tests){const card=el('article','test-card');card.append(el('h3','',test.title),el('p','muted',(test.description||'')+' · '+(test.duration_minutes||45)+' minutes · '+(test.total_marks||0)+' marks'));if(test.test_type==='pdf'&&test.file_url){const a=el('a','btn','Download test PDF');a.href=test.file_url;a.target='_blank';a.rel='noopener noreferrer';card.append(a)}else{const b=el('button','','Start test');b.addEventListener('click',()=>startTest(test));card.append(b)}testsList.append(card)}}
-async function loadProgress(){const {data,error}=await db.from('test_submissions').select('id,test_id,status,teacher_score,auto_score,submitted_at').eq('student_user_id',currentUser.id);if(error){document.getElementById('progressSummary').textContent='Progress details will appear after the assessment setup is complete.';return}const done=(data||[]).filter(x=>x.status!=='in_progress').length;document.getElementById('progressSummary').textContent='Submitted tests: '+done+(data?.length?' · Results are shown after teacher approval where required.':'')}
-function parseLines(s){return (s||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
-function makeInput(q,index,container){const name='q_'+q.id;const type=q.question_type;const opts=q.options||{};const answer=q.correct_answer||'';const field=el('div','question');field.append(el('h3','',`Question ${q.sort_order||index+1} · ${q.marks} marks`),el('p','',q.question_text));
- if(type==='mcq'||type==='true_false'){const arr=type==='true_false'?['True','False']:(opts.options||[]);arr.forEach((v,i)=>{const label=el('label');const input=document.createElement('input');input.type='radio';input.name=name;input.value=v;label.append(input,document.createTextNode(' '+v));field.append(label)})}
- else if(type==='dropdown_gap'||type==='dialogue_gap'){const arr=opts.options||[];const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;for(let i=0;i<gaps;i++){const select=document.createElement('select');select.name=name+'_'+i;select.style.width='100%';select.style.padding='10px';select.style.margin='6px 0';select.append(new Option('Choose an answer',''));arr.forEach((v,j)=>select.append(new Option(type==='dialogue_gap'?(j+1)+'. '+v:v,type==='dialogue_gap'?String(j+1):v)));field.append(select)}}
- else if(type==='open_gap'){const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;for(let i=0;i<gaps;i++){const input=el('input');input.type='text';input.name=name+'_'+i;input.placeholder='Answer '+(i+1);field.append(input)}}
- else if(type==='multiple_matching'){const statements=opts.sentences||[],profiles=opts.profiles||[];const h=el('h4','','Profiles');profiles.forEach((p,i)=>field.append(el('p','',`${i+1}. ${p}`)));statements.forEach((s,i)=>{field.append(el('p','',`${i+1}. ${s}`));const select=document.createElement('select');select.name=name+'_'+i;select.style.padding='8px';select.append(new Option('Choose profile',''));profiles.forEach((p,j)=>select.append(new Option(String(j+1),String(j+1))));field.append(select)})}
- else if(type==='writing'){const min=currentTest.writing_min_words||0,max=currentTest.writing_max_words||250;const info=el('p','muted',`Word limit: ${min}–${max} words. ${currentTest.writing_notes||''}`);field.append(info);const ta=document.createElement('textarea');ta.name=name;ta.rows=10;ta.placeholder='Write your response here...';const counter=el('p','muted','Words: 0');ta.addEventListener('input',()=>{const words=ta.value.match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu)||[];counter.textContent='Words: '+words.length;});field.append(ta,counter);const file=document.createElement('input');file.type='file';file.accept='.pdf,image/jpeg,image/png,image/webp';file.name=name+'_file';field.append(el('p','muted','If your teacher allows a handwritten upload, attach a PDF or clear page image.'),file)}
- else {const input=el('input');input.type='text';input.name=name;input.placeholder='Your answer';field.append(input)}container.append(field)}
-async function startTest(test){const {data:prior,error:priorError}=await db.from('test_submissions').select('id,status,submitted_at').eq('test_id',test.id).eq('student_user_id',currentUser.id).maybeSingle();if(priorError){msg('Could not check previous attempts: '+priorError.message,true);return}if(prior&&prior.status!=='in_progress'){msg('This test has already been submitted and cannot be attempted again.',true);return}const {data:qs,error}=await db.from('unit_test_questions').select('id,question_text,question_type,options,correct_answer,marks,sort_order').eq('test_id',test.id).order('sort_order',{ascending:true});if(error){msg('Could not load questions: '+error.message,true);return}if(!qs?.length){msg('This test has no questions yet. Please contact your teacher.',true);return}currentTest=test;currentQuestions=qs;document.getElementById('examTitle').textContent=test.title;document.getElementById('examDescription').textContent=test.description||'';document.getElementById('examNotice').textContent='Your answers are submitted together at the end. Writing marks may require teacher approval.';document.getElementById('examResult').replaceChildren();const area=document.getElementById('questionsArea');area.replaceChildren();qs.forEach((q,i)=>makeInput(q,i,area));examPanel.classList.remove('hidden');examPanel.scrollIntoView({behavior:'smooth'});document.getElementById('submitExam').disabled=false;deadline=Date.now()+(Number(test.duration_minutes||45)*60000);updateTimer();clearInterval(timerHandle);timerHandle=setInterval(updateTimer,1000);}
-function updateTimer(){if(!deadline)return;const left=Math.max(0,deadline-Date.now()),mins=Math.floor(left/60000),secs=Math.floor(left%60000/1000);document.getElementById('timer').textContent=`Time left: ${mins}:${String(secs).padStart(2,'0')}`;if(left<=0){clearInterval(timerHandle);submitCurrentTest(true)}}
-async function submitCurrentTest(auto=false){if(!currentTest)return;const form=document.getElementById('examForm');const fd=new FormData(form),answers={};for(const q of currentQuestions){const key='q_'+q.id;if(['dropdown_gap','open_gap','dialogue_gap','multiple_matching'].includes(q.question_type)){const values=[];let i=0;while(fd.has(key+'_'+i)){values.push(String(fd.get(key+'_'+i)||''));i++}answers[q.id]=values}else{answers[q.id]=String(fd.get(key)||'')}}
- const writing=currentQuestions.filter(q=>q.question_type==='writing').map(q=>({question_id:q.id,text:answers[q.id]||''}));const totalWriting=writing.map(x=>x.text).join('\n\n');let score=0;for(const q of currentQuestions){if(['writing','short_answer'].includes(q.question_type))continue;const user=answers[q.id];const expected=String(q.correct_answer||'').trim();if(Array.isArray(user)){const keys=expected.split('|').map(x=>x.trim());if(user.every((v,i)=>v&&keys[i]&&keys[i].split(';').map(a=>a.trim().toLowerCase()).includes(v.trim().toLowerCase())))score+=Number(q.marks||0)}else if(String(user).trim().toLowerCase()===expected.toLowerCase())score+=Number(q.marks||0)}
- document.getElementById('submitExam').disabled=true;const status=writing.length?'pending_review':(auto?'auto_submitted':'submitted');const row={test_id:currentTest.id,student_user_id:currentUser.id,answers,writing_text:totalWriting||null,status,auto_score:score,submitted_at:new Date().toISOString()};const {error}=await db.from('test_submissions').upsert(row,{onConflict:'test_id,student_user_id'});if(error){document.getElementById('submitExam').disabled=false;document.getElementById('examResult').textContent='Submission failed: '+error.message;return}clearInterval(timerHandle);deadline=null;document.getElementById('examForm').classList.add('hidden');document.getElementById('examResult').append(el('h3','','Test submitted'),el('p','',writing.length?'Your writing is waiting for teacher review.':'Your objective answers have been submitted.'));if(currentTest.allow_review_after_submit){for(const q of currentQuestions){if(!currentTest.show_answers_after_submit&&!currentTest.show_explanations_after_submit)break;const box=el('div','question');box.append(el('strong','',`Question ${q.sort_order}`));if(currentTest.show_answers_after_submit)box.append(el('p','',`Correct answer: ${q.correct_answer||'Teacher review required'}`));if(currentTest.show_explanations_after_submit&&q.options?.explanation)box.append(el('p','',q.options.explanation));document.getElementById('examResult').append(box)}}await loadProgress();msg('Submission recorded.',false)}
-document.getElementById('examForm').addEventListener('submit',e=>{e.preventDefault();if(confirm('Submit this test now? You will not be able to attempt it again.'))submitCurrentTest(false)});document.getElementById('cancelExam').addEventListener('click',()=>{if(confirm('Close this test? Your current answers will not be submitted.')){clearInterval(timerHandle);deadline=null;examPanel.classList.add('hidden');document.getElementById('examForm').classList.remove('hidden')}});init();
-</script></body></html>
+const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const notice=document.getElementById('notice');
+const testsList=document.getElementById('testsList');
+const examPanel=document.getElementById('examPanel');
+
+let currentUser=null;
+let currentTest=null;
+let currentQuestions=[];
+let currentSubmissionId=null;
+let timerHandle=null;
+let deadline=null;
+let submitting=false;
+
+function el(tag,cls,txt){
+    const n=document.createElement(tag);
+    if(cls)n.className=cls;
+    if(txt!==undefined)n.textContent=txt;
+    return n;
+}
+
+function msg(t,error=false){
+    notice.textContent=t;
+    notice.className='notice'+(error?' error':'');
+}
+
+async function init(){
+    const {data,error}=await db.auth.getSession();
+
+    if(error||!data.session){
+        msg('Please log in to view tests.',true);
+        testsList.textContent='You need to sign in first.';
+        return;
+    }
+
+    currentUser=data.session.user;
+    msg('Signed in. Loading published tests.');
+
+    await loadTests();
+    await loadProgress();
+}
+
+async function loadTests(){
+    testsList.textContent='Loading...';
+
+    const {data:tests,error}=await db
+        .from('unit_tests')
+        .select('id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published,writing_min_words,writing_max_words,writing_notes,show_answers_after_submit,show_explanations_after_submit,allow_review_after_submit,require_teacher_approval')
+        .eq('is_published',true)
+        .order('sort_order',{ascending:true});
+
+    if(error){
+        testsList.textContent='Could not load tests: '+error.message;
+        return;
+    }
+
+    testsList.replaceChildren();
+
+    if(!tests?.length){
+        testsList.textContent='No published tests are available yet.';
+        return;
+    }
+
+    for(const test of tests){
+        const card=el('article','test-card');
+
+        card.append(
+            el('h3','',test.title),
+            el(
+                'p',
+                'muted',
+                (test.description||'')+' · '+
+                (test.duration_minutes||45)+' minutes · '+
+                (test.total_marks||0)+' marks'
+            )
+        );
+
+        if(test.test_type==='pdf'&&test.file_url){
+            const a=el('a','btn','Download test PDF');
+            a.href=test.file_url;
+            a.target='_blank';
+            a.rel='noopener noreferrer';
+            card.append(a);
+        }else{
+            const b=el('button','','Start test');
+            b.addEventListener('click',()=>startTest(test));
+            card.append(b);
+        }
+
+        testsList.append(card);
+    }
+}
+
+async function loadProgress(){
+    const {data,error}=await db
+        .from('test_submissions')
+        .select('id,test_id,status,teacher_score,auto_score,submitted_at')
+        .eq('student_user_id',currentUser.id);
+
+    if(error){
+        document.getElementById('progressSummary').textContent=
+            'Progress details could not be loaded.';
+        return;
+    }
+
+    const done=(data||[]).filter(x=>x.status!=='in_progress').length;
+
+    document.getElementById('progressSummary').textContent=
+        'Submitted tests: '+done+
+        (data?.length?' · Results are shown after teacher approval where required.':'');
+}
+
+function makeInput(q,index,container){
+    const name='q_'+q.id;
+    const type=q.question_type;
+    const opts=q.options||{};
+    const field=el('div','question');
+
+    field.append(
+        el('h3','',`Question ${q.sort_order||index+1} · ${q.marks} marks`),
+        el('p','',q.question_text)
+    );
+
+    if(type==='mcq'||type==='true_false'){
+        const arr=type==='true_false'
+            ?['True','False']
+            :(opts.options||[]);
+
+        arr.forEach(v=>{
+            const label=el('label');
+            const input=document.createElement('input');
+
+            input.type='radio';
+            input.name=name;
+            input.value=v;
+
+            label.append(input,document.createTextNode(' '+v));
+            field.append(label);
+        });
+    }
+    else if(type==='dropdown_gap'||type==='dialogue_gap'){
+        const arr=opts.options||[];
+        const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;
+
+        for(let i=0;i<gaps;i++){
+            const select=document.createElement('select');
+
+            select.name=name+'_'+i;
+            select.style.width='100%';
+            select.style.padding='10px';
+            select.style.margin='6px 0';
+
+            select.append(new Option('Choose an answer',''));
+
+            arr.forEach((v,j)=>{
+                select.append(
+                    new Option(
+                        type==='dialogue_gap'?(j+1)+'. '+v:v,
+                        type==='dialogue_gap'?String(j+1):v
+                    )
+                );
+            });
+
+            field.append(select);
+        }
+    }
+    else if(type==='open_gap'){
+        const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;
+
+        for(let i=0;i<gaps;i++){
+            const input=el('input');
+            input.type='text';
+            input.name=name+'_'+i;
+            input.placeholder='Answer '+(i+1);
+            field.append(input);
+        }
+    }
+    else if(type==='multiple_matching'){
+        const statements=opts.sentences||[];
+        const profiles=opts.profiles||[];
+
+        field.append(el('h4','','Profiles'));
+
+        profiles.forEach((p,i)=>{
+            field.append(el('p','',`${i+1}. ${p}`));
+        });
+
+        statements.forEach((s,i)=>{
+            field.append(el('p','',`${i+1}. ${s}`));
+
+            const select=document.createElement('select');
+            select.name=name+'_'+i;
+            select.style.padding='8px';
+
+            select.append(new Option('Choose profile',''));
+
+            profiles.forEach((p,j)=>{
+                select.append(new Option(String(j+1),String(j+1)));
+            });
+
+            field.append(select);
+        });
+    }
+    else if(type==='writing'){
+        const min=currentTest.writing_min_words||0;
+        const max=currentTest.writing_max_words||250;
+
+        field.append(
+            el(
+                'p',
+                'muted',
+                `Word limit: ${min}–${max} words. ${currentTest.writing_notes||''}`
+            )
+        );
+
+        const ta=document.createElement('textarea');
+        ta.name=name;
+        ta.rows=10;
+        ta.placeholder='Write your response here...';
+
+        const counter=el('p','muted','Words: 0');
+
+        ta.addEventListener('input',()=>{
+            const words=ta.value.match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu)||[];
+            counter.textContent='Words: '+words.length;
+        });
+
+        field.append(ta,counter);
+
+        const file=document.createElement('input');
+        file.type='file';
+        file.accept='.pdf,image/jpeg,image/png,image/webp';
+        file.name=name+'_file';
+
+        field.append(
+            el('p','muted','If your teacher allows a handwritten upload, attach a PDF or clear page image.'),
+            file
+        );
+    }
+    else{
+        const input=el('input');
+        input.type='text';
+        input.name=name;
+        input.placeholder='Your answer';
+        field.append(input);
+    }
+
+    container.append(field);
+}
+
+async function startTest(test){
+    if(!currentUser){
+        msg('Please log in again before starting a test.',true);
+        return;
+    }
+
+    if(submitting)return;
+
+    const {data:prior,error:priorError}=await db
+        .from('test_submissions')
+        .select('id,status,submitted_at')
+        .eq('test_id',test.id)
+        .eq('student_user_id',currentUser.id)
+        .maybeSingle();
+
+    if(priorError){
+        msg('Could not check previous attempts: '+priorError.message,true);
+        return;
+    }
+
+    if(prior&&prior.status!=='in_progress'){
+        msg('This test has already been submitted and cannot be attempted again.',true);
+        return;
+    }
+
+    const {data:qs,error}=await db
+        .from('unit_test_questions')
+        .select('id,question_text,question_type,options,correct_answer,marks,sort_order')
+        .eq('test_id',test.id)
+        .order('sort_order',{ascending:true});
+
+    if(error){
+        msg('Could not load questions: '+error.message,true);
+        return;
+    }
+
+    if(!qs?.length){
+        msg('This test has no questions yet. Please contact your teacher.',true);
+        return;
+    }
+
+    let submissionId=prior?.id||null;
+
+    /*
+      Create the attempt in the state allowed by the INSERT policy.
+      Do not create an attempt until the questions have loaded.
+    */
+    if(!submissionId){
+        const {data:newAttempt,error:insertError}=await db
+            .from('test_submissions')
+            .insert({
+                test_id:test.id,
+                student_user_id:currentUser.id,
+                status:'in_progress'
+            })
+            .select('id')
+            .single();
+
+        if(insertError){
+            msg('Could not start the test: '+insertError.message,true);
+            return;
+        }
+
+        submissionId=newAttempt.id;
+    }
+
+    currentTest=test;
+    currentQuestions=qs;
+    currentSubmissionId=submissionId;
+
+    document.getElementById('examTitle').textContent=test.title;
+    document.getElementById('examDescription').textContent=test.description||'';
+    document.getElementById('examNotice').textContent=
+        'Your answers are submitted together at the end. Writing marks may require teacher approval.';
+    document.getElementById('examResult').replaceChildren();
+
+    const form=document.getElementById('examForm');
+    form.reset();
+    form.classList.remove('hidden');
+
+    const area=document.getElementById('questionsArea');
+    area.replaceChildren();
+
+    qs.forEach((q,i)=>makeInput(q,i,area));
+
+    examPanel.classList.remove('hidden');
+    examPanel.scrollIntoView({behavior:'smooth'});
+
+    document.getElementById('submitExam').disabled=false;
+
+    deadline=Date.now()+(Number(test.duration_minutes||45)*60000);
+
+    updateTimer();
+    clearInterval(timerHandle);
+    timerHandle=setInterval(updateTimer,1000);
+
+    msg('Test started. Your attempt has been saved.');
+}
+
+function updateTimer(){
+    if(!deadline)return;
+
+    const left=Math.max(0,deadline-Date.now());
+    const mins=Math.floor(left/60000);
+    const secs=Math.floor(left%60000/1000);
+
+    document.getElementById('timer').textContent=
+        `Time left: ${mins}:${String(secs).padStart(2,'0')}`;
+
+    if(left<=0){
+        clearInterval(timerHandle);
+        submitCurrentTest(true);
+    }
+}
+
+async function submitCurrentTest(auto=false){
+    if(!currentTest||!currentSubmissionId||submitting)return;
+
+    submitting=true;
+
+    const submitButton=document.getElementById('submitExam');
+    submitButton.disabled=true;
+
+    try{
+        const form=document.getElementById('examForm');
+        const fd=new FormData(form);
+        const answers={};
+
+        for(const q of currentQuestions){
+            const key='q_'+q.id;
+
+            if(['dropdown_gap','open_gap','dialogue_gap','multiple_matching'].includes(q.question_type)){
+                const values=[];
+                let i=0;
+
+                while(fd.has(key+'_'+i)){
+                    values.push(String(fd.get(key+'_'+i)||''));
+                    i++;
+                }
+
+                answers[q.id]=values;
+            }else{
+                answers[q.id]=String(fd.get(key)||'');
+            }
+        }
+
+        const writing=currentQuestions
+            .filter(q=>q.question_type==='writing')
+            .map(q=>({
+                question_id:q.id,
+                text:answers[q.id]||''
+            }));
+
+        const totalWriting=writing.map(x=>x.text).join('\n\n');
+
+        let score=0;
+
+        for(const q of currentQuestions){
+            if(['writing','short_answer'].includes(q.question_type))continue;
+
+            const user=answers[q.id];
+            const expected=String(q.correct_answer||'').trim();
+
+            if(Array.isArray(user)){
+                const keys=expected.split('|').map(x=>x.trim());
+
+                if(user.every((v,i)=>
+                    v&&keys[i]&&
+                    keys[i].split(';')
+                        .map(a=>a.trim().toLowerCase())
+                        .includes(v.trim().toLowerCase())
+                )){
+                    score+=Number(q.marks||0);
+                }
+            }
+            else if(String(user).trim().toLowerCase()===expected.toLowerCase()){
+                score+=Number(q.marks||0);
+            }
+        }
+
+        const status=writing.length
+            ?'pending_review'
+            :(auto?'auto_submitted':'submitted');
+
+        const row={
+            answers:answers,
+            writing_text:totalWriting||null,
+            status:status,
+            auto_score:score,
+            submitted_at:new Date().toISOString()
+        };
+
+        /*
+          Update the existing in-progress attempt.
+          Never use upsert to create a submission with a final status.
+        */
+        const {data:updated,error:updateError}=await db
+            .from('test_submissions')
+            .update(row)
+            .eq('id',currentSubmissionId)
+            .eq('test_id',currentTest.id)
+            .eq('student_user_id',currentUser.id)
+            .eq('status','in_progress')
+            .select('id')
+            .maybeSingle();
+
+        if(updateError)throw updateError;
+
+        if(!updated){
+            throw new Error(
+                'The attempt was not updated. Please refresh the page and check the submission status.'
+            );
+        }
+
+        clearInterval(timerHandle);
+        timerHandle=null;
+        deadline=null;
+
+        form.classList.add('hidden');
+
+        document.getElementById('examResult').append(
+            el('h3','','Test submitted'),
+            el(
+                'p',
+                '',
+                writing.length
+                    ?'Your writing is waiting for teacher review.'
+                    :'Your objective answers have been submitted.'
+            )
+        );
+
+        if(currentTest.allow_review_after_submit){
+            for(const q of currentQuestions){
+                if(!currentTest.show_answers_after_submit&&
+                   !currentTest.show_explanations_after_submit)break;
+
+                const box=el('div','question');
+
+                box.append(el('strong','',`Question ${q.sort_order}`));
+
+                if(currentTest.show_answers_after_submit){
+                    box.append(
+                        el('p','',`Correct answer: ${q.correct_answer||'Teacher review required'}`)
+                    );
+                }
+
+                if(currentTest.show_explanations_after_submit&&q.options?.explanation){
+                    box.append(el('p','',q.options.explanation));
+                }
+
+                document.getElementById('examResult').append(box);
+            }
+        }
+
+        await loadProgress();
+        msg('Submission recorded successfully.');
+
+        currentSubmissionId=null;
+        currentTest=null;
+        currentQuestions=[];
+    }
+    catch(error){
+        submitButton.disabled=false;
+
+        document.getElementById('examResult').textContent=
+            'Submission failed: '+(error.message||'An unexpected error occurred.');
+
+        msg('The test could not be submitted. Your answers are still on the page.',true);
+    }
+    finally{
+        submitting=false;
+    }
+}
+
+document.getElementById('examForm').addEventListener('submit',e=>{
+    e.preventDefault();
+
+    if(!currentSubmissionId||submitting)return;
+
+    if(confirm('Submit this test now? You will not be able to attempt it again.')){
+        submitCurrentTest(false);
+    }
+});
+
+document.getElementById('cancelExam').addEventListener('click',()=>{
+    if(submitting)return;
+
+    if(confirm('Close this test? Your current answers will not be submitted.')){
+        clearInterval(timerHandle);
+        timerHandle=null;
+        deadline=null;
+
+        examPanel.classList.add('hidden');
+        document.getElementById('examForm').classList.remove('hidden');
+
+        /*
+          The attempt remains in_progress.
+          Starting the same test again reuses this attempt.
+        */
+        currentTest=null;
+        currentQuestions=[];
+        currentSubmissionId=null;
+    }
+});
+
+init();
+</script>
+</body>
+</html>
