@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -374,10 +374,6 @@ async function startTest(test){
 
     let submissionId=prior?.id||null;
 
-    /*
-      Create the attempt in the state allowed by the INSERT policy.
-      Do not create an attempt until the questions have loaded.
-    */
     if(!submissionId){
         const {data:newAttempt,error:insertError}=await db
             .from('test_submissions')
@@ -442,6 +438,7 @@ function updateTimer(){
 
     if(left<=0){
         clearInterval(timerHandle);
+        timerHandle=null;
         submitCurrentTest(true);
     }
 }
@@ -486,63 +483,25 @@ async function submitCurrentTest(auto=false){
 
         const totalWriting=writing.map(x=>x.text).join('\n\n');
 
-        let score=0;
-
-        for(const q of currentQuestions){
-            if(['writing','short_answer'].includes(q.question_type))continue;
-
-            const user=answers[q.id];
-            const expected=String(q.correct_answer||'').trim();
-
-            if(Array.isArray(user)){
-                const keys=expected.split('|').map(x=>x.trim());
-
-                if(user.every((v,i)=>
-                    v&&keys[i]&&
-                    keys[i].split(';')
-                        .map(a=>a.trim().toLowerCase())
-                        .includes(v.trim().toLowerCase())
-                )){
-                    score+=Number(q.marks||0);
-                }
-            }
-            else if(String(user).trim().toLowerCase()===expected.toLowerCase()){
-                score+=Number(q.marks||0);
-            }
-        }
-
-        const status=writing.length
-            ?'pending_review'
-            :(auto?'auto_submitted':'submitted');
-
-        const row={
-            answers:answers,
-            writing_text:totalWriting||null,
-            status:status,
-            auto_score:score,
-            submitted_at:new Date().toISOString()
-        };
-
         /*
-          Update the existing in-progress attempt.
-          Never use upsert to create a submission with a final status.
+          Submit through the protected database function.
+          Do not update protected submission fields directly.
         */
-        const {data:updated,error:updateError}=await db
-            .from('test_submissions')
-            .update(row)
-            .eq('id',currentSubmissionId)
-            .eq('test_id',currentTest.id)
-            .eq('student_user_id',currentUser.id)
-            .eq('status','in_progress')
-            .select('id')
-            .maybeSingle();
+        const {data:submitted,error:submitError}=await db.rpc(
+            'submit_test_attempt',
+            {
+                p_submission_id:currentSubmissionId,
+                p_answers:answers,
+                p_writing_text:totalWriting||null,
+                p_uploaded_file_paths:[],
+                p_auto_submit:auto
+            }
+        );
 
-        if(updateError)throw updateError;
+        if(submitError)throw submitError;
 
-        if(!updated){
-            throw new Error(
-                'The attempt was not updated. Please refresh the page and check the submission status.'
-            );
+        if(!submitted){
+            throw new Error('The database did not confirm the submission.');
         }
 
         clearInterval(timerHandle);
@@ -552,12 +511,12 @@ async function submitCurrentTest(auto=false){
         form.classList.add('hidden');
 
         document.getElementById('examResult').append(
-            el('h3','','Test submitted'),
+            el('h3','','Test submitted successfully'),
             el(
                 'p',
                 '',
                 writing.length
-                    ?'Your writing is waiting for teacher review.'
+                    ?'Your writing response has been submitted and may require teacher review.'
                     :'Your objective answers have been submitted.'
             )
         );
@@ -591,6 +550,7 @@ async function submitCurrentTest(auto=false){
         currentSubmissionId=null;
         currentTest=null;
         currentQuestions=[];
+        document.getElementById('timer').textContent='';
     }
     catch(error){
         submitButton.disabled=false;
@@ -598,7 +558,10 @@ async function submitCurrentTest(auto=false){
         document.getElementById('examResult').textContent=
             'Submission failed: '+(error.message||'An unexpected error occurred.');
 
-        msg('The test could not be submitted. Your answers are still on the page.',true);
+        msg(
+            'The test could not be submitted. Your answers are still on the page. You can try again.',
+            true
+        );
     }
     finally{
         submitting=false;
@@ -625,6 +588,7 @@ document.getElementById('cancelExam').addEventListener('click',()=>{
 
         examPanel.classList.add('hidden');
         document.getElementById('examForm').classList.remove('hidden');
+        document.getElementById('timer').textContent='';
 
         /*
           The attempt remains in_progress.
