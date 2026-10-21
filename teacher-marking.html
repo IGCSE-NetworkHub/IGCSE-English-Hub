@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marking & Approval | IGCSE English Hub</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f6fb;
+    color: #202b3c;
+}
+
+header {
+    background: #142b4a;
+    color: white;
+    padding: 22px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 16px;
+}
+
+main {
+    max-width: 1150px;
+    margin: 30px auto;
+    padding: 0 18px;
+}
+
+.intro {
+    margin-bottom: 22px;
+}
+
+.intro h2 {
+    margin-bottom: 8px;
+}
+
+.notice {
+    background: #fff8df;
+    border: 1px solid #ead58b;
+    padding: 13px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+button, select, input, textarea {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.primary {
+    background: #1765c0;
+    color: white;
+}
+
+.approve {
+    background: #18794e;
+    color: white;
+}
+
+.secondary {
+    background: #e4eaf2;
+    color: #172a45;
+}
+
+select, input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: white;
+}
+
+.submission-list {
+    display: grid;
+    gap: 16px;
+}
+
+.submission {
+    background: white;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 3px 10px #142b4a0b;
+}
+
+.submission h3 {
+    margin-top: 0;
+    color: #142b4a;
+}
+
+.meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.meta div {
+    background: #f5f7fa;
+    padding: 12px;
+    border-radius: 7px;
+    overflow-wrap: anywhere;
+}
+
+.meta strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #5b6879;
+}
+
+.question {
+    border-top: 1px solid #e3e8ef;
+    padding: 15px 0;
+}
+
+.question p {
+    margin: 7px 0;
+}
+
+.correct {
+    color: #18794e;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: #b42318;
+    font-weight: bold;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    align-items: center;
+}
+
+.status {
+    font-size: 14px;
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.status.approved {
+    color: #18794e;
+}
+
+.message {
+    background: white;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 15px 0;
+}
+
+.error {
+    color: #b42318;
+    white-space: pre-wrap;
+}
+
+.success {
+    color: #18794e;
+    white-space: pre-wrap;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #697586;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    header { align-items: flex-start; }
+    .form-grid { grid-template-columns: 1fr; }
+    .submission { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Marking & Approval</h1>
+    <nav>
+        <a href="teacher-dashboard.html">Dashboard</a>
+        <a href="#" id="logoutBtn">Log out</a>
+    </nav>
+</header>
+
+<main>
+    <section class="intro">
+        <h2>Student Test Submissions</h2>
+        <p>Review answers, enter the teacher's final score and feedback, then approve the result.</p>
+    </section>
+
+    <div class="notice">
+        <strong>Important:</strong>
+        Review each submission before approving it. The teacher's score must not exceed the test's total marks.
+    </div>
+
+    <div id="pageMessage" class="message">Checking teacher access...</div>
+
+    <section id="workspace" hidden>
+        <div class="toolbar">
+            <select id="filterStatus" aria-label="Filter submissions">
+                <option value="needs_review">Needs marking or approval</option>
+                <option value="all">All submissions</option>
+                <option value="approved">Approved submissions</option>
+            </select>
+            <button type="button" class="secondary" id="refreshBtn">Refresh</button>
+        </div>
+
+        <div id="submissionList" class="submission-list"></div>
+    </section>
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const pageMessage = document.getElementById("pageMessage");
+const workspace = document.getElementById("workspace");
+const submissionList = document.getElementById("submissionList");
+const filterStatus = document.getElementById("filterStatus");
+
+let currentTeacher = null;
+let submissions = [];
+let questionsByTest = {};
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function showPageMessage(message, isError = false) {
+    pageMessage.hidden = false;
+    pageMessage.className = "message" + (isError ? " error" : "");
+    pageMessage.textContent = message;
+}
+
+function normalizeAnswer(value) {
+    if (value === null || value === undefined || value === "") {
+        return "No answer provided";
+    }
+
+    if (Array.isArray(value)) {
+        return value.map(item => String(item)).join(", ");
+    }
+
+    if (typeof value === "object") {
+        return JSON.stringify(value);
+    }
+
+    return String(value);
+}
+
+function isApproved(submission) {
+    return Boolean(submission.approved_at);
+}
+
+function needsReview(submission) {
+    const test = submission.unit_tests;
+    const requiresApproval = test?.require_teacher_approval === true;
+    const hasWriting = Boolean(submission.writing_text);
+    const hasFiles = Array.isArray(submission.uploaded_file_paths)
+        ? submission.uploaded_file_paths.length > 0
+        : Boolean(submission.uploaded_file_paths);
+
+    return !isApproved(submission) &&
+        (
+            requiresApproval ||
+            hasWriting ||
+            hasFiles ||
+            submission.teacher_score !== null
+        );
+}
+
+async function checkTeacherAccess() {
+    const { data: sessionData, error: sessionError } =
+        await db.auth.getSession();
+
+    if (sessionError) {
+        showPageMessage("Could not check your session: " + sessionError.message, true);
+        return;
+    }
+
+    const session = sessionData.session;
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const { data: role, error: roleError } = await db
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "teacher")
+        .maybeSingle();
+
+    if (roleError || !role) {
+        await db.auth.signOut();
+        showPageMessage("Teacher access is required. Please log in with your teacher account.", true);
+        return;
+    }
+
+    currentTeacher = session.user;
+    workspace.hidden = false;
+    pageMessage.hidden = true;
+
+    await loadSubmissions();
+}
+
+async function loadSubmissions() {
+    submissionList.innerHTML = "";
+    submissionList.innerHTML = '<div class="message">Loading submissions...</div>';
+
+    const { data, error } = await db
+        .from("test_submissions")
+        .select(`
+            id,
+            test_id,
+            student_user_id,
+            answers,
+            writing_text,
+            uploaded_file_paths,
+            status,
+            auto_score,
+            teacher_score,
+            teacher_feedback,
+            auto_feedback,
+            started_at,
+            submitted_at,
+            approved_at,
+            attempt_number,
+            unit_tests (
+                id,
+                title,
+                total_marks,
+                test_type,
+                require_teacher_approval
+            )
+        `)
+        .neq("status", "in_progress")
+        .order("submitted_at", { ascending: false });
+
+    if (error) {
+        submissionList.innerHTML = "";
+        showPageMessage("Could not load submissions: " + error.message, true);
+        return;
+    }
+
+    submissions = data || [];
+
+    const userIds = [...new Set(submissions.map(item => item.student_user_id).filter(Boolean))];
+    const studentByUserId = {};
+
+    if (userIds.length) {
+        const { data: users, error: usersError } = await db
+            .from("students")
+            .select("student_name, username, email, grade")
+            .in("email", await getEmailsForUserIds(userIds));
+
+        if (!usersError && users) {
+            // Match by email to the authenticated user IDs.
+            const emailToUserId = await getUserIdByEmail(userIds);
+            users.forEach(student => {
+                const userId = emailToUserId[student.email?.toLowerCase()];
+                if (userId) studentByUserId[userId] = student;
+            });
+        }
+    }
+
+    submissions.forEach(item => {
+        item.student_record = studentByUserId[item.student_user_id] || null;
+    });
+
+    const testIds = [...new Set(submissions.map(item => item.test_id).filter(Boolean))];
+
+    questionsByTest = {};
+
+    if (testIds.length) {
+        const { data: questions, error: questionError } = await db
+            .from("unit_test_questions")
+            .select("id, test_id, question_text, question_type, options, correct_answer, marks, sort_order")
+            .in("test_id", testIds)
+            .order("sort_order", { ascending: true });
+
+        if (!questionError && questions) {
+            questions.forEach(question => {
+                if (!questionsByTest[question.test_id]) {
+                    questionsByTest[question.test_id] = [];
+                }
+                questionsByTest[question.test_id].push(question);
+            });
+        }
+    }
+
+    renderSubmissions();
+}
+
+async function getEmailsForUserIds(userIds) {
+    const { data, error } = await db
+        .schema("auth")
+        .from("users")
+        .select("id, email")
+        .in("id", userIds);
+
+    if (error || !data) return [];
+
+    return data.map(user => user.email).filter(Boolean);
+}
+
+async function getUserIdByEmail(userIds) {
+    const { data, error } = await db
+        .schema("auth")
+        .from("users")
+        .select("id, email")
+        .in("id", userIds);
+
+    const map = {};
+
+    if (!error && data) {
+        data.forEach(user => {
+            if (user.email) map[user.email.toLowerCase()] = user.id;
+        });
+    }
+
+    return map;
+}
+
+function renderSubmissions() {
+    const filter = filterStatus.value;
+
+    let visible = submissions.filter(item => {
+        if (filter === "approved") return isApproved(item);
+        if (filter === "needs_review") return needsReview(item);
+        return true;
+    });
+
+    if (!visible.length) {
+        submissionList.innerHTML =
+            '<div class="message">No submissions match this filter.</div>';
+        return;
+    }
+
+    submissionList.innerHTML = visible.map(submission => {
+        const test = submission.unit_tests || {};
+        const student = submission.student_record;
+        const studentName = student?.student_name || "Student name unavailable";
+        const username = student?.username || "Unknown username";
+        const grade = student?.grade || "Not specified";
+        const questions = questionsByTest[submission.test_id] || [];
+        const answers = submission.answers || {};
+        const autoFeedback = Array.isArray(submission.auto_feedback)
+            ? submission.auto_feedback
+            : [];
+
+        const feedbackByQuestion = {};
+        autoFeedback.forEach(feedback => {
+            if (feedback.question_id !== undefined) {
+                feedbackByQuestion[String(feedback.question_id)] = feedback;
+            }
+        });
+
+        const questionHtml = questions.length
+            ? questions.map((question, index) => {
+                const answer = answers[String(question.id)];
+                const feedback = feedbackByQuestion[String(question.id)];
+                const correctAnswer = question.correct_answer;
+                const hasAnswer = answer !== undefined && answer !== null && answer !== "";
+                const optionsText = question.options
+                    ? '<p><strong>Options:</strong> ' + escapeHtml(normalizeAnswer(question.options)) + '</p>'
+                    : '';
+
+                let markingText = "";
+
+                if (feedback) {
+                    markingText = feedback.correct
+                        ? '<p class="correct">Automatically marked correct (' + escapeHtml(feedback.marks ?? 0) + ' marks)</p>'
+                        : '<p class="incorrect">Automatically marked incorrect</p>';
+                } else if (correctAnswer !== null && correctAnswer !== undefined && correctAnswer !== "") {
+                    markingText = '<p><strong>Expected answer:</strong> ' + escapeHtml(correctAnswer) + '</p>';
+                } else {
+                    markingText = '<p><em>No automatic marking result recorded for this question.</em></p>';
+                }
+
+                return `
+                    <div class="question">
+                        <p><strong>Question ${index + 1}:</strong> ${escapeHtml(question.question_text)}</p>
+                        ${optionsText}
+                        <p><strong>Student answer:</strong> ${escapeHtml(normalizeAnswer(answer))}</p>
+                        <p><strong>Question marks:</strong> ${escapeHtml(question.marks ?? "Not specified")}</p>
+                        ${markingText}
+                    </div>
+                `;
+            }).join("")
+            : '<p>No question records were found for this test.</p>';
+
+        const writingHtml = submission.writing_text
+            ? `<div class="question"><p><strong>Writing response:</strong></p><p>${escapeHtml(submission.writing_text).replace(/\n/g, "<br>")}</p></div>`
+            : "";
+
+        const filesHtml = submission.uploaded_file_paths
+            ? `<div class="question"><strong>Uploaded file paths:</strong> ${escapeHtml(normalizeAnswer(submission.uploaded_file_paths))}<p>File links are not generated by this page.</p></div>`
+            : "";
+
+        const approved = isApproved(submission);
+        const maxMarks = Number(test.total_marks || 0);
+        const existingScore = submission.teacher_score === null
+            ? (submission.auto_score === null ? "" : submission.auto_score)
+            : submission.teacher_score;
+
+        const initialStatus = approved
+            ? "Approved"
+            : (needsReview(submission) ? "Awaiting teacher review" : "No approval required");
+
+        return `
+            <article class="submission" data-submission-id="${submission.id}">
+                <h3>${escapeHtml(test.title || "Untitled test")}</h3>
+                <div class="meta">
+                    <div><strong>Student</strong>${escapeHtml(studentName)} (${escapeHtml(username)})</div>
+                    <div><strong>Grade</strong>${escapeHtml(grade)}</div>
+                    <div><strong>Submission ID</strong>#${submission.id}</div>
+                    <div><strong>Attempt</strong>${escapeHtml(submission.attempt_number ?? "—")}</div>
+                    <div><strong>Submitted</strong>${escapeHtml(submission.submitted_at ? new Date(submission.submitted_at).toLocaleString() : "Not recorded")}</div>
+                    <div><strong>Automatic score</strong>${submission.auto_score === null ? "Not available" : escapeHtml(submission.auto_score) + " / " + escapeHtml(maxMarks)}</div>
+                    <div><strong>Total marks</strong>${escapeHtml(maxMarks)}</div>
+                    <div><strong>Approval</strong><span class="status ${approved ? "approved" : ""}">${escapeHtml(initialStatus)}</span></div>
+                </div>
+
+                <h4>Answers and marking details</h4>
+                ${questionHtml}
+                ${writingHtml}
+                ${filesHtml}
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="score-${submission.id}">Teacher's final score (out of ${escapeHtml(maxMarks)})</label>
+                        <input
+                            id="score-${submission.id}"
+                            class="teacher-score"
+                            type="number"
+                            min="0"
+                            max="${escapeHtml(maxMarks)}"
+                            step="0.25"
+                            value="${escapeHtml(existingScore)}"
+                            ${approved ? "disabled" : ""}
+                        >
+                    </div>
+                    <div class="field">
+                        <label for="feedback-${submission.id}">Teacher feedback</label>
+                        <textarea
+                            id="feedback-${submission.id}"
+                            class="teacher-feedback"
+                            placeholder="Enter feedback for the student..."
+                            ${approved ? "disabled" : ""}
+                        >${escapeHtml(submission.teacher_feedback || "")}</textarea>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    ${approved
+                        ? '<span class="status approved">This result has been approved.</span>'
+                        : `<button type="button" class="approve" data-approve="${submission.id}">Save & Approve Result</button>`
+                    }
+                    <button type="button" class="secondary" data-save="${submission.id}" ${approved ? "disabled" : ""}>Save Without Approval</button>
+                    <span class="status" id="save-status-${submission.id}"></span>
+                </div>
+            </article>
+        `;
+    }).join("");
+
+    submissionList.querySelectorAll("[data-save]").forEach(button => {
+        button.addEventListener("click", () => saveSubmission(Number(button.dataset.save), false));
+    });
+
+    submissionList.querySelectorAll("[data-approve]").forEach(button => {
+        button.addEventListener("click", () => saveSubmission(Number(button.dataset.approve), true));
+    });
+}
+
+async function saveSubmission(submissionId, approve) {
+    const submission = submissions.find(item => item.id === submissionId);
+    if (!submission) return;
+
+    const scoreInput = document.getElementById("score-" + submissionId);
+    const feedbackInput = document.getElementById("feedback-" + submissionId);
+    const statusLabel = document.getElementById("save-status-" + submissionId);
+    const buttons = document.querySelectorAll(
+        `[data-save="${submissionId}"], [data-approve="${submissionId}"]`
+    );
+
+    const test = submission.unit_tests || {};
+    const totalMarks = Number(test.total_marks);
+
+    if (scoreInput.value.trim() === "") {
+        statusLabel.textContent = "Enter a teacher score before saving.";
+        statusLabel.className = "status error";
+        scoreInput.focus();
+        return;
+    }
+
+    const score = Number(scoreInput.value);
+
+    if (!Number.isFinite(score) || score < 0 || score > totalMarks) {
+        statusLabel.textContent = "The score must be between 0 and " + totalMarks + ".";
+        statusLabel.className = "status error";
+        scoreInput.focus();
+        return;
+    }
+
+    if (approve && test.require_teacher_approval && scoreInput.value.trim() === "") {
+        statusLabel.textContent = "A final score is required before approval.";
+        statusLabel.className = "status error";
+        return;
+    }
+
+    const confirmed = approve
+        ? window.confirm("Approve submission #" + submissionId + " with a final score of " + score + "/" + totalMarks + "?")
+        : window.confirm("Save the teacher score and feedback for submission #" + submissionId + " without approving it?");
+
+    if (!confirmed) return;
+
+    buttons.forEach(button => button.disabled = true);
+    statusLabel.textContent = "Saving...";
+    statusLabel.className = "status";
+
+    const updateData = {
+        teacher_score: score,
+        teacher_feedback: feedbackInput.value.trim()
+    };
+
+    if (approve) {
+        updateData.approved_at = new Date().toISOString();
+    }
+
+    const { data, error } = await db
+        .from("test_submissions")
+        .update(updateData)
+        .eq("id", submissionId)
+        .select("id, teacher_score, teacher_feedback, approved_at")
+        .maybeSingle();
+
+    if (error || !data) {
+        statusLabel.textContent = "Save failed: " + (error?.message || "No row was updated. Check teacher permissions.");
+        statusLabel.className = "status error";
+        buttons.forEach(button => button.disabled = false);
+        return;
+    }
+
+    statusLabel.textContent = approve ? "Result approved successfully." : "Score and feedback saved.";
+    statusLabel.className = "status success";
+
+    await loadSubmissions();
+}
+
+document.getElementById("refreshBtn").addEventListener("click", loadSubmissions);
+
+filterStatus.addEventListener("change", renderSubmissions);
+
+document.getElementById("logoutBtn").addEventListener("click", async event => {
+    event.preventDefault();
+    await db.auth.signOut();
+    window.location.href = "login.html";
+});
+
+checkTeacherAccess();
+</script>
+
+</body>
+</html>
