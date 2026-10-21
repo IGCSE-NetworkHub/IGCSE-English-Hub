@@ -27,36 +27,35 @@ header h1 { margin: 0 0 8px; }
 header p { margin: 0; color: #dbeafe; }
 
 main {
-    max-width: 1150px;
+    max-width: 1100px;
     margin: 25px auto;
-    padding: 0 16px 35px;
+    padding: 0 16px 40px;
 }
 
 .panel, .submission {
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 18px;
+    padding: 22px;
+    margin-bottom: 20px;
 }
 
 .toolbar {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 18px;
+    margin: 18px 0;
 }
 
 select, input, textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #cbd5e1;
     border-radius: 7px;
     font: inherit;
 }
 
-.toolbar select { width: auto; min-width: 180px; }
+.toolbar select { width: auto; min-width: 210px; }
 
 button {
     border: 0;
@@ -66,36 +65,31 @@ button {
     cursor: pointer;
 }
 
+button:disabled { opacity: .6; cursor: wait; }
+
 .primary { background: #1d4ed8; color: white; }
 .success { background: #15803d; color: white; }
 .secondary { background: #e2e8f0; color: #172554; }
-
-button:disabled { opacity: .6; cursor: wait; }
 
 .muted { color: #64748b; }
 .error { color: #b91c1c; }
 .success-text { color: #15803d; }
 
-.question {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 14px;
-    margin: 12px 0;
+.student-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
-.answer {
-    margin-top: 8px;
-    padding: 10px;
-    background: white;
-    border-radius: 6px;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+.student-meta {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .badge {
     display: inline-block;
-    padding: 5px 9px;
+    padding: 5px 10px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
@@ -108,20 +102,107 @@ button:disabled { opacity: .6; cursor: wait; }
     color: #166534;
 }
 
-.field { margin: 14px 0; }
-.field label { display: block; font-weight: bold; margin-bottom: 7px; }
-
-.score-row {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 16px;
+.question {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    padding: 17px;
+    margin: 14px 0;
 }
 
-.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.question-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question-text {
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.option {
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 7px;
+}
+
+.option.correct {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #166534;
+    font-weight: bold;
+}
+
+.answer-box {
+    margin-top: 8px;
+    padding: 12px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.answer-correct {
+    color: #166534;
+    font-weight: bold;
+}
+
+.field {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.score-input {
+    max-width: 100%;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 22px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 22px;
+    color: #64748b;
+    font-size: 13px;
+}
 
 @media (max-width: 600px) {
-    .score-row { grid-template-columns: 1fr; }
     .toolbar select { width: 100%; }
+    .panel, .submission { padding: 16px; }
+    .actions button { width: 100%; }
 }
 </style>
 </head>
@@ -135,14 +216,19 @@ button:disabled { opacity: .6; cursor: wait; }
 <main>
     <section class="panel">
         <div id="pageMessage">Checking teacher access...</div>
+
         <div class="toolbar">
             <select id="filter">
                 <option value="all">All submitted attempts</option>
                 <option value="pending">Awaiting approval</option>
                 <option value="approved">Approved results</option>
             </select>
-            <button class="primary" id="refreshButton" type="button">Refresh</button>
+
+            <button class="primary" id="refreshButton" type="button">
+                Refresh
+            </button>
         </div>
+
         <div id="submissionList"></div>
     </section>
 
@@ -150,6 +236,8 @@ button:disabled { opacity: .6; cursor: wait; }
         <div id="submissionDetails"></div>
     </section>
 </main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
@@ -166,6 +254,7 @@ const filterSelect = document.getElementById("filter");
 let submissions = [];
 let testsById = {};
 let questionsByTest = {};
+let studentsByUserId = {};
 let selectedSubmissionId = null;
 
 function escapeHtml(value) {
@@ -185,13 +274,12 @@ function showMessage(message, isError = false) {
 
 function formatDate(value) {
     if (!value) return "Not available";
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? "Not available" : date.toLocaleString();
-}
 
-function studentLabel(submission) {
-    const id = submission.student_user_id || "Unknown";
-    return "Student account: " + id;
+    const date = new Date(value);
+
+    return Number.isNaN(date.getTime())
+        ? "Not available"
+        : date.toLocaleString();
 }
 
 function isApproved(submission) {
@@ -202,8 +290,44 @@ function getTest(submission) {
     return testsById[String(submission.test_id)] || {};
 }
 
+function getStudent(submission) {
+    return studentsByUserId[String(submission.student_user_id)] || null;
+}
+
+function studentName(submission) {
+    const student = getStudent(submission);
+
+    if (!student) {
+        return "Student name unavailable";
+    }
+
+    return student.student_name || student.username || "Unnamed student";
+}
+
+function studentDetailsHtml(submission) {
+    const student = getStudent(submission);
+
+    if (!student) {
+        return `
+            <div class="student-name">Student name unavailable</div>
+            <div class="student-meta">
+                Account ID: ${escapeHtml(submission.student_user_id || "Unknown")}<br>
+                The account could not be matched to a student record.
+            </div>`;
+    }
+
+    return `
+        <div class="student-name">${escapeHtml(student.student_name || "Unnamed student")}</div>
+        <div class="student-meta">
+            Username: ${escapeHtml(student.username || "Not specified")}<br>
+            Grade: ${escapeHtml(student.grade || "Not specified")}<br>
+            Email: ${escapeHtml(student.email || "Not specified")}
+        </div>`;
+}
+
 async function checkTeacherAccess() {
-    const { data: sessionData, error: sessionError } = await db.auth.getSession();
+    const { data: sessionData, error: sessionError } =
+        await db.auth.getSession();
 
     if (sessionError) throw sessionError;
 
@@ -234,6 +358,35 @@ async function checkTeacherAccess() {
     return true;
 }
 
+function normalizeOptions(value) {
+    if (value === null || value === undefined || value === "") {
+        return { options: [], explanation: "" };
+    }
+
+    let parsed = value;
+
+    if (typeof parsed === "string") {
+        try {
+            parsed = JSON.parse(parsed);
+        } catch (_) {
+            return { options: [], explanation: "" };
+        }
+    }
+
+    if (Array.isArray(parsed)) {
+        return { options: parsed, explanation: "" };
+    }
+
+    if (typeof parsed === "object") {
+        return {
+            options: Array.isArray(parsed.options) ? parsed.options : [],
+            explanation: parsed.explanation || ""
+        };
+    }
+
+    return { options: [], explanation: "" };
+}
+
 async function loadData() {
     showMessage("Loading submissions...");
     submissionList.innerHTML = "";
@@ -246,6 +399,7 @@ async function loadData() {
     if (testsError) throw testsError;
 
     testsById = {};
+
     (testRows || []).forEach(test => {
         testsById[String(test.id)] = test;
     });
@@ -260,11 +414,41 @@ async function loadData() {
 
     submissions = rows || [];
 
-    const testIds = [...new Set(submissions.map(row => row.test_id))];
+    // Load student identity details using the user_id mapping.
+    studentsByUserId = {};
+
+    const userIds = [
+        ...new Set(
+            submissions
+                .map(row => row.student_user_id)
+                .filter(Boolean)
+        )
+    ];
+
+    if (userIds.length > 0) {
+        const { data: studentRows, error: studentsError } = await db
+            .from("students")
+            .select("user_id, student_name, username, grade, email")
+            .in("user_id", userIds);
+
+        if (studentsError) {
+            console.error("Could not load student details:", studentsError);
+        } else {
+            (studentRows || []).forEach(student => {
+                if (student.user_id) {
+                    studentsByUserId[String(student.user_id)] = student;
+                }
+            });
+        }
+    }
+
+    const testIds = [
+        ...new Set(submissions.map(row => row.test_id))
+    ];
 
     questionsByTest = {};
 
-    if (testIds.length) {
+    if (testIds.length > 0) {
         const { data: questionRows, error: questionsError } = await db
             .from("unit_test_questions")
             .select("id, test_id, question_text, question_type, options, correct_answer, marks, sort_order")
@@ -275,7 +459,11 @@ async function loadData() {
 
         (questionRows || []).forEach(question => {
             const key = String(question.test_id);
-            if (!questionsByTest[key]) questionsByTest[key] = [];
+
+            if (!questionsByTest[key]) {
+                questionsByTest[key] = [];
+            }
+
             questionsByTest[key].push(question);
         });
     }
@@ -293,8 +481,9 @@ function renderSubmissions() {
         return true;
     });
 
-    if (!visible.length) {
-        submissionList.innerHTML = '<p class="muted">No submissions in this category.</p>';
+    if (visible.length === 0) {
+        submissionList.innerHTML =
+            '<p class="muted">No submissions in this category.</p>';
         return;
     }
 
@@ -306,22 +495,28 @@ function renderSubmissions() {
             ? '<span class="badge approved">Approved</span>'
             : '<span class="badge">Awaiting approval</span>';
 
-        const title = test.title || ("Test #" + submission.test_id);
         const score = submission.teacher_score !== null
             ? submission.teacher_score
             : "Not marked";
-        const total = test.total_marks ?? "—";
 
         return `
             <article class="submission">
-                <h3>${escapeHtml(title)}</h3>
-                <p>${escapeHtml(studentLabel(submission))}</p>
-                <p>Submission #${escapeHtml(submission.id)} · Attempt ${escapeHtml(submission.attempt_number ?? 1)}</p>
+                <h3>${escapeHtml(test.title || ("Test #" + submission.test_id))}</h3>
+
+                ${studentDetailsHtml(submission)}
+
+                <hr>
+
+                <p>Submission #${escapeHtml(submission.id)}</p>
+                <p>Attempt: ${escapeHtml(submission.attempt_number ?? 1)}</p>
                 <p>Submitted: ${escapeHtml(formatDate(submission.submitted_at))}</p>
-                <p>Teacher score: ${escapeHtml(score)} / ${escapeHtml(total)}</p>
+                <p>Teacher score: ${escapeHtml(score)} / ${escapeHtml(test.total_marks ?? "—")}</p>
                 <p>${status}</p>
+
                 <button class="primary" type="button"
-                    data-open="${escapeHtml(submission.id)}">Review submission</button>
+                    data-open="${escapeHtml(submission.id)}">
+                    Review submission
+                </button>
             </article>`;
     }).join("");
 
@@ -333,14 +528,77 @@ function renderSubmissions() {
 }
 
 function displayAnswer(value) {
-    if (value === undefined || value === null || value === "") return "No answer submitted";
-    if (typeof value === "object") return JSON.stringify(value, null, 2);
+    if (value === undefined || value === null || value === "") {
+        return "No answer submitted";
+    }
+
+    if (typeof value === "object") {
+        return JSON.stringify(value, null, 2);
+    }
+
     return String(value);
+}
+
+function normalizeAnswer(value) {
+    return String(value ?? "").trim().toLowerCase();
+}
+
+function renderOptions(question, studentAnswer) {
+    const normalized = normalizeOptions(question.options);
+    const options = normalized.options;
+
+    if (!options.length) {
+        return "";
+    }
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    const optionsHtml = options.map((option, index) => {
+        let optionText = option;
+
+        if (option && typeof option === "object") {
+            optionText =
+                option.text ??
+                option.label ??
+                option.value ??
+                JSON.stringify(option);
+        }
+
+        const letter = letters[index] || String(index + 1);
+        const isCorrect =
+            normalizeAnswer(optionText) === normalizeAnswer(question.correct_answer);
+
+        const isStudentAnswer =
+            normalizeAnswer(optionText) === normalizeAnswer(studentAnswer);
+
+        let classes = "option";
+
+        if (isCorrect) classes += " correct";
+
+        let label = letter + ". " + String(optionText);
+
+        if (isCorrect) label += " — Correct answer";
+        if (isStudentAnswer) label += " — Student's choice";
+
+        return `
+            <div class="${classes}">
+                ${escapeHtml(label)}
+            </div>`;
+    }).join("");
+
+    return `
+        <div class="options-list">
+            ${optionsHtml}
+        </div>`;
 }
 
 function renderQuestion(question, submission) {
     const answers = submission.answers || {};
-    const answer = answers[String(question.id)] ?? answers[question.id];
+
+    const answer =
+        answers[String(question.id)] ??
+        answers[question.id];
+
     const feedbackRows = Array.isArray(submission.auto_feedback)
         ? submission.auto_feedback
         : [];
@@ -349,44 +607,77 @@ function renderQuestion(question, submission) {
         String(item.question_id) === String(question.id)
     );
 
-    let optionsHtml = "";
-    if (question.options) {
-        let options = question.options;
+    const optionsHtml = renderOptions(question, answer);
 
-        if (typeof options === "string") {
-            try { options = JSON.parse(options); } catch (_) {}
-        }
+    let feedbackHtml = "";
 
-        if (Array.isArray(options)) {
-            optionsHtml = "<ul>" + options.map(option =>
-                "<li>" + escapeHtml(typeof option === "object"
-                    ? JSON.stringify(option)
-                    : option) + "</li>"
-            ).join("") + "</ul>";
-        } else if (typeof options === "object") {
-            optionsHtml = "<pre>" + escapeHtml(JSON.stringify(options, null, 2)) + "</pre>";
-        }
+    if (feedback) {
+        let markingText = "Reviewed";
+
+        if (feedback.correct === true) markingText = "Correct";
+        if (feedback.correct === false) markingText = "Incorrect";
+
+        feedbackHtml = `
+            <p><strong>Automatic marking:</strong>
+                ${escapeHtml(markingText)}
+                ${feedback.marks !== undefined
+                    ? " · " + escapeHtml(feedback.marks) + " mark(s)"
+                    : ""}
+            </p>`;
     }
 
     return `
         <div class="question">
-            <strong>Question ${escapeHtml(question.sort_order ?? question.id)}</strong>
-            <p>${escapeHtml(question.question_text)}</p>
+            <div class="question-title">
+                Question ${escapeHtml(question.sort_order ?? question.id)}
+            </div>
+
+            <div class="question-text">
+                ${escapeHtml(question.question_text)}
+            </div>
+
             ${optionsHtml}
+
             <p><strong>Student answer:</strong></p>
-            <div class="answer">${escapeHtml(displayAnswer(answer))}</div>
-            <p><strong>Correct answer:</strong>
-                ${escapeHtml(question.correct_answer ?? "Not provided")}</p>
+            <div class="answer-box">${escapeHtml(displayAnswer(answer))}</div>
+
+            <p><strong>Expected answer:</strong>
+                <span class="answer-correct">
+                    ${escapeHtml(question.correct_answer ?? "Not provided")}
+                </span>
+            </p>
+
             <p><strong>Available marks:</strong> ${escapeHtml(question.marks ?? 0)}</p>
-            ${feedback ? `<p><strong>Automatic marking:</strong>
-                ${feedback.correct === true ? "Correct" : feedback.correct === false ? "Incorrect" : "Reviewed"}
-                ${feedback.marks !== undefined ? " · " + escapeHtml(feedback.marks) + " mark(s)" : ""}
-            </p>` : ""}
+
+            ${feedbackHtml}
         </div>`;
+}
+
+function formatUploadedFiles(value) {
+    if (value === null || value === undefined || value === "") {
+        return "No files uploaded.";
+    }
+
+    let parsed = value;
+
+    if (typeof parsed === "string") {
+        try {
+            parsed = JSON.parse(parsed);
+        } catch (_) {
+            return String(parsed);
+        }
+    }
+
+    if (Array.isArray(parsed) && parsed.length === 0) {
+        return "No files uploaded.";
+    }
+
+    return displayAnswer(parsed);
 }
 
 function openSubmission(id) {
     const submission = submissions.find(row => Number(row.id) === id);
+
     if (!submission) return;
 
     selectedSubmissionId = id;
@@ -394,6 +685,7 @@ function openSubmission(id) {
     const test = getTest(submission);
     const questions = questionsByTest[String(submission.test_id)] || [];
     const totalMarks = Number(test.total_marks ?? 0);
+
     const approved = isApproved(submission);
 
     const questionsHtml = questions.length
@@ -402,77 +694,141 @@ function openSubmission(id) {
 
     submissionDetails.innerHTML = `
         <h2>${escapeHtml(test.title || ("Test #" + submission.test_id))}</h2>
-        <p><strong>${escapeHtml(studentLabel(submission))}</strong></p>
-        <p>Submission #${escapeHtml(submission.id)}</p>
-        <p>Submitted: ${escapeHtml(formatDate(submission.submitted_at))}</p>
-        <p>Status: ${escapeHtml(submission.status || "Unknown")}</p>
-        <p>Automatic score: ${escapeHtml(submission.auto_score ?? "Not available")} / ${escapeHtml(totalMarks)}</p>
-        <p>Approval: ${approved ? '<span class="badge approved">Approved</span>' : '<span class="badge">Not approved</span>'}</p>
+
+        ${studentDetailsHtml(submission)}
+
         <hr>
-        <h3>Answers and marking guide</h3>
+
+        <p><strong>Submission ID:</strong> #${escapeHtml(submission.id)}</p>
+        <p><strong>Submitted:</strong> ${escapeHtml(formatDate(submission.submitted_at))}</p>
+        <p><strong>Status:</strong> ${escapeHtml(submission.status || "Unknown")}</p>
+        <p><strong>Automatic score:</strong>
+            ${escapeHtml(submission.auto_score ?? "Not available")}
+            / ${escapeHtml(totalMarks)}
+        </p>
+
+        <p><strong>Approval:</strong>
+            ${approved
+                ? '<span class="badge approved">Approved</span>'
+                : '<span class="badge">Awaiting teacher review</span>'}
+        </p>
+
+        <hr>
+
+        <h3>Answers and marking details</h3>
         ${questionsHtml}
+
         ${submission.writing_text ? `
             <h3>Student writing</h3>
-            <div class="answer">${escapeHtml(submission.writing_text)}</div>
+            <div class="answer-box">${escapeHtml(submission.writing_text)}</div>
         ` : ""}
-        ${submission.uploaded_file_paths ? `
-            <h3>Uploaded files</h3>
-            <div class="answer">${escapeHtml(displayAnswer(submission.uploaded_file_paths))}</div>
-        ` : ""}
-        <div class="score-row">
-            <div class="field">
-                <label for="teacherScore">Teacher score (out of ${escapeHtml(totalMarks)})</label>
-                <input id="teacherScore" type="number" min="0" max="${escapeHtml(totalMarks)}" step="0.25"
-                    value="${submission.teacher_score === null ? "" : escapeHtml(submission.teacher_score)}">
-            </div>
-            <div class="field">
-                <label for="teacherFeedback">Teacher feedback</label>
-                <textarea id="teacherFeedback" rows="4">${escapeHtml(submission.teacher_feedback || "")}</textarea>
-            </div>
+
+        <h3>Uploaded files</h3>
+        <div class="answer-box">${escapeHtml(formatUploadedFiles(submission.uploaded_file_paths))}</div>
+
+        <hr>
+
+        <h3>Teacher's assessment</h3>
+
+        <div class="field">
+            <label for="teacherScore">
+                Teacher score (out of ${escapeHtml(totalMarks)})
+            </label>
+            <input
+                class="score-input"
+                id="teacherScore"
+                type="number"
+                min="0"
+                max="${escapeHtml(totalMarks)}"
+                step="0.25"
+                value="${submission.teacher_score === null
+                    ? ""
+                    : escapeHtml(submission.teacher_score)}"
+            >
         </div>
+
+        <div class="field">
+            <label for="teacherFeedback">Teacher feedback</label>
+            <textarea id="teacherFeedback"
+                placeholder="Write feedback for the student...">${escapeHtml(submission.teacher_feedback || "")}</textarea>
+        </div>
+
         <div class="actions">
-            <button class="primary" id="saveButton" type="button">Save score and feedback</button>
-            <button class="success" id="approveButton" type="button">Save and approve result</button>
-            <button class="secondary" id="closeButton" type="button">Close</button>
+            <button class="success" id="approveButton" type="button">
+                Save and approve result
+            </button>
+
+            <button class="primary" id="saveButton" type="button">
+                Save without approval
+            </button>
+
+            <button class="secondary" id="closeButton" type="button">
+                Close
+            </button>
         </div>
-        <p id="saveMessage" role="status"></p>`;
+
+        <p id="saveMessage" role="status"></p>
+    `;
 
     detailsPanel.hidden = false;
-    document.getElementById("saveButton").addEventListener("click", () => saveSubmission(false));
-    document.getElementById("approveButton").addEventListener("click", () => saveSubmission(true));
-    document.getElementById("closeButton").addEventListener("click", () => {
-        detailsPanel.hidden = true;
-        selectedSubmissionId = null;
-    });
 
-    detailsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("saveButton")
+        .addEventListener("click", () => saveSubmission(false));
+
+    document.getElementById("approveButton")
+        .addEventListener("click", () => saveSubmission(true));
+
+    document.getElementById("closeButton")
+        .addEventListener("click", () => {
+            detailsPanel.hidden = true;
+            selectedSubmissionId = null;
+        });
+
+    detailsPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
 async function saveSubmission(approve) {
     if (selectedSubmissionId === null) return;
 
-    const submission = submissions.find(row => Number(row.id) === selectedSubmissionId);
+    const submissionId = selectedSubmissionId;
+
+    const submission = submissions.find(
+        row => Number(row.id) === submissionId
+    );
+
     if (!submission) return;
 
     const test = getTest(submission);
     const totalMarks = Number(test.total_marks ?? 0);
+
     const scoreInput = document.getElementById("teacherScore");
     const feedbackInput = document.getElementById("teacherFeedback");
     const message = document.getElementById("saveMessage");
+
     const saveButton = document.getElementById("saveButton");
     const approveButton = document.getElementById("approveButton");
 
     const scoreText = scoreInput.value.trim();
     const score = Number(scoreText);
 
-    if (scoreText === "" || !Number.isFinite(score) || score < 0 || score > totalMarks) {
+    if (
+        scoreText === "" ||
+        !Number.isFinite(score) ||
+        score < 0 ||
+        score > totalMarks
+    ) {
         message.className = "error";
-        message.textContent = "Enter a valid score between 0 and " + totalMarks + ".";
+        message.textContent =
+            "Enter a valid score between 0 and " + totalMarks + ".";
         return;
     }
 
     saveButton.disabled = true;
     approveButton.disabled = true;
+
     message.className = "";
     message.textContent = "Saving...";
 
@@ -486,27 +842,38 @@ async function saveSubmission(approve) {
     }
 
     try {
-        const { error } = await db
+        const { data: sessionData, error: sessionError } =
+            await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!sessionData.session) {
+            throw new Error("Your session has expired. Please log in again.");
+        }
+
+        const { data: updatedRows, error: updateError } = await db
             .from("test_submissions")
             .update(updateData)
-            .eq("id", selectedSubmissionId);
+            .eq("id", submissionId)
+            .select("id");
 
-        if (error) throw error;
+        if (updateError) throw updateError;
 
-        message.className = "success-text";
-        message.textContent = approve
-            ? "Score saved and result approved."
-            : "Score and feedback saved.";
+        if (!updatedRows || updatedRows.length === 0) {
+            throw new Error("No submission was updated. Check teacher permissions.");
+        }
 
         await loadData();
 
-        const updatedSubmission = submissions.find(row =>
-            Number(row.id) === selectedSubmissionId
+        const updatedSubmission = submissions.find(
+            row => Number(row.id) === submissionId
         );
 
         if (updatedSubmission) {
-            openSubmission(Number(updatedSubmission.id));
+            openSubmission(submissionId);
+
             const refreshedMessage = document.getElementById("saveMessage");
+
             if (refreshedMessage) {
                 refreshedMessage.className = "success-text";
                 refreshedMessage.textContent = approve
@@ -515,13 +882,18 @@ async function saveSubmission(approve) {
             }
         } else {
             detailsPanel.hidden = true;
+            showMessage("Submission saved successfully.");
         }
     } catch (error) {
         message.className = "error";
-        message.textContent = "Could not save: " + (error.message || "Unknown error");
+        message.textContent =
+            "Could not save: " + (error.message || "Unknown error");
     } finally {
-        saveButton.disabled = false;
-        approveButton.disabled = false;
+        const currentSaveButton = document.getElementById("saveButton");
+        const currentApproveButton = document.getElementById("approveButton");
+
+        if (currentSaveButton) currentSaveButton.disabled = false;
+        if (currentApproveButton) currentApproveButton.disabled = false;
     }
 }
 
@@ -529,7 +901,10 @@ document.getElementById("refreshButton").addEventListener("click", async () => {
     try {
         await loadData();
     } catch (error) {
-        showMessage("Could not load data: " + (error.message || "Unknown error"), true);
+        showMessage(
+            "Could not load data: " + (error.message || "Unknown error"),
+            true
+        );
     }
 });
 
@@ -538,10 +913,15 @@ filterSelect.addEventListener("change", renderSubmissions);
 (async function init() {
     try {
         const allowed = await checkTeacherAccess();
+
         if (!allowed) return;
+
         await loadData();
     } catch (error) {
-        showMessage("Page error: " + (error.message || "Unknown error"), true);
+        showMessage(
+            "Page error: " + (error.message || "Unknown error"),
+            true
+        );
     }
 })();
 </script>
