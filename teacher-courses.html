@@ -915,29 +915,26 @@ async function loadTests(unit, area) {
       () => toggleTestPublish(test)
     );
 
-    // Show deletion only for legacy Cambridge Checkpoint tests in a unit.
-    // The database decides whether related rows can be deleted via FK rules.
-    if (test.course_track === "checkpoint") {
-      addButton(actions, "Delete Checkpoint Test", "danger", async () => {
-        const ok = confirm(
-          "Delete this Cambridge Checkpoint test: \"" + test.title + "\"?\n\n" +
-          "This may permanently remove its questions and any linked student submissions. This cannot be undone."
-        );
-        if (!ok) return;
+    // Every unit test can be deleted, regardless of track, format, or status.
+    addButton(actions, "Delete Test", "danger", async () => {
+      const ok = confirm(
+        "Delete this test: \"" + test.title + "\"?\n\n" +
+        "This cannot be undone. If the database has linked questions or student submissions that prevent deletion, the test will remain and an error will be shown."
+      );
+      if (!ok) return;
 
-        const {error: deleteError} = await db.from("unit_tests")
-          .delete()
-          .eq("id", test.id);
+      const {error: deleteError} = await db.from("unit_tests")
+        .delete()
+        .eq("id", test.id);
 
-        if (deleteError) {
-          alert("Could not delete this test. No further deletion was attempted.\n\n" + deleteError.message);
-          return;
-        }
+      if (deleteError) {
+        alert("Could not delete this test. It has not been removed.\n\n" + deleteError.message);
+        return;
+      }
 
-        showMessage("Cambridge Checkpoint test deleted.", "success");
-        await loadTests(unit, area);
-      });
-    }
+      showMessage("Test deleted.", "success");
+      await loadTests(unit, area);
+    });
 
     box.append(actions);
     area.append(box);
