@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,21 +10,30 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
 header{background:#142b4a;color:white;padding:24px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-header h1{margin:0;font-size:25px} header p{margin:7px 0 0;color:#dbe6f5}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;color:#dbe6f5}
 button,.button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-block;font-size:14px}
 button:disabled{opacity:.55;cursor:wait}
-.primary{background:#1769d2;color:white}.secondary{background:#e8eef7;color:#183451}
-.danger{background:#ffe7e7;color:#a21c1c}.small{padding:7px 10px;font-size:13px}
+.primary{background:#1769d2;color:white}
+.secondary{background:#e8eef7;color:#183451}
+.danger{background:#ffe7e7;color:#a21c1c}
+.small{padding:7px 10px;font-size:13px}
 main{max-width:1150px;margin:30px auto;padding:0 18px}
 .panel{background:white;border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 4px 18px #152b4a0d}
-.panel h2{margin-top:0}.notice{padding:13px 15px;border-radius:8px;background:#e8f2ff;color:#17457c;margin:15px 0}
-.error{background:#fff0f0;color:#a21c1c}.success{background:#e8f8ed;color:#176534}
+.panel h2{margin-top:0}
+.notice{padding:13px 15px;border-radius:8px;background:#e8f2ff;color:#17457c;margin:15px 0}
+.error{background:#fff0f0;color:#a21c1c}
+.success{background:#e8f8ed;color:#176534}
 label{display:block;font-weight:bold;margin:12px 0 6px}
 input,select,textarea{width:100%;padding:11px;border:1px solid #ccd5e2;border-radius:8px;font:inherit;background:white}
-textarea{min-height:75px;resize:vertical}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-grid .full{grid-column:1/-1}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+textarea{min-height:75px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid .full{grid-column:1/-1}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .course{border:1px solid #dce4ef;border-radius:12px;padding:18px;margin-top:16px}
-.course h3{margin:0 0 8px}.muted{color:#65748b}.status{font-size:12px;font-weight:bold;padding:5px 9px;border-radius:20px;background:#fff1cf;color:#795200;display:inline-block;margin:4px 0}
+.course h3{margin:0 0 8px}
+.muted{color:#65748b}
+.status{font-size:12px;font-weight:bold;padding:5px 9px;border-radius:20px;background:#fff1cf;color:#795200;display:inline-block;margin:4px 0}
 .status.published{background:#e1f7e8;color:#176534}
 .section-title{margin:20px 0 8px;padding-top:14px;border-top:1px solid #e4eaf2}
 .unit{border:1px solid #dce4ef;border-radius:10px;margin-top:12px;overflow:hidden}
@@ -33,43 +43,75 @@ textarea{min-height:75px;resize:vertical}.form-grid{display:grid;grid-template-c
 .session summary{background:#fff;padding:12px;font-weight:600}
 .session-body{padding:13px;background:#fbfcfe}
 .item{border-left:3px solid #8aa9d6;padding:8px 10px;margin:8px 0;background:white;border-radius:0 7px 7px 0}
-.item-title{font-weight:bold}.item-meta{font-size:12px;color:#65748b;margin-top:4px}
+.item-title{font-weight:bold}
+.item-meta{font-size:12px;color:#65748b;margin-top:4px}
 .inline-form{padding:13px;background:#f1f5fb;border-radius:9px;margin-top:12px}
 .test{border:1px solid #e0e7f0;border-radius:8px;padding:12px;margin:8px 0}
 .test strong{display:block;margin-bottom:5px}
 .empty{padding:12px;color:#65748b;background:#f8fafc;border-radius:8px;margin:8px 0}
-#loading{text-align:center;padding:30px}footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
-@media(max-width:650px){.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}header h1{font-size:21px}.panel{padding:17px}}
-
+#loading{text-align:center;padding:30px}
+footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
+@media(max-width:650px){
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:auto}
+  header h1{font-size:21px}
+  .panel{padding:17px}
+}
 .modal-backdrop{position:fixed;inset:0;background:#0b1830aa;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow:auto;z-index:1000}
-.modal-backdrop.open{display:flex}.modal{background:#fff;width:min(900px,100%);border-radius:14px;padding:22px;box-shadow:0 20px 60px #0003}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head h2{margin:0}.question-row{border:1px solid #dce4ef;border-radius:10px;padding:14px;margin:10px 0}.question-row p{white-space:pre-wrap}.hint{font-size:13px;color:#65748b;line-height:1.5}.hidden{display:none!important}
-
+.modal-backdrop.open{display:flex}
+.modal{background:#fff;width:min(900px,100%);border-radius:14px;padding:22px;box-shadow:0 20px 60px #0003}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.modal-head h2{margin:0}
+.question-row{border:1px solid #dce4ef;border-radius:10px;padding:14px;margin:10px 0}
+.question-row p{white-space:pre-wrap}
+.hint{font-size:13px;color:#65748b;line-height:1.5}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
+
 <header>
-  <div><h1>Manage Courses</h1><p>IGCSE English Hub — Teacher Dashboard</p></div>
+  <div>
+    <h1>Manage Courses</h1>
+    <p>IGCSE English Hub — Teacher Dashboard</p>
+  </div>
   <div class="actions">
     <a class="button secondary" href="teacher-dashboard.html">Back to Dashboard</a>
     <button class="secondary" id="logoutBtn">Log Out</button>
   </div>
 </header>
+
 <main>
   <div id="message" class="notice">Checking your teacher account...</div>
+
   <section class="panel">
     <h2>Create a Course</h2>
     <p class="muted">Create a course for a year group. You can publish it when its content is ready.</p>
     <form id="courseForm">
       <div class="form-grid">
-        <div><label for="courseTitle">Course title</label><input id="courseTitle" required maxlength="150" placeholder="e.g. Year 7 English Course"></div>
-        <div><label for="yearGroup">Year group</label><select id="yearGroup" required>
-          <option value="">Choose a year group</option><option>Year 6</option><option>Year 7</option><option>Year 8</option><option>Year 9</option><option>Year 10</option><option>Year 11</option>
-        </select></div>
-        <div class="full"><label for="courseDescription">Description</label><textarea id="courseDescription" placeholder="Describe the course..."></textarea></div>
+        <div>
+          <label for="courseTitle">Course title</label>
+          <input id="courseTitle" required maxlength="150" placeholder="e.g. Year 7 English Course">
+        </div>
+        <div>
+          <label for="yearGroup">Year group</label>
+          <select id="yearGroup" required>
+            <option value="">Choose a year group</option>
+            <option>Year 6</option><option>Year 7</option><option>Year 8</option>
+            <option>Year 9</option><option>Year 10</option><option>Year 11</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="courseDescription">Description</label>
+          <textarea id="courseDescription" placeholder="Describe the course..."></textarea>
+        </div>
       </div>
-      <div class="actions"><button class="primary" type="submit" id="createCourseBtn">Create Course</button></div>
+      <div class="actions">
+        <button class="primary" type="submit" id="createCourseBtn">Create Course</button>
+      </div>
     </form>
   </section>
+
   <section class="panel">
     <h2>Your Courses</h2>
     <p class="muted">Open a unit to manage its four sessions and its separate Unit Tests section. Existing units and sessions are loaded from Supabase.</p>
@@ -79,44 +121,97 @@ textarea{min-height:75px;resize:vertical}.form-grid{display:grid;grid-template-c
 
 <div class="modal-backdrop" id="questionModal" role="dialog" aria-modal="true" aria-labelledby="questionModalTitle">
  <section class="modal">
-  <div class="modal-head"><h2 id="questionModalTitle">Manage Test Questions</h2><button type="button" class="secondary" id="closeQuestionModal">Close</button></div>
-  <p id="questionTestInfo" class="muted"></p><div id="questionMessage" class="notice">Questions are saved as part of this test.</div>
+  <div class="modal-head">
+    <h2 id="questionModalTitle">Manage Test Questions</h2>
+    <button type="button" class="secondary" id="closeQuestionModal">Close</button>
+  </div>
+  <p id="questionTestInfo" class="muted"></p>
+  <div id="questionMessage" class="notice">Questions are saved as part of this test.</div>
   <div id="questionList"></div>
+
   <h3>Add a question</h3>
   <form id="questionForm">
    <div class="form-grid">
-    <div><label for="questionType">Question type</label><select id="questionType" required>
-     <option value="mcq">Multiple choice</option><option value="true_false">True / False</option><option value="short_answer">Short answer</option><option value="writing">Writing task</option><option value="dropdown_gap">Dropdown gap-fill</option><option value="open_gap">Open gap-fill (up to 4 accepted answers per gap)</option><option value="multiple_matching">Multiple matching (sentences and profiles)</option><option value="dialogue_gap">Dialogue gap-fill (each option used once)</option>
-    </select></div>
-    <div><label for="questionMarks">Marks</label><input id="questionMarks" type="number" min="0.5" step="0.5" value="1" required></div>
-    <div class="full"><label for="questionText">Question instructions / passage</label><textarea id="questionText" required placeholder="Enter the question, passage, or task instructions"></textarea></div>
-    <div class="full"><label for="questionData">Question data (one item per line where applicable)</label><textarea id="questionData" rows="6" placeholder="MCQ / Dropdown: one option per line
+    <div>
+      <label for="questionType">Question type</label>
+      <select id="questionType" required>
+       <option value="mcq">Multiple choice</option>
+       <option value="true_false">True / False</option>
+       <option value="short_answer">Short answer</option>
+       <option value="writing">Writing task</option>
+       <option value="dropdown_gap">Dropdown gap-fill</option>
+       <option value="open_gap">Open gap-fill (up to 4 accepted answers per gap)</option>
+       <option value="multiple_matching">Multiple matching (sentences and profiles)</option>
+       <option value="dialogue_gap">Dialogue gap-fill (each option used once)</option>
+      </select>
+    </div>
+    <div>
+      <label for="questionMarks">Marks</label>
+      <input id="questionMarks" type="number" min="0.5" step="0.5" value="1" required>
+    </div>
+    <div class="full">
+      <label for="questionText">Question instructions / passage</label>
+      <textarea id="questionText" required placeholder="Enter the question, passage, or task instructions"></textarea>
+    </div>
+    <div class="full">
+      <label for="questionData">Question data (one item per line where applicable)</label>
+      <textarea id="questionData" rows="6" placeholder="MCQ / Dropdown: one option per line
 Open gap: separate gaps with [gap]
-Matching: put sentences and profiles in the format shown below"></textarea><p class="hint" id="questionHelp">Choose a type to see the expected format.</p></div>
-    <div class="full"><label for="questionAnswer">Correct answer / answer key</label><textarea id="questionAnswer" rows="3" placeholder="For MCQ use the exact option; for True/False use True or False; for open gaps separate gaps with | and accepted answers with ;"></textarea></div>
-    <div class="full"><label for="questionExplanation">Explanation shown after submission (optional)</label><textarea id="questionExplanation" placeholder="Explain why the answer is correct"></textarea></div>
+Matching: put sentences and profiles in the format shown below"></textarea>
+      <p class="hint" id="questionHelp">Choose a type to see the expected format.</p>
+    </div>
+    <div class="full">
+      <label for="questionAnswer">Correct answer / answer key</label>
+      <textarea id="questionAnswer" rows="3" placeholder="For MCQ use the exact option; for True/False use True or False; for open gaps separate gaps with | and accepted answers with ;"></textarea>
+    </div>
+    <div class="full">
+      <label for="questionExplanation">Explanation shown after submission (optional)</label>
+      <textarea id="questionExplanation" placeholder="Explain why the answer is correct"></textarea>
+    </div>
    </div>
-   <div class="actions"><button class="primary" type="submit" id="saveQuestionBtn">Save Question</button></div>
+   <div class="actions">
+     <button class="primary" type="submit" id="saveQuestionBtn">Save Question</button>
+   </div>
   </form>
+
   <div class="section-title"><h3>Exam-wide settings</h3></div>
-  <form id="testSettingsForm"><div class="form-grid">
-   <div><label for="testDurationSetting">Duration (minutes)</label><input id="testDurationSetting" type="number" min="1" step="1"></div>
-   <div><label for="writingMinWords">Writing minimum words</label><input id="writingMinWords" type="number" min="0" step="1" value="0"></div>
-   <div><label for="writingMaxWords">Writing maximum words</label><input id="writingMaxWords" type="number" min="1" step="1" value="250"></div>
-   <div class="full"><label for="writingNotes">Student task notes / instructions</label><textarea id="writingNotes"></textarea></div>
-   <div><label><input id="settingShowAnswers" type="checkbox" style="width:auto"> Show correct answers after submission</label></div>
-   <div><label><input id="settingShowExplanations" type="checkbox" style="width:auto"> Show explanations after submission</label></div>
-   <div><label><input id="settingAllowReview" type="checkbox" style="width:auto"> Allow review after submission</label></div>
-   <div><label><input id="settingRequireApproval" type="checkbox" checked style="width:auto"> Require teacher approval for writing marks</label></div>
-  </div><div class="actions"><button class="primary" type="submit">Save Exam Settings</button></div></form>
+  <form id="testSettingsForm">
+    <div class="form-grid">
+      <div>
+        <label for="testDurationSetting">Duration (minutes)</label>
+        <input id="testDurationSetting" type="number" min="1" step="1">
+      </div>
+      <div>
+        <label for="writingMinWords">Writing minimum words</label>
+        <input id="writingMinWords" type="number" min="0" step="1" value="0">
+      </div>
+      <div>
+        <label for="writingMaxWords">Writing maximum words</label>
+        <input id="writingMaxWords" type="number" min="1" step="1" value="250">
+      </div>
+      <div class="full">
+        <label for="writingNotes">Student task notes / instructions</label>
+        <textarea id="writingNotes"></textarea>
+      </div>
+      <div><label><input id="settingShowAnswers" type="checkbox" style="width:auto"> Show correct answers after submission</label></div>
+      <div><label><input id="settingShowExplanations" type="checkbox" style="width:auto"> Show explanations after submission</label></div>
+      <div><label><input id="settingAllowReview" type="checkbox" style="width:auto"> Allow review after submission</label></div>
+      <div><label><input id="settingRequireApproval" type="checkbox" checked style="width:auto"> Require teacher approval for writing marks</label></div>
+    </div>
+    <div class="actions">
+      <button class="primary" type="submit">Save Exam Settings</button>
+    </div>
+  </form>
  </section>
 </div>
 
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const message = document.getElementById("message");
 const coursesList = document.getElementById("coursesList");
 const courseForm = document.getElementById("courseForm");
@@ -127,12 +222,14 @@ function showMessage(text, type="") {
   message.textContent = text;
   message.className = "notice" + (type ? " " + type : "");
 }
+
 function make(tag, className, text) {
   const el = document.createElement(tag);
   if (className) el.className = className;
   if (text !== undefined && text !== null) el.textContent = text;
   return el;
 }
+
 function addButton(parent, text, className, handler) {
   const b = make("button", className || "secondary", text);
   b.type = "button";
@@ -140,33 +237,55 @@ function addButton(parent, text, className, handler) {
   parent.append(b);
   return b;
 }
+
 async function checkTeacher() {
   const {data: sessionData, error: sessionError} = await db.auth.getSession();
+
   if (sessionError || !sessionData.session) {
     window.location.replace("login.html");
     return;
   }
+
   const user = sessionData.session.user;
+
   const {data: role, error: roleError} = await db.from("user_roles")
-    .select("role").eq("user_id", user.id).eq("role", "teacher").maybeSingle();
+    .select("role")
+    .eq("user_id", user.id)
+    .eq("role", "teacher")
+    .maybeSingle();
+
   if (roleError || !role) {
     showMessage("Access denied. This page is for teachers only.", "error");
     courseForm.style.display = "none";
     coursesList.textContent = "You do not have permission to manage courses.";
     return;
   }
+
   teacherVerified = true;
   showMessage("Teacher access verified.", "success");
   await loadCourses();
 }
+
 async function loadCourses() {
   coursesList.textContent = "Loading courses...";
+
   const {data:courses, error} = await db.from("courses")
     .select("id,title,year_group,description,sort_order,is_published")
-    .order("sort_order", {ascending:true}).order("id", {ascending:true});
-  if (error) { coursesList.textContent = "Could not load courses: " + error.message; return; }
-  if (!courses || !courses.length) { coursesList.textContent = "No courses have been created yet."; return; }
+    .order("sort_order", {ascending:true})
+    .order("id", {ascending:true});
+
+  if (error) {
+    coursesList.textContent = "Could not load courses: " + error.message;
+    return;
+  }
+
+  if (!courses || !courses.length) {
+    coursesList.textContent = "No courses have been created yet.";
+    return;
+  }
+
   coursesList.replaceChildren();
+
   for (const course of courses) {
     const card = make("article", "course");
     const title = make("h3", "", course.title);
@@ -176,22 +295,41 @@ async function loadCourses() {
     const unitsHeading = make("h4", "section-title", "Course Units");
     const unitArea = make("div", "", "Loading units...");
     const actions = make("div", "actions");
+
     addButton(actions, "Edit Course Details", "secondary", () => editCourse(course));
     addButton(actions, "Add Unit", "secondary", () => addUnit(course));
-    addButton(actions, course.is_published ? "Unpublish Course" : "Publish Course",
-      course.is_published ? "danger" : "primary", () => togglePublish(course));
+    addButton(
+      actions,
+      course.is_published ? "Unpublish Course" : "Publish Course",
+      course.is_published ? "danger" : "primary",
+      () => togglePublish(course)
+    );
+
     card.append(title, year, status, description, actions, unitsHeading, unitArea);
     coursesList.append(card);
+
     await loadUnits(course, unitArea);
   }
 }
+
 async function loadUnits(course, unitArea) {
   const {data:units, error} = await db.from("course_units")
-    .select("id,title,unit_number").eq("course_id", course.id)
+    .select("id,title,unit_number")
+    .eq("course_id", course.id)
     .order("unit_number", {ascending:true});
-  if (error) { unitArea.textContent = "Could not load units: " + error.message; return; }
-  if (!units || !units.length) { unitArea.textContent = "No units linked to this course yet."; return; }
+
+  if (error) {
+    unitArea.textContent = "Could not load units: " + error.message;
+    return;
+  }
+
+  if (!units || !units.length) {
+    unitArea.textContent = "No units linked to this course yet.";
+    return;
+  }
+
   unitArea.replaceChildren();
+
   for (const unit of units) {
     const details = make("details", "unit");
     const summary = make("summary", "", "Unit " + unit.unit_number + ": " + unit.title);
@@ -201,21 +339,36 @@ async function loadUnits(course, unitArea) {
     const testsHeading = make("h4", "section-title", "Unit Tests");
     const testsArea = make("div", "", "Loading tests...");
     const testActions = make("div", "actions");
+
     addButton(testActions, "+ Add Unit Test", "primary", () => addUnitTest(unit, testsArea));
+
     body.append(sessionsHeading, sessionsArea, testsHeading, testsArea, testActions);
     details.append(summary, body);
     unitArea.append(details);
+
     await loadSessions(unit, sessionsArea);
     await loadTests(unit, testsArea);
   }
 }
+
 async function loadSessions(unit, area) {
   const {data:sessions, error} = await db.from("course_sessions")
     .select("id,title,description,sort_order,is_published")
-    .eq("unit_id", unit.id).order("sort_order", {ascending:true});
-  if (error) { area.textContent = "Could not load sessions: " + error.message; return; }
-  if (!sessions || !sessions.length) { area.append(make("div","empty","No sessions found for this unit.")); return; }
+    .eq("unit_id", unit.id)
+    .order("sort_order", {ascending:true});
+
+  if (error) {
+    area.textContent = "Could not load sessions: " + error.message;
+    return;
+  }
+
+  if (!sessions || !sessions.length) {
+    area.append(make("div","empty","No sessions found for this unit."));
+    return;
+  }
+
   area.replaceChildren();
+
   for (const session of sessions) {
     const details = make("details", "session");
     const label = session.sort_order === 4 ? "Session 4 — Consolidation" : "Session " + session.sort_order;
@@ -225,320 +378,814 @@ async function loadSessions(unit, area) {
     const desc = make("p", "muted", session.description || "Add Vocabulary, Grammar, Writing and Homework content below.");
     const itemArea = make("div", "", "Loading session content...");
     const form = make("form", "inline-form");
+
     form.innerHTML = `
       <strong>Add session content</strong>
       <label>Content category</label>
       <select name="item_type" required>
         <option value="text">Vocabulary / Grammar / Writing / Homework (text)</option>
-        <option value="video">Video</option><option value="pdf">PDF / worksheet</option>
-        <option value="quiz">Quiz</option><option value="writing">Writing task</option><option value="activity">Activity</option>
+        <option value="video">Video</option>
+        <option value="pdf">PDF / worksheet</option>
+        <option value="quiz">Quiz</option>
+        <option value="writing">Writing task</option>
+        <option value="activity">Activity</option>
       </select>
-      <label>Item title</label><input name="title" required maxlength="180" placeholder="e.g. Vocabulary: Key words">
-      <label>Instructions or content</label><textarea name="content" placeholder="Write instructions or text here..."></textarea>
-      <label>File URL (optional)</label><input name="file_url" type="url" placeholder="https://...">
+      <label>Item title</label>
+      <input name="title" required maxlength="180" placeholder="e.g. Vocabulary: Key words">
+      <label>Instructions or content</label>
+      <textarea name="content" placeholder="Write instructions or text here..."></textarea>
+      <label>File URL (optional)</label>
+      <input name="file_url" type="url" placeholder="https://...">
       <div class="actions"><button class="primary" type="submit">Save Content Item</button></div>`;
+
     form.addEventListener("submit", async event => {
       event.preventDefault();
+
       const button = form.querySelector('button[type="submit"]');
       button.disabled = true;
+
       const fd = new FormData(form);
+
       const {data:existing, error:countError} = await db.from("session_items")
-        .select("sort_order").eq("session_id", session.id).order("sort_order",{ascending:false}).limit(1);
-      if (countError) { alert("Could not check item order: " + countError.message); button.disabled=false; return; }
-      const nextOrder = existing && existing.length ? Number(existing[0].sort_order)+1 : 1;
+        .select("sort_order")
+        .eq("session_id", session.id)
+        .order("sort_order", {ascending:false})
+        .limit(1);
+
+      if (countError) {
+        alert("Could not check item order: " + countError.message);
+        button.disabled = false;
+        return;
+      }
+
+      const nextOrder = existing && existing.length ? Number(existing[0].sort_order) + 1 : 1;
+
       const row = {
-        session_id: session.id, item_type: String(fd.get("item_type")),
+        session_id: session.id,
+        item_type: String(fd.get("item_type")),
         title: String(fd.get("title")).trim(),
         content: String(fd.get("content") || "").trim() || null,
         file_url: String(fd.get("file_url") || "").trim() || null,
-        sort_order: nextOrder, is_required: true
+        sort_order: nextOrder,
+        is_required: true
       };
+
       const {error:insertError} = await db.from("session_items").insert(row);
       button.disabled = false;
-      if (insertError) { alert("Could not save content item: " + insertError.message); return; }
+
+      if (insertError) {
+        alert("Could not save content item: " + insertError.message);
+        return;
+      }
+
       form.reset();
       showMessage("Session content item added.", "success");
       await loadSessionItems(session.id, itemArea);
     });
+
     const sessionActions = make("div", "actions");
-    addButton(sessionActions, session.is_published ? "Unpublish Session" : "Publish Session",
-      session.is_published ? "danger" : "primary", () => toggleSessionPublish(session));
+
+    addButton(
+      sessionActions,
+      session.is_published ? "Unpublish Session" : "Publish Session",
+      session.is_published ? "danger" : "primary",
+      () => toggleSessionPublish(session)
+    );
+
     inner.append(status, desc, make("h5", "", "Content Items"), itemArea, form, sessionActions);
     details.append(summary, inner);
     area.append(details);
+
     await loadSessionItems(session.id, itemArea);
   }
 }
+
 async function loadSessionItems(sessionId, area) {
   const {data:items, error} = await db.from("session_items")
     .select("id,title,item_type,content,file_url,sort_order,is_required")
-    .eq("session_id", sessionId).order("sort_order",{ascending:true});
-  if (error) { area.textContent = "Could not load content items: " + error.message; return; }
+    .eq("session_id", sessionId)
+    .order("sort_order", {ascending:true});
+
+  if (error) {
+    area.textContent = "Could not load content items: " + error.message;
+    return;
+  }
+
   area.replaceChildren();
-  if (!items || !items.length) { area.append(make("div","empty","No content items added yet.")); return; }
+
+  if (!items || !items.length) {
+    area.append(make("div","empty","No content items added yet."));
+    return;
+  }
+
   for (const item of items) {
     const box = make("div", "item");
-    box.append(make("div","item-title",item.title), make("div","item-meta",item.item_type.toUpperCase() + " · Item " + item.sort_order));
+
+    box.append(
+      make("div","item-title",item.title),
+      make("div","item-meta",item.item_type.toUpperCase() + " · Item " + item.sort_order)
+    );
+
     if (item.content) box.append(make("p","",item.content));
+
     if (item.file_url) {
       const link = make("a","", "Open attached resource");
-      link.href = item.file_url; link.target = "_blank"; link.rel = "noopener noreferrer";
+      link.href = item.file_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
       box.append(link);
     }
+
     area.append(box);
   }
 }
+
 async function toggleSessionPublish(session) {
   const next = !session.is_published;
+
   if (!confirm((next ? "Publish" : "Unpublish") + " this session?")) return;
-  const {error} = await db.from("course_sessions").update({is_published:next}).eq("id",session.id);
-  if (error) { alert("Could not update session: " + error.message); return; }
+
+  const {error} = await db.from("course_sessions")
+    .update({is_published:next})
+    .eq("id",session.id);
+
+  if (error) {
+    alert("Could not update session: " + error.message);
+    return;
+  }
+
   showMessage(next ? "Session published." : "Session unpublished.", "success");
   await loadCourses();
 }
 
 let activeTestForQuestions = null;
+
 const questionModal = document.getElementById("questionModal");
 const questionList = document.getElementById("questionList");
 const questionMessage = document.getElementById("questionMessage");
-function setQuestionMessage(text, type="") { questionMessage.textContent=text; questionMessage.className="notice"+(type?" "+type:""); }
+
+function setQuestionMessage(text, type="") {
+  questionMessage.textContent = text;
+  questionMessage.className = "notice" + (type ? " " + type : "");
+}
+
 const typeHelp = {
- mcq:"Enter each option on a separate line. Correct answer must match an option exactly.",
- true_false:"Use True or False as the correct answer.",
- short_answer:"Enter accepted answers separated by semicolons (;).",
- writing:"Enter task instructions in the question text. Answer key can contain a rubric or marking guidance.",
- dropdown_gap:"Write passage with [gap] where each dropdown belongs. Enter dropdown options one per line. Correct answers in order separated by |.",
- open_gap:"Write passage with [gap] for each answer field. For each gap, accepted answers are separated by ; and gaps by |. Maximum four accepted answers per gap.",
- multiple_matching:"Question data format: write a line starting SENTENCES:, then one sentence per line; then PROFILES:, then one profile per line. Maximum 15 in each list. Answer key: sentence-number=profile-number, one pair per line. A profile may be reused.",
- dialogue_gap:"Write dialogue with [gap] markers. Question data contains the numbered sentence options, one per line. Answer key: one option number per gap, separated by |. Each option can be used only once."
+  mcq:"Enter each option on a separate line. Correct answer must match an option exactly.",
+  true_false:"Use True or False as the correct answer.",
+  short_answer:"Enter accepted answers separated by semicolons (;).",
+  writing:"Enter task instructions in the question text. Answer key can contain a rubric or marking guidance.",
+  dropdown_gap:"Write passage with [gap] where each dropdown belongs. Enter dropdown options one per line. Correct answers in order separated by |.",
+  open_gap:"Write passage with [gap] for each answer field. For each gap, accepted answers are separated by ; and gaps by |. Maximum four accepted answers per gap.",
+  multiple_matching:"Question data format: write a line starting SENTENCES:, then one sentence per line; then PROFILES:, then one profile per line. Maximum 15 in each list. Answer key: sentence-number=profile-number, one pair per line. A profile may be reused.",
+  dialogue_gap:"Write dialogue with [gap] markers. Question data contains the numbered sentence options, one per line. Answer key: one option number per gap, separated by |. Each option can be used only once."
 };
-document.getElementById("questionType").addEventListener("change",()=>{document.getElementById("questionHelp").textContent=typeHelp[document.getElementById("questionType").value]||"";});
-document.getElementById("closeQuestionModal").addEventListener("click",()=>questionModal.classList.remove("open"));
-questionModal.addEventListener("click",e=>{if(e.target===questionModal)questionModal.classList.remove("open")});
-async function openQuestionManager(test){
- activeTestForQuestions=test;
- document.getElementById("questionTestInfo").textContent="Test: "+test.title+" · Current total: "+(test.total_marks??0)+" marks";
- document.getElementById("testDurationSetting").value=test.duration_minutes||45;
- document.getElementById("writingMinWords").value=test.writing_min_words??0;
- document.getElementById("writingMaxWords").value=test.writing_max_words??250;
- document.getElementById("writingNotes").value=test.writing_notes||"";
- document.getElementById("settingShowAnswers").checked=!!test.show_answers_after_submit;
- document.getElementById("settingShowExplanations").checked=!!test.show_explanations_after_submit;
- document.getElementById("settingAllowReview").checked=!!test.allow_review_after_submit;
- document.getElementById("settingRequireApproval").checked=test.require_teacher_approval!==false;
- document.getElementById("questionForm").reset();document.getElementById("questionMarks").value="1";
- questionModal.classList.add("open"); await loadQuestionList();
-}
-async function loadQuestionList(){
- if(!activeTestForQuestions)return;
- questionList.textContent="Loading questions...";
- const {data:qs,error}=await db.from("unit_test_questions").select("id,question_text,question_type,options,correct_answer,marks,sort_order").eq("test_id",activeTestForQuestions.id).order("sort_order",{ascending:true});
- if(error){questionList.textContent="Could not load questions: "+error.message;return;}
- questionList.replaceChildren();
- if(!qs||!qs.length)questionList.append(make("div","empty","No questions added yet."));
- for(const q of qs){const row=make("div","question-row");row.append(make("strong","","Q"+q.sort_order+" · "+q.question_type+" · "+q.marks+" marks"),make("p","",q.question_text));
-  const actions=make("div","actions");addButton(actions,"Delete question","danger",async()=>{if(!confirm("Delete this question?"))return;const {error}=await db.from("unit_test_questions").delete().eq("id",q.id);if(error){setQuestionMessage("Delete failed: "+error.message,"error");return;}setQuestionMessage("Question deleted.","success");await loadQuestionList();await syncTestMarks();});row.append(actions);questionList.append(row);}
-}
-function parseQuestionPayload(type, raw){
- const lines=raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
- if(type==="mcq"||type==="dropdown_gap"||type==="dialogue_gap")return {options:lines};
- if(type==="multiple_matching"){
-  const s=raw.split(/PROFILES:/i);const left=s[0].replace(/SENTENCES:/i,"").trim();return {sentences:left.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,15),profiles:(s[1]||"").split(/\r?\n/).map(x=>x.trim()).filter(Boolean).slice(0,15)};
- }
- return {raw:raw};
-}
-document.getElementById("questionForm").addEventListener("submit",async e=>{
- e.preventDefault();if(!activeTestForQuestions)return;
- const type=document.getElementById("questionType").value,text=document.getElementById("questionText").value.trim(),raw=document.getElementById("questionData").value,answer=document.getElementById("questionAnswer").value.trim(),marks=Number(document.getElementById("questionMarks").value),explanation=document.getElementById("questionExplanation").value.trim();
- if(!text||!Number.isFinite(marks)||marks<=0){alert("Enter question text and a positive mark value.");return;}
- const payload=parseQuestionPayload(type,raw);
- if(type==="multiple_matching"&&(payload.sentences.length>15||payload.profiles.length>15)){alert("Maximum 15 sentences and 15 profiles.");return;}
- if(type==="multiple_matching"&&(!payload.sentences.length||!payload.profiles.length)){alert("For matching, use SENTENCES: followed by sentences, then PROFILES: followed by profiles.");return;}
- if(type==="open_gap"&&answer.split("|").some(a=>a.split(";").filter(Boolean).length>4)){alert("Maximum four accepted answers per gap.");return;}
- if(["mcq","dropdown_gap","dialogue_gap"].includes(type)&&!payload.options.length){alert("Enter the answer options, one per line.");return;}
- const {data:existing,error:lookupErr}=await db.from("unit_test_questions").select("sort_order").eq("test_id",activeTestForQuestions.id).order("sort_order",{ascending:false}).limit(1);
- if(lookupErr){setQuestionMessage("Could not determine question order: "+lookupErr.message,"error");return;}
- const row={test_id:activeTestForQuestions.id,question_text:text,question_type:type,options:{...payload,explanation},correct_answer:answer||null,marks,sort_order:existing?.length?Number(existing[0].sort_order)+1:1};
- const btn=document.getElementById("saveQuestionBtn");btn.disabled=true;
- const {error}=await db.from("unit_test_questions").insert(row);btn.disabled=false;
- if(error){setQuestionMessage("Could not save question: "+error.message,"error");return;}
- e.target.reset();document.getElementById("questionMarks").value="1";setQuestionMessage("Question saved.","success");await loadQuestionList();await syncTestMarks();
-});
-async function syncTestMarks(){
- if(!activeTestForQuestions)return;
- const {data,error}=await db.from("unit_test_questions").select("marks").eq("test_id",activeTestForQuestions.id);
- if(error){setQuestionMessage("Questions saved, but marks could not be recalculated: "+error.message,"error");return;}
- const total=(data||[]).reduce((sum,q)=>sum+Number(q.marks||0),0);
- const {error:updateError}=await db.from("unit_tests").update({total_marks:total}).eq("id",activeTestForQuestions.id);
- if(updateError){setQuestionMessage("Question saved, but total marks could not be updated. Run the setup SQL first. "+updateError.message,"error");return;}
- activeTestForQuestions.total_marks=total;document.getElementById("questionTestInfo").textContent="Test: "+activeTestForQuestions.title+" · Current total: "+total+" marks";
-}
-document.getElementById("testSettingsForm").addEventListener("submit",async e=>{
- e.preventDefault();if(!activeTestForQuestions)return;
- const duration=Number(document.getElementById("testDurationSetting").value),min=Number(document.getElementById("writingMinWords").value),max=Number(document.getElementById("writingMaxWords").value);
- if(!Number.isInteger(duration)||duration<1||!Number.isInteger(min)||min<0||!Number.isInteger(max)||max<1||max<min){alert("Check duration and writing word limits.");return;}
- const update={duration_minutes:duration,writing_min_words:min,writing_max_words:max,writing_notes:document.getElementById("writingNotes").value.trim()||null,show_answers_after_submit:document.getElementById("settingShowAnswers").checked,show_explanations_after_submit:document.getElementById("settingShowExplanations").checked,allow_review_after_submit:document.getElementById("settingAllowReview").checked,require_teacher_approval:document.getElementById("settingRequireApproval").checked};
- const {error}=await db.from("unit_tests").update(update).eq("id",activeTestForQuestions.id);
- if(error){setQuestionMessage("Could not save settings. Run the setup SQL first. "+error.message,"error");return;}
- Object.assign(activeTestForQuestions,update);setQuestionMessage("Exam settings saved.","success");
+
+document.getElementById("questionType").addEventListener("change", () => {
+  document.getElementById("questionHelp").textContent =
+    typeHelp[document.getElementById("questionType").value] || "";
 });
 
+document.getElementById("closeQuestionModal").addEventListener("click", () => {
+  questionModal.classList.remove("open");
+});
+
+questionModal.addEventListener("click", e => {
+  if (e.target === questionModal) questionModal.classList.remove("open");
+});
+
+async function openQuestionManager(test) {
+  activeTestForQuestions = test;
+
+  document.getElementById("questionTestInfo").textContent =
+    "Test: " + test.title + " · Current total: " + (test.total_marks ?? 0) + " marks";
+
+  document.getElementById("testDurationSetting").value = test.duration_minutes || 45;
+  document.getElementById("writingMinWords").value = test.writing_min_words ?? 0;
+  document.getElementById("writingMaxWords").value = test.writing_max_words ?? 250;
+  document.getElementById("writingNotes").value = test.writing_notes || "";
+  document.getElementById("settingShowAnswers").checked = !!test.show_answers_after_submit;
+  document.getElementById("settingShowExplanations").checked = !!test.show_explanations_after_submit;
+  document.getElementById("settingAllowReview").checked = !!test.allow_review_after_submit;
+  document.getElementById("settingRequireApproval").checked = test.require_teacher_approval !== false;
+
+  document.getElementById("questionForm").reset();
+  document.getElementById("questionMarks").value = "1";
+
+  questionModal.classList.add("open");
+  await loadQuestionList();
+}
+
+async function loadQuestionList() {
+  if (!activeTestForQuestions) return;
+
+  questionList.textContent = "Loading questions...";
+
+  const {data:qs,error} = await db.from("unit_test_questions")
+    .select("id,question_text,question_type,options,correct_answer,marks,sort_order")
+    .eq("test_id",activeTestForQuestions.id)
+    .order("sort_order",{ascending:true});
+
+  if (error) {
+    questionList.textContent = "Could not load questions: " + error.message;
+    return;
+  }
+
+  questionList.replaceChildren();
+
+  if (!qs || !qs.length) {
+    questionList.append(make("div","empty","No questions added yet."));
+  }
+
+  for (const q of qs) {
+    const row = make("div","question-row");
+
+    row.append(
+      make("strong","","Q" + q.sort_order + " · " + q.question_type + " · " + q.marks + " marks"),
+      make("p","",q.question_text)
+    );
+
+    const actions = make("div","actions");
+
+    addButton(actions,"Delete question","danger",async() => {
+      if (!confirm("Delete this question?")) return;
+
+      const {error} = await db.from("unit_test_questions").delete().eq("id",q.id);
+
+      if (error) {
+        setQuestionMessage("Delete failed: " + error.message,"error");
+        return;
+      }
+
+      setQuestionMessage("Question deleted.","success");
+      await loadQuestionList();
+      await syncTestMarks();
+    });
+
+    row.append(actions);
+    questionList.append(row);
+  }
+}
+
+function parseQuestionPayload(type, raw) {
+  const lines = raw.split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+
+  if (type === "mcq" || type === "dropdown_gap" || type === "dialogue_gap") {
+    return {options:lines};
+  }
+
+  if (type === "multiple_matching") {
+    const s = raw.split(/PROFILES:/i);
+    const left = s[0].replace(/SENTENCES:/i,"").trim();
+
+    return {
+      sentences:left.split(/\r?\n/).map(x => x.trim()).filter(Boolean).slice(0,15),
+      profiles:(s[1] || "").split(/\r?\n/).map(x => x.trim()).filter(Boolean).slice(0,15)
+    };
+  }
+
+  return {raw:raw};
+}
+
+document.getElementById("questionForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (!activeTestForQuestions) return;
+
+  const type = document.getElementById("questionType").value;
+  const text = document.getElementById("questionText").value.trim();
+  const raw = document.getElementById("questionData").value;
+  const answer = document.getElementById("questionAnswer").value.trim();
+  const marks = Number(document.getElementById("questionMarks").value);
+  const explanation = document.getElementById("questionExplanation").value.trim();
+
+  if (!text || !Number.isFinite(marks) || marks <= 0) {
+    alert("Enter question text and a positive mark value.");
+    return;
+  }
+
+  const payload = parseQuestionPayload(type, raw);
+
+  if (type === "multiple_matching" && (!payload.sentences.length || !payload.profiles.length)) {
+    alert("For matching, use SENTENCES: followed by sentences, then PROFILES: followed by profiles.");
+    return;
+  }
+
+  if (type === "open_gap" && answer.split("|").some(a => a.split(";").filter(Boolean).length > 4)) {
+    alert("Maximum four accepted answers per gap.");
+    return;
+  }
+
+  if (["mcq","dropdown_gap","dialogue_gap"].includes(type) && !payload.options.length) {
+    alert("Enter the answer options, one per line.");
+    return;
+  }
+
+  const {data:existing,error:lookupErr} = await db.from("unit_test_questions")
+    .select("sort_order")
+    .eq("test_id",activeTestForQuestions.id)
+    .order("sort_order",{ascending:false})
+    .limit(1);
+
+  if (lookupErr) {
+    setQuestionMessage("Could not determine question order: " + lookupErr.message,"error");
+    return;
+  }
+
+  const row = {
+    test_id:activeTestForQuestions.id,
+    question_text:text,
+    question_type:type,
+    options:{...payload,explanation},
+    correct_answer:answer || null,
+    marks,
+    sort_order:existing?.length ? Number(existing[0].sort_order) + 1 : 1
+  };
+
+  const btn = document.getElementById("saveQuestionBtn");
+  btn.disabled = true;
+
+  const {error} = await db.from("unit_test_questions").insert(row);
+
+  btn.disabled = false;
+
+  if (error) {
+    setQuestionMessage("Could not save question: " + error.message,"error");
+    return;
+  }
+
+  e.target.reset();
+  document.getElementById("questionMarks").value = "1";
+  setQuestionMessage("Question saved.","success");
+
+  await loadQuestionList();
+  await syncTestMarks();
+});
+
+async function syncTestMarks() {
+  if (!activeTestForQuestions) return;
+
+  const {data,error} = await db.from("unit_test_questions")
+    .select("marks")
+    .eq("test_id",activeTestForQuestions.id);
+
+  if (error) {
+    setQuestionMessage("Questions saved, but marks could not be recalculated: " + error.message,"error");
+    return;
+  }
+
+  const total = (data || []).reduce((sum,q) => sum + Number(q.marks || 0),0);
+
+  const {error:updateError} = await db.from("unit_tests")
+    .update({total_marks:total})
+    .eq("id",activeTestForQuestions.id);
+
+  if (updateError) {
+    setQuestionMessage("Question saved, but total marks could not be updated. " + updateError.message,"error");
+    return;
+  }
+
+  activeTestForQuestions.total_marks = total;
+
+  document.getElementById("questionTestInfo").textContent =
+    "Test: " + activeTestForQuestions.title + " · Current total: " + total + " marks";
+}
+
+document.getElementById("testSettingsForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (!activeTestForQuestions) return;
+
+  const duration = Number(document.getElementById("testDurationSetting").value);
+  const min = Number(document.getElementById("writingMinWords").value);
+  const max = Number(document.getElementById("writingMaxWords").value);
+
+  if (!Number.isInteger(duration) || duration < 1 ||
+      !Number.isInteger(min) || min < 0 ||
+      !Number.isInteger(max) || max < 1 || max < min) {
+    alert("Check duration and writing word limits.");
+    return;
+  }
+
+  const update = {
+    duration_minutes:duration,
+    writing_min_words:min,
+    writing_max_words:max,
+    writing_notes:document.getElementById("writingNotes").value.trim() || null,
+    show_answers_after_submit:document.getElementById("settingShowAnswers").checked,
+    show_explanations_after_submit:document.getElementById("settingShowExplanations").checked,
+    allow_review_after_submit:document.getElementById("settingAllowReview").checked,
+    require_teacher_approval:document.getElementById("settingRequireApproval").checked
+  };
+
+  const {error} = await db.from("unit_tests")
+    .update(update)
+    .eq("id",activeTestForQuestions.id);
+
+  if (error) {
+    setQuestionMessage("Could not save settings: " + error.message,"error");
+    return;
+  }
+
+  Object.assign(activeTestForQuestions,update);
+  setQuestionMessage("Exam settings saved.","success");
+}
+
+/*
+  UPDATED: display each test's course track.
+  Existing tests default to My Course in the database.
+*/
 async function loadTests(unit, area) {
   const {data:tests, error} = await db.from("unit_tests")
-    .select("id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published")
-    .eq("unit_id", unit.id).order("sort_order",{ascending:true});
-  if (error) { area.replaceChildren(make("div","empty","Could not load tests: " + error.message)); return; }
+    .select("id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published,course_track,writing_min_words,writing_max_words,writing_notes,show_answers_after_submit,show_explanations_after_submit,allow_review_after_submit,require_teacher_approval")
+    .eq("unit_id", unit.id)
+    .order("sort_order", {ascending:true});
+
+  if (error) {
+    area.replaceChildren(make("div","empty","Could not load tests: " + error.message));
+    return;
+  }
+
   area.replaceChildren();
-  if (!tests || !tests.length) { area.append(make("div","empty","No unit tests added yet.")); return; }
+
+  if (!tests || !tests.length) {
+    area.append(make("div","empty","No unit tests added yet."));
+    return;
+  }
+
   for (const test of tests) {
     const box = make("div","test");
     const heading = make("strong","", "Test " + test.sort_order + ": " + test.title);
-    const meta = make("p","muted", (test.test_type === "pdf" ? "PDF test" : "Online test") +
+
+    const trackName = test.course_track === "checkpoint"
+      ? "Cambridge Checkpoint"
+      : "My Course";
+
+    const meta = make(
+      "p",
+      "muted",
+      "Track: " + trackName +
+      " · " + (test.test_type === "pdf" ? "PDF test" : "Online test") +
       (test.duration_minutes ? " · " + test.duration_minutes + " minutes" : "") +
-      " · " + (test.total_marks ?? 0) + " marks");
-    const testStatus = make("span","status" + (test.is_published ? " published" : ""),test.is_published ? "Published" : "Draft");
+      " · " + (test.total_marks ?? 0) + " marks"
+    );
+
+    const testStatus = make(
+      "span",
+      "status" + (test.is_published ? " published" : ""),
+      test.is_published ? "Published" : "Draft"
+    );
+
     box.append(heading, meta, testStatus);
-    if (test.description) box.append(make("p","",test.description));
+
+    if (test.description) {
+      box.append(make("p","",test.description));
+    }
+
     if (test.file_url) {
       const link = make("a","", "Open test file");
-      link.href = test.file_url; link.target = "_blank"; link.rel = "noopener noreferrer"; box.append(link);
+      link.href = test.file_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      box.append(link);
     }
+
     const actions = make("div","actions");
+
     addButton(actions, "Manage Questions", "secondary", () => openQuestionManager(test));
-    addButton(actions,test.is_published ? "Unpublish Test" : "Publish Test",
-      test.is_published ? "danger" : "primary", () => toggleTestPublish(test));
+
+    addButton(
+      actions,
+      test.is_published ? "Unpublish Test" : "Publish Test",
+      test.is_published ? "danger" : "primary",
+      () => toggleTestPublish(test)
+    );
+
     box.append(actions);
     area.append(box);
   }
 }
+
+/*
+  UPDATED: ask the teacher to choose a course track when creating a test.
+*/
 async function addUnitTest(unit, area) {
   const title = prompt("Test title (e.g. Unit 1 Vocabulary Test):");
+
   if (title === null) return;
-  if (!title.trim()) { alert("Test title cannot be empty."); return; }
+
+  if (!title.trim()) {
+    alert("Test title cannot be empty.");
+    return;
+  }
+
+  const trackChoice = prompt(
+    "Choose the course track:\n\n1 = My Course\n2 = Cambridge Checkpoint",
+    "1"
+  );
+
+  if (trackChoice === null) return;
+
+  const trackMap = {
+    "1": "my_course",
+    "2": "checkpoint"
+  };
+
+  const courseTrack = trackMap[trackChoice.trim()];
+
+  if (!courseTrack) {
+    alert("Invalid choice. Enter 1 for My Course or 2 for Cambridge Checkpoint.");
+    return;
+  }
+
   const description = prompt("Short description (optional):") || "";
   const type = prompt("Enter online or pdf:", "online");
+
   if (type === null) return;
+
   const testType = type.trim().toLowerCase();
-  if (!["online","pdf"].includes(testType)) { alert("Type must be online or pdf."); return; }
+
+  if (!["online","pdf"].includes(testType)) {
+    alert("Type must be online or pdf.");
+    return;
+  }
+
   const durationText = prompt("Duration in minutes (optional):", "");
+
   if (durationText === null) return;
+
   const duration = durationText.trim() === "" ? null : Number(durationText);
-  if (duration !== null && (!Number.isInteger(duration) || duration < 1)) { alert("Duration must be a positive whole number."); return; }
+
+  if (duration !== null && (!Number.isInteger(duration) || duration < 1)) {
+    alert("Duration must be a positive whole number.");
+    return;
+  }
+
   const marksText = prompt("Total marks:", "0");
+
   if (marksText === null) return;
+
   const marks = Number(marksText);
-  if (!Number.isFinite(marks) || marks < 0) { alert("Total marks must be zero or a positive number."); return; }
+
+  if (!Number.isFinite(marks) || marks < 0) {
+    alert("Total marks must be zero or a positive number.");
+    return;
+  }
+
   let fileUrl = null;
+
   if (testType === "pdf") {
     const url = prompt("Paste the PDF file URL:");
+
     if (url === null) return;
+
     fileUrl = url.trim() || null;
-    if (!fileUrl) { alert("A PDF URL is required for a PDF test."); return; }
+
+    if (!fileUrl) {
+      alert("A PDF URL is required for a PDF test.");
+      return;
+    }
   }
+
   const {data:existing,error:orderError} = await db.from("unit_tests")
-    .select("sort_order").eq("unit_id",unit.id).order("sort_order",{ascending:false}).limit(1);
-  if (orderError) { alert("Could not determine test order: " + orderError.message); return; }
-  const nextOrder = existing && existing.length ? Number(existing[0].sort_order)+1 : 1;
+    .select("sort_order")
+    .eq("unit_id",unit.id)
+    .order("sort_order",{ascending:false})
+    .limit(1);
+
+  if (orderError) {
+    alert("Could not determine test order: " + orderError.message);
+    return;
+  }
+
+  const nextOrder = existing && existing.length
+    ? Number(existing[0].sort_order) + 1
+    : 1;
+
   const {error} = await db.from("unit_tests").insert({
-    unit_id:unit.id,title:title.trim(),description:description.trim() || null,
-    test_type:testType,duration_minutes:duration,total_marks:marks,file_url:fileUrl,
-    sort_order:nextOrder,is_published:false
+    unit_id:unit.id,
+    title:title.trim(),
+    description:description.trim() || null,
+    test_type:testType,
+    duration_minutes:duration,
+    total_marks:marks,
+    file_url:fileUrl,
+    sort_order:nextOrder,
+    is_published:false,
+    course_track:courseTrack
   });
-  if (error) { alert("Could not create test: " + error.message); return; }
-  showMessage("Unit test created as a draft.", "success");
+
+  if (error) {
+    alert("Could not create test: " + error.message);
+    return;
+  }
+
+  showMessage(
+    "Unit test created as a draft in " +
+      (courseTrack === "checkpoint" ? "Cambridge Checkpoint" : "My Course") +
+      ".",
+    "success"
+  );
+
   await loadTests(unit,area);
 }
+
 async function toggleTestPublish(test) {
   const next = !test.is_published;
+
   if (!confirm((next ? "Publish" : "Unpublish") + " this test?")) return;
-  const {error} = await db.from("unit_tests").update({is_published:next}).eq("id",test.id);
-  if (error) { alert("Could not update test: " + error.message); return; }
+
+  const {error} = await db.from("unit_tests")
+    .update({is_published:next})
+    .eq("id",test.id);
+
+  if (error) {
+    alert("Could not update test: " + error.message);
+    return;
+  }
+
   showMessage(next ? "Unit test published." : "Unit test unpublished.", "success");
   await loadCourses();
 }
+
 async function editCourse(course) {
   const title = prompt("Course title:", course.title);
+
   if (title === null) return;
-  if (!title.trim()) { alert("Course title cannot be empty."); return; }
+
+  if (!title.trim()) {
+    alert("Course title cannot be empty.");
+    return;
+  }
+
   const description = prompt("Course description:", course.description || "");
+
   if (description === null) return;
+
   const yearGroup = prompt("Year group (e.g. Year 6):", course.year_group);
+
   if (yearGroup === null) return;
+
   const allowedYears = ["Year 6","Year 7","Year 8","Year 9","Year 10","Year 11"];
-  if (!allowedYears.includes(yearGroup.trim())) { alert("Please enter one of the listed year groups, exactly as shown."); return; }
+
+  if (!allowedYears.includes(yearGroup.trim())) {
+    alert("Please enter one of the listed year groups, exactly as shown.");
+    return;
+  }
+
   const {error} = await db.from("courses").update({
-    title:title.trim(),description:description.trim() || null,year_group:yearGroup.trim()
+    title:title.trim(),
+    description:description.trim() || null,
+    year_group:yearGroup.trim()
   }).eq("id",course.id);
-  if (error) { alert("Could not update course: " + error.message); return; }
+
+  if (error) {
+    alert("Could not update course: " + error.message);
+    return;
+  }
+
   showMessage("Course details updated.", "success");
   await loadCourses();
 }
+
 async function addUnit(course) {
   const title = prompt("Enter the unit title:");
+
   if (title === null) return;
-  if (!title.trim()) { alert("Unit title cannot be empty."); return; }
+
+  if (!title.trim()) {
+    alert("Unit title cannot be empty.");
+    return;
+  }
+
   const numberText = prompt("Enter the unit number:");
+
   if (numberText === null) return;
+
   const unitNumber = Number(numberText);
-  if (!Number.isInteger(unitNumber) || unitNumber < 1) { alert("Enter a positive whole number for the unit number."); return; }
-  const {data:existing,error:lookupError} = await db.from("course_units").select("id")
-    .eq("course_id",course.id).eq("unit_number",unitNumber);
-  if (lookupError) { alert("Could not check existing units: " + lookupError.message); return; }
-  if (existing && existing.length) { alert("This unit number is already used in this course."); return; }
+
+  if (!Number.isInteger(unitNumber) || unitNumber < 1) {
+    alert("Enter a positive whole number for the unit number.");
+    return;
+  }
+
+  const {data:existing,error:lookupError} = await db.from("course_units")
+    .select("id")
+    .eq("course_id",course.id)
+    .eq("unit_number",unitNumber);
+
+  if (lookupError) {
+    alert("Could not check existing units: " + lookupError.message);
+    return;
+  }
+
+  if (existing && existing.length) {
+    alert("This unit number is already used in this course.");
+    return;
+  }
+
   const {data:newUnit,error} = await db.from("course_units").insert({
-    title:title.trim(),year_group:course.year_group,unit_number:unitNumber,course_id:course.id
+    title:title.trim(),
+    year_group:course.year_group,
+    unit_number:unitNumber,
+    course_id:course.id
   }).select("id").single();
-  if (error) { alert("Could not create unit: " + error.message); return; }
-  // New units automatically receive the standard four sessions.
+
+  if (error) {
+    alert("Could not create unit: " + error.message);
+    return;
+  }
+
   const standardSessions = [1,2,3,4].map(n => ({
     unit_id:newUnit.id,
     title:n === 4 ? "Session 4 - Consolidation" : "Session " + n + " - Teaching",
     description:n === 4 ? "Consolidation and revision session." : "Teaching session.",
-    sort_order:n,is_published:false
+    sort_order:n,
+    is_published:false
   }));
+
   const {error:sessionError} = await db.from("course_sessions").insert(standardSessions);
+
   if (sessionError) {
     alert("Unit was created, but its four sessions could not be created: " + sessionError.message);
   } else {
     showMessage("Unit and its four standard sessions created as drafts.", "success");
   }
+
   await loadCourses();
 }
+
 async function togglePublish(course) {
   const nextValue = !course.is_published;
+
   if (!confirm("Are you sure you want to " + (nextValue ? "publish" : "unpublish") + " this course?")) return;
-  const {error} = await db.from("courses").update({is_published:nextValue}).eq("id",course.id);
-  if (error) { alert("Could not change publishing status: " + error.message); return; }
+
+  const {error} = await db.from("courses")
+    .update({is_published:nextValue})
+    .eq("id",course.id);
+
+  if (error) {
+    alert("Could not change publishing status: " + error.message);
+    return;
+  }
+
   showMessage(nextValue ? "Course published." : "Course unpublished.", "success");
   await loadCourses();
 }
+
 courseForm.addEventListener("submit", async event => {
   event.preventDefault();
+
   if (!teacherVerified) return;
-  createCourseBtn.disabled = true; createCourseBtn.textContent = "Creating...";
+
+  createCourseBtn.disabled = true;
+  createCourseBtn.textContent = "Creating...";
+
   const title = document.getElementById("courseTitle").value.trim();
   const yearGroup = document.getElementById("yearGroup").value;
   const description = document.getElementById("courseDescription").value.trim();
+
   const {data:lastCourses,error:orderError} = await db.from("courses")
-    .select("sort_order").order("sort_order",{ascending:false}).limit(1);
+    .select("sort_order")
+    .order("sort_order",{ascending:false})
+    .limit(1);
+
   if (orderError) {
     showMessage("Could not determine course order: " + orderError.message,"error");
-    createCourseBtn.disabled=false; createCourseBtn.textContent="Create Course"; return;
+    createCourseBtn.disabled = false;
+    createCourseBtn.textContent = "Create Course";
+    return;
   }
-  const nextOrder = lastCourses && lastCourses.length ? Number(lastCourses[0].sort_order)+1 : 1;
-  const {data:newCourse,error} = await db.from("courses").insert({
-    title,year_group:yearGroup,description:description || null,sort_order:nextOrder,is_published:false
-  }).select("id").single();
-  createCourseBtn.disabled=false; createCourseBtn.textContent="Create Course";
-  if (error) { showMessage("Could not create course: " + error.message,"error"); return; }
+
+  const nextOrder = lastCourses && lastCourses.length
+    ? Number(lastCourses[0].sort_order) + 1
+    : 1;
+
+  const {error} = await db.from("courses").insert({
+    title,
+    year_group:yearGroup,
+    description:description || null,
+    sort_order:nextOrder,
+    is_published:false
+  });
+
+  createCourseBtn.disabled = false;
+  createCourseBtn.textContent = "Create Course";
+
+  if (error) {
+    showMessage("Could not create course: " + error.message,"error");
+    return;
+  }
+
   courseForm.reset();
   showMessage("Course created successfully as a draft.", "success");
   await loadCourses();
 });
+
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await db.auth.signOut();
   window.location.replace("login.html");
 });
+
 checkTeacher();
 </script>
 </body>
