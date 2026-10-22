@@ -221,6 +221,27 @@ function makeInput(q,index,container){
             field.append(label);
         });
     }
+    else if(type==='multiple_choice_cloze'){
+        const gapOptions=opts.gap_options||[];
+        const parts=q.question_text.split(/\[gap\]/gi);
+        const passage=el('p','cloze-passage');
+        passage.style.lineHeight='2.1';
+        passage.style.whiteSpace='pre-wrap';
+        for(let i=0;i<parts.length;i++){
+            passage.append(document.createTextNode(parts[i]));
+            if(i<parts.length-1){
+                const select=document.createElement('select');
+                select.name=name+'_'+i;
+                select.style.maxWidth='100%';
+                select.style.padding='7px';
+                select.style.margin='3px 4px';
+                select.append(new Option('('+ (i+1) +') Choose',''));
+                (gapOptions[i]||[]).forEach(v=>select.append(new Option(v,v)));
+                passage.append(select);
+            }
+        }
+        field.append(passage);
+    }
     else if(type==='dropdown_gap'||type==='dialogue_gap'){
         const arr=opts.options||[];
         const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;
@@ -247,7 +268,7 @@ function makeInput(q,index,container){
             field.append(select);
         }
     }
-    else if(type==='open_gap'){
+    else if(type==='open_cloze'||type==='open_gap'){
         const gaps=(q.question_text.match(/\[gap\]/gi)||[]).length||1;
 
         for(let i=0;i<gaps;i++){
@@ -459,7 +480,7 @@ async function submitCurrentTest(auto=false){
         for(const q of currentQuestions){
             const key='q_'+q.id;
 
-            if(['dropdown_gap','open_gap','dialogue_gap','multiple_matching'].includes(q.question_type)){
+            if(['dropdown_gap','multiple_choice_cloze','open_cloze','open_gap','dialogue_gap','multiple_matching'].includes(q.question_type)){
                 const values=[];
                 let i=0;
 
@@ -531,9 +552,10 @@ async function submitCurrentTest(auto=false){
                 box.append(el('strong','',`Question ${q.sort_order}`));
 
                 if(currentTest.show_answers_after_submit){
-                    box.append(
-                        el('p','',`Correct answer: ${q.correct_answer||'Teacher review required'}`)
-                    );
+                    const answerLabel = ['multiple_choice_cloze','open_cloze','open_gap','dropdown_gap','dialogue_gap','multiple_matching'].includes(q.question_type)
+                        ? String(q.correct_answer||'').split('|').join(' · ')
+                        : (q.correct_answer||'Teacher review required');
+                    box.append(el('p','',`Correct answer: ${answerLabel||'Teacher review required'}`));
                 }
 
                 if(currentTest.show_explanations_after_submit&&q.options?.explanation){
