@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manage Courses | IGCSE English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
@@ -68,8 +69,8 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 .hidden{display:none!important}
 </style>
 </head>
-<body>
 
+<body>
 <header>
   <div>
     <h1>Manage Courses</h1>
@@ -87,6 +88,7 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
   <section class="panel">
     <h2>Create a Course</h2>
     <p class="muted">Create a course for a year group. You can publish it when its content is ready.</p>
+
     <form id="courseForm">
       <div class="form-grid">
         <div>
@@ -125,6 +127,7 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
     <h2 id="questionModalTitle">Manage Test Questions</h2>
     <button type="button" class="secondary" id="closeQuestionModal">Close</button>
   </div>
+
   <p id="questionTestInfo" class="muted"></p>
   <div id="questionMessage" class="notice">Questions are saved as part of this test.</div>
   <div id="questionList"></div>
@@ -208,6 +211,8 @@ Matching: put sentences and profiles in the format shown below"></textarea>
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
+"use strict";
+
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -216,9 +221,10 @@ const message = document.getElementById("message");
 const coursesList = document.getElementById("coursesList");
 const courseForm = document.getElementById("courseForm");
 const createCourseBtn = document.getElementById("createCourseBtn");
+
 let teacherVerified = false;
 
-function showMessage(text, type="") {
+function showMessage(text, type = "") {
   message.textContent = text;
   message.className = "notice" + (type ? " " + type : "");
 }
@@ -239,37 +245,55 @@ function addButton(parent, text, className, handler) {
 }
 
 async function checkTeacher() {
-  const {data: sessionData, error: sessionError} = await db.auth.getSession();
+  try {
+    const {data: sessionData, error: sessionError} = await db.auth.getSession();
 
-  if (sessionError || !sessionData.session) {
-    window.location.replace("login.html");
-    return;
+    if (sessionError) {
+      showMessage("Could not check your session: " + sessionError.message, "error");
+      coursesList.textContent = "Please refresh the page or log in again.";
+      return;
+    }
+
+    if (!sessionData.session) {
+      window.location.replace("login.html");
+      return;
+    }
+
+    const user = sessionData.session.user;
+
+    const {data: role, error: roleError} = await db.from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "teacher")
+      .maybeSingle();
+
+    if (roleError) {
+      showMessage("Could not verify teacher access: " + roleError.message, "error");
+      courseForm.style.display = "none";
+      coursesList.textContent = "Teacher access could not be verified.";
+      return;
+    }
+
+    if (!role) {
+      showMessage("Access denied. This page is for teachers only.", "error");
+      courseForm.style.display = "none";
+      coursesList.textContent = "You do not have permission to manage courses.";
+      return;
+    }
+
+    teacherVerified = true;
+    showMessage("Teacher access verified.", "success");
+    await loadCourses();
+  } catch (error) {
+    showMessage("Unexpected error: " + error.message, "error");
+    coursesList.textContent = "The page could not finish loading.";
   }
-
-  const user = sessionData.session.user;
-
-  const {data: role, error: roleError} = await db.from("user_roles")
-    .select("role")
-    .eq("user_id", user.id)
-    .eq("role", "teacher")
-    .maybeSingle();
-
-  if (roleError || !role) {
-    showMessage("Access denied. This page is for teachers only.", "error");
-    courseForm.style.display = "none";
-    coursesList.textContent = "You do not have permission to manage courses.";
-    return;
-  }
-
-  teacherVerified = true;
-  showMessage("Teacher access verified.", "success");
-  await loadCourses();
 }
 
 async function loadCourses() {
   coursesList.textContent = "Loading courses...";
 
-  const {data:courses, error} = await db.from("courses")
+  const {data: courses, error} = await db.from("courses")
     .select("id,title,year_group,description,sort_order,is_published")
     .order("sort_order", {ascending:true})
     .order("id", {ascending:true});
@@ -298,6 +322,7 @@ async function loadCourses() {
 
     addButton(actions, "Edit Course Details", "secondary", () => editCourse(course));
     addButton(actions, "Add Unit", "secondary", () => addUnit(course));
+
     addButton(
       actions,
       course.is_published ? "Unpublish Course" : "Publish Course",
@@ -313,7 +338,7 @@ async function loadCourses() {
 }
 
 async function loadUnits(course, unitArea) {
-  const {data:units, error} = await db.from("course_units")
+  const {data: units, error} = await db.from("course_units")
     .select("id,title,unit_number")
     .eq("course_id", course.id)
     .order("unit_number", {ascending:true});
@@ -352,7 +377,7 @@ async function loadUnits(course, unitArea) {
 }
 
 async function loadSessions(unit, area) {
-  const {data:sessions, error} = await db.from("course_sessions")
+  const {data: sessions, error} = await db.from("course_sessions")
     .select("id,title,description,sort_order,is_published")
     .eq("unit_id", unit.id)
     .order("sort_order", {ascending:true});
@@ -363,7 +388,7 @@ async function loadSessions(unit, area) {
   }
 
   if (!sessions || !sessions.length) {
-    area.append(make("div","empty","No sessions found for this unit."));
+    area.append(make("div", "empty", "No sessions found for this unit."));
     return;
   }
 
@@ -406,7 +431,7 @@ async function loadSessions(unit, area) {
 
       const fd = new FormData(form);
 
-      const {data:existing, error:countError} = await db.from("session_items")
+      const {data: existing, error: countError} = await db.from("session_items")
         .select("sort_order")
         .eq("session_id", session.id)
         .order("sort_order", {ascending:false})
@@ -430,7 +455,7 @@ async function loadSessions(unit, area) {
         is_required: true
       };
 
-      const {error:insertError} = await db.from("session_items").insert(row);
+      const {error: insertError} = await db.from("session_items").insert(row);
       button.disabled = false;
 
       if (insertError) {
@@ -461,7 +486,7 @@ async function loadSessions(unit, area) {
 }
 
 async function loadSessionItems(sessionId, area) {
-  const {data:items, error} = await db.from("session_items")
+  const {data: items, error} = await db.from("session_items")
     .select("id,title,item_type,content,file_url,sort_order,is_required")
     .eq("session_id", sessionId)
     .order("sort_order", {ascending:true});
@@ -474,7 +499,7 @@ async function loadSessionItems(sessionId, area) {
   area.replaceChildren();
 
   if (!items || !items.length) {
-    area.append(make("div","empty","No content items added yet."));
+    area.append(make("div", "empty", "No content items added yet."));
     return;
   }
 
@@ -482,14 +507,14 @@ async function loadSessionItems(sessionId, area) {
     const box = make("div", "item");
 
     box.append(
-      make("div","item-title",item.title),
-      make("div","item-meta",item.item_type.toUpperCase() + " · Item " + item.sort_order)
+      make("div", "item-title", item.title),
+      make("div", "item-meta", item.item_type.toUpperCase() + " · Item " + item.sort_order)
     );
 
-    if (item.content) box.append(make("p","",item.content));
+    if (item.content) box.append(make("p", "", item.content));
 
     if (item.file_url) {
-      const link = make("a","", "Open attached resource");
+      const link = make("a", "", "Open attached resource");
       link.href = item.file_url;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
@@ -507,7 +532,7 @@ async function toggleSessionPublish(session) {
 
   const {error} = await db.from("course_sessions")
     .update({is_published:next})
-    .eq("id",session.id);
+    .eq("id", session.id);
 
   if (error) {
     alert("Could not update session: " + error.message);
@@ -524,7 +549,7 @@ const questionModal = document.getElementById("questionModal");
 const questionList = document.getElementById("questionList");
 const questionMessage = document.getElementById("questionMessage");
 
-function setQuestionMessage(text, type="") {
+function setQuestionMessage(text, type = "") {
   questionMessage.textContent = text;
   questionMessage.className = "notice" + (type ? " " + type : "");
 }
@@ -580,10 +605,10 @@ async function loadQuestionList() {
 
   questionList.textContent = "Loading questions...";
 
-  const {data:qs,error} = await db.from("unit_test_questions")
+  const {data: qs, error} = await db.from("unit_test_questions")
     .select("id,question_text,question_type,options,correct_answer,marks,sort_order")
-    .eq("test_id",activeTestForQuestions.id)
-    .order("sort_order",{ascending:true});
+    .eq("test_id", activeTestForQuestions.id)
+    .order("sort_order", {ascending:true});
 
   if (error) {
     questionList.textContent = "Could not load questions: " + error.message;
@@ -593,30 +618,30 @@ async function loadQuestionList() {
   questionList.replaceChildren();
 
   if (!qs || !qs.length) {
-    questionList.append(make("div","empty","No questions added yet."));
+    questionList.append(make("div", "empty", "No questions added yet."));
   }
 
-  for (const q of qs) {
-    const row = make("div","question-row");
+  for (const q of qs || []) {
+    const row = make("div", "question-row");
 
     row.append(
-      make("strong","","Q" + q.sort_order + " · " + q.question_type + " · " + q.marks + " marks"),
-      make("p","",q.question_text)
+      make("strong", "", "Q" + q.sort_order + " · " + q.question_type + " · " + q.marks + " marks"),
+      make("p", "", q.question_text)
     );
 
-    const actions = make("div","actions");
+    const actions = make("div", "actions");
 
-    addButton(actions,"Delete question","danger",async() => {
+    addButton(actions, "Delete question", "danger", async () => {
       if (!confirm("Delete this question?")) return;
 
-      const {error} = await db.from("unit_test_questions").delete().eq("id",q.id);
+      const {error} = await db.from("unit_test_questions").delete().eq("id", q.id);
 
       if (error) {
-        setQuestionMessage("Delete failed: " + error.message,"error");
+        setQuestionMessage("Delete failed: " + error.message, "error");
         return;
       }
 
-      setQuestionMessage("Question deleted.","success");
+      setQuestionMessage("Question deleted.", "success");
       await loadQuestionList();
       await syncTestMarks();
     });
@@ -635,7 +660,7 @@ function parseQuestionPayload(type, raw) {
 
   if (type === "multiple_matching") {
     const s = raw.split(/PROFILES:/i);
-    const left = s[0].replace(/SENTENCES:/i,"").trim();
+    const left = s[0].replace(/SENTENCES:/i, "").trim();
 
     return {
       sentences:left.split(/\r?\n/).map(x => x.trim()).filter(Boolean).slice(0,15),
@@ -675,19 +700,19 @@ document.getElementById("questionForm").addEventListener("submit", async e => {
     return;
   }
 
-  if (["mcq","dropdown_gap","dialogue_gap"].includes(type) && !payload.options.length) {
+  if (["mcq", "dropdown_gap", "dialogue_gap"].includes(type) && !payload.options.length) {
     alert("Enter the answer options, one per line.");
     return;
   }
 
-  const {data:existing,error:lookupErr} = await db.from("unit_test_questions")
+  const {data: existing, error: lookupErr} = await db.from("unit_test_questions")
     .select("sort_order")
-    .eq("test_id",activeTestForQuestions.id)
-    .order("sort_order",{ascending:false})
+    .eq("test_id", activeTestForQuestions.id)
+    .order("sort_order", {ascending:false})
     .limit(1);
 
   if (lookupErr) {
-    setQuestionMessage("Could not determine question order: " + lookupErr.message,"error");
+    setQuestionMessage("Could not determine question order: " + lookupErr.message, "error");
     return;
   }
 
@@ -695,7 +720,7 @@ document.getElementById("questionForm").addEventListener("submit", async e => {
     test_id:activeTestForQuestions.id,
     question_text:text,
     question_type:type,
-    options:{...payload,explanation},
+    options:{...payload, explanation},
     correct_answer:answer || null,
     marks,
     sort_order:existing?.length ? Number(existing[0].sort_order) + 1 : 1
@@ -709,13 +734,13 @@ document.getElementById("questionForm").addEventListener("submit", async e => {
   btn.disabled = false;
 
   if (error) {
-    setQuestionMessage("Could not save question: " + error.message,"error");
+    setQuestionMessage("Could not save question: " + error.message, "error");
     return;
   }
 
   e.target.reset();
   document.getElementById("questionMarks").value = "1";
-  setQuestionMessage("Question saved.","success");
+  setQuestionMessage("Question saved.", "success");
 
   await loadQuestionList();
   await syncTestMarks();
@@ -724,23 +749,23 @@ document.getElementById("questionForm").addEventListener("submit", async e => {
 async function syncTestMarks() {
   if (!activeTestForQuestions) return;
 
-  const {data,error} = await db.from("unit_test_questions")
+  const {data, error} = await db.from("unit_test_questions")
     .select("marks")
-    .eq("test_id",activeTestForQuestions.id);
+    .eq("test_id", activeTestForQuestions.id);
 
   if (error) {
-    setQuestionMessage("Questions saved, but marks could not be recalculated: " + error.message,"error");
+    setQuestionMessage("Questions saved, but marks could not be recalculated: " + error.message, "error");
     return;
   }
 
-  const total = (data || []).reduce((sum,q) => sum + Number(q.marks || 0),0);
+  const total = (data || []).reduce((sum, q) => sum + Number(q.marks || 0), 0);
 
   const {error:updateError} = await db.from("unit_tests")
     .update({total_marks:total})
-    .eq("id",activeTestForQuestions.id);
+    .eq("id", activeTestForQuestions.id);
 
   if (updateError) {
-    setQuestionMessage("Question saved, but total marks could not be updated. " + updateError.message,"error");
+    setQuestionMessage("Question saved, but total marks could not be updated. " + updateError.message, "error");
     return;
   }
 
@@ -750,6 +775,7 @@ async function syncTestMarks() {
     "Test: " + activeTestForQuestions.title + " · Current total: " + total + " marks";
 }
 
+/* Correctly closed test settings submit handler */
 document.getElementById("testSettingsForm").addEventListener("submit", async e => {
   e.preventDefault();
 
@@ -779,43 +805,38 @@ document.getElementById("testSettingsForm").addEventListener("submit", async e =
 
   const {error} = await db.from("unit_tests")
     .update(update)
-    .eq("id",activeTestForQuestions.id);
+    .eq("id", activeTestForQuestions.id);
 
   if (error) {
-    setQuestionMessage("Could not save settings: " + error.message,"error");
+    setQuestionMessage("Could not save settings: " + error.message, "error");
     return;
   }
 
-  Object.assign(activeTestForQuestions,update);
-  setQuestionMessage("Exam settings saved.","success");
-  });
-}
+  Object.assign(activeTestForQuestions, update);
+  setQuestionMessage("Exam settings saved.", "success");
+});
 
-/*
-  UPDATED: display each test's course track.
-  Existing tests default to My Course in the database.
-*/
 async function loadTests(unit, area) {
-  const {data:tests, error} = await db.from("unit_tests")
+  const {data: tests, error} = await db.from("unit_tests")
     .select("id,title,description,test_type,duration_minutes,total_marks,file_url,sort_order,is_published,course_track,writing_min_words,writing_max_words,writing_notes,show_answers_after_submit,show_explanations_after_submit,allow_review_after_submit,require_teacher_approval")
     .eq("unit_id", unit.id)
     .order("sort_order", {ascending:true});
 
   if (error) {
-    area.replaceChildren(make("div","empty","Could not load tests: " + error.message));
+    area.replaceChildren(make("div", "empty", "Could not load tests: " + error.message));
     return;
   }
 
   area.replaceChildren();
 
   if (!tests || !tests.length) {
-    area.append(make("div","empty","No unit tests added yet."));
+    area.append(make("div", "empty", "No unit tests added yet."));
     return;
   }
 
   for (const test of tests) {
-    const box = make("div","test");
-    const heading = make("strong","", "Test " + test.sort_order + ": " + test.title);
+    const box = make("div", "test");
+    const heading = make("strong", "", "Test " + test.sort_order + ": " + test.title);
 
     const trackName = test.course_track === "checkpoint"
       ? "Cambridge Checkpoint"
@@ -838,19 +859,17 @@ async function loadTests(unit, area) {
 
     box.append(heading, meta, testStatus);
 
-    if (test.description) {
-      box.append(make("p","",test.description));
-    }
+    if (test.description) box.append(make("p", "", test.description));
 
     if (test.file_url) {
-      const link = make("a","", "Open test file");
+      const link = make("a", "", "Open test file");
       link.href = test.file_url;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       box.append(link);
     }
 
-    const actions = make("div","actions");
+    const actions = make("div", "actions");
 
     addButton(actions, "Manage Questions", "secondary", () => openQuestionManager(test));
 
@@ -866,9 +885,6 @@ async function loadTests(unit, area) {
   }
 }
 
-/*
-  UPDATED: ask the teacher to choose a course track when creating a test.
-*/
 async function addUnitTest(unit, area) {
   const title = prompt("Test title (e.g. Unit 1 Vocabulary Test):");
 
@@ -887,8 +903,8 @@ async function addUnitTest(unit, area) {
   if (trackChoice === null) return;
 
   const trackMap = {
-    "1": "my_course",
-    "2": "checkpoint"
+    "1":"my_course",
+    "2":"checkpoint"
   };
 
   const courseTrack = trackMap[trackChoice.trim()];
@@ -905,7 +921,7 @@ async function addUnitTest(unit, area) {
 
   const testType = type.trim().toLowerCase();
 
-  if (!["online","pdf"].includes(testType)) {
+  if (!["online", "pdf"].includes(testType)) {
     alert("Type must be online or pdf.");
     return;
   }
@@ -947,10 +963,10 @@ async function addUnitTest(unit, area) {
     }
   }
 
-  const {data:existing,error:orderError} = await db.from("unit_tests")
+  const {data: existing, error: orderError} = await db.from("unit_tests")
     .select("sort_order")
-    .eq("unit_id",unit.id)
-    .order("sort_order",{ascending:false})
+    .eq("unit_id", unit.id)
+    .order("sort_order", {ascending:false})
     .limit(1);
 
   if (orderError) {
@@ -987,7 +1003,7 @@ async function addUnitTest(unit, area) {
     "success"
   );
 
-  await loadTests(unit,area);
+  await loadTests(unit, area);
 }
 
 async function toggleTestPublish(test) {
@@ -997,7 +1013,7 @@ async function toggleTestPublish(test) {
 
   const {error} = await db.from("unit_tests")
     .update({is_published:next})
-    .eq("id",test.id);
+    .eq("id", test.id);
 
   if (error) {
     alert("Could not update test: " + error.message);
@@ -1026,7 +1042,7 @@ async function editCourse(course) {
 
   if (yearGroup === null) return;
 
-  const allowedYears = ["Year 6","Year 7","Year 8","Year 9","Year 10","Year 11"];
+  const allowedYears = ["Year 6", "Year 7", "Year 8", "Year 9", "Year 10", "Year 11"];
 
   if (!allowedYears.includes(yearGroup.trim())) {
     alert("Please enter one of the listed year groups, exactly as shown.");
@@ -1037,7 +1053,7 @@ async function editCourse(course) {
     title:title.trim(),
     description:description.trim() || null,
     year_group:yearGroup.trim()
-  }).eq("id",course.id);
+  }).eq("id", course.id);
 
   if (error) {
     alert("Could not update course: " + error.message);
@@ -1069,10 +1085,10 @@ async function addUnit(course) {
     return;
   }
 
-  const {data:existing,error:lookupError} = await db.from("course_units")
+  const {data: existing, error: lookupError} = await db.from("course_units")
     .select("id")
-    .eq("course_id",course.id)
-    .eq("unit_number",unitNumber);
+    .eq("course_id", course.id)
+    .eq("unit_number", unitNumber);
 
   if (lookupError) {
     alert("Could not check existing units: " + lookupError.message);
@@ -1084,7 +1100,7 @@ async function addUnit(course) {
     return;
   }
 
-  const {data:newUnit,error} = await db.from("course_units").insert({
+  const {data: newUnit, error} = await db.from("course_units").insert({
     title:title.trim(),
     year_group:course.year_group,
     unit_number:unitNumber,
@@ -1096,7 +1112,7 @@ async function addUnit(course) {
     return;
   }
 
-  const standardSessions = [1,2,3,4].map(n => ({
+  const standardSessions = [1, 2, 3, 4].map(n => ({
     unit_id:newUnit.id,
     title:n === 4 ? "Session 4 - Consolidation" : "Session " + n + " - Teaching",
     description:n === 4 ? "Consolidation and revision session." : "Teaching session.",
@@ -1104,7 +1120,7 @@ async function addUnit(course) {
     is_published:false
   }));
 
-  const {error:sessionError} = await db.from("course_sessions").insert(standardSessions);
+  const {error: sessionError} = await db.from("course_sessions").insert(standardSessions);
 
   if (sessionError) {
     alert("Unit was created, but its four sessions could not be created: " + sessionError.message);
@@ -1122,7 +1138,7 @@ async function togglePublish(course) {
 
   const {error} = await db.from("courses")
     .update({is_published:nextValue})
-    .eq("id",course.id);
+    .eq("id", course.id);
 
   if (error) {
     alert("Could not change publishing status: " + error.message);
@@ -1145,13 +1161,13 @@ courseForm.addEventListener("submit", async event => {
   const yearGroup = document.getElementById("yearGroup").value;
   const description = document.getElementById("courseDescription").value.trim();
 
-  const {data:lastCourses,error:orderError} = await db.from("courses")
+  const {data: lastCourses, error: orderError} = await db.from("courses")
     .select("sort_order")
-    .order("sort_order",{ascending:false})
+    .order("sort_order", {ascending:false})
     .limit(1);
 
   if (orderError) {
-    showMessage("Could not determine course order: " + orderError.message,"error");
+    showMessage("Could not determine course order: " + orderError.message, "error");
     createCourseBtn.disabled = false;
     createCourseBtn.textContent = "Create Course";
     return;
@@ -1173,7 +1189,7 @@ courseForm.addEventListener("submit", async event => {
   createCourseBtn.textContent = "Create Course";
 
   if (error) {
-    showMessage("Could not create course: " + error.message,"error");
+    showMessage("Could not create course: " + error.message, "error");
     return;
   }
 
