@@ -930,24 +930,9 @@ async function addUnitTest(unit, area) {
     return;
   }
 
-  const trackChoice = prompt(
-    "Choose the course track:\n\n1 = My Course\n2 = Cambridge Checkpoint",
-    "1"
-  );
-
-  if (trackChoice === null) return;
-
-  const trackMap = {
-    "1":"my_course",
-    "2":"checkpoint"
-  };
-
-  const courseTrack = trackMap[trackChoice.trim()];
-
-  if (!courseTrack) {
-    alert("Invalid choice. Enter 1 for My Course or 2 for Cambridge Checkpoint.");
-    return;
-  }
+  // Unit Tests belong to My Course only.
+  // Cambridge Checkpoint tests will be managed separately, outside course units.
+  const courseTrack = "my_course";
 
   const description = prompt("Short description (optional):") || "";
   const type = prompt("Enter online or pdf:", "online");
@@ -1031,12 +1016,7 @@ async function addUnitTest(unit, area) {
     return;
   }
 
-  showMessage(
-    "Unit test created as a draft in " +
-      (courseTrack === "checkpoint" ? "Cambridge Checkpoint" : "My Course") +
-      ".",
-    "success"
-  );
+  showMessage("Unit test created as a draft in My Course.", "success");
 
   await loadTests(unit, area);
 }
