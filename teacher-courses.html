@@ -143,6 +143,8 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
        <option value="short_answer">Short answer</option>
        <option value="writing">Writing task</option>
        <option value="dropdown_gap">Dropdown gap-fill</option>
+       <option value="multiple_choice_cloze">Multiple-choice Cloze (passage with options per gap)</option>
+       <option value="open_cloze">Open Cloze (one word per gap)</option>
        <option value="open_gap">Open gap-fill (up to 4 accepted answers per gap)</option>
        <option value="multiple_matching">Multiple matching (sentences and profiles)</option>
        <option value="dialogue_gap">Dialogue gap-fill (each option used once)</option>
@@ -560,6 +562,8 @@ const typeHelp = {
   short_answer:"Enter accepted answers separated by semicolons (;).",
   writing:"Enter task instructions in the question text. Answer key can contain a rubric or marking guidance.",
   dropdown_gap:"Write passage with [gap] where each dropdown belongs. Enter dropdown options one per line. Correct answers in order separated by |.",
+  multiple_choice_cloze:"Write a connected passage and put [gap] at every blank. In Question data, enter one line per gap; separate that gap's options with semicolons (;). Example: has;have;had. In Answer key, enter the correct option text for each gap, separated by |. The number of option lines must match the number of [gap] markers.",
+  open_cloze:"Write a connected passage and put [gap] at every blank. In Answer key, enter one correct answer per gap separated by |. Answers are marked case-insensitively after trimming spaces. Use open_gap instead if you need accepted alternatives separated by ;.",
   open_gap:"Write passage with [gap] for each answer field. For each gap, accepted answers are separated by ; and gaps by |. Maximum four accepted answers per gap.",
   multiple_matching:"Question data format: write a line starting SENTENCES:, then one sentence per line; then PROFILES:, then one profile per line. Maximum 15 in each list. Answer key: sentence-number=profile-number, one pair per line. A profile may be reused.",
   dialogue_gap:"Write dialogue with [gap] markers. Question data contains the numbered sentence options, one per line. Answer key: one option number per gap, separated by |. Each option can be used only once."
@@ -654,6 +658,10 @@ async function loadQuestionList() {
 function parseQuestionPayload(type, raw) {
   const lines = raw.split(/\r?\n/).map(x => x.trim()).filter(Boolean);
 
+  if (type === "multiple_choice_cloze") {
+    return {gap_options:lines.map(line => line.split(";").map(x => x.trim()).filter(Boolean))};
+  }
+
   if (type === "mcq" || type === "dropdown_gap" || type === "dialogue_gap") {
     return {options:lines};
   }
@@ -698,6 +706,33 @@ document.getElementById("questionForm").addEventListener("submit", async e => {
   if (type === "open_gap" && answer.split("|").some(a => a.split(";").filter(Boolean).length > 4)) {
     alert("Maximum four accepted answers per gap.");
     return;
+  }
+
+  if (type === "multiple_choice_cloze") {
+    const gapCount = (text.match(/\[gap\]/gi) || []).length;
+    const answerCount = answer ? answer.split("|").length : 0;
+    if (!gapCount || payload.gap_options.length !== gapCount || payload.gap_options.some(a => a.length < 2)) {
+      alert("Multiple-choice Cloze needs one [gap] marker per line of options, with at least two options per gap.");
+      return;
+    }
+    if (answerCount !== gapCount) {
+      alert("Enter exactly one correct answer per gap in the answer key, separated by |.");
+      return;
+    }
+    for (let i = 0; i < gapCount; i++) {
+      if (!payload.gap_options[i].includes(answer.split("|")[i].trim())) {
+        alert("Correct answer for gap " + (i + 1) + " must exactly match one of that gap's options.");
+        return;
+      }
+    }
+  }
+
+  if (type === "open_cloze") {
+    const gapCount = (text.match(/\[gap\]/gi) || []).length;
+    if (!gapCount || answer.split("|").length !== gapCount || answer.split("|").some(a => !a.trim())) {
+      alert("Open Cloze needs one [gap] marker and one non-empty correct answer per gap. Separate answers with |.");
+      return;
+    }
   }
 
   if (["mcq", "dropdown_gap", "dialogue_gap"].includes(type) && !payload.options.length) {
