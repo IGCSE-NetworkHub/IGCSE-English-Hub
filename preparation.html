@@ -12,146 +12,280 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background: #f4f7fc;
-            color: #222;
+            color: #172554;
         }
 
         header {
-            background: linear-gradient(135deg, #102a56, #28558b);
+            background: #102a56;
             color: white;
-            text-align: center;
-            padding: 45px 20px;
+            padding: 22px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 34px;
+        .brand {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
         }
 
-        header p {
-            max-width: 650px;
-            margin: 14px auto 0;
-            color: #e1eaf8;
-            line-height: 1.7;
+        .header-label {
+            color: #dbeafe;
+            font-size: 14px;
         }
 
         .container {
             max-width: 1100px;
-            margin: 35px auto;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 45px 22px 60px;
         }
 
-        .section-heading {
+        .hero {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 40px;
         }
 
-        .section-heading h2 {
+        .eyebrow {
+            display: inline-block;
+            background: #dbeafe;
+            color: #174078;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(30px, 5vw, 43px);
+            margin: 5px 0 15px;
             color: #102a56;
-            margin-bottom: 10px;
         }
 
-        .section-heading p {
-            color: #64748b;
-            line-height: 1.7;
+        .hero p {
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #52627a;
+            font-size: 16px;
         }
 
-        .skills {
+        .choices {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(220px, 1fr)
-            );
-            gap: 22px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            max-width: 850px;
+            margin: 0 auto;
         }
 
-        .skill-card {
+        .choice-card {
             background: white;
-            border: 1px solid #e4eaf3;
-            border-radius: 16px;
-            padding: 28px 22px;
+            border: 1px solid #e0e8f3;
+            border-radius: 20px;
+            padding: 32px 25px;
             text-align: center;
-            box-shadow: 0 4px 14px rgba(16, 42, 86, 0.06);
+            box-shadow: 0 8px 25px rgba(16, 42, 86, 0.07);
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .skill-card:hover {
+        .choice-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 24px rgba(16, 42, 86, 0.11);
+            box-shadow: 0 14px 32px rgba(16, 42, 86, 0.12);
         }
 
-        .skill-icon {
-            width: 70px;
-            height: 70px;
+        .icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
-            border-radius: 20px;
-            background: #edf3fc;
-            font-size: 35px;
+            margin-bottom: 22px;
+            font-size: 43px;
         }
 
-        .skill-card h3 {
+        .video-icon {
+            background: #e0edff;
+        }
+
+        .library-icon {
+            background: #dcfce7;
+        }
+
+        .choice-card h2 {
             color: #102a56;
-            margin: 10px 0;
+            font-size: 23px;
+            margin: 0 0 13px;
         }
 
-        .skill-card p {
-            color: #64748b;
+        .choice-card p {
+            color: #607089;
             line-height: 1.7;
-            font-size: 14px;
+            margin: 0 0 25px;
+            flex-grow: 1;
         }
 
-        .coming-soon {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 7px 12px;
-            border-radius: 20px;
-            background: #f0f3f8;
-            color: #52627a;
-            font-size: 12px;
-        }
-
-        .back {
-            display: block;
-            width: fit-content;
-            margin: 40px auto 15px;
-            padding: 13px 24px;
-            border-radius: 8px;
-            background: #102a56;
+        .primary-button {
+            border: none;
+            background: #1d4ed8;
             color: white;
+            padding: 13px 23px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
             text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
         }
 
-        .back:hover {
-            background: #28558b;
+        .primary-button:hover {
+            background: #163da9;
+        }
+
+        .section-panel {
+            display: none;
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e0e8f3;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(16, 42, 86, 0.07);
+        }
+
+        .section-panel.active {
+            display: block;
+            animation: appear 0.25s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .panel-heading .icon {
+            width: 65px;
+            height: 65px;
+            font-size: 32px;
+            margin: 0;
+            border-radius: 17px;
+            flex-shrink: 0;
+        }
+
+        .panel-heading h2 {
+            margin: 0 0 6px;
+            font-size: 25px;
+        }
+
+        .panel-heading p {
+            margin: 0;
+            color: #607089;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            background: #f7f9fd;
+            border: 1px dashed #c8d5e7;
+            border-radius: 13px;
+            padding: 28px 22px;
+            text-align: center;
+            color: #52627a;
+            line-height: 1.8;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state h3 {
+            color: #102a56;
+            margin: 5px 0 10px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 25px;
+            border: 1px solid #cbd8e8;
+            background: white;
+            color: #174078;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #eef4fc;
         }
 
         footer {
-            margin-top: 35px;
-            padding: 24px;
-            background: white;
-            border-top: 1px solid #e4eaf3;
             text-align: center;
-            color: #64748b;
+            padding: 22px;
+            color: #718096;
             font-size: 13px;
+            border-top: 1px solid #e0e8f3;
+            background: white;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             header {
-                padding: 35px 18px;
+                padding: 18px 5%;
             }
 
-            header h1 {
-                font-size: 28px;
+            .brand {
+                font-size: 19px;
             }
 
             .container {
-                padding: 16px;
+                padding: 32px 16px 45px;
+            }
+
+            .choices {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .choice-card {
+                padding: 27px 22px;
+            }
+
+            .section-panel {
+                padding: 22px 17px;
+            }
+
+            .panel-heading h2 {
+                font-size: 21px;
             }
         }
     </style>
@@ -160,86 +294,151 @@
 <body>
 
 <header>
-    <h1>Preparation Course</h1>
-    <p>
-        Understand key English skills through clear explanations
-        and guided practice for Cambridge Checkpoint.
-    </p>
+    <div class="brand">IGCSE English Hub</div>
+    <div class="header-label">Cambridge Checkpoint</div>
 </header>
 
 <main class="container">
 
-    <div class="section-heading">
-        <h2>Explore Learning Skills</h2>
-        <p>
-            Choose a skill to explore its explanation sessions
-            and related practice activities.
-        </p>
-    </div>
-
-    <div class="skills">
-
-        <div class="skill-card">
-            <div class="skill-icon">📖</div>
-            <h3>Reading</h3>
+    <section id="homeSection">
+        <div class="hero">
+            <span class="eyebrow">CAMBRIDGE CHECKPOINT</span>
+            <h1>Preparation Course</h1>
             <p>
-                Develop reading comprehension and learn how
-                to answer examination questions.
+                Strengthen your English skills with guided explanations,
+                useful learning resources, and focused exam preparation.
             </p>
-            <span class="coming-soon">Sessions coming soon</span>
         </div>
 
-        <div class="skill-card">
-            <div class="skill-icon">✍️</div>
-            <h3>Writing</h3>
-            <p>
-                Improve writing skills, organisation,
-                vocabulary and accuracy.
-            </p>
-            <span class="coming-soon">Sessions coming soon</span>
+        <div class="choices">
+
+            <article class="choice-card">
+                <div class="icon video-icon" aria-hidden="true">▶️</div>
+
+                <h2>Explanation Videos</h2>
+
+                <p>
+                    Watch lesson explanations and access the practice
+                    activities selected for each session.
+                </p>
+
+                <button
+                    class="primary-button"
+                    type="button"
+                    onclick="openSection('videosSection')">
+                    Explore Videos →
+                </button>
+            </article>
+
+            <article class="choice-card">
+                <div class="icon library-icon" aria-hidden="true">📚</div>
+
+                <h2>Student Library</h2>
+
+                <p>
+                    Access additional learning materials, including PDFs,
+                    revision sheets, summaries, and study resources.
+                </p>
+
+                <button
+                    class="primary-button"
+                    type="button"
+                    onclick="openSection('librarySection')">
+                    Open Library →
+                </button>
+            </article>
+
+        </div>
+    </section>
+
+    <section id="videosSection" class="section-panel">
+        <button
+            class="back-button"
+            type="button"
+            onclick="goHome()">
+            ← Back to Preparation Course
+        </button>
+
+        <div class="panel-heading">
+            <div class="icon video-icon" aria-hidden="true">▶️</div>
+            <div>
+                <h2>Explanation Videos</h2>
+                <p>Learn from lesson explanations and practise what you learn.</p>
+            </div>
         </div>
 
-        <div class="skill-card">
-            <div class="skill-icon">🧩</div>
-            <h3>Grammar</h3>
+        <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">🎬</div>
+            <h3>Lessons will appear here</h3>
             <p>
-                Understand grammar rules and apply them
-                accurately in different contexts.
+                This section will display the explanation sessions added
+                by the teacher, together with the relevant practice links.
             </p>
-            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+    </section>
+
+    <section id="librarySection" class="section-panel">
+        <button
+            class="back-button"
+            type="button"
+            onclick="goHome()">
+            ← Back to Preparation Course
+        </button>
+
+        <div class="panel-heading">
+            <div class="icon library-icon" aria-hidden="true">📚</div>
+            <div>
+                <h2>Student Library</h2>
+                <p>Additional materials to support your learning and revision.</p>
+            </div>
         </div>
 
-        <div class="skill-card">
-            <div class="skill-icon">🔤</div>
-            <h3>Vocabulary</h3>
+        <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">📂</div>
+            <h3>Learning resources will appear here</h3>
             <p>
-                Build vocabulary and learn word meanings,
-                synonyms and usage in context.
+                This section will contain the PDFs, revision sheets,
+                summaries, and other educational materials provided
+                by the teacher.
             </p>
-            <span class="coming-soon">Sessions coming soon</span>
         </div>
-
-        <div class="skill-card">
-            <div class="skill-icon">🎧</div>
-            <h3>Listening</h3>
-            <p>
-                Practise listening comprehension and develop
-                strategies for listening examinations.
-            </p>
-            <span class="coming-soon">Sessions coming soon</span>
-        </div>
-
-    </div>
-
-    <a href="checkpoint.html" class="back">
-        &#8592; Back to Checkpoint
-    </a>
+    </section>
 
 </main>
 
 <footer>
-    &copy; 2026 IGCSE English Hub — All Rights Reserved
+    © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
+
+<script>
+    function openSection(sectionId) {
+        document.getElementById("homeSection").style.display = "none";
+
+        document.querySelectorAll(".section-panel").forEach(function(panel) {
+            panel.classList.remove("active");
+        });
+
+        document.getElementById(sectionId).classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    function goHome() {
+        document.querySelectorAll(".section-panel").forEach(function(panel) {
+            panel.classList.remove("active");
+        });
+
+        document.getElementById("homeSection").style.display = "block";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+</script>
 
 </body>
 </html>
