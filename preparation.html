@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Preparation Course | IGCSE English Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fc;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #102a56, #28558b);
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 34px;
+        }
+
+        header p {
+            max-width: 650px;
+            margin: 14px auto 0;
+            color: #e1eaf8;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .section-heading h2 {
+            color: #102a56;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+            gap: 22px;
+        }
+
+        .skill-card {
+            background: white;
+            border: 1px solid #e4eaf3;
+            border-radius: 16px;
+            padding: 28px 22px;
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(16, 42, 86, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(16, 42, 86, 0.11);
+        }
+
+        .skill-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            border-radius: 20px;
+            background: #edf3fc;
+            font-size: 35px;
+        }
+
+        .skill-card h3 {
+            color: #102a56;
+            margin: 10px 0;
+        }
+
+        .skill-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #f0f3f8;
+            color: #52627a;
+            font-size: 12px;
+        }
+
+        .back {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 15px;
+            padding: 13px 24px;
+            border-radius: 8px;
+            background: #102a56;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            background: #28558b;
+        }
+
+        footer {
+            margin-top: 35px;
+            padding: 24px;
+            background: white;
+            border-top: 1px solid #e4eaf3;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 35px 18px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Preparation Course</h1>
+    <p>
+        Understand key English skills through clear explanations
+        and guided practice for Cambridge Checkpoint.
+    </p>
+</header>
+
+<main class="container">
+
+    <div class="section-heading">
+        <h2>Explore Learning Skills</h2>
+        <p>
+            Choose a skill to explore its explanation sessions
+            and related practice activities.
+        </p>
+    </div>
+
+    <div class="skills">
+
+        <div class="skill-card">
+            <div class="skill-icon">📖</div>
+            <h3>Reading</h3>
+            <p>
+                Develop reading comprehension and learn how
+                to answer examination questions.
+            </p>
+            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon">✍️</div>
+            <h3>Writing</h3>
+            <p>
+                Improve writing skills, organisation,
+                vocabulary and accuracy.
+            </p>
+            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon">🧩</div>
+            <h3>Grammar</h3>
+            <p>
+                Understand grammar rules and apply them
+                accurately in different contexts.
+            </p>
+            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon">🔤</div>
+            <h3>Vocabulary</h3>
+            <p>
+                Build vocabulary and learn word meanings,
+                synonyms and usage in context.
+            </p>
+            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon">🎧</div>
+            <h3>Listening</h3>
+            <p>
+                Practise listening comprehension and develop
+                strategies for listening examinations.
+            </p>
+            <span class="coming-soon">Sessions coming soon</span>
+        </div>
+
+    </div>
+
+    <a href="checkpoint.html" class="back">
+        &#8592; Back to Checkpoint
+    </a>
+
+</main>
+
+<footer>
+    &copy; 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+</body>
+</html>
