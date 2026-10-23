@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,100 +8,179 @@
     <title>Cambridge Checkpoint Course - IGCSE English Hub</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            background: #f5f7fa;
+            background: #f4f7fc;
             color: #222;
         }
 
         header {
-            background: #ffffff;
-            padding: 30px 20px;
+            background: linear-gradient(135deg, #102a56, #244d85);
+            padding: 55px 20px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            color: white;
         }
 
         header h1 {
             margin: 0;
-            color: #102a56;
+            font-size: clamp(28px, 4vw, 40px);
+            letter-spacing: 0.3px;
         }
 
         header p {
-            margin-top: 10px;
-            color: #666;
+            margin: 14px 0 0;
+            color: #e1eaf8;
+            font-size: 16px;
+            line-height: 1.7;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 45px auto;
             padding: 20px;
         }
 
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro h2 {
+            color: #102a56;
+            margin-bottom: 10px;
+        }
+
+        .intro p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(230px, 1fr)
+            );
+            gap: 24px;
         }
 
         .card {
+            position: relative;
             background: white;
-            padding: 35px 25px;
-            border-radius: 15px;
+            padding: 32px 23px;
+            border: 1px solid #e5eaf2;
+            border-radius: 18px;
             text-align: center;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
-            transition: transform 0.2s;
+            box-shadow: 0 5px 18px rgba(16, 42, 86, 0.07);
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 265px;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(16, 42, 86, 0.13);
         }
 
         .icon {
-            font-size: 48px;
-            margin-bottom: 15px;
+            width: 76px;
+            height: 76px;
+            border-radius: 22px;
+            background: #edf3fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 39px;
+            margin-bottom: 14px;
         }
 
         .card h3 {
             color: #102a56;
-            margin: 10px 0 15px;
+            font-size: 20px;
+            margin: 10px 0 12px;
         }
 
         .card p {
-            color: #666;
-            line-height: 1.6;
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 14px;
+            margin: 0;
         }
 
         .card a {
+            color: inherit;
             text-decoration: none;
+        }
+
+        .card a:hover h3 {
+            color: #2864b0;
         }
 
         .back {
             display: block;
             width: fit-content;
-            margin: 40px auto 20px;
-            padding: 12px 25px;
+            margin: 42px auto 20px;
+            padding: 13px 25px;
             background: #102a56;
             color: white;
             text-decoration: none;
-            border-radius: 7px;
+            border-radius: 9px;
+            transition: background 0.2s;
+        }
+
+        .back:hover {
+            background: #244d85;
         }
 
         #loading {
             text-align: center;
-            color: #666;
+            color: #64748b;
+            padding: 25px;
         }
 
         #error {
             display: none;
             text-align: center;
             color: #b00020;
+            background: #fff0f1;
+            border-radius: 10px;
+            padding: 15px;
         }
 
         footer {
             text-align: center;
             padding: 25px;
-            color: #666;
+            color: #64748b;
+            font-size: 13px;
+            border-top: 1px solid #e5eaf2;
+            background: white;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 18px;
+            }
+
+            .container {
+                margin: 25px auto;
+                padding: 16px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .card {
+                min-height: 235px;
+            }
         }
     </style>
 </head>
@@ -108,157 +188,170 @@
 <body>
 
 <header>
-
     <h1>Cambridge Checkpoint Course</h1>
-
     <p>
         Prepare, practise and test yourself for Cambridge Checkpoint
     </p>
-
 </header>
 
 <div class="container">
 
-    <p id="loading">
-        Loading course sections...
-    </p>
+    <div class="intro">
+        <h2>Your Checkpoint Learning Hub</h2>
+        <p>
+            Explore explanations, practise with past papers,
+            and prepare for your exams.
+        </p>
+    </div>
+
+    <p id="loading">Loading course sections...</p>
 
     <p id="error"></p>
 
     <div class="cards" id="sectionsContainer"></div>
 
     <a href="dashboard.html" class="back">
-        ← Back to Dashboard
+        &#8592; Back to Dashboard
     </a>
 
 </div>
 
 <footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
+    &copy; 2026 IGCSE English Hub — All Rights Reserved
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 const SUPABASE_URL =
     "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
 const SUPABASE_ANON_KEY =
     "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
 async function loadCheckpoint() {
+    try {
+        const {
+            data: { session },
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
 
-    const {
-        data: { session }
-    } = await supabaseClient.auth.getSession();
+        if (sessionError) {
+            throw sessionError;
+        }
 
-    if (!session) {
+        if (!session) {
+            window.location.href = "login.html";
+            return;
+        }
 
-        window.location.href = "login.html";
+        const {
+            data: sections,
+            error
+        } = await supabaseClient
+            .from("checkpoint_sections")
+            .select("id, title, section_order")
+            .order("section_order", { ascending: true });
 
-        return;
-    }
+        document.getElementById("loading").style.display = "none";
 
-    const {
-        data: sections,
-        error
-    } = await supabaseClient
-        .from("checkpoint_sections")
-        .select("id, title, section_order")
-        .order("section_order", { ascending: true });
+        if (error) {
+            throw error;
+        }
 
-    document.getElementById("loading").style.display =
-        "none";
+        if (!sections || sections.length === 0) {
+            showError(
+                "No Checkpoint course sections have been added yet."
+            );
+            return;
+        }
 
-    if (error) {
+        const container =
+            document.getElementById("sectionsContainer");
 
-        showError(error.message);
+        container.innerHTML = "";
 
-        return;
-    }
+        sections.forEach(function(section) {
+            const originalTitle = section.title;
 
-    if (!sections || sections.length === 0) {
+            let title = originalTitle;
+            let icon = "🎓";
+            let description =
+                "Access this section of the Cambridge Checkpoint Course.";
 
+            if (
+                originalTitle === "General Preparation Course" ||
+                originalTitle === "Preparation Course"
+            ) {
+                title = "Preparation Course";
+                icon = "📚";
+                description =
+                    "Explore lesson explanations, learning resources and guided practice.";
+            } else if (originalTitle === "Classified Papers") {
+                icon = "📄";
+                description =
+                    "Practise exam questions organised by topic and skill.";
+            } else if (originalTitle === "Past Papers") {
+                icon = "📝";
+                description =
+                    "Explore past examination papers, mark schemes and interactive practice.";
+            } else if (
+                originalTitle === "Test Yourself" ||
+                originalTitle === "Mock Exams"
+            ) {
+                title = "Mock Exams";
+                icon = "🧪";
+                description =
+                    "Test your knowledge with interactive mock examinations.";
+            }
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const iconElement = document.createElement("div");
+            iconElement.className = "icon";
+            iconElement.textContent = icon;
+
+            const heading = document.createElement("h3");
+            heading.textContent = title;
+
+            const descriptionElement = document.createElement("p");
+            descriptionElement.textContent = description;
+
+            const link = document.createElement("a");
+
+            // Preserve the existing placeholder link for now.
+            link.href = "#";
+            link.appendChild(heading);
+
+            card.appendChild(iconElement);
+            card.appendChild(link);
+            card.appendChild(descriptionElement);
+
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        document.getElementById("loading").style.display = "none";
         showError(
-            "No Checkpoint course sections have been added yet."
+            "Unable to load Checkpoint sections. Please refresh the page."
         );
-
-        return;
+        console.error("Checkpoint loading error:", error);
     }
-
-    const container =
-        document.getElementById("sectionsContainer");
-
-    sections.forEach(function(section) {
-
-        let icon = "🎓";
-
-        if (section.title === "General Preparation Course") {
-            icon = "📚";
-        }
-
-        if (section.title === "Classified Papers") {
-            icon = "📄";
-        }
-
-        if (section.title === "Past Papers") {
-            icon = "📝";
-        }
-
-        if (section.title === "Test Yourself") {
-            icon = "🧪";
-        }
-
-        const card =
-            document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-
-            <div class="icon">
-                ${icon}
-            </div>
-
-            <a href="#">
-                <h3>${section.title}</h3>
-            </a>
-
-            <p>
-                Access this section of the
-                Cambridge Checkpoint Course.
-            </p>
-
-        `;
-
-        container.appendChild(card);
-
-    });
-
 }
 
 function showError(message) {
-
-    document.getElementById("loading").style.display =
-        "none";
-
-    const error =
-        document.getElementById("error");
-
-    error.style.display = "block";
-
-    error.textContent = message;
+    const errorElement = document.getElementById("error");
+    errorElement.style.display = "block";
+    errorElement.textContent = message;
 }
 
 loadCheckpoint();
-
 </script>
 
 </body>
