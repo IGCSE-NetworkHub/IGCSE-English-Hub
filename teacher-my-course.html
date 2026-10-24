@@ -1,0 +1,283 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Course - Teacher Dashboard | IGCSE English Hub</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f6fb;
+    color: #1e293b;
+}
+
+header {
+    background: #142d4e;
+    color: white;
+    padding: 24px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+header p {
+    margin: 8px 0 0;
+    color: #dbeafe;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.header-buttons a,
+.header-buttons button {
+    padding: 11px 16px;
+    border-radius: 8px;
+    border: 1px solid #ffffff55;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    background: transparent;
+}
+
+.header-buttons a:hover,
+.header-buttons button:hover {
+    background: #ffffff20;
+}
+
+main {
+    max-width: 1200px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.section-heading {
+    margin-bottom: 25px;
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+    color: #142d4e;
+    font-size: 28px;
+}
+
+.section-heading p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 27px 23px;
+    box-shadow: 0 5px 18px #0f172a0d;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 225px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px #0f172a12;
+}
+
+.card-icon {
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin: 0 0 12px;
+    color: #142d4e;
+    font-size: 20px;
+}
+
+.card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 22px;
+    flex-grow: 1;
+}
+
+.card a,
+.card button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 15px;
+    background: #1769aa;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.card a:hover,
+.card button:hover {
+    background: #12548a;
+}
+
+.notice {
+    display: none;
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 22px;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 22px 5%;
+    }
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    main {
+        margin-top: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>My Course</h1>
+        <p>Teacher Control Panel — IGCSE English Hub</p>
+    </div>
+
+    <div class="header-buttons">
+        <a href="teacher-dashboard.html">← Teacher Dashboard</a>
+        <button id="logoutButton" type="button">Log Out</button>
+    </div>
+</header>
+
+<main>
+    <div class="section-heading">
+        <h2>Manage My Course</h2>
+        <p>
+            Manage your courses, learning sessions, homework, tests,
+            revision materials and student progress.
+        </p>
+    </div>
+
+    <div class="cards">
+
+        <section class="card">
+            <div class="card-icon">📚</div>
+            <h3>Manage Courses</h3>
+            <p>Create and manage courses, units, lessons, sessions and unit tests.</p>
+            <a href="teacher-courses.html">Open Manage Courses</a>
+        </section>
+
+        <section class="card">
+            <div class="card-icon">📝</div>
+            <h3>Lessons &amp; Sessions</h3>
+            <p>Organise lesson sessions and their learning materials.</p>
+            <button type="button" onclick="showNotice('Lessons & Sessions')">
+                Open Section
+            </button>
+        </section>
+
+        <section class="card">
+            <div class="card-icon">🏠</div>
+            <h3>Homework</h3>
+            <p>Prepare homework activities and follow up on student submissions.</p>
+            <button type="button" onclick="showNotice('Homework')">
+                Open Section
+            </button>
+        </section>
+
+        <section class="card">
+            <div class="card-icon">📋</div>
+            <h3>Tests &amp; Revision</h3>
+            <p>Organise tests and revision activities for your students.</p>
+            <button type="button" onclick="showNotice('Tests & Revision')">
+                Open Section
+            </button>
+        </section>
+
+        <section class="card">
+            <div class="card-icon">📊</div>
+            <h3>Student Progress</h3>
+            <p>Review student performance and monitor learning progress.</p>
+            <button type="button" onclick="showNotice('Student Progress')">
+                Open Section
+            </button>
+        </section>
+
+    </div>
+
+    <div id="notice" class="notice"></div>
+</main>
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script>
+function showNotice(sectionName) {
+    const notice = document.getElementById("notice");
+
+    notice.textContent =
+        sectionName +
+        " is not connected yet. We will connect this section to its management page next.";
+
+    notice.style.display = "block";
+    notice.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+document.getElementById("logoutButton").addEventListener("click", async function () {
+    if (typeof supabaseClient !== "undefined") {
+        await supabaseClient.auth.signOut();
+    }
+
+    window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>
+```
