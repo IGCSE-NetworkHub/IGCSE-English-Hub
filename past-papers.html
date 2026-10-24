@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Past Papers | Cambridge Checkpoint</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172b4d;
+}
+
+header {
+    background: #102a43;
+    color: white;
+    padding: 24px 20px;
+}
+
+.header-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.back-link {
+    color: #d9e8ff;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 18px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+}
+
+header p {
+    margin: 0;
+    color: #d9e8ff;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.section-heading {
+    margin-bottom: 22px;
+}
+
+.section-heading h2 {
+    margin-bottom: 8px;
+}
+
+.section-heading p {
+    color: #62748a;
+    line-height: 1.6;
+}
+
+.exam-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.exam-card {
+    background: white;
+    border: 1px solid #e1e8f0;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(16, 42, 67, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.exam-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(16, 42, 67, 0.1);
+}
+
+.exam-icon {
+    font-size: 30px;
+    margin-bottom: 14px;
+}
+
+.exam-card h3 {
+    margin: 0 0 10px;
+    font-size: 23px;
+}
+
+.exam-card p {
+    color: #62748a;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.exam-button {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #1769aa;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.exam-button:hover {
+    background: #10558c;
+}
+
+.paths {
+    display: none;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e1e8f0;
+}
+
+.paths.open {
+    display: block;
+}
+
+.path-link {
+    display: block;
+    text-decoration: none;
+    padding: 13px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #edf5ff;
+    color: #124c80;
+    font-weight: bold;
+}
+
+.path-link:hover {
+    background: #dcecff;
+}
+
+.note {
+    margin-top: 28px;
+    padding: 16px;
+    background: #fff8e6;
+    border-radius: 10px;
+    color: #795b13;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    color: #62748a;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 27px;
+    }
+
+    main {
+        margin-top: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <a class="back-link" href="checkpoint.html">
+            ← Back to Cambridge Checkpoint
+        </a>
+
+        <h1>Cambridge Checkpoint Past Papers</h1>
+
+        <p>
+            Access examination papers, audio files, mark schemes
+            and interactive exam practice.
+        </p>
+    </div>
+</header>
+
+<main>
+    <div class="section-heading">
+        <h2>Available Examinations</h2>
+        <p>
+            Examinations are arranged chronologically, from the oldest
+            to the newest.
+        </p>
+    </div>
+
+    <div class="exam-list" id="examList"></div>
+
+    <div class="note">
+        <strong>Note:</strong> The examinations shown below are sample
+        entries for testing the page layout. Real examination files and
+        interactive questions will be added later.
+    </div>
+</main>
+
+<footer>
+    © 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script>
+const exams = [
+    { year: 2025, session: "April" },
+    { year: 2024, session: "April" },
+    { year: 2025, session: "October" },
+    { year: 2024, session: "October" }
+];
+
+function monthOrder(month) {
+    const months = {
+        January: 1,
+        February: 2,
+        March: 3,
+        April: 4,
+        May: 5,
+        June: 6,
+        July: 7,
+        August: 8,
+        September: 9,
+        October: 10,
+        November: 11,
+        December: 12
+    };
+
+    return months[month] || 99;
+}
+
+exams.sort((a, b) =>
+    a.year - b.year ||
+    monthOrder(a.session) - monthOrder(b.session)
+);
+
+const examList = document.getElementById("examList");
+
+exams.forEach((exam, index) => {
+    const title = `${exam.year} ${exam.session}`;
+    const card = document.createElement("article");
+
+    card.className = "exam-card";
+
+    card.innerHTML = `
+        <div class="exam-icon">📘</div>
+        <h3>${title}</h3>
+        <p>Cambridge Checkpoint examination</p>
+
+        <button
+            class="exam-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="paths-${index}">
+            View Exam Options
+        </button>
+
+        <div class="paths" id="paths-${index}">
+            <a class="path-link" href="#"
+               data-placeholder="true">
+                📄 PDF + Audio + Mark Scheme
+            </a>
+
+            <a class="path-link" href="#"
+               data-placeholder="true">
+                💻 Interactive Exam
+            </a>
+        </div>
+    `;
+
+    const button = card.querySelector(".exam-button");
+    const paths = card.querySelector(".paths");
+
+    button.addEventListener("click", () => {
+        const isOpen = paths.classList.toggle("open");
+
+        button.setAttribute("aria-expanded", String(isOpen));
+        button.textContent = isOpen
+            ? "Hide Exam Options"
+            : "View Exam Options";
+    });
+
+    card.querySelectorAll('[data-placeholder="true"]')
+        .forEach(link => {
+            link.addEventListener("click", event => {
+                event.preventDefault();
+                alert(
+                    "This section is not connected yet. " +
+                    "The real examination files will be added later."
+                );
+            });
+        });
+
+    examList.appendChild(card);
+});
+</script>
+
+</body>
+</html>
