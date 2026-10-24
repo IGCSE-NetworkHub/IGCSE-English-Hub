@@ -2,182 +2,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explanation Videos | IGCSE English Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explanation Videos | IGCSE English Hub</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fc;
-            color: #172554;
-        }
-
-        header {
-            background: #102a56;
-            color: white;
-            padding: 22px 6%;
-        }
-
-        header h2 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        header p {
-            color: #dbeafe;
-            margin: 8px 0 0;
-            font-size: 14px;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: auto;
-            padding: 35px 20px 55px;
-        }
-
-        .back-link {
-            display: inline-block;
-            color: #1d4ed8;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .page-heading {
-            margin-bottom: 28px;
-        }
-
-        .page-heading h1 {
-            font-size: 32px;
-            color: #102a56;
-            margin: 0 0 12px;
-        }
-
-        .page-heading p {
-            color: #607089;
-            line-height: 1.7;
-        }
-
-        .lesson-card {
-            background: white;
-            border: 1px solid #e0e8f3;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 20px rgba(16, 42, 86, 0.06);
-        }
-
-        .lesson-number {
-            display: inline-block;
-            background: #e0edff;
-            color: #174078;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .lesson-card h2 {
-            margin: 0 0 12px;
-            color: #102a56;
-            font-size: 22px;
-        }
-
-        .lesson-card p {
-            color: #607089;
-            line-height: 1.7;
-            margin-bottom: 18px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 25px;
-            border: 1px dashed #c8d5e7;
-            border-radius: 12px;
-            background: #f8faff;
-            color: #52627a;
-            line-height: 1.8;
-        }
-
-        .empty-state .icon {
-            font-size: 36px;
-        }
-
-        footer {
-            background: white;
-            border-top: 1px solid #e0e8f3;
-            padding: 22px;
-            text-align: center;
-            color: #718096;
-            font-size: 13px;
-        }
-
-        @media (max-width: 600px) {
-            header {
-                padding: 20px;
-            }
-
-            main {
-                padding: 28px 15px 40px;
-            }
-
-            .page-heading h1 {
-                font-size: 27px;
-            }
-
-            .lesson-card {
-                padding: 20px;
-            }
-        }
-    </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fc;color:#172554}
+header{background:#102a56;color:white;padding:22px 6%}
+header h2{margin:0;font-size:22px}
+header p{color:#dbeafe;margin:8px 0 0;font-size:14px}
+main{max-width:1100px;margin:auto;padding:35px 20px 55px}
+.back-link{display:inline-block;color:#1d4ed8;text-decoration:none;font-weight:bold;margin-bottom:25px}
+.page-heading{margin-bottom:25px}
+.page-heading h1{font-size:32px;color:#102a56;margin:0 0 12px}
+.page-heading p{color:#607089;line-height:1.7}
+.filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
+select{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:9px;background:white;font-size:15px;color:#172554}
+.video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.video-card{background:white;border:1px solid #e0e8f3;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(16,42,86,.06)}
+.video-frame{width:100%;aspect-ratio:16/9;border:0;display:block;background:#0f172a}
+.video-content{padding:22px}
+.tag{display:inline-block;background:#e0edff;color:#174078;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold;margin:0 5px 10px 0}
+.video-content h2{margin:5px 0 12px;color:#102a56;font-size:21px}
+.video-content p{color:#607089;line-height:1.7;overflow-wrap:anywhere}
+.practice-link{display:inline-block;background:#1d4ed8;color:white;text-decoration:none;padding:11px 16px;border-radius:8px;font-weight:bold;margin-top:8px}
+.practice-link:hover{background:#163da9}
+.message{background:white;border:1px dashed #c8d5e7;border-radius:12px;padding:25px;text-align:center;color:#52627a;line-height:1.8}
+footer{background:white;border-top:1px solid #e0e8f3;padding:22px;text-align:center;color:#718096;font-size:13px;margin-top:40px}
+@media(max-width:700px){.video-grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr}main{padding:28px 15px 40px}.page-heading h1{font-size:27px}}
+</style>
 </head>
 
 <body>
-
 <header>
-    <h2>IGCSE English Hub</h2>
-    <p>Cambridge Checkpoint · Preparation Course</p>
+<h2>IGCSE English Hub</h2>
+<p>Cambridge Checkpoint · Preparation Course</p>
 </header>
 
 <main>
-    <a class="back-link" href="preparation.html">
-        ← Back to Preparation Course
-    </a>
+<a class="back-link" href="preparation.html">← Back to Preparation Course</a>
 
-    <section class="page-heading">
-        <h1>Explanation Videos</h1>
-        <p>
-            Watch the explanations provided by your teacher and use
-            the accompanying practice activities to strengthen your skills.
-        </p>
-    </section>
+<section class="page-heading">
+<h1>Explanation Videos</h1>
+<p>Watch your teacher's explanations and use the accompanying practice activities to strengthen your English skills.</p>
+</section>
 
-    <section class="lesson-card">
-        <div class="empty-state">
-            <div class="icon">🎬</div>
-            <h2>No lessons available yet</h2>
-            <p>
-                Explanation videos and their practice links will appear here
-                when the teacher adds the lesson materials.
-            </p>
-        </div>
-    </section>
+<div class="filters">
+<select id="yearFilter" aria-label="Filter by year group">
+<option value="">All Year Groups</option>
+<option value="Year 6">Year 6</option>
+<option value="Year 7">Year 7</option>
+<option value="Year 8">Year 8</option>
+<option value="Year 9">Year 9</option>
+</select>
+
+<select id="categoryFilter" aria-label="Filter by category">
+<option value="">All Skills</option>
+<option value="Reading">Reading</option>
+<option value="Writing">Writing</option>
+<option value="Grammar">Grammar</option>
+<option value="Vocabulary">Vocabulary</option>
+<option value="Exam Practice">Exam Practice</option>
+<option value="Other">Other</option>
+</select>
+</div>
+
+<div id="status" class="message">Loading published videos...</div>
+<div id="videoGrid" class="video-grid"></div>
 </main>
 
-<footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
-</footer>
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const statusBox = document.getElementById("status");
+const videoGrid = document.getElementById("videoGrid");
+const yearFilter = document.getElementById("yearFilter");
+const categoryFilter = document.getElementById("categoryFilter");
+
+let videos = [];
+
+function getYouTubeEmbed(url) {
+    try {
+        const parsed = new URL(url);
+        let id = "";
+
+        if (parsed.hostname === "youtu.be" || parsed.hostname === "www.youtu.be") {
+            id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+        } else if (
+            parsed.hostname === "youtube.com" ||
+            parsed.hostname === "www.youtube.com" ||
+            parsed.hostname === "m.youtube.com"
+        ) {
+            if (parsed.pathname === "/watch") {
+                id = parsed.searchParams.get("v") || "";
+            } else {
+                const match = parsed.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);
+                if (match) id = match[2];
+            }
+        }
+
+        if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) return "";
+        return "https://www.youtube-nocookie.com/embed/" + id;
+    } catch {
+        return "";
+    }
+}
+
+function renderVideos() {
+    const year = yearFilter.value;
+    const category = categoryFilter.value;
+
+    const filtered = videos.filter(video =>
+        (!year || video.year_group === year) &&
+        (!category || video.category === category)
+    );
+
+    videoGrid.replaceChildren();
+
+    if (!filtered.length) {
+        statusBox.style.display = "block";
+        statusBox.textContent = videos.length
+            ? "No videos match these filters. Try another year group or skill."
+            : "No published videos are available yet. Please check again later.";
+        return;
+    }
+
+    statusBox.style.display = "none";
+
+    filtered.forEach(video => {
+        const embedUrl = getYouTubeEmbed(video.video_url);
+
+        const card = document.createElement("article");
+        card.className = "video-card";
+
+        if (embedUrl) {
+            const frame = document.createElement("iframe");
+            frame.className = "video-frame";
+            frame.src = embedUrl;
+            frame.title = video.title;
+            frame.loading = "lazy";
+            frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            frame.referrerPolicy = "strict-origin-when-cross-origin";
+            frame.allowFullscreen = true;
+            card.appendChild(frame);
+        }
+
+        const content = document.createElement("div");
+        content.className = "video-content";
+
+        const yearTag = document.createElement("span");
+        yearTag.className = "tag";
+        yearTag.textContent = video.year_group;
+
+        const categoryTag = document.createElement("span");
+        categoryTag.className = "tag";
+        categoryTag.textContent = video.category;
+
+        const title = document.createElement("h2");
+        title.textContent = video.title;
+
+        content.append(yearTag, categoryTag, title);
+
+        if (video.description) {
+            const description = document.createElement("p");
+            description.textContent = video.description;
+            content.appendChild(description);
+        }
+
+        if (video.practice_url) {
+            try {
+                const practiceUrl = new URL(video.practice_url);
+                if (practiceUrl.protocol === "https:" || practiceUrl.protocol === "http:") {
+                    const link = document.createElement("a");
+                    link.className = "practice-link";
+                    link.href = practiceUrl.href;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = "Open Related Practice →";
+                    content.appendChild(link);
+                }
+            } catch {
+                // Ignore an invalid optional practice link.
+            }
+        }
+
+        card.appendChild(content);
+        videoGrid.appendChild(card);
+    });
+}
+
+async function loadVideos() {
+    statusBox.style.display = "block";
+    statusBox.textContent = "Loading published videos...";
+    videoGrid.replaceChildren();
+
+    const { data, error } = await db
+        .from("preparation_videos")
+        .select("id,title,category,year_group,description,video_url,practice_url,created_at")
+        .eq("is_published", true)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Could not load preparation videos:", error);
+        statusBox.textContent = "We couldn't load the videos. Please refresh the page or contact your teacher.";
+        return;
+    }
+
+    videos = data || [];
+    renderVideos();
+}
+
+yearFilter.addEventListener("change", renderVideos);
+categoryFilter.addEventListener("change", renderVideos);
+
+loadVideos();
+</script>
 </body>
 </html>
