@@ -5,190 +5,309 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Dashboard | IGCSE English Hub</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#1e293b}
-header{background:#183153;color:white;padding:22px 6%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-header h1{margin:0;font-size:23px}
-header p{margin:6px 0 0;color:#d5e2f2}
-button{cursor:pointer;border:0;border-radius:8px;padding:12px 18px;font-size:15px;font-weight:bold}
-.logout{background:white;color:#183153}
-main{max-width:1100px;margin:35px auto;padding:0 20px}
-.welcome{margin-bottom:25px}
-.welcome h2{margin-bottom:8px}
-.welcome p{color:#64748b;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-.card{display:block;width:100%;text-align:left;background:white;padding:25px;border-radius:14px;box-shadow:0 3px 14px #0000000f;border:1px solid #e2e8f0;color:inherit;font-family:inherit;transition:transform .2s,box-shadow .2s,border-color .2s}
-.card.clickable{cursor:pointer}
-.card.clickable:hover{transform:translateY(-4px);box-shadow:0 8px 22px #00000014;border-color:#3478c9}
-.card:focus-visible{outline:3px solid #3478c9;outline-offset:3px}
-.card .icon{font-size:32px}
-.card h3{margin:15px 0 10px;font-size:18px}
-.card p{color:#64748b;line-height:1.6;font-size:14px;margin-bottom:0}
-.status{padding:18px;border-radius:10px;background:white;margin-bottom:25px;line-height:1.6;overflow-wrap:anywhere}
-.hidden{display:none!important}
-footer{text-align:center;color:#64748b;padding:30px 15px;font-size:13px}
-@media(max-width:500px){main{margin:24px auto}.card{padding:20px}}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fc;
+    color: #222;
+}
+
+header {
+    background: linear-gradient(135deg, #102a56, #244d85);
+    color: white;
+    text-align: center;
+    padding: 38px 20px;
+}
+
+.header-top {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: clamp(25px, 4vw, 36px);
+}
+
+header p {
+    color: #e1eaf8;
+    margin: 12px 0 0;
+    line-height: 1.6;
+}
+
+.logout {
+    border: 1px solid rgba(255,255,255,.6);
+    background: transparent;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout:hover {
+    background: rgba(255,255,255,.12);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 42px auto;
+    padding: 20px;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.intro h2 {
+    color: #102a56;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 290px;
+    padding: 30px 24px;
+    background: white;
+    border: 1px solid #e5eaf2;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(16,42,86,.07);
+    text-decoration: none;
+    text-align: center;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(16,42,86,.13);
+}
+
+.icon {
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: #edf3fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 46px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: #102a56;
+    font-size: 23px;
+    margin: 0 0 12px;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+#status {
+    text-align: center;
+    color: #64748b;
+    padding: 25px;
+}
+
+#error {
+    display: none;
+    color: #b00020;
+    background: #fff0f1;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 24px 15px;
+    text-align: center;
+    color: #64748b;
+    background: white;
+    border-top: 1px solid #e5eaf2;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    .header-top {
+        flex-direction: column;
+    }
+
+    .container {
+        margin: 25px auto;
+        padding: 16px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .card {
+        min-height: 240px;
+    }
+}
 </style>
 </head>
 
 <body>
+
 <header>
-    <div>
-        <h1>IGCSE English Hub</h1>
-        <p>Teacher Administration Panel</p>
+    <div class="header-top">
+        <div>
+            <h1>IGCSE English Hub</h1>
+            <p>Teacher Administration Panel</p>
+        </div>
+
+        <button class="logout" id="logoutButton">
+            Log Out
+        </button>
     </div>
-    <button id="logoutButton" class="logout" hidden>Log Out</button>
 </header>
 
-<main>
-    <div id="status" class="status" role="status" aria-live="polite">
-        Checking your account permissions...
+<main class="container">
+    <div class="intro">
+        <h2>Welcome, Teacher!</h2>
+        <p>
+            Choose the learning area you want to manage.
+        </p>
     </div>
 
-    <section id="dashboard" class="hidden">
-        <div class="welcome">
-            <h2>Welcome, Teacher!</h2>
-            <p>Manage your courses, lessons, homework and tests from one place.</p>
-        </div>
+    <p id="status">Checking your account permissions...</p>
+    <p id="error"></p>
 
-        <div class="grid">
+    <div class="cards" id="dashboardCards" hidden>
+        <a class="card" href="teacher-my-course.html">
+            <div class="icon">📚</div>
+            <h3>My Course</h3>
+            <p>
+                Manage your regular courses, lessons, homework,
+                tests and student progress.
+            </p>
+        </a>
 
-            <button type="button" class="card clickable"
-                onclick="window.location.href='teacher-courses.html'"
-                aria-label="Manage Courses">
-                <div class="icon">📚</div>
-                <h3>Manage Courses</h3>
-                <p>Organise year groups, units and course sessions. Click to open course management.</p>
-            </button>
-
-            <button type="button" class="card"
-                onclick="alert('Lessons & Sessions will be available in the next stage.')">
-                <div class="icon">📝</div>
-                <h3>Lessons &amp; Sessions</h3>
-                <p>Prepare Vocabulary, Grammar and Writing lessons for each session.</p>
-            </button>
-
-            <button type="button" class="card"
-                onclick="alert('Homework management will be available in the next stage.')">
-                <div class="icon">🏠</div>
-                <h3>Homework</h3>
-                <p>Prepare homework activities and practice tasks for your students.</p>
-            </button>
-
-            <button type="button" class="card"
-                onclick="alert('Tests & Revision will be available in the next stage.')">
-                <div class="icon">✅</div>
-                <h3>Tests &amp; Revision</h3>
-                <p>Plan revision activities and end-of-unit assessments.</p>
-            </button>
-
-            <button type="button" class="card"
-                onclick="alert('Student Progress will be available in the next stage.')">
-                <div class="icon">📊</div>
-                <h3>Student Progress</h3>
-                <p>Review student results and learning progress in a future update.</p>
-            </button>
-
-        </div>
-
-        <div class="status" style="margin-top:25px">
-            <strong>Next stage:</strong>
-            We will connect Lessons &amp; Sessions, Homework, Tests and Student Progress to the course database.
-        </div>
-    </section>
+        <a class="card" href="teacher-checkpoint.html">
+            <div class="icon">🎓</div>
+            <h3>Cambridge Checkpoint</h3>
+            <p>
+                Manage Preparation Course, Classified Papers,
+                Past Papers and Mock.
+            </p>
+        </a>
+    </div>
 </main>
 
-<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+<footer>
+    &copy; 2026 IGCSE English Hub — All Rights Reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const SUPABASE_URL =
+    "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
+const SUPABASE_ANON_KEY =
+    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient = supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_KEY
+    SUPABASE_ANON_KEY
 );
 
-const statusBox = document.getElementById("status");
-const dashboard = document.getElementById("dashboard");
-const logoutButton = document.getElementById("logoutButton");
-
-function showStatus(message) {
-    statusBox.textContent = message;
-    statusBox.classList.remove("hidden");
-    dashboard.classList.add("hidden");
-}
-
 async function checkTeacherAccess() {
-    showStatus("Checking your account permissions...");
+    const status = document.getElementById("status");
+    const errorElement = document.getElementById("error");
+    const cards = document.getElementById("dashboardCards");
 
     try {
-        const { data: sessionData, error: sessionError } =
-            await supabaseClient.auth.getSession();
+        const {
+            data: { session },
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
 
-        if (sessionError) {
-            throw new Error("Session error: " + sessionError.message);
-        }
-
-        const session = sessionData.session;
+        if (sessionError) throw sessionError;
 
         if (!session) {
-            window.location.replace("login.html");
+            window.location.href = "login.html";
             return;
         }
 
-        logoutButton.hidden = false;
+        const {
+            data: teacherRole,
+            error: roleError
+        } = await supabaseClient
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", session.user.id)
+            .eq("role", "teacher")
+            .maybeSingle();
 
-        const { data: roleRecord, error: roleError } =
-            await supabaseClient
-                .from("user_roles")
-                .select("role")
-                .eq("user_id", session.user.id)
-                .eq("role", "teacher")
-                .maybeSingle();
+        if (roleError) throw roleError;
 
-        if (roleError) {
-            throw new Error(
-                "Unable to verify teacher permissions: " +
-                roleError.message +
-                " (Code: " + (roleError.code || "unknown") + ")"
-            );
-        }
-
-        if (!roleRecord) {
+        if (!teacherRole) {
             await supabaseClient.auth.signOut();
-            window.location.replace("login.html");
+            window.location.href = "login.html";
             return;
         }
 
-        statusBox.classList.add("hidden");
-        dashboard.classList.remove("hidden");
+        status.style.display = "none";
+        cards.hidden = false;
 
     } catch (error) {
-        console.error("Teacher dashboard error:", error);
-        showStatus(error.message || "An unexpected error occurred.");
+        console.error("Teacher access error:", error);
+        status.style.display = "none";
+        errorElement.style.display = "block";
+        errorElement.textContent =
+            "Unable to verify your teacher account. Please refresh the page or log in again.";
     }
 }
 
-logoutButton.addEventListener("click", async function() {
-    logoutButton.disabled = true;
-
-    try {
+document.getElementById("logoutButton").addEventListener(
+    "click",
+    async function() {
         const { error } = await supabaseClient.auth.signOut();
 
-        if (error) throw error;
+        if (error) {
+            alert("Unable to log out. Please try again.");
+            return;
+        }
 
-        window.location.replace("login.html");
-    } catch (error) {
-        logoutButton.disabled = false;
-        showStatus("Unable to log out: " + error.message);
+        window.location.href = "login.html";
     }
-});
+);
 
 checkTeacherAccess();
 </script>
+
 </body>
 </html>
