@@ -88,7 +88,7 @@ footer{text-align:center;padding:28px;color:#65748b;font-size:13px}
       <div class="icon">🎯</div>
       <h3>Mock</h3>
       <p>Prepare and organize mock examinations for Cambridge Checkpoint students.</p>
-      <button class="pending" type="button" data-section="Mock">Open Mock</button>
+      <a class="available" href="teacher-mock.html">Open Mock</a>
     </article>
   </section>
 </main>
@@ -157,12 +157,6 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
   }
 
   window.location.replace("login.html");
-});
-
-document.querySelectorAll("[data-section]").forEach(button => {
-  button.addEventListener("click", () => {
-    alert(button.dataset.section + " management has not been connected yet.");
-  });
 });
 
 checkTeacher();
