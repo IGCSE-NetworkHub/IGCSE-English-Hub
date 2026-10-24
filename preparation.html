@@ -4,16 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Preparation Course | IGCSE English Hub</title>
 
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -30,14 +25,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .brand {
             font-size: 22px;
             font-weight: bold;
-            letter-spacing: 0.3px;
         }
 
         .header-label {
@@ -45,9 +39,9 @@
             font-size: 14px;
         }
 
-        .container {
+        main {
             max-width: 1100px;
-            margin: 0 auto;
+            margin: auto;
             padding: 45px 22px 60px;
         }
 
@@ -68,17 +62,16 @@
         }
 
         h1 {
+            color: #102a56;
             font-size: clamp(30px, 5vw, 43px);
             margin: 5px 0 15px;
-            color: #102a56;
         }
 
         .hero p {
             max-width: 680px;
-            margin: 0 auto;
+            margin: auto;
             line-height: 1.8;
             color: #52627a;
-            font-size: 16px;
         }
 
         .choices {
@@ -86,7 +79,7 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 25px;
             max-width: 850px;
-            margin: 0 auto;
+            margin: auto;
         }
 
         .choice-card {
@@ -96,10 +89,10 @@
             padding: 32px 25px;
             text-align: center;
             box-shadow: 0 8px 25px rgba(16, 42, 86, 0.07);
-            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .choice-card:hover {
@@ -112,10 +105,10 @@
             height: 90px;
             border-radius: 24px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin-bottom: 22px;
+            align-items: center;
             font-size: 43px;
+            margin-bottom: 22px;
         }
 
         .video-icon {
@@ -126,7 +119,7 @@
             background: #dcfce7;
         }
 
-        .choice-card h2 {
+        h2 {
             color: #102a56;
             font-size: 23px;
             margin: 0 0 13px;
@@ -140,113 +133,19 @@
         }
 
         .primary-button {
-            border: none;
+            display: inline-block;
             background: #1d4ed8;
             color: white;
             padding: 13px 23px;
             border-radius: 9px;
             font-size: 15px;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
             transition: background 0.2s;
         }
 
         .primary-button:hover {
             background: #163da9;
-        }
-
-        .section-panel {
-            display: none;
-            max-width: 850px;
-            margin: 0 auto;
-            background: white;
-            border: 1px solid #e0e8f3;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(16, 42, 86, 0.07);
-        }
-
-        .section-panel.active {
-            display: block;
-            animation: appear 0.25s ease;
-        }
-
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .panel-heading {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 22px;
-        }
-
-        .panel-heading .icon {
-            width: 65px;
-            height: 65px;
-            font-size: 32px;
-            margin: 0;
-            border-radius: 17px;
-            flex-shrink: 0;
-        }
-
-        .panel-heading h2 {
-            margin: 0 0 6px;
-            font-size: 25px;
-        }
-
-        .panel-heading p {
-            margin: 0;
-            color: #607089;
-            line-height: 1.6;
-        }
-
-        .empty-state {
-            background: #f7f9fd;
-            border: 1px dashed #c8d5e7;
-            border-radius: 13px;
-            padding: 28px 22px;
-            text-align: center;
-            color: #52627a;
-            line-height: 1.8;
-        }
-
-        .empty-state .empty-icon {
-            font-size: 34px;
-            margin-bottom: 10px;
-        }
-
-        .empty-state h3 {
-            color: #102a56;
-            margin: 5px 0 10px;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-bottom: 25px;
-            border: 1px solid #cbd8e8;
-            background: white;
-            color: #174078;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .back-button:hover {
-            background: #eef4fc;
         }
 
         footer {
@@ -267,7 +166,7 @@
                 font-size: 19px;
             }
 
-            .container {
+            main {
                 padding: 32px 16px 45px;
             }
 
@@ -278,14 +177,6 @@
 
             .choice-card {
                 padding: 27px 22px;
-            }
-
-            .section-panel {
-                padding: 22px 17px;
-            }
-
-            .panel-heading h2 {
-                font-size: 21px;
             }
         }
     </style>
@@ -298,147 +189,56 @@
     <div class="header-label">Cambridge Checkpoint</div>
 </header>
 
-<main class="container">
+<main>
+    <section class="hero">
+        <span class="eyebrow">CAMBRIDGE CHECKPOINT</span>
 
-    <section id="homeSection">
-        <div class="hero">
-            <span class="eyebrow">CAMBRIDGE CHECKPOINT</span>
-            <h1>Preparation Course</h1>
-            <p>
-                Strengthen your English skills with guided explanations,
-                useful learning resources, and focused exam preparation.
-            </p>
-        </div>
+        <h1>Preparation Course</h1>
 
-        <div class="choices">
-
-            <article class="choice-card">
-                <div class="icon video-icon" aria-hidden="true">▶️</div>
-
-                <h2>Explanation Videos</h2>
-
-                <p>
-                    Watch lesson explanations and access the practice
-                    activities selected for each session.
-                </p>
-
-                <button
-                    class="primary-button"
-                    type="button"
-                    onclick="openSection('videosSection')">
-                    Explore Videos →
-                </button>
-            </article>
-
-            <article class="choice-card">
-                <div class="icon library-icon" aria-hidden="true">📚</div>
-
-                <h2>Student Library</h2>
-
-                <p>
-                    Access additional learning materials, including PDFs,
-                    revision sheets, summaries, and study resources.
-                </p>
-
-                <button
-                    class="primary-button"
-                    type="button"
-                    onclick="openSection('librarySection')">
-                    Open Library →
-                </button>
-            </article>
-
-        </div>
+        <p>
+            Strengthen your English skills through lesson explanations,
+            additional learning resources, and focused exam preparation.
+        </p>
     </section>
 
-    <section id="videosSection" class="section-panel">
-        <button
-            class="back-button"
-            type="button"
-            onclick="goHome()">
-            ← Back to Preparation Course
-        </button>
+    <section class="choices">
 
-        <div class="panel-heading">
+        <article class="choice-card">
             <div class="icon video-icon" aria-hidden="true">▶️</div>
-            <div>
-                <h2>Explanation Videos</h2>
-                <p>Learn from lesson explanations and practise what you learn.</p>
-            </div>
-        </div>
 
-        <div class="empty-state">
-            <div class="empty-icon" aria-hidden="true">🎬</div>
-            <h3>Lessons will appear here</h3>
+            <h2>Explanation Videos</h2>
+
             <p>
-                This section will display the explanation sessions added
-                by the teacher, together with the relevant practice links.
+                Watch lesson explanations and access the practice activities
+                selected by your teacher.
             </p>
-        </div>
-    </section>
 
-    <section id="librarySection" class="section-panel">
-        <button
-            class="back-button"
-            type="button"
-            onclick="goHome()">
-            ← Back to Preparation Course
-        </button>
+            <a class="primary-button" href="explanation-videos.html">
+                Explore Videos →
+            </a>
+        </article>
 
-        <div class="panel-heading">
+        <article class="choice-card">
             <div class="icon library-icon" aria-hidden="true">📚</div>
-            <div>
-                <h2>Student Library</h2>
-                <p>Additional materials to support your learning and revision.</p>
-            </div>
-        </div>
 
-        <div class="empty-state">
-            <div class="empty-icon" aria-hidden="true">📂</div>
-            <h3>Learning resources will appear here</h3>
+            <h2>Student Library</h2>
+
             <p>
-                This section will contain the PDFs, revision sheets,
-                summaries, and other educational materials provided
-                by the teacher.
+                Find additional learning materials, including PDFs,
+                revision sheets, summaries, and study resources.
             </p>
-        </div>
-    </section>
 
+            <a class="primary-button" href="student-library.html">
+                Open Library →
+            </a>
+        </article>
+
+    </section>
 </main>
 
 <footer>
     © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
-
-<script>
-    function openSection(sectionId) {
-        document.getElementById("homeSection").style.display = "none";
-
-        document.querySelectorAll(".section-panel").forEach(function(panel) {
-            panel.classList.remove("active");
-        });
-
-        document.getElementById(sectionId).classList.add("active");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    function goHome() {
-        document.querySelectorAll(".section-panel").forEach(function(panel) {
-            panel.classList.remove("active");
-        });
-
-        document.getElementById("homeSection").style.display = "block";
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-</script>
 
 </body>
 </html>
