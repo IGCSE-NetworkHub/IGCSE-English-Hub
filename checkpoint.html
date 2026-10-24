@@ -283,6 +283,7 @@ async function loadCheckpoint() {
             let icon = "🎓";
             let description =
                 "Access this section of the Cambridge Checkpoint Course.";
+            let page = "#";
 
             if (
                 originalTitle === "General Preparation Course" ||
@@ -292,14 +293,18 @@ async function loadCheckpoint() {
                 icon = "📚";
                 description =
                     "Explore lesson explanations, learning resources and guided practice.";
+                page = "preparation.html";
+
             } else if (originalTitle === "Classified Papers") {
                 icon = "📄";
                 description =
                     "Practise exam questions organised by topic and skill.";
+
             } else if (originalTitle === "Past Papers") {
                 icon = "📝";
                 description =
                     "Explore past examination papers, mark schemes and interactive practice.";
+
             } else if (
                 originalTitle === "Test Yourself" ||
                 originalTitle === "Mock Exams"
@@ -324,9 +329,7 @@ async function loadCheckpoint() {
             descriptionElement.textContent = description;
 
             const link = document.createElement("a");
-
-            // Preserve the existing placeholder link for now.
-            link.href = "#";
+            link.href = page;
             link.appendChild(heading);
 
             card.appendChild(iconElement);
@@ -338,9 +341,11 @@ async function loadCheckpoint() {
 
     } catch (error) {
         document.getElementById("loading").style.display = "none";
+
         showError(
             "Unable to load Checkpoint sections. Please refresh the page."
         );
+
         console.error("Checkpoint loading error:", error);
     }
 }
