@@ -1,0 +1,608 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Past Papers | IGCSE English Hub</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f6fb;
+    color: #1f2937;
+}
+
+header {
+    background: #172554;
+    color: white;
+    padding: 24px 20px;
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 25px;
+}
+
+header p {
+    margin: 0;
+    color: #dbeafe;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    border: 1px solid #93c5fd;
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 18px 40px;
+}
+
+.panel {
+    background: white;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
+    margin-bottom: 24px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #172554;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    background: white;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+    min-height: 43px;
+}
+
+.primary:hover {
+    background: #1d4ed8;
+}
+
+.secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.publish {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.unpublish {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.delete {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.session-list {
+    display: grid;
+    gap: 14px;
+}
+
+.session-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.session-card h3 {
+    margin: 0 0 8px;
+    color: #172554;
+}
+
+.session-meta {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.status-published {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.status-draft {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+#message {
+    display: none;
+    padding: 13px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+#message.success {
+    display: block;
+    background: #dcfce7;
+    color: #166534;
+}
+
+#message.error {
+    display: block;
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+#message.info {
+    display: block;
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.empty {
+    color: #64748b;
+    padding: 20px 0;
+}
+
+.note {
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 14px;
+    border-radius: 8px;
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid button {
+        width: 100%;
+    }
+
+    .session-card {
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div>
+            <h1>Past Papers Management</h1>
+            <p>Manage Cambridge Checkpoint examination sessions.</p>
+        </div>
+        <a href="teacher-dashboard.html">← Teacher Dashboard</a>
+    </div>
+</header>
+
+<main>
+    <div id="message" role="status" aria-live="polite"></div>
+
+    <section class="panel">
+        <h2>Add Examination Session</h2>
+
+        <form id="sessionForm">
+            <div class="form-grid">
+                <div>
+                    <label for="examYear">Year</label>
+                    <input
+                        type="number"
+                        id="examYear"
+                        min="2000"
+                        max="2100"
+                        value="2024"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="examSession">Session</label>
+                    <select id="examSession" required>
+                        <option value="February">February</option>
+                        <option value="April" selected>April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                    </select>
+                </div>
+
+                <button class="primary" id="addButton" type="submit">
+                    + Add Session
+                </button>
+            </div>
+        </form>
+
+        <div class="note">
+            New sessions are saved as drafts. Students will not see them until
+            you publish them. Exam Pack files and Interactive Exam links will
+            be configured in the next step.
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Existing Examination Sessions</h2>
+        <p class="session-meta">
+            Sessions are displayed from oldest to newest.
+        </p>
+        <div id="sessionList" class="session-list">
+            <p class="empty">Loading sessions...</p>
+        </div>
+    </section>
+</main>
+
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const form = document.getElementById("sessionForm");
+const yearInput = document.getElementById("examYear");
+const sessionInput = document.getElementById("examSession");
+const addButton = document.getElementById("addButton");
+const sessionList = document.getElementById("sessionList");
+const messageBox = document.getElementById("message");
+
+const monthOrder = {
+    February: 2,
+    April: 4,
+    May: 5,
+    June: 6,
+    October: 10,
+    November: 11
+};
+
+function showMessage(message, type = "info") {
+    messageBox.textContent = message;
+    messageBox.className = type;
+    messageBox.style.display = "block";
+}
+
+function clearMessage() {
+    messageBox.textContent = "";
+    messageBox.className = "";
+    messageBox.style.display = "none";
+}
+
+function sortSessions(sessions) {
+    return sessions.sort((a, b) => {
+        if (a.year !== b.year) {
+            return a.year - b.year;
+        }
+
+        return monthOrder[a.session] - monthOrder[b.session];
+    });
+}
+
+function makeButton(text, className, onClick) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = text;
+    button.className = className;
+    button.addEventListener("click", onClick);
+    return button;
+}
+
+async function checkTeacherAccess() {
+    const {
+        data: { session },
+        error: sessionError
+    } = await supabaseClient.auth.getSession();
+
+    if (sessionError) {
+        throw sessionError;
+    }
+
+    if (!session) {
+        window.location.replace("login.html");
+        return false;
+    }
+
+    const { data: teacherRole, error } = await supabaseClient
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "teacher")
+        .maybeSingle();
+
+    if (error) {
+        throw error;
+    }
+
+    if (!teacherRole) {
+        await supabaseClient.auth.signOut();
+        window.location.replace("login.html");
+        return false;
+    }
+
+    return true;
+}
+
+async function loadSessions() {
+    sessionList.replaceChildren();
+
+    const { data, error } = await supabaseClient
+        .from("past_paper_sessions")
+        .select("id, year, session, is_published, created_at");
+
+    if (error) {
+        throw error;
+    }
+
+    const sessions = sortSessions(data || []);
+
+    if (sessions.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = "No examination sessions have been added yet.";
+        sessionList.appendChild(empty);
+        return;
+    }
+
+    sessions.forEach((exam) => {
+        const card = document.createElement("article");
+        card.className = "session-card";
+
+        const details = document.createElement("div");
+
+        const heading = document.createElement("h3");
+        heading.textContent = `${exam.year} ${exam.session}`;
+
+        const meta = document.createElement("div");
+        meta.className = "session-meta";
+        meta.textContent = `Session ID: ${exam.id}`;
+
+        const status = document.createElement("span");
+        status.className = exam.is_published
+            ? "status status-published"
+            : "status status-draft";
+        status.textContent = exam.is_published ? "Published" : "Draft";
+
+        details.append(heading, meta, status);
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const publishButton = makeButton(
+            exam.is_published ? "Unpublish" : "Publish",
+            exam.is_published ? "unpublish" : "publish",
+            () => togglePublication(exam)
+        );
+
+        const deleteButton = makeButton(
+            "Delete",
+            "delete",
+            () => deleteSession(exam)
+        );
+
+        actions.append(publishButton, deleteButton);
+        card.append(details, actions);
+        sessionList.appendChild(card);
+    });
+}
+
+async function addSession(event) {
+    event.preventDefault();
+    clearMessage();
+
+    const year = Number(yearInput.value);
+    const session = sessionInput.value;
+
+    if (!Number.isInteger(year) || year < 2000 || year > 2100) {
+        showMessage("Please enter a year between 2000 and 2100.", "error");
+        return;
+    }
+
+    addButton.disabled = true;
+    addButton.textContent = "Saving...";
+
+    try {
+        const { error } = await supabaseClient
+            .from("past_paper_sessions")
+            .insert({
+                year,
+                session,
+                is_published: false
+            });
+
+        if (error) {
+            if (error.code === "23505") {
+                throw new Error("This examination session already exists.");
+            }
+            throw error;
+        }
+
+        showMessage(
+            `The ${year} ${session} session was added as a draft.`,
+            "success"
+        );
+
+        form.reset();
+        yearInput.value = year;
+        sessionInput.value = session;
+
+        await loadSessions();
+    } catch (error) {
+        showMessage(error.message || "Could not add the session.", "error");
+    } finally {
+        addButton.disabled = false;
+        addButton.textContent = "+ Add Session";
+    }
+}
+
+async function togglePublication(exam) {
+    clearMessage();
+
+    const nextState = !exam.is_published;
+    const actionText = nextState ? "publish" : "unpublish";
+
+    if (!confirm(`Are you sure you want to ${actionText} ${exam.year} ${exam.session}?`)) {
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+            .from("past_paper_sessions")
+            .update({ is_published: nextState })
+            .eq("id", exam.id);
+
+        if (error) {
+            throw error;
+        }
+
+        showMessage(
+            `${exam.year} ${exam.session} is now ${nextState ? "published" : "a draft"}.`,
+            "success"
+        );
+
+        await loadSessions();
+    } catch (error) {
+        showMessage(error.message || "Could not update publication status.", "error");
+    }
+}
+
+async function deleteSession(exam) {
+    clearMessage();
+
+    const confirmed = confirm(
+        `Delete ${exam.year} ${exam.session}?\n\nThis cannot be undone. Any options linked to this session will also be deleted.`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+            .from("past_paper_sessions")
+            .delete()
+            .eq("id", exam.id);
+
+        if (error) {
+            throw error;
+        }
+
+        showMessage(
+            `${exam.year} ${exam.session} was deleted.`,
+            "success"
+        );
+
+        await loadSessions();
+    } catch (error) {
+        showMessage(error.message || "Could not delete the session.", "error");
+    }
+}
+
+form.addEventListener("submit", addSession);
+
+async function initialisePage() {
+    try {
+        const authorised = await checkTeacherAccess();
+
+        if (!authorised) {
+            return;
+        }
+
+        await loadSessions();
+    } catch (error) {
+        showMessage(
+            error.message || "The page could not be loaded. Please try again.",
+            "error"
+        );
+        sessionList.replaceChildren();
+    }
+}
+
+initialisePage();
+</script>
+
+</body>
+</html>
+```
