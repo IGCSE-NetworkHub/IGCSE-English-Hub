@@ -14,7 +14,6 @@ header{background:linear-gradient(135deg,#142b4a,#245b83);color:white;padding:28
 header h1{margin:0;font-size:27px}
 header p{margin:8px 0 0;color:#dbeafe}
 button,.button{border:0;border-radius:9px;padding:11px 15px;cursor:pointer;font-weight:bold;text-decoration:none;display:inline-block;font-size:14px}
-button:disabled{opacity:.6;cursor:wait}
 .secondary{background:#e8eef7;color:#183451}
 main{max-width:1150px;margin:32px auto;padding:0 20px}
 .intro{background:white;border-radius:15px;padding:24px;margin-bottom:25px;box-shadow:0 4px 18px #152b4a0d}
@@ -75,7 +74,7 @@ footer{text-align:center;padding:28px;color:#65748b;font-size:13px}
       <div class="icon">📂</div>
       <h3>Classified Papers</h3>
       <p>Organize exam questions and practice papers by topic or skill.</p>
-      <button class="pending" type="button" data-section="Classified Papers">Open Classified Papers</button>
+      <a class="available" href="teacher-classified-papers.html">Open Classified Papers</a>
     </article>
 
     <article class="card">
@@ -115,6 +114,7 @@ async function checkTeacher() {
 
     if (error) {
       showMessage("Could not check your session: " + error.message, "error");
+      document.querySelectorAll(".card").forEach(card => card.style.display = "none");
       return;
     }
 
