@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,6 +148,29 @@
             background: #163da9;
         }
 
+        .back-button {
+            display: inline-block;
+            background: white;
+            color: #1d4ed8;
+            padding: 13px 22px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .back-button:hover {
+            background: #eaf1ff;
+            transform: translateY(-2px);
+        }
+
+        .back-container {
+            text-align: center;
+            margin-top: 35px;
+        }
+
         footer {
             text-align: center;
             padding: 22px;
@@ -177,6 +200,12 @@
 
             .choice-card {
                 padding: 27px 22px;
+            }
+
+            .back-button {
+                width: 100%;
+                max-width: 340px;
+                line-height: 1.5;
             }
         }
     </style>
@@ -234,6 +263,12 @@
         </article>
 
     </section>
+
+    <div class="back-container">
+        <a class="back-button" href="dashboard.html">
+            ← Back to Checkpoint Learning Hub
+        </a>
+    </div>
 </main>
 
 <footer>
@@ -242,3 +277,4 @@
 
 </body>
 </html>
+```
