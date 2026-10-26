@@ -9,77 +9,353 @@
 
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f5f7fb; color: #172033; }
-header { background: #102a56; color: white; padding: 20px 8%; display: flex; justify-content: space-between; align-items: center; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+header {
+    background: #102a56;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .logo { font-size: 25px; font-weight: bold; }
 .logo span { color: #f4c542; }
 .back-link { color: white; text-decoration: none; }
-.container { min-height: calc(100vh - 75px); display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
-.login-box { background: white; width: 100%; max-width: 450px; padding: 35px; border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.08); }
-h1 { text-align: center; color: #102a56; margin-bottom: 10px; }
-.subtitle { text-align: center; color: #657084; margin-bottom: 25px; line-height: 1.5; }
-.tabs { display: flex; gap: 8px; margin-bottom: 25px; }
-.tab { flex: 1; padding: 12px 8px; border: 1px solid #d5dbe5; background: #fff; border-radius: 7px; font-weight: bold; cursor: pointer; }
-.tab.active { background: #102a56; color: white; border-color: #102a56; }
+
+.container {
+    min-height: calc(100vh - 75px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.login-box {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+h1 {
+    text-align: center;
+    color: #102a56;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #657084;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px 8px;
+    border: 1px solid #d5dbe5;
+    background: #fff;
+    border-radius: 7px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #102a56;
+    color: white;
+    border-color: #102a56;
+}
+
 .form-group { margin-bottom: 20px; }
-label { display: block; margin-bottom: 8px; font-weight: bold; }
-input { width: 100%; padding: 13px; border: 1px solid #d5dbe5; border-radius: 7px; font-size: 15px; }
-button.submit { width: 100%; padding: 14px; background: #f4c542; color: #172033; border: none; border-radius: 7px; font-size: 16px; font-weight: bold; cursor: pointer; }
-button:disabled { opacity: .6; cursor: wait; }
-.note { text-align: center; margin-top: 20px; color: #657084; font-size: 14px; line-height: 1.7; }
-.note a { color: #1f4b91; font-weight: bold; text-decoration: none; }
-#errorMessage { display: none; background: #fff0f0; color: #a11; padding: 12px; border-radius: 7px; margin-bottom: 18px; line-height: 1.5; overflow-wrap: anywhere; }
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d5dbe5;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+button.submit {
+    width: 100%;
+    padding: 14px;
+    background: #f4c542;
+    color: #172033;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.note {
+    text-align: center;
+    margin-top: 20px;
+    color: #657084;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.note a {
+    color: #1f4b91;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#errorMessage {
+    display: none;
+    background: #fff0f0;
+    color: #a11;
+    padding: 12px;
+    border-radius: 7px;
+    margin-bottom: 18px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
 .hidden { display: none !important; }
+
+/* Device notice */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 24, 48, .72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.modal-overlay.visible { display: flex; }
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0,0,0,.25);
+}
+
+.modal-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #fff4d6;
+    color: #8a6200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.modal-box h2 {
+    color: #102a56;
+    text-align: center;
+    font-size: 23px;
+    margin-bottom: 16px;
+    line-height: 1.35;
+}
+
+.modal-box p {
+    line-height: 1.65;
+    color: #465268;
+    margin-bottom: 14px;
+}
+
+.modal-box ul {
+    padding-left: 22px;
+    margin: 12px 0 18px;
+    color: #465268;
+    line-height: 1.8;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 13px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: white;
+    border: 1px solid #ccd3df;
+    color: #26334a;
+}
+
+.agree-button {
+    background: #102a56;
+    border: 1px solid #102a56;
+    color: white;
+}
+
+.modal-buttons button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+@media (max-width: 480px) {
+    header { padding: 18px 5%; }
+    .logo { font-size: 21px; }
+    .login-box { padding: 25px 20px; }
+    .modal-box { padding: 24px 20px; }
+    .modal-box h2 { font-size: 21px; }
+    .modal-buttons { flex-direction: column-reverse; }
+}
 </style>
 </head>
 
 <body>
+
 <header>
     <div class="logo">THE <span>BLUEPRINT</span></div>
     <a href="index.html" class="back-link">← Home</a>
 </header>
 
 <div class="container">
-<div class="login-box">
-    <h1 id="pageTitle">Student Login</h1>
-    <p class="subtitle" id="subtitle">Welcome back to The Blueprint.</p>
+    <div class="login-box">
+        <h1 id="pageTitle">Student Login</h1>
+        <p class="subtitle" id="subtitle">Welcome back to The Blueprint.</p>
 
-    <div class="tabs">
-        <button type="button" class="tab active" id="studentTab">Student</button>
-        <button type="button" class="tab" id="teacherTab">Teacher</button>
-    </div>
-
-    <div id="errorMessage" role="alert"></div>
-
-    <form id="loginForm">
-        <div class="form-group">
-            <label for="loginId" id="loginLabel">Username</label>
-            <input type="text" id="loginId" placeholder="Enter your username" autocomplete="username" required>
+        <div class="tabs">
+            <button type="button" class="tab active" id="studentTab">Student</button>
+            <button type="button" class="tab" id="teacherTab">Teacher</button>
         </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+        <div id="errorMessage" role="alert"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginId" id="loginLabel">Username</label>
+                <input
+                    type="text"
+                    id="loginId"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="submit" id="loginButton">
+                Login
+            </button>
+        </form>
+
+        <div class="note hidden" id="forgotNote">
+            <a href="#" id="forgotPassword">Forgot your password?</a>
         </div>
 
-        <button type="submit" class="submit" id="loginButton">Login</button>
-    </form>
-
-    <div class="note hidden" id="forgotNote">
-        <a href="#" id="forgotPassword">Forgot your password?</a>
-    </div>
-
-    <div class="note" id="registerNote">
-        Don't have an account? <a href="register.html">Register here</a>
+        <div class="note" id="registerNote">
+            Don't have an account?
+            <a href="register.html">Register here</a>
+        </div>
     </div>
 </div>
+
+<!-- Device notice modal -->
+<div
+    class="modal-overlay"
+    id="deviceNoticeModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="deviceNoticeTitle"
+    aria-describedby="deviceNoticeDescription"
+>
+    <div class="modal-box">
+        <div class="modal-icon" aria-hidden="true">!</div>
+
+        <h2 id="deviceNoticeTitle">
+            Important Notice About Your Account
+        </h2>
+
+        <div id="deviceNoticeDescription">
+            <p>
+                To protect your account and course content, your account
+                will be linked to one device when you first log in.
+            </p>
+
+            <ul>
+                <li>Do not share your login details with others.</li>
+                <li>Device changes are allowed once every 30 days.</li>
+                <li>
+                    If you need to change your device earlier, contact
+                    your teacher for approval.
+                </li>
+            </ul>
+
+            <p>
+                Please make sure you are using your primary device
+                before continuing.
+            </p>
+        </div>
+
+        <div class="modal-buttons">
+            <button type="button" class="cancel-button" id="cancelDeviceNotice">
+                Cancel
+            </button>
+
+            <button type="button" class="agree-button" id="agreeDeviceNotice">
+                Agree &amp; Continue
+            </button>
+        </div>
+    </div>
 </div>
 
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 const loginForm = document.getElementById("loginForm");
 const loginId = document.getElementById("loginId");
@@ -95,11 +371,18 @@ const registerNote = document.getElementById("registerNote");
 const forgotNote = document.getElementById("forgotNote");
 const forgotPassword = document.getElementById("forgotPassword");
 
-let loginMode = "student";
+const deviceNoticeModal = document.getElementById("deviceNoticeModal");
+const agreeDeviceNotice = document.getElementById("agreeDeviceNotice");
+const cancelDeviceNotice = document.getElementById("cancelDeviceNotice");
 
-function showError(message) {
+let loginMode = "student";
+let noticeDecisionHandler = null;
+
+function showError(message, success = false) {
     errorMessage.textContent = message;
     errorMessage.style.display = "block";
+    errorMessage.style.background = success ? "#edf8ef" : "#fff0f0";
+    errorMessage.style.color = success ? "#17632a" : "#a11";
 }
 
 function clearError() {
@@ -122,17 +405,122 @@ function setMode(mode) {
         : "Sign in to your teacher account.";
 
     loginLabel.textContent = isStudent ? "Username" : "Teacher Email";
-    loginId.placeholder = isStudent ? "Enter your username" : "Enter your teacher email";
+    loginId.placeholder = isStudent
+        ? "Enter your username"
+        : "Enter your teacher email";
     loginId.type = isStudent ? "text" : "email";
     loginId.autocomplete = isStudent ? "username" : "email";
 
-    password.autocomplete = "current-password";
     registerNote.classList.toggle("hidden", !isStudent);
     forgotNote.classList.toggle("hidden", isStudent);
 }
 
 studentTab.addEventListener("click", () => setMode("student"));
 teacherTab.addEventListener("click", () => setMode("teacher"));
+
+function askForDeviceNotice() {
+    return new Promise(resolve => {
+        noticeDecisionHandler = resolve;
+        deviceNoticeModal.classList.add("visible");
+        agreeDeviceNotice.focus();
+    });
+}
+
+function closeDeviceNotice(accepted) {
+    deviceNoticeModal.classList.remove("visible");
+
+    if (noticeDecisionHandler) {
+        const resolve = noticeDecisionHandler;
+        noticeDecisionHandler = null;
+        resolve(accepted);
+    }
+}
+
+agreeDeviceNotice.addEventListener("click", () => {
+    closeDeviceNotice(true);
+});
+
+cancelDeviceNotice.addEventListener("click", () => {
+    closeDeviceNotice(false);
+});
+
+deviceNoticeModal.addEventListener("click", event => {
+    if (event.target === deviceNoticeModal) {
+        closeDeviceNotice(false);
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" &&
+        deviceNoticeModal.classList.contains("visible")) {
+        closeDeviceNotice(false);
+    }
+});
+
+async function getDeviceTokenHash(userId) {
+    const storageKey = "blueprint_student_device_token_v1_" + userId;
+    let token = localStorage.getItem(storageKey);
+
+    if (!token) {
+        const bytes = new Uint8Array(32);
+        crypto.getRandomValues(bytes);
+
+        token = Array.from(bytes)
+            .map(byte => byte.toString(16).padStart(2, "0"))
+            .join("");
+
+        localStorage.setItem(storageKey, token);
+    }
+
+    const encodedToken = new TextEncoder().encode(token);
+    const digest = await crypto.subtle.digest("SHA-256", encodedToken);
+
+    return Array.from(new Uint8Array(digest))
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+async function registerAndCheckStudentDevice(userId) {
+    const tokenHash = await getDeviceTokenHash(userId);
+
+    const { data, error } = await supabaseClient.rpc(
+        "register_student_device",
+        { p_device_token_hash: tokenHash }
+    );
+
+    if (error) {
+        throw new Error(
+            "Your device could not be verified. Please try again. " +
+            error.message
+        );
+    }
+
+    if (!data || data.success !== true) {
+        if (data && data.device_status === "locked") {
+            let nextChange = "";
+
+            if (data.next_change_at) {
+                const date = new Date(data.next_change_at);
+
+                if (!Number.isNaN(date.getTime())) {
+                    nextChange =
+                        " The current device-change date is " +
+                        date.toLocaleDateString() + ".";
+                }
+            }
+
+            throw new Error(
+                "This account is registered to another device. " +
+                "Please contact your teacher if you need to change devices." +
+                nextChange
+            );
+        }
+
+        throw new Error(
+            "Device verification failed. Please contact your teacher."
+        );
+    }
+}
 
 forgotPassword.addEventListener("click", async function(event) {
     event.preventDefault();
@@ -159,17 +547,17 @@ forgotPassword.addEventListener("click", async function(event) {
         const redirectTo =
             "https://igcse-networkhub.github.io/IGCSE-English-Hub/reset-password.html";
 
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: redirectTo
-        });
+        const { error } =
+            await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: redirectTo
+            });
 
         if (error) throw error;
 
-        showError("If this email belongs to an account, a password reset email has been requested. Check your inbox and spam folder.");
-        errorMessage.style.display = "block";
-        errorMessage.style.background = "#edf8ef";
-        errorMessage.style.color = "#17632a";
-
+        showError(
+            "If this email belongs to an account, a password reset email has been requested. Check your inbox and spam folder.",
+            true
+        );
     } catch (error) {
         showError("Could not request a password reset: " + error.message);
     } finally {
@@ -196,19 +584,72 @@ loginForm.addEventListener("submit", async function(event) {
             );
 
             if (error) {
-                throw new Error("Unable to look up the username: " + error.message);
+                throw new Error(
+                    "Unable to look up the username: " + error.message
+                );
             }
 
             if (!data || data.length === 0 || !data[0].email) {
-                throw new Error("Student not found. Check your username and try again.");
+                throw new Error(
+                    "Student not found. Check your username and try again."
+                );
             }
 
-            const { error: loginError } = await supabaseClient.auth.signInWithPassword({
-                email: data[0].email,
-                password: enteredPassword
-            });
+            const { data: authData, error: loginError } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: data[0].email,
+                    password: enteredPassword
+                });
 
-            if (loginError) throw new Error("Login failed: " + loginError.message);
+            if (loginError) {
+                throw new Error("Login failed: " + loginError.message);
+            }
+
+            if (!authData.user || !authData.session) {
+                throw new Error("Login did not create a valid session.");
+            }
+
+            const noticeKey =
+                "blueprint_device_notice_ack_" + authData.user.id;
+
+            let noticeAccepted = false;
+
+            try {
+                noticeAccepted = localStorage.getItem(noticeKey) === "yes";
+            } catch (storageError) {
+                await supabaseClient.auth.signOut();
+                throw new Error(
+                    "Your browser storage is unavailable. Please enable site storage and try again."
+                );
+            }
+
+            if (!noticeAccepted) {
+                const accepted = await askForDeviceNotice();
+
+                if (!accepted) {
+                    await supabaseClient.auth.signOut();
+                    showError(
+                        "You cancelled the device registration. You must agree to the notice to continue."
+                    );
+                    return;
+                }
+
+                try {
+                    localStorage.setItem(noticeKey, "yes");
+                } catch (storageError) {
+                    await supabaseClient.auth.signOut();
+                    throw new Error(
+                        "Your browser storage is unavailable. Please enable site storage and try again."
+                    );
+                }
+            }
+
+            try {
+                await registerAndCheckStudentDevice(authData.user.id);
+            } catch (deviceError) {
+                await supabaseClient.auth.signOut();
+                throw deviceError;
+            }
 
             window.location.replace("dashboard.html");
             return;
@@ -228,20 +669,25 @@ loginForm.addEventListener("submit", async function(event) {
             throw new Error("Login did not create a valid session.");
         }
 
-        const { data: roleRecord, error: roleError } = await supabaseClient
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", authData.user.id)
-            .maybeSingle();
+        const { data: roleRecord, error: roleError } =
+            await supabaseClient
+                .from("user_roles")
+                .select("role")
+                .eq("user_id", authData.user.id)
+                .maybeSingle();
 
         if (roleError) {
             await supabaseClient.auth.signOut();
-            throw new Error("Unable to verify teacher permissions: " + roleError.message);
+            throw new Error(
+                "Unable to verify teacher permissions: " + roleError.message
+            );
         }
 
         if (!roleRecord || roleRecord.role !== "teacher") {
             await supabaseClient.auth.signOut();
-            throw new Error("This account is not authorised as a teacher.");
+            throw new Error(
+                "This account is not authorised as a teacher."
+            );
         }
 
         window.location.replace("teacher-dashboard.html");
@@ -254,5 +700,6 @@ loginForm.addEventListener("submit", async function(event) {
     }
 });
 </script>
+
 </body>
 </html>
