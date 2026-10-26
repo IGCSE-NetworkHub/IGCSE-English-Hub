@@ -504,15 +504,31 @@ async function registerAndCheckStudentDevice(userId) {
 
                 if (!Number.isNaN(date.getTime())) {
                     nextChange =
-                        " The current device-change date is " +
+                        " The regular device-change date is " +
                         date.toLocaleDateString() + ".";
                 }
             }
 
+            // Submit a pending request while the student is still authenticated.
+            const { data: requestData, error: requestError } =
+                await supabaseClient.rpc("request_student_device_change");
+
+            if (requestError || !requestData || requestData.success !== true) {
+                const detail = requestError
+                    ? " " + requestError.message
+                    : "";
+
+                throw new Error(
+                    "This account is registered to another device, and we could not submit " +
+                    "a device-change request. Please contact your teacher." +
+                    nextChange + detail
+                );
+            }
+
             throw new Error(
-                "This account is registered to another device. " +
-                "Please contact your teacher if you need to change devices." +
-                nextChange
+                "This account is registered to another device. A device-change request " +
+                "has been sent to your teacher. You can try logging in again after the " +
+                "teacher approves it." + nextChange
             );
         }
 
