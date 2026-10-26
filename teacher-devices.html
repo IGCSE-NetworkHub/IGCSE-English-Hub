@@ -1,40 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Device Management | IGCSE English Hub</title>
-
+<title>Pending Device Change Requests | IGCSE English Hub</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #f5f7fa;
     color: #222;
 }
-
 header {
     background: #102a56;
     color: white;
     padding: 25px 20px;
     text-align: center;
 }
-
-header h1 {
-    margin: 0;
-}
-
+header h1 { margin: 0; }
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 35px auto;
     padding: 20px;
 }
-
 .panel {
     background: white;
     padding: 25px;
@@ -42,7 +31,6 @@ header h1 {
     box-shadow: 0 3px 12px rgba(0,0,0,.08);
     overflow-x: auto;
 }
-
 .notice {
     padding: 12px;
     margin: 15px 0;
@@ -50,34 +38,19 @@ header h1 {
     background: #eef3fa;
     white-space: pre-wrap;
 }
-
-.error {
-    color: #a61b1b;
-    background: #fff0f0;
-}
-
-.success {
-    color: #176534;
-    background: #eaf8ef;
-}
-
+.error { color: #a61b1b; background: #fff0f0; }
+.success { color: #176534; background: #eaf8ef; }
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
-
 th, td {
     padding: 13px 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
-
-th {
-    background: #f0f3f8;
-    color: #102a56;
-}
-
+th { background: #f0f3f8; color: #102a56; }
 button {
     padding: 10px 14px;
     border: 0;
@@ -85,53 +58,28 @@ button {
     cursor: pointer;
     font-size: 14px;
 }
-
-.approve {
-    background: #102a56;
-    color: white;
-}
-
-.secondary {
-    background: #e5eaf2;
-    color: #102a56;
-}
-
-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-
+.approve { background: #102a56; color: white; }
+.secondary { background: #e5eaf2; color: #102a56; }
+button:disabled { opacity: .55; cursor: not-allowed; }
 .actions {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     margin-top: 20px;
 }
-
 .empty-message {
     text-align: center;
     padding: 25px 10px;
     color: #64748b;
 }
-
 @media (max-width: 600px) {
-    .container {
-        padding: 12px;
-    }
-
-    .panel {
-        padding: 15px;
-    }
-
-    th, td {
-        padding: 10px 7px;
-    }
+    .container { padding: 12px; }
+    .panel { padding: 15px; }
+    th, td { padding: 10px 7px; }
 }
 </style>
 </head>
-
 <body>
-
 <header>
     <h1>Teacher Device Management</h1>
     <p>IGCSE English Hub — Teacher Panel</p>
@@ -139,20 +87,12 @@ button:disabled {
 
 <div class="container">
     <div class="panel">
+        <h2>Pending Device Change Requests</h2>
+        <p>Only students who have submitted a device-change request appear here. Approving a request removes it from the pending list permanently.</p>
 
-        <h2>Registered Student Devices</h2>
+        <div id="status" class="notice">Checking teacher access...</div>
 
-        <p>
-            Select a student to approve one device change.
-            The approval will be used at the next different-device login.
-        </p>
-
-        <div id="status" class="notice">
-            Checking teacher access...
-        </div>
-
-        <div id="studentArea" hidden>
-
+        <div id="requestArea" hidden>
             <table>
                 <thead>
                     <tr>
@@ -160,67 +100,41 @@ button:disabled {
                         <th>Student</th>
                         <th>Username</th>
                         <th>Grade</th>
-                        <th>Last Device Change</th>
+                        <th>Request Date</th>
                     </tr>
                 </thead>
-
-                <tbody id="studentRows"></tbody>
+                <tbody id="requestRows"></tbody>
             </table>
 
             <div id="emptyMessage" class="empty-message" hidden>
-                No students are currently displayed in this list.
+                There are no pending device-change requests.
             </div>
 
             <div class="actions">
-                <button
-                    id="approveButton"
-                    class="approve"
-                    disabled>
-                    Approve Device Change
-                </button>
-
-                <button
-                    id="refreshButton"
-                    class="secondary">
-                    Refresh List
-                </button>
-
-                <button
-                    id="logoutButton"
-                    class="secondary">
-                    Logout
-                </button>
+                <button id="approveButton" class="approve" disabled>Approve Device Change</button>
+                <button id="refreshButton" class="secondary">Refresh Requests</button>
+                <button id="logoutButton" class="secondary">Logout</button>
             </div>
-
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL =
-    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
-
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const statusBox = document.getElementById("status");
-const studentArea = document.getElementById("studentArea");
-const studentRows = document.getElementById("studentRows");
+const requestArea = document.getElementById("requestArea");
+const requestRows = document.getElementById("requestRows");
 const emptyMessage = document.getElementById("emptyMessage");
 const approveButton = document.getElementById("approveButton");
 const refreshButton = document.getElementById("refreshButton");
 
-// Students approved during this page session stay hidden from the list.
-const approvedStudentIds = new Set();
-
 let selectedStudentId = null;
+let isLoading = false;
 
 function showStatus(message, type = "") {
     statusBox.textContent = message;
@@ -228,117 +142,105 @@ function showStatus(message, type = "") {
 }
 
 function updateEmptyMessage() {
-    emptyMessage.hidden = studentRows.children.length !== 0;
+    emptyMessage.hidden = requestRows.children.length !== 0;
 }
 
-async function loadStudents(options = {}) {
-    const { preserveStatus = false } = options;
+function formatDate(value) {
+    if (!value) return "Not available";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "Not available" : date.toLocaleString();
+}
 
+async function loadRequests(options = {}) {
+    const { preserveStatus = false } = options;
+    if (isLoading) return;
+    isLoading = true;
     selectedStudentId = null;
     approveButton.disabled = true;
-    studentRows.replaceChildren();
+    requestRows.replaceChildren();
 
-    if (!preserveStatus) {
-        showStatus("Loading registered student devices...");
-    }
+    if (!preserveStatus) showStatus("Loading pending requests...");
 
-    const {
-        data,
-        error
-    } = await supabaseClient.rpc(
-        "get_registered_student_devices"
-    );
+    try {
+        const { data, error } = await supabaseClient.rpc(
+            "get_pending_student_device_changes"
+        );
 
-    if (error) {
+        if (error) {
+            showStatus("Unable to load pending requests: " + error.message, "error");
+            requestArea.hidden = true;
+            return;
+        }
+
+        const requests = data || [];
+
+        for (const request of requests) {
+            const row = document.createElement("tr");
+            const selectCell = document.createElement("td");
+            const radio = document.createElement("input");
+
+            radio.type = "radio";
+            radio.name = "selectedRequest";
+            radio.value = request.student_id;
+            radio.setAttribute(
+                "aria-label",
+                "Select " + (request.student_name || request.username || "student")
+            );
+            radio.addEventListener("change", () => {
+                selectedStudentId = String(request.student_id);
+                approveButton.disabled = false;
+            });
+
+            selectCell.appendChild(radio);
+            row.appendChild(selectCell);
+
+            const values = [
+                request.student_name,
+                request.username,
+                request.grade,
+                formatDate(request.requested_at)
+            ];
+
+            for (const value of values) {
+                const cell = document.createElement("td");
+                cell.textContent = value == null || value === "" ? "—" : String(value);
+                row.appendChild(cell);
+            }
+            requestRows.appendChild(row);
+        }
+
+        requestArea.hidden = false;
+        updateEmptyMessage();
+
+        if (!preserveStatus) {
+            showStatus(
+                requests.length === 0
+                    ? "There are no pending device-change requests."
+                    : "Pending requests loaded. Select a student to approve.",
+                requests.length === 0 ? "" : "success"
+            );
+        }
+    } catch (error) {
         showStatus(
-            "Unable to load students: " + error.message,
+            "Unexpected error while loading requests: " + (error.message || String(error)),
             "error"
         );
-        studentArea.hidden = true;
-        return;
-    }
-
-    const students = (data || []).filter(student =>
-        !approvedStudentIds.has(String(student.student_id))
-    );
-
-    for (const student of students) {
-        const row = document.createElement("tr");
-        const selectCell = document.createElement("td");
-        const radio = document.createElement("input");
-
-        radio.type = "radio";
-        radio.name = "selectedStudent";
-        radio.value = student.student_id;
-
-        radio.setAttribute(
-            "aria-label",
-            "Select " +
-            (student.student_name || student.username || "student")
-        );
-
-        radio.addEventListener("change", () => {
-            selectedStudentId = String(student.student_id);
-            approveButton.disabled = false;
-        });
-
-        selectCell.appendChild(radio);
-        row.appendChild(selectCell);
-
-        const values = [
-            student.student_name,
-            student.username,
-            student.grade,
-            student.last_changed_at
-                ? new Date(
-                    student.last_changed_at
-                ).toLocaleDateString()
-                : "Not available"
-        ];
-
-        for (const value of values) {
-            const cell = document.createElement("td");
-            cell.textContent =
-                value == null ? "—" : String(value);
-
-            row.appendChild(cell);
-        }
-
-        studentRows.appendChild(row);
-    }
-
-    studentArea.hidden = false;
-    updateEmptyMessage();
-
-    if (!preserveStatus) {
-        if (students.length === 0) {
-            showStatus(
-                "No students are currently displayed in this list."
-            );
-        } else {
-            showStatus(
-                "Student list loaded. Select a student to continue."
-            );
-        }
+        requestArea.hidden = true;
+    } finally {
+        isLoading = false;
     }
 }
 
 async function initialize() {
     try {
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.getSession();
+        const { data, error } = await supabaseClient.auth.getSession();
 
         if (error || !data.session) {
             window.location.href = "login.html";
             return;
         }
 
-        const {
-            data: teacherRole,
-            error: roleError
-        } = await supabaseClient
+        const { data: teacherRole, error: roleError } = await supabaseClient
             .from("user_roles")
             .select("role")
             .eq("user_id", data.session.user.id)
@@ -351,12 +253,10 @@ async function initialize() {
             return;
         }
 
-        await loadStudents();
-
+        await loadRequests();
     } catch (error) {
         showStatus(
-            "Unable to verify teacher access: " +
-            (error.message || String(error)),
+            "Unable to verify teacher access: " + (error.message || String(error)),
             "error"
         );
     }
@@ -369,71 +269,43 @@ approveButton.addEventListener("click", async () => {
     }
 
     const selectedId = selectedStudentId;
-
     const confirmed = window.confirm(
-        "Approve one device change for this student? " +
-        "The approval will be used at the next different-device login."
+        "Approve this student's pending device-change request?"
     );
-
     if (!confirmed) return;
 
     approveButton.disabled = true;
     refreshButton.disabled = true;
-
     showStatus("Submitting teacher approval...");
 
     try {
-        const {
-            data,
-            error
-        } = await supabaseClient.rpc(
+        const { data, error } = await supabaseClient.rpc(
             "approve_student_device_change",
-            {
-                p_student_id: selectedId
-            }
+            { p_student_id: selectedId }
         );
 
         if (error) {
-            showStatus(
-                "Approval failed: " + error.message,
-                "error"
-            );
+            showStatus("Approval failed: " + error.message, "error");
             approveButton.disabled = false;
             return;
         }
 
         if (!data || data.success !== true) {
-            showStatus(
-                "The database did not confirm the approval.",
-                "error"
-            );
+            showStatus("The database did not confirm the approval.", "error");
             approveButton.disabled = false;
             return;
         }
 
-        // Hide the student only after the database confirms success.
-        approvedStudentIds.add(selectedId);
-
         showStatus(
-            "SUCCESS: Device change approved. " +
-            "The student has been removed from this list.",
+            "Device change approved. The request has been removed from the pending list.",
             "success"
         );
 
-        // Reload the table while preserving the success message.
-        await loadStudents({
-            preserveStatus: true
-        });
-
+        // The database is the source of truth; no temporary browser-only hiding.
+        await loadRequests({ preserveStatus: true });
     } catch (error) {
-        showStatus(
-            "Unexpected error: " +
-            (error.message || String(error)),
-            "error"
-        );
-
+        showStatus("Unexpected error: " + (error.message || String(error)), "error");
         approveButton.disabled = false;
-
     } finally {
         refreshButton.disabled = false;
     }
@@ -441,33 +313,23 @@ approveButton.addEventListener("click", async () => {
 
 refreshButton.addEventListener("click", async () => {
     refreshButton.disabled = true;
-
     try {
-        await loadStudents();
+        await loadRequests();
     } finally {
         refreshButton.disabled = false;
     }
 });
 
-document.getElementById("logoutButton").addEventListener(
-    "click",
-    async () => {
-        const { error } = await supabaseClient.auth.signOut();
-
-        if (error) {
-            showStatus(
-                "Unable to log out: " + error.message,
-                "error"
-            );
-            return;
-        }
-
-        window.location.href = "login.html";
+document.getElementById("logoutButton").addEventListener("click", async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+        showStatus("Unable to log out: " + error.message, "error");
+        return;
     }
-);
+    window.location.href = "login.html";
+});
 
 initialize();
 </script>
-
 </body>
 </html>
