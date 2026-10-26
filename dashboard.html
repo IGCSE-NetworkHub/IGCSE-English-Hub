@@ -1,12 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>My Learning Hub - IGCSE English Hub</title>
 
     <style>
+        * { box-sizing: border-box; }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -15,21 +17,14 @@
         }
 
         header {
-            background: #ffffff;
+            background: #fff;
             padding: 30px 20px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
-        header h1 {
-            margin: 0;
-            color: #102a56;
-        }
-
-        header p {
-            margin-top: 10px;
-            color: #666;
-        }
+        header h1 { margin: 0; color: #102a56; }
+        header p { margin-top: 10px; color: #666; }
 
         .container {
             max-width: 900px;
@@ -54,18 +49,12 @@
             padding: 40px 25px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
-            transition: transform 0.2s;
+            box-shadow: 0 3px 12px rgba(0,0,0,.10);
+            transition: transform .2s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-icon {
-            font-size: 55px;
-            margin-bottom: 15px;
-        }
+        .card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 55px; margin-bottom: 15px; }
 
         .card h3 {
             margin: 10px 0 15px;
@@ -73,14 +62,8 @@
             font-size: 24px;
         }
 
-        .card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .card a {
-            text-decoration: none;
-        }
+        .card p { color: #666; line-height: 1.6; }
+        .card a { text-decoration: none; }
 
         .logout {
             display: block;
@@ -99,6 +82,17 @@
             padding: 25px;
             color: #666;
         }
+
+        #status {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 18px;
+            text-align: center;
+            line-height: 1.6;
+            color: #465268;
+        }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 
@@ -109,91 +103,132 @@
     <p>Welcome to IGCSE English Hub</p>
 </header>
 
-<div class="container">
+<div id="status">Checking your login and registered device...</div>
 
+<div class="container hidden" id="dashboardContent">
     <h2>Choose Your Course</h2>
 
     <div class="cards">
-
         <div class="card">
-
             <div class="card-icon">📘</div>
-
-            <a href="my-course.html">
-                <h3>My Course</h3>
-            </a>
-
+            <a href="my-course.html"><h3>My Course</h3></a>
             <p>
                 Access your Year course, Units,
                 Vocabulary, Grammar, Writing and
                 End of Unit Tests.
             </p>
-
         </div>
 
         <div class="card">
-
             <div class="card-icon">🎓</div>
-
-            <a href="checkpoint.html">
-                <h3>Cambridge Checkpoint Course</h3>
-            </a>
-
+            <a href="checkpoint.html"><h3>Cambridge Checkpoint Course</h3></a>
             <p>
                 Prepare for Cambridge Checkpoint
                 through General Preparation,
                 Classified Papers, Past Papers
                 and Test Yourself.
             </p>
-
         </div>
-
     </div>
-
 </div>
 
-<button class="logout" onclick="logout()">
-    Logout
-</button>
+<button class="logout hidden" id="logoutButton">Logout</button>
 
-<footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
-</footer>
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-
-const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_ANON_KEY
+    SUPABASE_KEY
 );
 
-async function checkLogin() {
+const statusBox = document.getElementById("status");
+const dashboardContent = document.getElementById("dashboardContent");
+const logoutButton = document.getElementById("logoutButton");
 
-    const { data: { session } } =
-        await supabaseClient.auth.getSession();
+function showBlocked(message) {
+    statusBox.textContent = message;
+    statusBox.classList.remove("hidden");
+    dashboardContent.classList.add("hidden");
+    logoutButton.classList.remove("hidden");
+}
 
-    if (!session) {
-        window.location.href = "login.html";
+async function getExistingDeviceTokenHash(userId) {
+    const storageKey = "blueprint_student_device_token_v1_" + userId;
+    const token = localStorage.getItem(storageKey);
+
+    // Never create a new device token from the dashboard.
+    if (!token || !/^[0-9a-f]{64}$/.test(token)) {
+        throw new Error(
+            "This browser has no valid saved device token. Please return to the login page."
+        );
     }
 
+    const encodedToken = new TextEncoder().encode(token);
+    const digest = await crypto.subtle.digest("SHA-256", encodedToken);
+
+    return Array.from(new Uint8Array(digest))
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
 }
 
-async function logout() {
+async function checkLoginAndDevice() {
+    try {
+        const { data: { session }, error: sessionError } =
+            await supabaseClient.auth.getSession();
 
+        if (sessionError) throw sessionError;
+
+        if (!session) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        const tokenHash = await getExistingDeviceTokenHash(session.user.id);
+
+        const { data, error } = await supabaseClient.rpc(
+            "verify_student_device",
+            { p_device_token_hash: tokenHash }
+        );
+
+        if (error) {
+            throw new Error("Device verification could not be completed. " + error.message);
+        }
+
+        if (!data || data.success !== true ||
+            data.device_status !== "verified") {
+            await supabaseClient.auth.signOut();
+
+            showBlocked(
+                "Access denied: this device is not the registered device. " +
+                "Please sign in from your registered device, or contact your teacher if you need an approved device change."
+            );
+            return;
+        }
+
+        statusBox.classList.add("hidden");
+        dashboardContent.classList.remove("hidden");
+        logoutButton.classList.remove("hidden");
+
+    } catch (error) {
+        showBlocked(
+            "We could not verify your registered device. " +
+            (error.message || "Please return to the login page and try again.")
+        );
+    }
+}
+
+logoutButton.addEventListener("click", async () => {
     await supabaseClient.auth.signOut();
+    window.location.replace("login.html");
+});
 
-    window.location.href = "login.html";
-
-}
-
-checkLogin();
-
+checkLoginAndDevice();
 </script>
 
 </body>
