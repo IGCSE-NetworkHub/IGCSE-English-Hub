@@ -5,104 +5,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Device Management | IGCSE English Hub</title>
-
 <style>
 * { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fa;
-    color: #222;
-}
-
-header {
-    background: #102a56;
-    color: white;
-    padding: 25px 20px;
-    text-align: center;
-}
-
+body { margin: 0; font-family: Arial, sans-serif; background: #f5f7fa; color: #222; }
+header { background: #102a56; color: white; padding: 25px 20px; text-align: center; }
 header h1 { margin: 0; }
-
-.container {
-    max-width: 1000px;
-    margin: 35px auto;
-    padding: 20px;
-}
-
-.panel {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    overflow-x: auto;
-}
-
-.notice {
-    padding: 12px;
-    margin: 15px 0;
-    border-radius: 6px;
-    background: #eef3fa;
-}
-
-.error {
-    color: #a61b1b;
-    background: #fff0f0;
-}
-
-.success {
-    color: #176534;
-    background: #eaf8ef;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    padding: 13px 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-th {
-    background: #f0f3f8;
-    color: #102a56;
-}
-
-button {
-    padding: 10px 14px;
-    border: 0;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.approve {
-    background: #102a56;
-    color: white;
-}
-
-.secondary {
-    background: #e5eaf2;
-    color: #102a56;
-}
-
-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
+.container { max-width: 1000px; margin: 35px auto; padding: 20px; }
+.panel { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 3px 12px rgba(0,0,0,.08); overflow-x: auto; }
+.notice { padding: 12px; margin: 15px 0; border-radius: 6px; background: #eef3fa; white-space: pre-wrap; }
+.error { color: #a61b1b; background: #fff0f0; }
+.success { color: #176534; background: #eaf8ef; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 13px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: #f0f3f8; color: #102a56; }
+button { padding: 10px 14px; border: 0; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.approve { background: #102a56; color: white; }
+.secondary { background: #e5eaf2; color: #102a56; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 @media (max-width: 600px) {
     .container { padding: 12px; }
     .panel { padding: 15px; }
@@ -110,7 +30,6 @@ button:disabled {
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -121,16 +40,9 @@ button:disabled {
 <div class="container">
     <div class="panel">
         <h2>Registered Student Devices</h2>
+        <p>Select a student to approve one device change. The approval will be used at the next different-device login.</p>
 
-        <p>
-            Select a student to approve one device change.
-            The approval will be used when that student logs in
-            from the new device.
-        </p>
-
-        <div id="status" class="notice">
-            Checking teacher access...
-        </div>
+        <div id="status" class="notice">Checking teacher access...</div>
 
         <div id="studentArea" hidden>
             <table>
@@ -147,33 +59,20 @@ button:disabled {
             </table>
 
             <div class="actions">
-                <button id="approveButton" class="approve" disabled>
-                    Approve Device Change
-                </button>
-
-                <button id="refreshButton" class="secondary">
-                    Refresh List
-                </button>
-
-                <button id="logoutButton" class="secondary">
-                    Logout
-                </button>
+                <button id="approveButton" class="approve" disabled>Approve Device Change</button>
+                <button id="refreshButton" class="secondary">Refresh List</button>
+                <button id="logoutButton" class="secondary">Logout</button>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const statusBox = document.getElementById("status");
 const studentArea = document.getElementById("studentArea");
 const studentRows = document.getElementById("studentRows");
@@ -186,36 +85,33 @@ function showStatus(message, type = "") {
     statusBox.className = "notice" + (type ? " " + type : "");
 }
 
-async function loadStudents() {
+async function loadStudents(options = {}) {
+    const { preserveStatus = false } = options;
+
     selectedStudentId = null;
     approveButton.disabled = true;
     studentRows.replaceChildren();
-    showStatus("Loading registered student devices...");
 
-    const { data, error } = await supabaseClient.rpc(
-        "get_registered_student_devices"
-    );
+    if (!preserveStatus) {
+        showStatus("Loading registered student devices...");
+    }
+
+    const { data, error } = await supabaseClient.rpc("get_registered_student_devices");
 
     if (error) {
-        showStatus(
-            "Unable to load students: " + error.message,
-            "error"
-        );
+        showStatus("Unable to load students: " + error.message, "error");
         return;
     }
 
     for (const student of (data || [])) {
         const row = document.createElement("tr");
-
         const selectCell = document.createElement("td");
         const radio = document.createElement("input");
+
         radio.type = "radio";
         radio.name = "selectedStudent";
         radio.value = student.student_id;
-        radio.setAttribute(
-            "aria-label",
-            "Select " + (student.student_name || student.username || "student")
-        );
+        radio.setAttribute("aria-label", "Select " + (student.student_name || student.username || "student"));
 
         radio.addEventListener("change", () => {
             selectedStudentId = student.student_id;
@@ -245,23 +141,23 @@ async function loadStudents() {
 
     studentArea.hidden = false;
 
-    if (!data || data.length === 0) {
-        showStatus("No registered student devices were found.");
-    } else {
-        showStatus("Student list loaded. Select a student to continue.");
+    if (!preserveStatus) {
+        if (!data || data.length === 0) {
+            showStatus("No registered student devices were found.");
+        } else {
+            showStatus("Student list loaded. Select a student to continue.");
+        }
     }
 }
 
 async function initialize() {
-    const { data: { session }, error } =
-        await supabaseClient.auth.getSession();
+    const { data, error } = await supabaseClient.auth.getSession();
 
-    if (error || !session) {
+    if (error || !data.session) {
         window.location.href = "login.html";
         return;
     }
 
-    // The database RPC independently verifies the teacher role.
     await loadStudents();
 }
 
@@ -273,8 +169,7 @@ approveButton.addEventListener("click", async () => {
 
     const selectedId = selectedStudentId;
     const confirmed = window.confirm(
-        "Approve one device change for this student? " +
-        "The approval will be used at the next different-device login."
+        "Approve one device change for this student? The approval will be used at the next different-device login."
     );
 
     if (!confirmed) return;
@@ -282,46 +177,43 @@ approveButton.addEventListener("click", async () => {
     approveButton.disabled = true;
     showStatus("Submitting teacher approval...");
 
-    const { data, error } = await supabaseClient.rpc(
-        "approve_student_device_change",
-        { p_student_id: selectedId }
-    );
+    try {
+        const { data, error } = await supabaseClient.rpc(
+            "approve_student_device_change",
+            { p_student_id: selectedId }
+        );
 
-    if (error) {
-        showStatus("Approval failed: " + error.message, "error");
+        if (error) {
+            showStatus("Approval failed: " + error.message, "error");
+            approveButton.disabled = false;
+            return;
+        }
+
+        if (!data || data.success !== true) {
+            showStatus("The database did not confirm the approval.", "error");
+            approveButton.disabled = false;
+            return;
+        }
+
+        // Keep the success message visible; refreshing the table must not overwrite it.
+        showStatus("SUCCESS: Device change approved. The student can use the approval at the next different-device login.", "success");
+
+        await loadStudents({ preserveStatus: true });
+
+    } catch (err) {
+        showStatus("Unexpected error: " + (err.message || String(err)), "error");
         approveButton.disabled = false;
-        return;
     }
-
-    if (!data || data.success !== true) {
-        showStatus("The approval was not confirmed.", "error");
-        approveButton.disabled = false;
-        return;
-    }
-
-    showStatus(
-        "Device change approved. The student can now log in from the new device.",
-        "success"
-    );
-
-    await loadStudents();
 });
 
-document.getElementById("refreshButton").addEventListener(
-    "click",
-    loadStudents
-);
+document.getElementById("refreshButton").addEventListener("click", () => loadStudents());
 
-document.getElementById("logoutButton").addEventListener(
-    "click",
-    async () => {
-        await supabaseClient.auth.signOut();
-        window.location.href = "login.html";
-    }
-);
+document.getElementById("logoutButton").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "login.html";
+});
 
 initialize();
 </script>
-
 </body>
 </html>
