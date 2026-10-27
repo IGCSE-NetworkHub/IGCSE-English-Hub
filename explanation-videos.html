@@ -208,11 +208,11 @@ footer {
 .access-message.success { color:#166534; }
 
 @media(max-width:700px) {
-    .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px; }
-    .session-tile { min-height:180px; padding:18px 10px; }
-    .session-icon { width:52px; height:52px; }
-    .session-name { font-size:18px; }
-    .session-description { font-size:12px; }
+    .video-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap:14px; }
+    .session-tile { min-height:255px; padding:21px 16px; border-radius:20px; }
+    .session-icon { width:66px; height:66px; padding:12px; border-radius:21px; }
+    .session-name { font-size:19px; }
+    .session-description { font-size:13px; }
 
     main {
         padding: 28px 15px 40px;
@@ -479,11 +479,14 @@ function renderVideos() {
         icon.innerHTML = '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="currentColor" opacity=".12"></circle><path d="M26 19 L45 32 L26 45 Z" fill="currentColor"></path></svg>';
         const name = document.createElement("strong");
         name.className = "session-name";
-        name.textContent = "Session " + (index + 1);
+        name.textContent = video.title || ("Session " + (index + 1));
         const desc = document.createElement("span");
         desc.className = "session-description";
-        desc.textContent = video.description || video.title || "Open this session to view its learning content.";
-        tile.append(icon, name, desc);
+        desc.textContent = video.description || "Open this session to view its learning content.";
+        const hint = document.createElement("span");
+        hint.className = "session-hint";
+        hint.textContent = "OPEN SESSION  ↗";
+        tile.append(icon, name, desc, hint);
         const details = document.createElement("div");
         details.className = "session-details";
         details.hidden = true;
