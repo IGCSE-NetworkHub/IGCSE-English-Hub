@@ -54,7 +54,7 @@ textarea{min-height:90px;resize:vertical}
 .student-meta{font-size:13px;color:#64748b;line-height:1.7;margin:5px 0}
 .small-actions{display:flex;gap:7px;flex-wrap:wrap}
 .small-actions button{padding:8px 10px;font-size:12px}
-.code-output{padding:12px;background:#fff8db;border:1px solid #e8d48a;border-radius:8px;overflow-wrap:anywhere;margin-top:10px}
+.code-output{padding:12px;background:#fff8db;border:1px solid #e8d48a;border-radius:8px;overflow-wrap:anywhere;margin-top:10px}\n.code-result-for-video:empty{display:none}.code-result-for-video .error{padding:10px;border-radius:8px;margin-top:10px;overflow-wrap:anywhere}
 @media(max-width:650px){header h1{font-size:21px}.grid,.session-grid{grid-template-columns:1fr}.session-grid .full{grid-column:auto}main{margin-top:20px}.panel{padding:18px}}
 </style>
 </head>
@@ -390,6 +390,10 @@ function buildPaidSessionEditor(video) {
   issue.addEventListener("click",()=>issueInitialCode(video.id));
   box.appendChild(issue);
 
+  const codeResult=makeElement("div","code-result-for-video");
+  codeResult.id="code_result_"+video.id;
+  box.appendChild(codeResult);
+
   const accessList=makeElement("div","student-access-list");
   accessList.id="access_"+video.id;
   accessList.appendChild(makeElement("p","muted","Loading existing access records..."));
@@ -437,44 +441,115 @@ function selectedStudent(videoId) {
   return Number(value);
 }
 async function issueInitialCode(videoId) {
-  if(!teacherVerified) return;
-  const studentId=selectedStudent(videoId);
-  if(!studentId) return;
-  if(!getTeacherSession(videoId)) {
-    showMessage("Save the session settings before issuing an access code.","error");
-    return;
+  const resultBox = document.getElementById("code_result_" + videoId);
+  const studentSelect = document.getElementById("student_" + videoId);
+  const issueButton = studentSelect ? studentSelect.nextElementSibling : null;
+
+  try {
+    if (!teacherVerified) {
+      showMessage("Teacher access is not verified. Please reload the page and sign in again.", "error");
+      return;
+    }
+
+    const rawStudentId = studentSelect ? studentSelect.value : "";
+    if (!rawStudentId) {
+      showMessage("Choose a student first.", "error");
+      if (studentSelect) studentSelect.focus();
+      return;
+    }
+
+    const studentId = Number(rawStudentId);
+    if (!Number.isSafeInteger(studentId) || studentId <= 0) {
+      showMessage("The selected student ID is invalid. Refresh the page and try again.", "error");
+      return;
+    }
+
+    const session = getTeacherSession(videoId);
+    if (!session) {
+      showMessage("Session settings are not loaded. Press Save Session Settings, then try again.", "error");
+      return;
+    }
+    if (session.is_enabled !== true) {
+      showMessage("Enable the paid session and press Save Session Settings before issuing a code.", "error");
+      return;
+    }
+
+    if (issueButton && issueButton.tagName === "BUTTON") {
+      issueButton.disabled = true;
+      issueButton.textContent = "Issuing code...";
+    }
+    if (resultBox) {
+      resultBox.replaceChildren(makeElement("p", "muted", "Contacting the server to issue the access code..."));
+    }
+    showMessage("Issuing the access code. Please wait...", "");
+
+    const { data, error } = await db.rpc("issue_paid_video_code", {
+      p_video_id: Number(videoId),
+      p_student_id: studentId
+    });
+
+    if (error) {
+      console.error("issue_paid_video_code failed:", error);
+      showMessage("Could not issue access code: " + error.message, "error");
+      if (resultBox) resultBox.replaceChildren(makeElement("p", "error", "Code not issued: " + error.message));
+      return;
+    }
+
+    if (!data || data.success !== true || !data.code) {
+      console.error("Unexpected issue_paid_video_code response:", data);
+      const detail = data && data.message ? data.message : "The server did not return an access code.";
+      showMessage(detail, "error");
+      if (resultBox) resultBox.replaceChildren(makeElement("p", "error", detail));
+      return;
+    }
+
+    showCodeResult(
+      "Initial access code",
+      data.code,
+      "Give this code to the selected student. The validity period starts when the student activates it.",
+      resultBox
+    );
+    showMessage("Access code issued successfully.", "success");
+    await refreshAccessForVideo(videoId);
+
+  } catch (error) {
+    console.error("Unexpected issueInitialCode error:", error);
+    const detail = error && error.message ? error.message : String(error);
+    showMessage("Unexpected error while issuing the code: " + detail, "error");
+    if (resultBox) resultBox.replaceChildren(makeElement("p", "error", "Unexpected error: " + detail));
+  } finally {
+    if (issueButton && issueButton.tagName === "BUTTON") {
+      issueButton.disabled = false;
+      issueButton.textContent = "Issue Initial Access Code";
+    }
   }
-  const {data,error}=await db.rpc("issue_paid_video_code",{
-    p_video_id:Number(videoId),p_student_id:studentId
-  });
-  if(error) {
-    showMessage("Could not issue access code: "+error.message,"error");
-    return;
-  }
-  if(!data || !data.success) {
-    showMessage(data?.message || "Could not issue access code.","error");
-    return;
-  }
-  showCodeResult("Initial access code",data.code,
-    "Give this code to the selected student. The validity period starts when the student activates it.");
-  await refreshAccessForVideo(videoId);
 }
 
-function showCodeResult(title,code,note) {
-  const box=makeElement("div","code-output");
-  box.appendChild(makeElement("strong","",title));
-  box.appendChild(makeElement("p","",code || "No code was returned."));
-  box.appendChild(makeElement("p","muted",note));
-  if(code) {
-    const copy=makeElement("button","secondary","Copy code");
-    copy.type="button";
-    copy.addEventListener("click",async()=>{
-      try { await navigator.clipboard.writeText(code); showMessage("Code copied.","success"); }
-      catch { showMessage("Copy failed. Select and copy the code manually.","error"); }
+function showCodeResult(title, code, note, target = null) {
+  const box = makeElement("div", "code-output");
+  box.appendChild(makeElement("strong", "", title));
+  box.appendChild(makeElement("p", "", code || "No code was returned."));
+  box.appendChild(makeElement("p", "muted", note));
+
+  if (code) {
+    const copy = makeElement("button", "secondary", "Copy code");
+    copy.type = "button";
+    copy.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(code);
+        showMessage("Code copied.", "success");
+      } catch {
+        showMessage("Copy failed. Select and copy the code manually.", "error");
+      }
     });
     box.appendChild(copy);
   }
-  message.insertAdjacentElement("afterend",box);
+
+  if (target) {
+    target.replaceChildren(box);
+  } else {
+    message.insertAdjacentElement("afterend", box);
+  }
 }
 
 async function loadAccessForVideo(videoId,target) {
