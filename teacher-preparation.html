@@ -54,7 +54,12 @@ textarea{min-height:90px;resize:vertical}
 .student-meta{font-size:13px;color:#64748b;line-height:1.7;margin:5px 0}
 .small-actions{display:flex;gap:7px;flex-wrap:wrap}
 .small-actions button{padding:8px 10px;font-size:12px}
-.code-output{padding:12px;background:#fff8db;border:1px solid #e8d48a;border-radius:8px;overflow-wrap:anywhere;margin-top:10px}\n.code-result-for-video:empty{display:none}.code-result-for-video .error{padding:10px;border-radius:8px;margin-top:10px;overflow-wrap:anywhere}
+.code-output{padding:12px;background:#fff8db;border:1px solid #e8d48a;border-radius:8px;overflow-wrap:anywhere;margin-top:10px}
+.inline-action-status{display:inline-block;margin:8px 0 0 10px;font-size:13px;font-weight:bold;vertical-align:middle;overflow-wrap:anywhere}
+.inline-action-status.success{background:transparent;color:#176534}
+.inline-action-status.error{background:transparent;color:#a21c1c}
+.inline-action-status.pending{background:transparent;color:#17457c}
+.action-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:10px}\n.code-result-for-video:empty{display:none}.code-result-for-video .error{padding:10px;border-radius:8px;margin-top:10px;overflow-wrap:anywhere}
 @media(max-width:650px){header h1{font-size:21px}.grid,.session-grid{grid-template-columns:1fr}.session-grid .full{grid-column:auto}main{margin-top:20px}.panel{padding:18px}}
 </style>
 </head>
@@ -129,6 +134,7 @@ textarea{min-height:90px;resize:vertical}
       <div class="form-actions">
         <button class="primary" id="saveBtn" type="submit">Save Video</button>
         <button class="secondary" id="clearBtn" type="button">Clear Form</button>
+        <span id="videoSaveStatus" class="inline-action-status" role="status"></span>
       </div>
     </form>
   </section>
@@ -175,6 +181,18 @@ let linkedStudents = [];
 function showMessage(text, type = "") {
   message.textContent = text;
   message.className = "notice" + (type ? " " + type : "");
+}
+function setInlineStatus(anchor, text, type = "success") {
+  if (!anchor || !anchor.parentNode) return;
+  let status = anchor.parentNode.querySelector(":scope > .inline-action-status");
+  if (!status) {
+    status = document.createElement("span");
+    status.className = "inline-action-status";
+    status.setAttribute("role", "status");
+    anchor.insertAdjacentElement("afterend", status);
+  }
+  status.className = "inline-action-status " + type;
+  status.textContent = text;
 }
 function makeElement(tag, className, text) {
   const element = document.createElement(tag);
@@ -362,6 +380,10 @@ function buildPaidSessionEditor(video) {
   saveSettings.type="button";
   saveSettings.addEventListener("click",()=>saveSessionSettings(video.id));
   box.appendChild(saveSettings);
+  const settingsStatus = makeElement("span", "inline-action-status");
+  settingsStatus.id = "settings_status_" + video.id;
+  settingsStatus.setAttribute("role", "status");
+  saveSettings.insertAdjacentElement("afterend", settingsStatus);
 
   const status=makeElement("p","muted",session ?
     "Session settings are saved." :
@@ -379,8 +401,14 @@ function buildPaidSessionEditor(video) {
   studentSelect.appendChild(placeholder);
   linkedStudents.forEach(student=>{
     const opt=document.createElement("option");
-    opt.value=String(student.id);
+    // The RPC may expose the student table key as student_id rather than id.
+    const rawId = student.student_id ?? student.student_record_id ?? student.id ?? "";
+    opt.value = rawId === null || rawId === undefined ? "" : String(rawId);
     opt.textContent=(student.student_name||"Unnamed student")+" · "+(student.username||"no username")+" · "+(student.grade||"no grade");
+    if (!opt.value) {
+      opt.disabled = true;
+      opt.textContent += " · missing student ID";
+    }
     studentSelect.appendChild(opt);
   });
   box.appendChild(studentSelect);
@@ -389,6 +417,10 @@ function buildPaidSessionEditor(video) {
   issue.type="button"; issue.style.marginTop="10px";
   issue.addEventListener("click",()=>issueInitialCode(video.id));
   box.appendChild(issue);
+  const issueStatus = makeElement("span", "inline-action-status");
+  issueStatus.id = "issue_status_" + video.id;
+  issueStatus.setAttribute("role", "status");
+  issue.insertAdjacentElement("afterend", issueStatus);
 
   const codeResult=makeElement("div","code-result-for-video");
   codeResult.id="code_result_"+video.id;
@@ -403,17 +435,20 @@ function buildPaidSessionEditor(video) {
 }
 
 async function saveSessionSettings(videoId) {
-  if(!teacherVerified) return;
+  const saveButton = document.getElementById("settings_status_" + videoId)?.previousElementSibling;
+  const localStatus = document.getElementById("settings_status_" + videoId);
+  if(!teacherVerified) { setInlineStatus(saveButton, "Teacher access not verified", "error"); return; }
+  setInlineStatus(saveButton, "Saving...", "pending");
   const maxRaw=document.getElementById("plays_"+videoId).value.trim();
   const daysRaw=document.getElementById("days_"+videoId).value.trim();
   const priceRaw=document.getElementById("price_"+videoId).value.trim();
   if(maxRaw==="" || daysRaw==="" || priceRaw==="") {
-    showMessage("Enter maximum plays, validity days, and price explicitly before saving.","error");
+    setInlineStatus(saveButton, "Complete all settings first", "error");
     return;
   }
   const maxPlays=Number(maxRaw), days=Number(daysRaw), price=Number(priceRaw);
   if(!Number.isInteger(maxPlays)||maxPlays<1||!Number.isInteger(days)||days<1||!Number.isFinite(price)||price<0) {
-    showMessage("Maximum plays and validity days must be positive whole numbers. Price must be zero or greater.","error");
+    setInlineStatus(saveButton, "Check plays, days, and price", "error");
     return;
   }
   const isEnabled=document.getElementById("enabled_"+videoId).checked;
@@ -425,10 +460,10 @@ async function saveSessionSettings(videoId) {
     p_is_enabled:isEnabled
   });
   if(error) {
-    showMessage("Could not save session settings: "+error.message,"error");
+    setInlineStatus(saveButton, "Failed: " + error.message, "error");
     return;
   }
-  showMessage("Paid session settings saved.","success");
+  setInlineStatus(saveButton, "Done ✓", "success");
   await loadPaidSessionData();
 }
 
@@ -442,35 +477,38 @@ function selectedStudent(videoId) {
 }
 async function issueInitialCode(videoId) {
   const resultBox = document.getElementById("code_result_" + videoId);
+  const localStatus = document.getElementById("issue_status_" + videoId);
   const studentSelect = document.getElementById("student_" + videoId);
   const issueButton = studentSelect ? studentSelect.nextElementSibling : null;
 
   try {
     if (!teacherVerified) {
-      showMessage("Teacher access is not verified. Please reload the page and sign in again.", "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Teacher access not verified"; }
       return;
     }
 
     const rawStudentId = studentSelect ? studentSelect.value : "";
     if (!rawStudentId) {
-      showMessage("Choose a student first.", "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Choose a student first"; }
       if (studentSelect) studentSelect.focus();
       return;
     }
 
+    // issue_paid_video_code expects the numeric primary key from public.students.
     const studentId = Number(rawStudentId);
     if (!Number.isSafeInteger(studentId) || studentId <= 0) {
-      showMessage("The selected student ID is invalid. Refresh the page and try again.", "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Invalid student ID"; }
+      if (resultBox) resultBox.replaceChildren(makeElement("p", "error", "No code was issued. The student-list RPC returned an incompatible student ID."));
       return;
     }
 
     const session = getTeacherSession(videoId);
     if (!session) {
-      showMessage("Session settings are not loaded. Press Save Session Settings, then try again.", "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Save session settings first"; }
       return;
     }
     if (session.is_enabled !== true) {
-      showMessage("Enable the paid session and press Save Session Settings before issuing a code.", "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Enable and save session first"; }
       return;
     }
 
@@ -481,7 +519,7 @@ async function issueInitialCode(videoId) {
     if (resultBox) {
       resultBox.replaceChildren(makeElement("p", "muted", "Contacting the server to issue the access code..."));
     }
-    showMessage("Issuing the access code. Please wait...", "");
+    if (localStatus) { localStatus.className = "inline-action-status pending"; localStatus.textContent = "Issuing..."; }
 
     const { data, error } = await db.rpc("issue_paid_video_code", {
       p_video_id: Number(videoId),
@@ -490,7 +528,7 @@ async function issueInitialCode(videoId) {
 
     if (error) {
       console.error("issue_paid_video_code failed:", error);
-      showMessage("Could not issue access code: " + error.message, "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Failed: " + error.message; }
       if (resultBox) resultBox.replaceChildren(makeElement("p", "error", "Code not issued: " + error.message));
       return;
     }
@@ -498,7 +536,7 @@ async function issueInitialCode(videoId) {
     if (!data || data.success !== true || !data.code) {
       console.error("Unexpected issue_paid_video_code response:", data);
       const detail = data && data.message ? data.message : "The server did not return an access code.";
-      showMessage(detail, "error");
+      if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = detail; }
       if (resultBox) resultBox.replaceChildren(makeElement("p", "error", detail));
       return;
     }
@@ -509,13 +547,13 @@ async function issueInitialCode(videoId) {
       "Give this code to the selected student. The validity period starts when the student activates it.",
       resultBox
     );
-    showMessage("Access code issued successfully.", "success");
+    if (localStatus) { localStatus.className = "inline-action-status success"; localStatus.textContent = "Done ✓"; }
     await refreshAccessForVideo(videoId);
 
   } catch (error) {
     console.error("Unexpected issueInitialCode error:", error);
     const detail = error && error.message ? error.message : String(error);
-    showMessage("Unexpected error while issuing the code: " + detail, "error");
+    if (localStatus) { localStatus.className = "inline-action-status error"; localStatus.textContent = "Failed: " + detail; }
     if (resultBox) resultBox.replaceChildren(makeElement("p", "error", "Unexpected error: " + detail));
   } finally {
     if (issueButton && issueButton.tagName === "BUTTON") {
@@ -697,23 +735,26 @@ async function removeStoredPdf(path) {
 
 form.addEventListener("submit",async event=>{
   event.preventDefault();
-  if(!teacherVerified) return;
+  const videoSaveStatus = document.getElementById("videoSaveStatus");
+  if(!teacherVerified) { videoSaveStatus.textContent = "Teacher access not verified"; videoSaveStatus.className = "inline-action-status error"; return; }
+  videoSaveStatus.textContent = "Saving...";
+  videoSaveStatus.className = "inline-action-status pending";
   const videoUrl=document.getElementById("videoUrl").value.trim();
   if(!getYouTubeEmbed(videoUrl)) {
-    showMessage("Please enter a valid YouTube video link.","error"); return;
+    videoSaveStatus.textContent = "Enter a valid YouTube link"; videoSaveStatus.className = "inline-action-status error"; return;
   }
   let relatedLinks;
   try { relatedLinks=collectRelatedLinks(); }
-  catch(error) { showMessage(error.message,"error"); return; }
+  catch(error) { videoSaveStatus.textContent = error.message; videoSaveStatus.className = "inline-action-status error"; return; }
   const {data:sessionData,error:sessionError}=await db.auth.getSession();
-  if(sessionError) { showMessage("Could not verify your session: "+sessionError.message,"error"); return; }
+  if(sessionError) { videoSaveStatus.textContent = "Failed: " + sessionError.message; videoSaveStatus.className = "inline-action-status error"; return; }
   if(!sessionData.session) { window.location.replace("login.html"); return; }
 
   const userId=sessionData.session.user.id;
   const selectedFile=document.getElementById("pdfFile").files[0]||null;
   const removeOldPdf=document.getElementById("removePdf").checked;
   if(selectedFile&&removeOldPdf) {
-    showMessage("Choose either a replacement PDF or remove the existing PDF, not both.","error"); return;
+    videoSaveStatus.textContent = "Choose replace PDF or remove PDF, not both"; videoSaveStatus.className = "inline-action-status error"; return;
   }
   saveBtn.disabled=true;
   saveBtn.textContent="Saving...";
@@ -747,7 +788,8 @@ form.addEventListener("submit",async event=>{
     const savedVideo=result.data;
     const oldPath=editingPdfPath;
     if(oldPath&&oldPath!==savedVideo.pdf_path) await removeStoredPdf(oldPath);
-    showMessage(wasEditing?"Video updated successfully.":"Video saved successfully.","success");
+    videoSaveStatus.textContent = "Done ✓";
+    videoSaveStatus.className = "inline-action-status success";
     resetForm();
     await Promise.all([loadVideos(),loadPaidSessionData()]);
   } catch(error) {
@@ -756,7 +798,8 @@ form.addEventListener("submit",async event=>{
       const {error:cleanupError}=await db.storage.from(PDF_BUCKET).remove([newlyUploadedPath]);
       if(cleanupError) console.error("Could not clean up uploaded PDF:",cleanupError);
     }
-    showMessage("Could not save the video: "+error.message,"error");
+    videoSaveStatus.textContent = "Failed: " + error.message;
+    videoSaveStatus.className = "inline-action-status error";
   } finally {
     saveBtn.disabled=false;
     saveBtn.textContent=editingId!==null?"Update Video":"Save Video";
