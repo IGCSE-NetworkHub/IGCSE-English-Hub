@@ -74,9 +74,24 @@ select {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
 }
+.session-card { min-width:0; }
+.session-tile {
+    width:100%; min-height:210px; padding:24px 18px; border:1px solid #dbe5f2;
+    border-radius:16px; background:#fff; color:#102a56; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+    text-align:center; box-shadow:0 6px 20px rgba(16,42,86,.06); transition:transform .18s,box-shadow .18s,border-color .18s;
+}
+.session-tile:hover,.session-tile.is-open { border-color:#2563eb; box-shadow:0 10px 26px rgba(37,99,235,.13); transform:translateY(-2px); }
+.session-icon { display:block; width:66px; height:66px; color:#2563eb; }
+.session-icon svg { display:block; width:100%; height:100%; }
+.session-name { font-size:21px; }
+.session-description { color:#607089; font-size:14px; line-height:1.55; font-weight:normal; }
+.session-details { margin-top:12px; background:white; border:1px solid #e0e8f3; border-radius:14px; overflow:hidden; }
+.session-details[hidden] { display:none; }
+.session-details .video-frame { width:100%; }
 
 .video-card {
     background: white;
@@ -193,13 +208,11 @@ footer {
 .access-message.success { color:#166534; }
 
 @media(max-width:700px) {
-    .video-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .filters {
-        grid-template-columns: 1fr;
-    }
+    .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px; }
+    .session-tile { min-height:180px; padding:18px 10px; }
+    .session-icon { width:52px; height:52px; }
+    .session-name { font-size:18px; }
+    .session-description { font-size:12px; }
 
     main {
         padding: 28px 15px 40px;
@@ -235,26 +248,6 @@ footer {
         </p>
     </section>
 
-    <div class="filters">
-        <select id="yearFilter" aria-label="Filter by year group">
-            <option value="">All Year Groups</option>
-            <option value="Year 6">Year 6</option>
-            <option value="Year 7">Year 7</option>
-            <option value="Year 8">Year 8</option>
-            <option value="Year 9">Year 9</option>
-        </select>
-
-        <select id="categoryFilter" aria-label="Filter by category">
-            <option value="">All Skills</option>
-            <option value="Reading">Reading</option>
-            <option value="Writing">Writing</option>
-            <option value="Grammar">Grammar</option>
-            <option value="Vocabulary">Vocabulary</option>
-            <option value="Exam Practice">Exam Practice</option>
-            <option value="Other">Other</option>
-        </select>
-    </div>
-
     <div id="status" class="message">
         Loading published videos...
     </div>
@@ -287,8 +280,6 @@ const db = window.supabase.createClient(
 
 const statusBox = document.getElementById("status");
 const videoGrid = document.getElementById("videoGrid");
-const yearFilter = document.getElementById("yearFilter");
-const categoryFilter = document.getElementById("categoryFilter");
 
 let videos = [];
 let paidVideoIds = new Set();
@@ -468,28 +459,40 @@ function makeAccessPanel(video, card) {
 }
 
 function renderVideos() {
-    const year = yearFilter.value;
-    const category = categoryFilter.value;
-    const filtered = videos.filter(video => (!year || video.year_group === year) && (!category || video.category === category));
     videoGrid.replaceChildren();
-    if (!filtered.length) {
+    if (!videos.length) {
         statusBox.style.display = "block";
-        statusBox.textContent = videos.length ? "No videos match these filters. Try another year group or skill." : "No published videos are available yet. Please check again later.";
+        statusBox.textContent = "No published sessions are available yet. Please check again later.";
         return;
     }
     statusBox.style.display = "none";
-    filtered.forEach(video => {
+    videos.forEach((video, index) => {
         const paid = paidVideoIds.has(String(video.id));
         const card = document.createElement("article");
-        card.className = "video-card";
-        if (!paid) buildFrame(video, card, false);
+        card.className = "session-card";
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = "session-tile";
+        tile.setAttribute("aria-expanded", "false");
+        const icon = document.createElement("span");
+        icon.className = "session-icon";
+        icon.innerHTML = '<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="currentColor" opacity=".12"></circle><path d="M26 19 L45 32 L26 45 Z" fill="currentColor"></path></svg>';
+        const name = document.createElement("strong");
+        name.className = "session-name";
+        name.textContent = "Session " + (index + 1);
+        const desc = document.createElement("span");
+        desc.className = "session-description";
+        desc.textContent = video.description || video.title || "Open this session to view its learning content.";
+        tile.append(icon, name, desc);
+        const details = document.createElement("div");
+        details.className = "session-details";
+        details.hidden = true;
         const content = document.createElement("div");
         content.className = "video-content";
-        const yearTag = document.createElement("span"); yearTag.className = "tag"; yearTag.textContent = video.year_group || "Year group";
-        const categoryTag = document.createElement("span"); categoryTag.className = "tag"; categoryTag.textContent = video.category || "Other";
-        const title = document.createElement("h2"); title.textContent = video.title;
-        content.append(yearTag, categoryTag, title);
+        const title = document.createElement("h2"); title.textContent = video.title || ("Session " + (index + 1));
+        content.appendChild(title);
         if (video.description) { const p = document.createElement("p"); p.textContent = video.description; content.appendChild(p); }
+        if (!paid) buildFrame(video, details, false);
         if (video.practice_url) {
             try {
                 const practiceUrl = new URL(video.practice_url);
@@ -498,8 +501,56 @@ function renderVideos() {
                 }
             } catch { /* Ignore invalid optional practice links. */ }
         }
-        card.appendChild(content);
-        if (paid) card.appendChild(makeAccessPanel(video, card));
+        if (Array.isArray(video.related_links)) {
+            video.related_links.forEach(item => {
+                if (!item || typeof item.url !== "string") return;
+                let safeUrl;
+                try { safeUrl = new URL(item.url); } catch { return; }
+                if (safeUrl.protocol !== "https:" && safeUrl.protocol !== "http:") return;
+                const link = document.createElement("a");
+                link.className = "practice-link";
+                link.href = safeUrl.href;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = "Open " + (item.type || "Related resource") + " →";
+                content.appendChild(link);
+            });
+        }
+        if (video.pdf_path) {
+            const pdfButton = document.createElement("button");
+            pdfButton.type = "button";
+            pdfButton.className = "practice-link";
+            pdfButton.textContent = "Download session PDF";
+            pdfButton.addEventListener("click", async () => {
+                pdfButton.disabled = true;
+                pdfButton.textContent = "Preparing PDF...";
+                try {
+                    const { data, error } = await db.storage.from("preparation-pdfs").createSignedUrl(video.pdf_path, 120);
+                    if (error) throw error;
+                    if (!data || !data.signedUrl) throw new Error("A download link was not returned.");
+                    const a = document.createElement("a");
+                    a.href = data.signedUrl;
+                    a.download = "session-resource.pdf";
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    document.body.appendChild(a); a.click(); a.remove();
+                    pdfButton.textContent = "Download session PDF";
+                } catch (error) {
+                    console.error("PDF download failed:", error);
+                    pdfButton.textContent = "PDF download unavailable";
+                    makeMessage(details, "Could not create a PDF download link. Check the preparation-pdfs storage permissions.", "error");
+                } finally { pdfButton.disabled = false; }
+            });
+            content.appendChild(pdfButton);
+        }
+        details.appendChild(content);
+        if (paid) details.appendChild(makeAccessPanel(video, details));
+        tile.addEventListener("click", () => {
+            details.hidden = !details.hidden;
+            tile.setAttribute("aria-expanded", String(!details.hidden));
+            tile.classList.toggle("is-open", !details.hidden);
+        });
+        card.append(tile, details);
         videoGrid.appendChild(card);
     });
 }
@@ -514,27 +565,20 @@ async function loadVideos() {
         return;
     }
     const { data: videoData, error: videoError } = await db.from("preparation_videos")
-        .select("id,title,category,year_group,description,video_url,practice_url,created_at")
+        .select("id,title,category,year_group,description,video_url,practice_url,related_links,pdf_path,created_at")
         .eq("is_published", true).order("created_at", { ascending: false });
     if (videoError) {
         console.error("Could not load preparation videos:", videoError);
         statusBox.textContent = "We couldn't load the videos. Please refresh the page or contact your teacher.";
         return;
     }
-    const { data: sessionRows, error: paidError } = await db.from("paid_video_sessions")
-        .select("video_id,is_enabled").eq("is_enabled", true);
-    if (paidError) {
-        console.error("Could not check paid video settings:", paidError);
-        statusBox.textContent = "The video access settings could not be checked. Please contact your teacher; no videos have been opened.";
-        return;
-    }
-    paidVideoIds = new Set((sessionRows || []).map(row => String(row.video_id)));
+    // Each published teacher-created video is displayed as a session tile.
+    // Avoid calling a student RPC that may not exist in this Supabase project.
     videos = videoData || [];
+    paidVideoIds = new Set(videos.map(video => String(video.id)));
     renderVideos();
 }
 
-yearFilter.addEventListener("change", renderVideos);
-categoryFilter.addEventListener("change", renderVideos);
 loadVideos();
 </script>
 
