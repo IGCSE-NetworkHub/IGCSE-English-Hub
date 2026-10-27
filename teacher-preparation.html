@@ -17,7 +17,7 @@ button,.button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font-
 .secondary{background:#e8eef7;color:#183451}
 .danger{background:#fee2e2;color:#991b1b}
 button:disabled{opacity:.6;cursor:not-allowed}
-main{max-width:1100px;margin:30px auto;padding:0 20px}
+main{max-width:1200px;margin:30px auto;padding:0 20px}
 .panel{background:white;border:1px solid #e0e7f0;border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 4px 18px #152b4a0a}
 h2{color:#183b60;margin-top:0}
 p{line-height:1.6}
@@ -31,24 +31,34 @@ input[type=checkbox]{width:auto}
 input[type=file]{background:#f8fafc}
 textarea{min-height:90px;resize:vertical}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
-.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.video-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.form-actions,.card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.video-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .video-card{border:1px solid #dce5ef;border-radius:12px;padding:18px;min-width:0}
 .video-card h3{margin-top:0;color:#183b60;overflow-wrap:anywhere}
 .video-card p{overflow-wrap:anywhere}
 .status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:bold;background:#fff4d6;color:#865b00}
 .status.published{background:#dcfce7;color:#166534}
-.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .empty{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:20px;color:#64748b}
 .link-section{margin-top:22px;padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
 .link-section h3{margin:0 0 5px;color:#183b60}
 .check-label{display:flex;align-items:center;gap:8px;font-weight:normal;margin:14px 0}
 .check-label input{flex-shrink:0}
-@media(max-width:650px){header h1{font-size:21px}.grid{grid-template-columns:1fr}main{margin-top:20px}.panel{padding:18px}}
+.session-box{margin-top:18px;padding:16px;border:1px solid #cbd9ea;border-radius:12px;background:#f8fbff}
+.session-box h4{margin:0 0 8px;color:#17457c}
+.session-box label{font-size:13px}
+.session-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.session-grid .full{grid-column:1/-1}
+.student-row{border-top:1px solid #dbe4ef;padding:13px 0}
+.student-row:first-child{border-top:0}
+.student-name{font-weight:bold;color:#183b60}
+.student-meta{font-size:13px;color:#64748b;line-height:1.7;margin:5px 0}
+.small-actions{display:flex;gap:7px;flex-wrap:wrap}
+.small-actions button{padding:8px 10px;font-size:12px}
+.code-output{padding:12px;background:#fff8db;border:1px solid #e8d48a;border-radius:8px;overflow-wrap:anywhere;margin-top:10px}
+@media(max-width:650px){header h1{font-size:21px}.grid,.session-grid{grid-template-columns:1fr}.session-grid .full{grid-column:auto}main{margin-top:20px}.panel{padding:18px}}
 </style>
 </head>
 <body>
-
 <header>
   <div>
     <h1>Preparation Course</h1>
@@ -65,74 +75,57 @@ textarea{min-height:90px;resize:vertical}
 
   <section class="panel">
     <h2 id="formHeading">Add a Preparation Video</h2>
-    <p class="muted">Add a YouTube lesson, an optional PDF, and links to the related learning activities.</p>
-
+    <p class="muted">Add a YouTube lesson, an optional PDF, and links to related learning activities.</p>
     <form id="videoForm">
       <label for="title">Video Title</label>
       <input id="title" maxlength="150" required placeholder="e.g. Understanding Inference">
-
       <div class="grid">
         <div>
           <label for="category">Skill</label>
           <select id="category" required>
             <option value="">Choose a skill</option>
-            <option>Reading</option>
-            <option>Writing</option>
-            <option>Grammar</option>
-            <option>Vocabulary</option>
-            <option>Exam Practice</option>
-            <option>Other</option>
+            <option>Reading</option><option>Writing</option><option>Grammar</option>
+            <option>Vocabulary</option><option>Exam Practice</option><option>Other</option>
           </select>
         </div>
         <div>
           <label for="yearGroup">Target Year Group</label>
           <select id="yearGroup" required>
             <option value="">Choose a year group</option>
-            <option>Year 6</option>
-            <option>Year 7</option>
-            <option>Year 8</option>
-            <option>Year 9</option>
+            <option>Year 6</option><option>Year 7</option><option>Year 8</option><option>Year 9</option>
           </select>
         </div>
       </div>
-
       <label for="videoUrl">YouTube Video URL</label>
       <input id="videoUrl" type="url" required placeholder="https://www.youtube.com/watch?v=...">
-
       <label for="description">Description / Instructions</label>
       <textarea id="description" placeholder="Explain what students will learn in this video."></textarea>
 
       <div class="link-section">
         <h3>PDF Resource (Optional)</h3>
-        <p class="muted">Upload a PDF worksheet, answer key, or supporting document. The file will remain in private storage.</p>
+        <p class="muted">Upload a PDF worksheet, answer key, or supporting document. The file remains in private storage.</p>
         <label for="pdfFile">Choose PDF file</label>
         <input id="pdfFile" type="file" accept=".pdf,application/pdf">
         <div id="existingPdf" class="muted"></div>
         <label id="removePdfLabel" class="check-label" style="display:none">
-          <input id="removePdf" type="checkbox">
-          Remove the currently attached PDF
+          <input id="removePdf" type="checkbox"> Remove the currently attached PDF
         </label>
       </div>
 
       <div class="link-section">
         <h3>Related Learning Destinations</h3>
         <p class="muted">Enter the direct URL of the specific page, paper, or exam you want students to visit.</p>
-
         <label for="classifiedUrl">Classified Papers URL (Optional)</label>
         <input id="classifiedUrl" type="url" placeholder="Direct link to a specific classified paper">
-
         <label for="pastPaperUrl">Past Papers URL (Optional)</label>
         <input id="pastPaperUrl" type="url" placeholder="Direct link to a specific past paper">
-
         <label for="mockExamUrl">Mock Exams URL (Optional)</label>
         <input id="mockExamUrl" type="url" placeholder="Direct link to a specific mock exam">
       </div>
 
       <label for="publish" class="check-label">
-        <input id="publish" type="checkbox">
-        Publish this video for students
+        <input id="publish" type="checkbox"> Publish this video for students
       </label>
-
       <div class="form-actions">
         <button class="primary" id="saveBtn" type="submit">Save Video</button>
         <button class="secondary" id="clearBtn" type="button">Clear Form</button>
@@ -141,11 +134,16 @@ textarea{min-height:90px;resize:vertical}
   </section>
 
   <section class="panel">
+    <h2>Paid Session Management</h2>
+    <p class="muted">Configure each session, issue student-specific access codes, renew access, and check usage. Settings are not saved until you press Save Session Settings.</p>
+    <div class="notice">A new access code starts the student's validity period when the student activates it. A renewal code extends validity only after the student redeems it. Both renewal methods preserve remaining plays.</div>
+    <div id="sessionTeacherStatus" class="muted">Loading session settings and student list...</div>
+  </section>
+
+  <section class="panel">
     <h2>Saved Preparation Videos</h2>
     <p class="muted">Manage videos, PDF attachments, related destinations, and publication status.</p>
-    <div id="videoList" class="video-list">
-      <div class="empty">Loading videos...</div>
-    </div>
+    <div id="videoList" class="video-list"><div class="empty">Loading videos...</div></div>
   </section>
 </main>
 
@@ -165,476 +163,552 @@ const message = document.getElementById("message");
 const form = document.getElementById("videoForm");
 const list = document.getElementById("videoList");
 const saveBtn = document.getElementById("saveBtn");
+const sessionTeacherStatus = document.getElementById("sessionTeacherStatus");
 
 let teacherVerified = false;
 let editingId = null;
 let currentVideos = [];
 let editingPdfPath = null;
+let teacherSessions = [];
+let linkedStudents = [];
 
 function showMessage(text, type = "") {
   message.textContent = text;
   message.className = "notice" + (type ? " " + type : "");
 }
-
 function makeElement(tag, className, text) {
   const element = document.createElement(tag);
   if (className) element.className = className;
   if (text !== undefined) element.textContent = text;
   return element;
 }
-
 function safeHttpUrl(value) {
   if (!value) return null;
   try {
     const parsed = new URL(value);
     return ["https:", "http:"].includes(parsed.protocol) ? parsed.href : null;
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
-
 function getYouTubeEmbed(url) {
   try {
     const parsed = new URL(url);
     let id = "";
     const host = parsed.hostname.toLowerCase();
-
-    if (host === "youtu.be") {
-      id = parsed.pathname.slice(1);
-    } else if (
-      ["youtube.com", "www.youtube.com", "m.youtube.com"].includes(host)
-    ) {
+    if (host === "youtu.be") id = parsed.pathname.slice(1);
+    else if (["youtube.com","www.youtube.com","m.youtube.com"].includes(host)) {
       if (parsed.pathname === "/watch") id = parsed.searchParams.get("v") || "";
       else if (parsed.pathname.startsWith("/embed/")) id = parsed.pathname.split("/")[2] || "";
       else if (parsed.pathname.startsWith("/shorts/")) id = parsed.pathname.split("/")[2] || "";
     }
-
     if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) return null;
     return "https://www.youtube-nocookie.com/embed/" + id;
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
 
 async function checkTeacher() {
   try {
-    const { data, error } = await db.auth.getSession();
+    const {data,error} = await db.auth.getSession();
     if (error) throw error;
-
     if (!data.session) {
       window.location.replace("login.html");
       return;
     }
-
-    const { data: role, error: roleError } = await db
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", data.session.user.id)
-      .eq("role", "teacher")
-      .maybeSingle();
-
+    const {data:role,error:roleError} = await db.from("user_roles")
+      .select("role").eq("user_id",data.session.user.id)
+      .eq("role","teacher").maybeSingle();
     if (roleError) throw roleError;
-
     if (!role) {
-      showMessage("Access denied. This page is for teachers only.", "error");
-      form.querySelectorAll("input, textarea, select, button")
-        .forEach(element => element.disabled = true);
-      list.textContent = "You do not have permission to manage these videos.";
+      showMessage("Access denied. This page is for teachers only.","error");
+      form.querySelectorAll("input,textarea,select,button").forEach(e=>e.disabled=true);
+      list.textContent="You do not have permission to manage these videos.";
+      sessionTeacherStatus.textContent="Teacher access is required.";
       return;
     }
-
     teacherVerified = true;
-    showMessage("Teacher access verified.", "success");
-    await loadVideos();
-  } catch (error) {
+    showMessage("Teacher access verified.","success");
+    await Promise.all([loadVideos(),loadPaidSessionData()]);
+  } catch(error) {
     console.error(error);
-    showMessage("Unable to verify teacher access: " + error.message, "error");
-    list.textContent = "Videos could not be loaded.";
+    showMessage("Unable to verify teacher access: "+error.message,"error");
+    list.textContent="Videos could not be loaded.";
+    sessionTeacherStatus.textContent="Paid session information could not be loaded.";
   }
 }
 
 async function loadVideos() {
-  list.replaceChildren(makeElement("div", "empty", "Loading videos..."));
-
-  const { data, error } = await db
-    .from("preparation_videos")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
+  list.replaceChildren(makeElement("div","empty","Loading videos..."));
+  const {data,error} = await db.from("preparation_videos").select("*").order("created_at",{ascending:false});
+  if(error) {
     console.error(error);
-    list.replaceChildren(makeElement("div", "empty", "Could not load videos: " + error.message));
+    list.replaceChildren(makeElement("div","empty","Could not load videos: "+error.message));
     return;
   }
-
   currentVideos = data || [];
   renderVideos();
 }
 
 function getRelatedLinks(video) {
-  if (!Array.isArray(video.related_links)) return [];
-  return video.related_links.filter(item =>
-    item && typeof item.url === "string" && safeHttpUrl(item.url)
-  );
+  if(!Array.isArray(video.related_links)) return [];
+  return video.related_links.filter(item=>item && typeof item.url==="string" && safeHttpUrl(item.url));
+}
+function getTeacherSession(videoId) {
+  return teacherSessions.find(s=>Number(s.video_id)===Number(videoId)) || null;
 }
 
 function renderVideos() {
   list.replaceChildren();
-
-  if (!currentVideos.length) {
-    list.appendChild(makeElement("div", "empty", "No videos have been added yet."));
+  if(!currentVideos.length) {
+    list.appendChild(makeElement("div","empty","No videos have been added yet."));
     return;
   }
-
-  currentVideos.forEach(video => {
-    const card = makeElement("article", "video-card");
-    card.appendChild(makeElement("h3", "", video.title));
-
-    const status = makeElement(
-      "span",
-      "status" + (video.is_published ? " published" : ""),
-      video.is_published ? "Published" : "Draft"
-    );
-    card.appendChild(status);
-    card.appendChild(makeElement("p", "", video.category + " · " + video.year_group));
-
-    if (video.description) card.appendChild(makeElement("p", "", video.description));
-
-    const videoLink = makeElement("a", "", "Open YouTube Video");
-    videoLink.href = video.video_url;
-    videoLink.target = "_blank";
-    videoLink.rel = "noopener noreferrer";
+  currentVideos.forEach(video=>{
+    const card=makeElement("article","video-card");
+    card.appendChild(makeElement("h3","",video.title));
+    card.appendChild(makeElement("span","status"+(video.is_published?" published":""),video.is_published?"Published":"Draft"));
+    card.appendChild(makeElement("p","",video.category+" · "+video.year_group));
+    if(video.description) card.appendChild(makeElement("p","",video.description));
+    const videoLink=makeElement("a","","Open YouTube Video");
+    videoLink.href=video.video_url; videoLink.target="_blank"; videoLink.rel="noopener noreferrer";
     card.appendChild(videoLink);
 
-    if (video.pdf_path) {
-      card.appendChild(makeElement("p", "muted", "PDF resource attached (private storage)."));
-      const pdfButton = makeElement("button", "secondary", "Open PDF");
-      pdfButton.type = "button";
-      pdfButton.addEventListener("click", () => openTeacherPdf(video.pdf_path));
+    if(video.pdf_path) {
+      card.appendChild(makeElement("p","muted","PDF resource attached (private storage)."));
+      const pdfButton=makeElement("button","secondary","Open PDF");
+      pdfButton.type="button"; pdfButton.addEventListener("click",()=>openTeacherPdf(video.pdf_path));
       card.appendChild(pdfButton);
-    } else {
-      card.appendChild(makeElement("p", "muted", "No PDF attached."));
-    }
+    } else card.appendChild(makeElement("p","muted","No PDF attached."));
 
-    getRelatedLinks(video).forEach(item => {
-      const p = document.createElement("p");
-      const a = makeElement("a", "", "Open " + item.type);
-      a.href = item.url;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      p.appendChild(a);
-      card.appendChild(p);
+    getRelatedLinks(video).forEach(item=>{
+      const p=document.createElement("p");
+      const a=makeElement("a","","Open "+item.type);
+      a.href=item.url; a.target="_blank"; a.rel="noopener noreferrer";
+      p.appendChild(a); card.appendChild(p);
     });
 
-    const actions = makeElement("div", "card-actions");
-
-    const editButton = makeElement("button", "secondary", "Edit");
-    editButton.type = "button";
-    editButton.addEventListener("click", () => editVideo(video));
+    const actions=makeElement("div","card-actions");
+    const editButton=makeElement("button","secondary","Edit");
+    editButton.type="button"; editButton.addEventListener("click",()=>editVideo(video));
     actions.appendChild(editButton);
-
-    const toggleButton = makeElement("button", "primary", video.is_published ? "Unpublish" : "Publish");
-    toggleButton.type = "button";
-    toggleButton.addEventListener("click", () => togglePublish(video));
+    const toggleButton=makeElement("button","primary",video.is_published?"Unpublish":"Publish");
+    toggleButton.type="button"; toggleButton.addEventListener("click",()=>togglePublish(video));
     actions.appendChild(toggleButton);
-
-    const deleteButton = makeElement("button", "danger", "Delete");
-    deleteButton.type = "button";
-    deleteButton.addEventListener("click", () => deleteVideo(video));
+    const deleteButton=makeElement("button","danger","Delete");
+    deleteButton.type="button"; deleteButton.addEventListener("click",()=>deleteVideo(video));
     actions.appendChild(deleteButton);
-
     card.appendChild(actions);
+
+    card.appendChild(buildPaidSessionEditor(video));
     list.appendChild(card);
   });
 }
 
-async function openTeacherPdf(path) {
-  if (!teacherVerified || !path) return;
-
-  const { data, error } = await db.storage
-    .from(PDF_BUCKET)
-    .createSignedUrl(path, 120);
-
-  if (error) {
-    showMessage("Could not open PDF: " + error.message, "error");
+async function loadPaidSessionData() {
+  sessionTeacherStatus.textContent="Loading session settings and linked students...";
+  const [sessionsResult,studentsResult] = await Promise.all([
+    db.rpc("get_paid_video_sessions_for_teacher"),
+    db.rpc("get_students_for_paid_video_access")
+  ]);
+  if(sessionsResult.error) {
+    console.error(sessionsResult.error);
+    sessionTeacherStatus.textContent="Could not load session settings: "+sessionsResult.error.message;
     return;
   }
-
-  window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  if(studentsResult.error) {
+    console.error(studentsResult.error);
+    sessionTeacherStatus.textContent="Could not load linked students: "+studentsResult.error.message;
+    return;
+  }
+  teacherSessions=sessionsResult.data || [];
+  linkedStudents=studentsResult.data || [];
+  sessionTeacherStatus.textContent=linkedStudents.length+
+    " linked student account(s) available. Settings and access controls appear on each video card.";
+  renderVideos();
 }
 
+function fieldValue(session, key) {
+  if(!session || session[key]===null || session[key]===undefined) return "";
+  return String(session[key]);
+}
+function buildPaidSessionEditor(video) {
+  const box=makeElement("div","session-box");
+  box.appendChild(makeElement("h4","","Paid session settings"));
+  const session=getTeacherSession(video.id);
+  const settingsGrid=makeElement("div","session-grid");
+
+  function addField(labelText,id,value,type="number",required=true) {
+    const wrap=makeElement("div",id==="sessionPrice"?"full":"");
+    const label=makeElement("label","",labelText); label.htmlFor=id;
+    const input=document.createElement("input");
+    input.id=id; input.type=type; input.value=value;
+    if(required) input.required=true;
+    if(type==="number") input.min="0";
+    wrap.append(label,input); settingsGrid.appendChild(wrap);
+    return input;
+  }
+
+  addField("Maximum completed plays","plays_"+video.id,fieldValue(session,"max_completed_plays")||"","number");
+  addField("Validity duration (days)","days_"+video.id,fieldValue(session,"validity_days")||"","number");
+  addField("Price (enter 0 if free)","price_"+video.id,fieldValue(session,"price")||"","number");
+  const enabledWrap=makeElement("div","full");
+  const enabledLabel=makeElement("label","check-label","Enable paid session");
+  const enabled=document.createElement("input");
+  enabled.type="checkbox"; enabled.id="enabled_"+video.id;
+  enabled.checked=!!(session && session.is_enabled);
+  enabledLabel.prepend(enabled); enabledWrap.appendChild(enabledLabel);
+  settingsGrid.appendChild(enabledWrap);
+  box.appendChild(settingsGrid);
+
+  const saveSettings=makeElement("button","primary","Save Session Settings");
+  saveSettings.type="button";
+  saveSettings.addEventListener("click",()=>saveSessionSettings(video.id));
+  box.appendChild(saveSettings);
+
+  const status=makeElement("p","muted",session ?
+    "Session settings are saved." :
+    "No session settings saved yet. Enter all three values and save to create this session.");
+  box.appendChild(status);
+
+  const accessHeading=makeElement("h4","","Student access");
+  accessHeading.style.marginTop="22px";
+  box.appendChild(accessHeading);
+
+  const studentSelect=document.createElement("select");
+  studentSelect.id="student_"+video.id;
+  const placeholder=document.createElement("option");
+  placeholder.value=""; placeholder.textContent="Choose a linked student";
+  studentSelect.appendChild(placeholder);
+  linkedStudents.forEach(student=>{
+    const opt=document.createElement("option");
+    opt.value=String(student.id);
+    opt.textContent=(student.student_name||"Unnamed student")+" · "+(student.username||"no username")+" · "+(student.grade||"no grade");
+    studentSelect.appendChild(opt);
+  });
+  box.appendChild(studentSelect);
+
+  const issue=makeElement("button","primary","Issue Initial Access Code");
+  issue.type="button"; issue.style.marginTop="10px";
+  issue.addEventListener("click",()=>issueInitialCode(video.id));
+  box.appendChild(issue);
+
+  const accessList=makeElement("div","student-access-list");
+  accessList.id="access_"+video.id;
+  accessList.appendChild(makeElement("p","muted","Loading existing access records..."));
+  box.appendChild(accessList);
+  loadAccessForVideo(video.id,accessList);
+  return box;
+}
+
+async function saveSessionSettings(videoId) {
+  if(!teacherVerified) return;
+  const maxRaw=document.getElementById("plays_"+videoId).value.trim();
+  const daysRaw=document.getElementById("days_"+videoId).value.trim();
+  const priceRaw=document.getElementById("price_"+videoId).value.trim();
+  if(maxRaw==="" || daysRaw==="" || priceRaw==="") {
+    showMessage("Enter maximum plays, validity days, and price explicitly before saving.","error");
+    return;
+  }
+  const maxPlays=Number(maxRaw), days=Number(daysRaw), price=Number(priceRaw);
+  if(!Number.isInteger(maxPlays)||maxPlays<1||!Number.isInteger(days)||days<1||!Number.isFinite(price)||price<0) {
+    showMessage("Maximum plays and validity days must be positive whole numbers. Price must be zero or greater.","error");
+    return;
+  }
+  const isEnabled=document.getElementById("enabled_"+videoId).checked;
+  const {data,error}=await db.rpc("save_paid_video_session",{
+    p_video_id:Number(videoId),
+    p_max_completed_plays:maxPlays,
+    p_validity_days:days,
+    p_price:price,
+    p_is_enabled:isEnabled
+  });
+  if(error) {
+    showMessage("Could not save session settings: "+error.message,"error");
+    return;
+  }
+  showMessage("Paid session settings saved.","success");
+  await loadPaidSessionData();
+}
+
+function selectedStudent(videoId) {
+  const value=document.getElementById("student_"+videoId)?.value;
+  if(!value) {
+    showMessage("Choose a student first.","error");
+    return null;
+  }
+  return Number(value);
+}
+async function issueInitialCode(videoId) {
+  if(!teacherVerified) return;
+  const studentId=selectedStudent(videoId);
+  if(!studentId) return;
+  if(!getTeacherSession(videoId)) {
+    showMessage("Save the session settings before issuing an access code.","error");
+    return;
+  }
+  const {data,error}=await db.rpc("issue_paid_video_code",{
+    p_video_id:Number(videoId),p_student_id:studentId
+  });
+  if(error) {
+    showMessage("Could not issue access code: "+error.message,"error");
+    return;
+  }
+  if(!data || !data.success) {
+    showMessage(data?.message || "Could not issue access code.","error");
+    return;
+  }
+  showCodeResult("Initial access code",data.code,
+    "Give this code to the selected student. The validity period starts when the student activates it.");
+  await refreshAccessForVideo(videoId);
+}
+
+function showCodeResult(title,code,note) {
+  const box=makeElement("div","code-output");
+  box.appendChild(makeElement("strong","",title));
+  box.appendChild(makeElement("p","",code || "No code was returned."));
+  box.appendChild(makeElement("p","muted",note));
+  if(code) {
+    const copy=makeElement("button","secondary","Copy code");
+    copy.type="button";
+    copy.addEventListener("click",async()=>{
+      try { await navigator.clipboard.writeText(code); showMessage("Code copied.","success"); }
+      catch { showMessage("Copy failed. Select and copy the code manually.","error"); }
+    });
+    box.appendChild(copy);
+  }
+  message.insertAdjacentElement("afterend",box);
+}
+
+async function loadAccessForVideo(videoId,target) {
+  target.replaceChildren(makeElement("p","muted","Loading access records..."));
+  const {data,error}=await db.rpc("get_paid_video_access_for_teacher",{p_video_id:Number(videoId)});
+  if(error) {
+    console.error(error);
+    target.replaceChildren(makeElement("p","muted","Could not load student access: "+error.message));
+    return;
+  }
+  target.replaceChildren();
+  if(!data || !data.length) {
+    target.appendChild(makeElement("p","muted","No student access codes have been issued for this video."));
+    return;
+  }
+  data.forEach(access=>{
+    const row=makeElement("div","student-row");
+    row.appendChild(makeElement("div","student-name",
+      (access.student_name||"Student")+" · "+(access.username||"no username")));
+    row.appendChild(makeElement("div","student-meta",
+      "Grade: "+(access.grade||"—")+
+      "\nCompleted plays used: "+access.plays_used+" / "+access.plays_allowed+
+      "\nPlays remaining: "+Math.max(0,Number(access.plays_allowed)-Number(access.plays_used))+
+      "\nActivated: "+(access.activated_at?new Date(access.activated_at).toLocaleString():"Not activated")+
+      "\nExpires: "+(access.expires_at?new Date(access.expires_at).toLocaleString():"Not activated")+
+      "\nAccess status: "+(access.is_active?"Active":"Inactive")));
+    const actions=makeElement("div","small-actions");
+    const renew=makeElement("button","primary","Renew Now");
+    renew.type="button"; renew.addEventListener("click",()=>renewAccessNow(videoId,access.student_id));
+    actions.appendChild(renew);
+    const renewalCode=makeElement("button","secondary","Issue Renewal Code");
+    renewalCode.type="button"; renewalCode.addEventListener("click",()=>issueRenewalCode(videoId,access.student_id));
+    actions.appendChild(renewalCode);
+    row.appendChild(actions);
+    target.appendChild(row);
+  });
+}
+async function refreshAccessForVideo(videoId) {
+  const target=document.getElementById("access_"+videoId);
+  if(target) await loadAccessForVideo(videoId,target);
+}
+async function renewAccessNow(videoId,studentId) {
+  if(!confirm("Renew this student's validity now? Remaining plays will be preserved.")) return;
+  const {data,error}=await db.rpc("renew_paid_video_access",{
+    p_video_id:Number(videoId),p_student_id:Number(studentId)
+  });
+  if(error) {
+    showMessage("Could not renew access: "+error.message,"error");
+    return;
+  }
+  if(!data || data.success===false) {
+    showMessage(data?.message || "Could not renew access.","error");
+    return;
+  }
+  showMessage("Access renewed. Existing play count and play allowance were preserved.","success");
+  await refreshAccessForVideo(videoId);
+}
+async function issueRenewalCode(videoId,studentId) {
+  const {data,error}=await db.rpc("issue_paid_video_renewal_code",{
+    p_video_id:Number(videoId),p_student_id:Number(studentId)
+  });
+  if(error) {
+    showMessage("Could not issue renewal code: "+error.message,"error");
+    return;
+  }
+  if(!data || !data.success) {
+    showMessage(data?.message || "Could not issue renewal code.","error");
+    return;
+  }
+  showCodeResult("Renewal code",data.code,
+    "Give this code to the student. It does not extend the expiry date until the student enters and redeems it. A newly issued code replaces earlier unused renewal codes for this access.");
+}
+
+async function openTeacherPdf(path) {
+  if(!teacherVerified||!path) return;
+  const {data,error}=await db.storage.from(PDF_BUCKET).createSignedUrl(path,120);
+  if(error) { showMessage("Could not open PDF: "+error.message,"error"); return; }
+  window.open(data.signedUrl,"_blank","noopener,noreferrer");
+}
 function editVideo(video) {
-  editingId = video.id;
-  editingPdfPath = video.pdf_path || null;
-
-  document.getElementById("title").value = video.title || "";
-  document.getElementById("category").value = video.category || "";
-  document.getElementById("yearGroup").value = video.year_group || "";
-  document.getElementById("videoUrl").value = video.video_url || "";
-  document.getElementById("description").value = video.description || "";
-  document.getElementById("publish").checked = !!video.is_published;
-
-  const links = getRelatedLinks(video);
-  document.getElementById("classifiedUrl").value =
-    (links.find(x => x.type === "Classified Papers") || {}).url || "";
-  document.getElementById("pastPaperUrl").value =
-    (links.find(x => x.type === "Past Papers") || {}).url || "";
-  document.getElementById("mockExamUrl").value =
-    (links.find(x => x.type === "Mock Exams") || {}).url || "";
-
-  document.getElementById("pdfFile").value = "";
-  document.getElementById("removePdf").checked = false;
-  document.getElementById("existingPdf").textContent =
-    editingPdfPath ? "A PDF is currently attached. Choose a new file to replace it." : "No PDF is currently attached.";
-  document.getElementById("removePdfLabel").style.display =
-    editingPdfPath ? "flex" : "none";
-
-  document.getElementById("formHeading").textContent = "Edit Preparation Video";
-  saveBtn.textContent = "Update Video";
-  form.scrollIntoView({behavior:"smooth", block:"start"});
+  editingId=video.id; editingPdfPath=video.pdf_path||null;
+  document.getElementById("title").value=video.title||"";
+  document.getElementById("category").value=video.category||"";
+  document.getElementById("yearGroup").value=video.year_group||"";
+  document.getElementById("videoUrl").value=video.video_url||"";
+  document.getElementById("description").value=video.description||"";
+  document.getElementById("publish").checked=!!video.is_published;
+  const links=getRelatedLinks(video);
+  document.getElementById("classifiedUrl").value=(links.find(x=>x.type==="Classified Papers")||{}).url||"";
+  document.getElementById("pastPaperUrl").value=(links.find(x=>x.type==="Past Papers")||{}).url||"";
+  document.getElementById("mockExamUrl").value=(links.find(x=>x.type==="Mock Exams")||{}).url||"";
+  document.getElementById("pdfFile").value="";
+  document.getElementById("removePdf").checked=false;
+  document.getElementById("existingPdf").textContent=editingPdfPath?
+    "A PDF is currently attached. Choose a new file to replace it.":"No PDF is currently attached.";
+  document.getElementById("removePdfLabel").style.display=editingPdfPath?"flex":"none";
+  document.getElementById("formHeading").textContent="Edit Preparation Video";
+  saveBtn.textContent="Update Video";
+  form.scrollIntoView({behavior:"smooth",block:"start"});
 }
-
 function resetForm() {
-  form.reset();
-  editingId = null;
-  editingPdfPath = null;
-  document.getElementById("existingPdf").textContent = "";
-  document.getElementById("removePdfLabel").style.display = "none";
-  document.getElementById("formHeading").textContent = "Add a Preparation Video";
-  saveBtn.textContent = "Save Video";
+  form.reset(); editingId=null; editingPdfPath=null;
+  document.getElementById("existingPdf").textContent="";
+  document.getElementById("removePdfLabel").style.display="none";
+  document.getElementById("formHeading").textContent="Add a Preparation Video";
+  saveBtn.textContent="Save Video";
 }
-
-document.getElementById("clearBtn").addEventListener("click", resetForm);
+document.getElementById("clearBtn").addEventListener("click",resetForm);
 
 function collectRelatedLinks() {
-  const definitions = [
-    ["Classified Papers", "classifiedUrl"],
-    ["Past Papers", "pastPaperUrl"],
-    ["Mock Exams", "mockExamUrl"]
-  ];
-
-  const result = [];
-
-  for (const [type, id] of definitions) {
-    const raw = document.getElementById(id).value.trim();
-    if (!raw) continue;
-
-    const url = safeHttpUrl(raw);
-    if (!url) throw new Error("Please enter a valid HTTP or HTTPS URL for " + type + ".");
-
-    result.push({type, url});
+  const definitions=[["Classified Papers","classifiedUrl"],["Past Papers","pastPaperUrl"],["Mock Exams","mockExamUrl"]];
+  const result=[];
+  for(const [type,id] of definitions) {
+    const raw=document.getElementById(id).value.trim();
+    if(!raw) continue;
+    const url=safeHttpUrl(raw);
+    if(!url) throw new Error("Please enter a valid HTTP or HTTPS URL for "+type+".");
+    result.push({type,url});
   }
-
   return result;
 }
-
 function cleanFileName(name) {
-  const cleaned = name
-    .normalize("NFKD")
-    .replace(/[^a-zA-Z0-9._-]+/g, "_")
-    .replace(/^[_\.]+|[_\.]+$/g, "")
-    .slice(-100);
-
-  return cleaned || "resource.pdf";
+  const cleaned=name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]+/g,"_")
+    .replace(/^[_\.]+|[_\.]+$/g,"").slice(-100);
+  return cleaned||"resource.pdf";
 }
-
-async function uploadPdf(file, userId) {
-  if (!file) return null;
-
-  if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+async function uploadPdf(file,userId) {
+  if(!file) return null;
+  if(file.type!=="application/pdf"&&!file.name.toLowerCase().endsWith(".pdf"))
     throw new Error("Please select a PDF file.");
-  }
-
-  if (file.size > 50 * 1024 * 1024) {
-    throw new Error("The PDF must be no larger than 50 MB.");
-  }
-
-  const path = userId + "/" + Date.now() + "_" + cleanFileName(file.name);
-
-  const { error } = await db.storage
-    .from(PDF_BUCKET)
-    .upload(path, file, {
-      contentType: "application/pdf",
-      upsert: false
-    });
-
-  if (error) throw error;
+  if(file.size>50*1024*1024) throw new Error("The PDF must be no larger than 50 MB.");
+  const path=userId+"/"+Date.now()+"_"+cleanFileName(file.name);
+  const {error}=await db.storage.from(PDF_BUCKET).upload(path,file,{contentType:"application/pdf",upsert:false});
+  if(error) throw error;
   return path;
 }
-
 async function removeStoredPdf(path) {
-  if (!path) return;
-  const { error } = await db.storage.from(PDF_BUCKET).remove([path]);
-  if (error) {
-    console.error("PDF cleanup failed:", error);
-    showMessage("The video was saved, but an old PDF could not be removed. Please contact the site administrator.", "error");
+  if(!path) return;
+  const {error}=await db.storage.from(PDF_BUCKET).remove([path]);
+  if(error) {
+    console.error("PDF cleanup failed:",error);
+    showMessage("The video was saved, but an old PDF could not be removed. Please contact the site administrator.","error");
   }
 }
 
-form.addEventListener("submit", async event => {
+form.addEventListener("submit",async event=>{
   event.preventDefault();
-  if (!teacherVerified) return;
-
-  const videoUrl = document.getElementById("videoUrl").value.trim();
-  if (!getYouTubeEmbed(videoUrl)) {
-    showMessage("Please enter a valid YouTube video link.", "error");
-    return;
+  if(!teacherVerified) return;
+  const videoUrl=document.getElementById("videoUrl").value.trim();
+  if(!getYouTubeEmbed(videoUrl)) {
+    showMessage("Please enter a valid YouTube video link.","error"); return;
   }
-
   let relatedLinks;
+  try { relatedLinks=collectRelatedLinks(); }
+  catch(error) { showMessage(error.message,"error"); return; }
+  const {data:sessionData,error:sessionError}=await db.auth.getSession();
+  if(sessionError) { showMessage("Could not verify your session: "+sessionError.message,"error"); return; }
+  if(!sessionData.session) { window.location.replace("login.html"); return; }
+
+  const userId=sessionData.session.user.id;
+  const selectedFile=document.getElementById("pdfFile").files[0]||null;
+  const removeOldPdf=document.getElementById("removePdf").checked;
+  if(selectedFile&&removeOldPdf) {
+    showMessage("Choose either a replacement PDF or remove the existing PDF, not both.","error"); return;
+  }
+  saveBtn.disabled=true;
+  saveBtn.textContent="Saving...";
+  let newlyUploadedPath=null;
+  const wasEditing=editingId!==null;
   try {
-    relatedLinks = collectRelatedLinks();
-  } catch (error) {
-    showMessage(error.message, "error");
-    return;
-  }
+    let pdfPath=editingPdfPath;
+    if(selectedFile) { newlyUploadedPath=await uploadPdf(selectedFile,userId); pdfPath=newlyUploadedPath; }
+    else if(removeOldPdf) pdfPath=null;
 
-  const { data: sessionData, error: sessionError } = await db.auth.getSession();
-  if (sessionError) {
-    showMessage("Could not verify your session: " + sessionError.message, "error");
-    return;
-  }
-
-  if (!sessionData.session) {
-    window.location.replace("login.html");
-    return;
-  }
-
-  const userId = sessionData.session.user.id;
-  const selectedFile = document.getElementById("pdfFile").files[0] || null;
-  const removeOldPdf = document.getElementById("removePdf").checked;
-
-  if (selectedFile && removeOldPdf) {
-    showMessage("Choose either a replacement PDF or remove the existing PDF, not both.", "error");
-    return;
-  }
-
-  saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
-
-  let newlyUploadedPath = null;
-
-  try {
-    let pdfPath = editingPdfPath;
-
-    if (selectedFile) {
-      newlyUploadedPath = await uploadPdf(selectedFile, userId);
-      pdfPath = newlyUploadedPath;
-    } else if (removeOldPdf) {
-      pdfPath = null;
-    }
-
-    const payload = {
-      title: document.getElementById("title").value.trim(),
-      category: document.getElementById("category").value,
-      year_group: document.getElementById("yearGroup").value,
-      description: document.getElementById("description").value.trim() || null,
-      video_url: videoUrl,
-      practice_url: relatedLinks.find(x => x.type === "Classified Papers")?.url || null,
-      related_links: relatedLinks,
-      pdf_path: pdfPath,
-      is_published: document.getElementById("publish").checked,
-      created_by: userId
+    const payload={
+      title:document.getElementById("title").value.trim(),
+      category:document.getElementById("category").value,
+      year_group:document.getElementById("yearGroup").value,
+      description:document.getElementById("description").value.trim()||null,
+      video_url:videoUrl,
+      practice_url:relatedLinks.find(x=>x.type==="Classified Papers")?.url||null,
+      related_links:relatedLinks,
+      pdf_path:pdfPath,
+      is_published:document.getElementById("publish").checked,
+      created_by:userId
     };
-
     let result;
-
-    if (editingId !== null) {
-      const updatePayload = {...payload};
-      delete updatePayload.created_by;
-
-      result = await db.from("preparation_videos")
-        .update(updatePayload)
-        .eq("id", editingId)
-        .select()
-        .single();
+    if(wasEditing) {
+      const updatePayload={...payload}; delete updatePayload.created_by;
+      result=await db.from("preparation_videos").update(updatePayload).eq("id",editingId).select().single();
     } else {
-      result = await db.from("preparation_videos")
-        .insert(payload)
-        .select()
-        .single();
+      result=await db.from("preparation_videos").insert(payload).select().single();
     }
-
-    if (result.error) throw result.error;
-
-    const savedVideo = result.data;
-    const oldPath = editingPdfPath;
-
-    // Only remove the old object after the database has saved the new path.
-    if (oldPath && oldPath !== savedVideo.pdf_path) {
-      await removeStoredPdf(oldPath);
-    }
-
-    showMessage(
-      editingId !== null ? "Video updated successfully." : "Video saved successfully.",
-      "success"
-    );
-
+    if(result.error) throw result.error;
+    const savedVideo=result.data;
+    const oldPath=editingPdfPath;
+    if(oldPath&&oldPath!==savedVideo.pdf_path) await removeStoredPdf(oldPath);
+    showMessage(wasEditing?"Video updated successfully.":"Video saved successfully.","success");
     resetForm();
-    await loadVideos();
-  } catch (error) {
+    await Promise.all([loadVideos(),loadPaidSessionData()]);
+  } catch(error) {
     console.error(error);
-
-    // Avoid leaving an uploaded object behind if saving its database record failed.
-    if (newlyUploadedPath) {
-      const { error: cleanupError } = await db.storage
-        .from(PDF_BUCKET)
-        .remove([newlyUploadedPath]);
-      if (cleanupError) console.error("Could not clean up uploaded PDF:", cleanupError);
+    if(newlyUploadedPath) {
+      const {error:cleanupError}=await db.storage.from(PDF_BUCKET).remove([newlyUploadedPath]);
+      if(cleanupError) console.error("Could not clean up uploaded PDF:",cleanupError);
     }
-
-    showMessage("Could not save the video: " + error.message, "error");
+    showMessage("Could not save the video: "+error.message,"error");
   } finally {
-    saveBtn.disabled = false;
-    saveBtn.textContent = editingId !== null ? "Update Video" : "Save Video";
+    saveBtn.disabled=false;
+    saveBtn.textContent=editingId!==null?"Update Video":"Save Video";
   }
 });
 
 async function togglePublish(video) {
-  if (!teacherVerified) return;
-
-  const newValue = !video.is_published;
-  const { error } = await db
-    .from("preparation_videos")
-    .update({is_published:newValue})
-    .eq("id", video.id);
-
-  if (error) {
-    showMessage("Could not update publication status: " + error.message, "error");
-    return;
-  }
-
-  showMessage(newValue ? "Video published." : "Video moved to drafts.", "success");
-  await loadVideos();
+  if(!teacherVerified) return;
+  const newValue=!video.is_published;
+  const {error}=await db.from("preparation_videos").update({is_published:newValue}).eq("id",video.id);
+  if(error) { showMessage("Could not update publication status: "+error.message,"error"); return; }
+  showMessage(newValue?"Video published.":"Video moved to drafts.","success");
+  await Promise.all([loadVideos(),loadPaidSessionData()]);
 }
-
 async function deleteVideo(video) {
-  if (!teacherVerified) return;
-  if (!confirm('Delete "' + video.title + '" permanently?')) return;
-
-  const { error } = await db
-    .from("preparation_videos")
-    .delete()
-    .eq("id", video.id);
-
-  if (error) {
-    showMessage("Could not delete video: " + error.message, "error");
-    return;
-  }
-
-  if (video.pdf_path) await removeStoredPdf(video.pdf_path);
-
-  if (editingId === video.id) resetForm();
-  showMessage("Video deleted.", "success");
-  await loadVideos();
+  if(!teacherVerified) return;
+  if(!confirm('Delete "'+video.title+'" permanently? This also removes its paid-session settings and access records.')) return;
+  const {error}=await db.from("preparation_videos").delete().eq("id",video.id);
+  if(error) { showMessage("Could not delete video: "+error.message,"error"); return; }
+  if(video.pdf_path) await removeStoredPdf(video.pdf_path);
+  if(editingId===video.id) resetForm();
+  showMessage("Video deleted.","success");
+  await Promise.all([loadVideos(),loadPaidSessionData()]);
 }
-
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  const { error } = await db.auth.signOut();
-  if (error) {
-    showMessage("Could not log out: " + error.message, "error");
-    return;
-  }
+document.getElementById("logoutBtn").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+  if(error) { showMessage("Could not log out: "+error.message,"error"); return; }
   window.location.replace("login.html");
 });
 
