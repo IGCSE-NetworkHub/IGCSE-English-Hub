@@ -74,7 +74,7 @@ select {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
     gap: 22px;
 }
 .session-card { min-width:0; }
@@ -575,10 +575,30 @@ async function loadVideos() {
         statusBox.textContent = "We couldn't load the videos. Please refresh the page or contact your teacher.";
         return;
     }
-    // Each published teacher-created video is displayed as a session tile.
-    // Avoid calling a student RPC that may not exist in this Supabase project.
+    // A published video is not automatically a paid video. Only videos with an
+    // explicitly enabled paid-session record should require an access code.
     videos = videoData || [];
-    paidVideoIds = new Set(videos.map(video => String(video.id)));
+    const videoIds = videos.map(video => Number(video.id)).filter(Number.isFinite);
+    paidVideoIds = new Set();
+
+    if (videoIds.length) {
+        const { data: paidSessions, error: paidError } = await db
+            .from("paid_video_session")
+            .select("video_id,is_enabled")
+            .in("video_id", videoIds);
+
+        if (paidError) {
+            console.error("Could not load paid-session settings:", paidError);
+            statusBox.textContent = "Videos loaded, but access settings could not be checked. Please refresh or contact your teacher. No video access controls have been changed.";
+            videoGrid.replaceChildren();
+            return;
+        }
+
+        (paidSessions || []).forEach(session => {
+            if (session.is_enabled === true) paidVideoIds.add(String(session.video_id));
+        });
+    }
+
     renderVideos();
 }
 
