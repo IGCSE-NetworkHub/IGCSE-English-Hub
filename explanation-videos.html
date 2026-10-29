@@ -583,7 +583,7 @@ async function loadVideos() {
 
     if (videoIds.length) {
         const { data: paidSessions, error: paidError } = await db
-            .from("paid_video_session")
+            .from("paid_video_sessions")
             .select("video_id,is_enabled")
             .in("video_id", videoIds);
 
