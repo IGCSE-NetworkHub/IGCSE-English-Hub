@@ -2,164 +2,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Library | IGCSE English Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Library | IGCSE English Hub</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{box-sizing:border-box}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fc;
-            color: #172554;
-        }
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#173568;
+    background:#edf4ff;
+}
 
-        header {
-            background: #102a56;
-            color: white;
-            padding: 22px 6%;
-        }
+header{
+    min-height:82px;
+    background:linear-gradient(110deg,#102957,#123b7b);
+    color:white;
+    display:flex;
+    align-items:center;
+    padding:15px 5%;
+    gap:17px;
+    box-shadow:0 3px 15px #0c2b5a22;
+}
 
-        header h2 {
-            margin: 0;
-            font-size: 22px;
-        }
+.logo-icon{font-size:36px}
+.brand-name{font-size:25px;font-weight:bold}
+.header-divider{height:34px;width:2px;background:#ffffff77}
+.header-subtitle{font-size:16px;color:#e2ecff}
 
-        header p {
-            color: #dbeafe;
-            margin: 8px 0 0;
-            font-size: 14px;
-        }
+main{
+    min-height:calc(100vh - 140px);
+    padding:35px 18px 50px;
+    background:
+      linear-gradient(#edf4ff35,#edf4ff35),
+      url("library-background.png") center center/cover fixed no-repeat;
+}
 
-        main {
-            max-width: 1000px;
-            margin: auto;
-            padding: 35px 20px 55px;
-        }
+.content{
+    max-width:1120px;
+    margin:auto;
+    padding:28px 35px 35px;
+    background:rgba(255,255,255,.78);
+    border:1px solid #ffffffd9;
+    border-radius:25px;
+    box-shadow:0 18px 55px #254f8b24;
+    backdrop-filter:blur(8px);
+}
 
-        .back-link {
-            display: inline-block;
-            color: #1d4ed8;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
+.back-link{
+    display:inline-block;
+    color:#1d4ed8;
+    text-decoration:none;
+    font-weight:bold;
+    margin-bottom:20px;
+}
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
+.back-link:hover{text-decoration:underline}
 
-        .page-heading {
-            margin-bottom: 28px;
-        }
+.intro{
+    text-align:center;
+    margin:0 auto 28px;
+    max-width:750px;
+}
 
-        .page-heading h1 {
-            font-size: 32px;
-            color: #102a56;
-            margin: 0 0 12px;
-        }
+.heading-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+}
 
-        .page-heading p {
-            color: #607089;
-            line-height: 1.7;
-        }
+.heading-icon{font-size:42px}
 
-        .resource-card {
-            background: white;
-            border: 1px solid #e0e8f3;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 20px rgba(16, 42, 86, 0.06);
-        }
+h1{
+    font-size:clamp(30px,4vw,45px);
+    margin:0;
+    color:#102f68;
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 25px;
-            border: 1px dashed #c8d5e7;
-            border-radius: 12px;
-            background: #f8faff;
-            color: #52627a;
-            line-height: 1.8;
-        }
+.intro p{
+    color:#49658e;
+    font-size:17px;
+    line-height:1.7;
+    margin:13px auto 22px;
+}
 
-        .empty-icon {
-            font-size: 38px;
-        }
+.search-wrap{
+    max-width:620px;
+    margin:auto;
+    position:relative;
+}
 
-        .empty-state h2 {
-            color: #102a56;
-            margin: 12px 0;
-        }
+.search-icon{
+    position:absolute;
+    left:17px;
+    top:12px;
+    font-size:21px;
+    color:#51709e;
+}
 
-        footer {
-            background: white;
-            border-top: 1px solid #e0e8f3;
-            padding: 22px;
-            text-align: center;
-            color: #718096;
-            font-size: 13px;
-        }
+#resourceSearch{
+    width:100%;
+    height:49px;
+    border:1px solid #cbdcf7;
+    border-radius:28px;
+    padding:0 20px 0 48px;
+    background:#ffffffed;
+    font-size:15px;
+    outline:none;
+}
 
-        @media (max-width: 600px) {
-            header {
-                padding: 20px;
-            }
+#resourceSearch:focus{
+    border-color:#6d9ce9;
+    box-shadow:0 0 0 3px #4f8de91b;
+}
 
-            main {
-                padding: 28px 15px 40px;
-            }
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+}
 
-            .page-heading h1 {
-                font-size: 27px;
-            }
+.resource-card{
+    --accent:#a9ccff;
+    --wash:#e1edff;
 
-            .resource-card {
-                padding: 20px;
-            }
-        }
-    </style>
+    display:flex;
+    align-items:center;
+    gap:20px;
+    min-height:195px;
+    padding:23px;
+    border:1px solid var(--accent);
+    border-radius:18px;
+    background:rgba(255,255,255,.93);
+    box-shadow:0 7px 18px #294f8613;
+    transition:.2s;
+    text-decoration:none;
+    color:inherit;
+    position:relative;
+}
+
+.resource-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 13px 28px #294f8620;
+}
+
+.pdf{--accent:#a9ccff;--wash:#e1edff}
+.reading{--accent:#9adfcf;--wash:#dff7ef}
+.listening{--accent:#cbb8ff;--wash:#eee7ff}
+.guides{--accent:#ffd18a;--wash:#fff0d5}
+
+.card-icon{
+    flex:0 0 105px;
+    width:105px;
+    height:105px;
+    border-radius:23px;
+    background:var(--wash);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:52px;
+}
+
+.card-copy{flex:1;min-width:0}
+
+.card-copy h2{
+    font-size:21px;
+    margin:0 0 11px;
+    color:#12356e;
+}
+
+.card-copy p{
+    font-size:15px;
+    line-height:1.55;
+    color:#4b6389;
+    margin:0 0 13px;
+}
+
+.tag{
+    display:inline-block;
+    border-radius:20px;
+    background:var(--wash);
+    padding:7px 12px;
+    font-size:12px;
+    color:#254f91;
+    font-weight:bold;
+}
+
+.arrow{
+    position:absolute;
+    right:16px;
+    bottom:15px;
+    width:40px;
+    height:40px;
+    border:1px solid var(--accent);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:#1d65d7;
+    font-size:24px;
+    background:#fff9;
+}
+
+.no-results{
+    display:none;
+    text-align:center;
+    color:#637998;
+    padding:22px;
+}
+
+.section-panel{
+    display:none;
+    margin-top:20px;
+    padding:23px;
+    border:1px solid #dbe7f8;
+    border-radius:16px;
+    background:white;
+}
+
+.section-panel.active{display:block}
+
+.panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.panel-head h2{
+    margin:0;
+    color:#15376d;
+}
+
+.back-button{
+    border:1px solid #b9cff1;
+    border-radius:22px;
+    background:#f5f9ff;
+    color:#17478e;
+    padding:9px 15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.empty-state{
+    margin-top:18px;
+    padding:28px;
+    border:1px dashed #c1d3ef;
+    border-radius:12px;
+    text-align:center;
+    color:#617797;
+    background:#f8fbff;
+    line-height:1.6;
+}
+
+.empty-icon{font-size:36px}
+
+.empty-state h3{
+    color:#234a82;
+    margin:10px 0;
+}
+
+footer{
+    text-align:center;
+    background:#f8fbff;
+    color:#61718d;
+    font-size:13px;
+    padding:18px;
+    border-top:1px solid #dce7f6;
+}
+
+@media(max-width:760px){
+
+    header{flex-wrap:wrap;gap:10px}
+    .logo-icon{font-size:30px}
+    .brand-name{font-size:20px}
+    .header-divider{height:25px}
+    .header-subtitle{
+        flex-basis:100%;
+        padding-left:40px;
+        font-size:13px;
+    }
+
+    main{
+        padding:18px 10px 30px;
+        background-attachment:scroll;
+    }
+
+    .content{
+        padding:22px 14px;
+        border-radius:18px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .resource-card{
+        min-height:160px;
+        padding:17px;
+        gap:14px;
+    }
+
+    .card-icon{
+        flex-basis:78px;
+        width:78px;
+        height:78px;
+        font-size:39px;
+    }
+
+    .card-copy h2{font-size:19px}
+    .card-copy p{font-size:14px}
+    .heading-icon{font-size:32px}
+    .intro p{font-size:15px}
+}
+
+@media(max-width:390px){
+    .card-icon{
+        flex-basis:62px;
+        width:62px;
+        height:62px;
+        font-size:32px;
+    }
+    .card-copy h2{font-size:17px}
+    .card-copy p{font-size:13px}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h2>IGCSE English Hub</h2>
-    <p>Cambridge Checkpoint · Preparation Course</p>
+    <div class="logo-icon">📖</div>
+    <div class="brand-name">IGCSE English Hub</div>
+    <div class="header-divider"></div>
+    <div class="header-subtitle">
+        Cambridge Checkpoint · Student Library
+    </div>
 </header>
 
 <main>
+<div class="content">
+
     <a class="back-link" href="preparation.html">
         ← Back to Preparation Course
     </a>
 
-    <section class="page-heading">
-        <h1>Student Library</h1>
+    <section class="intro">
+
+        <div class="heading-row">
+            <span class="heading-icon">📚</span>
+            <h1>Student Library</h1>
+        </div>
+
         <p>
-            Explore additional learning materials to support your revision,
-            practise important skills, and prepare for your examinations.
+            Explore additional learning resources to support your revision,
+            build your knowledge and prepare for your examinations.
         </p>
+
+        <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input
+                type="search"
+                id="resourceSearch"
+                placeholder="Search resources..."
+                aria-label="Search library sections"
+            >
+        </div>
+
     </section>
 
-    <section class="resource-card">
+    <section class="cards" id="resourceCards">
+
+        <a href="#pdf-resources"
+           class="resource-card pdf"
+           data-section="pdf-resources"
+           data-search="pdf files documents materials">
+
+            <div class="card-icon">📄</div>
+
+            <div class="card-copy">
+                <h2>PDF Resources</h2>
+                <p>
+                    Access useful PDF materials, guides,
+                    reference documents and extra learning resources.
+                </p>
+                <span class="tag">Available resources</span>
+            </div>
+
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="#reading-library"
+           class="resource-card reading"
+           data-section="reading-library"
+           data-search="reading stories texts articles comprehension vocabulary">
+
+            <div class="card-icon">📖</div>
+
+            <div class="card-copy">
+                <h2>Reading Library</h2>
+                <p>
+                    Discover extra reading texts, stories and articles
+                    to improve your comprehension and vocabulary.
+                </p>
+                <span class="tag">Build your reading skills</span>
+            </div>
+
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="#listening-resources"
+           class="resource-card listening"
+           data-section="listening-resources"
+           data-search="listening audio recordings transcripts activities">
+
+            <div class="card-icon">🎧</div>
+
+            <div class="card-copy">
+                <h2>Listening Resources</h2>
+                <p>
+                    Find audio recordings and listening materials
+                    with transcripts and activities.
+                </p>
+                <span class="tag">Improve your listening</span>
+            </div>
+
+            <span class="arrow">→</span>
+        </a>
+
+        <a href="#reference-guides"
+           class="resource-card guides"
+           data-section="reference-guides"
+           data-search="reference guides grammar vocabulary literary terms">
+
+            <div class="card-icon">📘</div>
+
+            <div class="card-copy">
+                <h2>Reference Guides</h2>
+                <p>
+                    Access grammar guides, vocabulary lists,
+                    literary terms and useful reference materials.
+                </p>
+                <span class="tag">Study smarter</span>
+            </div>
+
+            <span class="arrow">→</span>
+        </a>
+
+    </section>
+
+    <div class="no-results" id="noResults">
+        No library sections match your search.
+    </div>
+
+    <section class="section-panel" id="sectionPanel">
+
+        <div class="panel-head">
+            <h2 id="panelTitle">Library Section</h2>
+
+            <button class="back-button" id="backButton" type="button">
+                ← All sections
+            </button>
+        </div>
+
         <div class="empty-state">
-            <div class="empty-icon">📚</div>
-            <h2>Your Learning Resources</h2>
+            <div class="empty-icon" id="emptyIcon">📚</div>
+            <h3>Resources will appear here</h3>
             <p>
-                PDFs, revision sheets, summaries, and other educational
-                resources will appear here when the teacher adds them.
+                Resources published by your teacher for your grade
+                will appear in this section.
             </p>
         </div>
+
     </section>
+
+</div>
 </main>
 
 <footer>
     © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
+
+<script>
+const cards = [...document.querySelectorAll('.resource-card')];
+const search = document.getElementById('resourceSearch');
+const panel = document.getElementById('sectionPanel');
+const panelTitle = document.getElementById('panelTitle');
+const emptyIcon = document.getElementById('emptyIcon');
+const noResults = document.getElementById('noResults');
+const cardsContainer = document.getElementById('resourceCards');
+
+const titles = {
+    'pdf-resources': ['PDF Resources','📄'],
+    'reading-library': ['Reading Library','📖'],
+    'listening-resources': ['Listening Resources','🎧'],
+    'reference-guides': ['Reference Guides','📘']
+};
+
+cards.forEach(card => {
+
+    card.addEventListener('click', event => {
+
+        event.preventDefault();
+
+        const key = card.dataset.section;
+
+        panelTitle.textContent = titles[key][0];
+        emptyIcon.textContent = titles[key][1];
+
+        cardsContainer.style.display = 'none';
+        search.closest('.search-wrap').style.display = 'none';
+
+        document.querySelector('.intro p').style.display = 'none';
+        document.querySelector('.heading-row').style.display = 'none';
+
+        noResults.style.display = 'none';
+        panel.classList.add('active');
+
+        history.replaceState(null, '', '#' + key);
+
+        panel.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+        });
+
+    });
+
+});
+
+document.getElementById('backButton').addEventListener('click', () => {
+
+    panel.classList.remove('active');
+
+    cardsContainer.style.display = 'grid';
+    search.closest('.search-wrap').style.display = 'block';
+
+    document.querySelector('.intro p').style.display = 'block';
+    document.querySelector('.heading-row').style.display = 'flex';
+
+    search.value = '';
+
+    cards.forEach(card => card.style.display = 'flex');
+
+    noResults.style.display = 'none';
+
+    history.replaceState(null, '', location.pathname);
+
+});
+
+search.addEventListener('input', () => {
+
+    const query = search.value.trim().toLowerCase();
+    let shown = 0;
+
+    cards.forEach(card => {
+
+        const match =
+            (card.innerText + ' ' + card.dataset.search)
+            .toLowerCase()
+            .includes(query);
+
+        card.style.display = match ? 'flex' : 'none';
+
+        if(match) shown++;
+
+    });
+
+    noResults.style.display = shown ? 'none' : 'block';
+
+});
+</script>
 
 </body>
 </html>
