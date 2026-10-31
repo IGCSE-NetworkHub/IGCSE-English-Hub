@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Library Management | IGCSE English Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
+header{background:linear-gradient(135deg,#142b4a,#245b83);color:white;padding:25px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;color:#dbeafe}
+button,.btn{border:0;border-radius:9px;padding:11px 16px;font-weight:bold;cursor:pointer;text-decoration:none;font-size:14px}
+.secondary{background:#e8eef7;color:#183451}
+main{max-width:1100px;margin:30px auto;padding:0 18px}
+.panel{background:white;border:1px solid #dce5f0;border-radius:15px;padding:25px;margin-bottom:22px;box-shadow:0 5px 18px #152b4a0a}
+h2{color:#183b60;margin-top:0}
+p{line-height:1.6;color:#65748b}
+label{display:block;font-weight:bold;margin:15px 0 7px;color:#34445c}
+input[type=text],select,textarea{width:100%;padding:12px;border:1px solid #ccd7e5;border-radius:8px;font-size:15px;background:white}
+textarea{min-height:110px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:15px}
+.check{display:flex;align-items:center;gap:10px;background:#f5f8fc;padding:13px;border-radius:9px;font-weight:normal}
+.check input{width:18px;height:18px}
+.primary{background:#1769d2;color:white;margin-top:18px}
+.warning{background:#fff8e8;border:1px solid #f2d99c;color:#79520b;padding:15px;border-radius:10px;line-height:1.6}
+.info{background:#e8f2ff;color:#17457c;padding:13px;border-radius:9px;margin-bottom:20px}
+footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
+@media(max-width:650px){.grid,.checks{grid-template-columns:1fr}header h1{font-size:21px}.panel{padding:18px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Student Library</h1>
+    <p>Teacher Management · IGCSE English Hub</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <a class="btn secondary" href="teacher-checkpoint-dashboard.html">Back to Dashboard</a>
+    <button class="secondary" id="logoutBtn">Log Out</button>
+  </div>
+</header>
+
+<main>
+  <div id="message" class="info">Checking teacher access...</div>
+
+  <section class="panel">
+    <h2>Upload a New Resource</h2>
+    <p>Prepare the resource details and choose the permissions that apply to this individual file.</p>
+
+    <div class="grid">
+      <div>
+        <label for="resourceTitle">Resource Title</label>
+        <input type="text" id="resourceTitle" placeholder="Enter resource title">
+      </div>
+      <div>
+        <label for="grade">Student Grade</label>
+        <select id="grade">
+          <option value="">Select grade</option>
+          <option>Year 6</option>
+          <option>Year 7</option>
+          <option>Year 8</option>
+          <option>Year 9</option>
+          <option>All Grades</option>
+        </select>
+      </div>
+      <div>
+        <label for="category">Library Section</label>
+        <select id="category">
+          <option value="">Select section</option>
+          <option>PDF Resources</option>
+          <option>Reading Library</option>
+          <option>Listening Resources</option>
+          <option>Reference Guides</option>
+        </select>
+      </div>
+      <div>
+        <label for="fileType">Resource Type</label>
+        <select id="fileType">
+          <option value="">Select type</option>
+          <option>Explanation / Lesson</option>
+          <option>Exam / Past Paper</option>
+          <option>Worksheet</option>
+          <option>Reading Text</option>
+          <option>Audio</option>
+          <option>Video</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Write a short description of this resource..."></textarea>
+
+    <label>Choose File</label>
+    <input type="file" id="resourceFile">
+    <p>File storage will be connected in the next implementation step.</p>
+  </section>
+
+  <section class="panel">
+    <h2>File Permissions</h2>
+    <p>Select the permissions you want. Each file will have its own settings.</p>
+
+    <div class="checks">
+      <label class="check">
+        <input type="checkbox" id="allowView" checked>
+        Allow viewing inside the website
+      </label>
+      <label class="check">
+        <input type="checkbox" id="allowDownload">
+        Allow downloading
+      </label>
+      <label class="check">
+        <input type="checkbox" id="allowPrint">
+        Allow printing
+      </label>
+      <label class="check">
+        <input type="checkbox" id="watermark" checked>
+        Add student-specific watermark
+      </label>
+      <label class="check">
+        <input type="checkbox" id="legalWarning" checked>
+        Show legal warning before opening
+      </label>
+      <label class="check">
+        <input type="checkbox" id="pdfWarning" checked>
+        Add warning page to downloaded PDF
+      </label>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Legal Warning</h2>
+    <div class="warning">
+      <strong>Copyright and Content Protection Notice</strong><br><br>
+      This file is provided exclusively for the personal educational use of the registered student on IGCSE English Hub.
+
+      Copying, sharing, distributing, publishing, reselling or making this file available to others without prior written permission is prohibited.
+
+      Unauthorized use or distribution may constitute a violation of intellectual property rights and may result in appropriate legal action under applicable laws.
+
+      By accessing this resource, the student acknowledges this notice and agrees to comply with its conditions.
+      <br><br>
+      <strong>IGCSE English Hub — All Rights Reserved.</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Save Resource</h2>
+    <div class="info">
+      This is currently a design preview. No file will be uploaded or saved until the storage and database connection is implemented.
+    </div>
+    <button class="primary" type="button" disabled>Save Resource — Coming Next</button>
+  </section>
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+"use strict";
+
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const message = document.getElementById("message");
+
+function showMessage(text, type = "") {
+  message.textContent = text;
+  message.className = "info" + (type ? " " + type : "");
+}
+
+async function checkTeacher() {
+  try {
+    const {data, error} = await db.auth.getSession();
+
+    if (error) throw error;
+
+    if (!data.session) {
+      window.location.replace("login.html");
+      return;
+    }
+
+    const {data: role, error: roleError} = await db
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", data.session.user.id)
+      .eq("role", "teacher")
+      .maybeSingle();
+
+    if (roleError) throw roleError;
+
+    if (!role) {
+      showMessage("Access denied. Teachers only.");
+      document.querySelector("main").style.display = "none";
+      return;
+    }
+
+    showMessage("Teacher access verified.");
+  } catch (error) {
+    showMessage("Could not verify access: " + error.message);
+    document.querySelector("main").style.display = "none";
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  const {error} = await db.auth.signOut();
+
+  if (error) {
+    showMessage("Could not log out: " + error.message);
+    return;
+  }
+
+  window.location.replace("login.html");
+});
+
+checkTeacher();
+</script>
+</body>
+</html>
