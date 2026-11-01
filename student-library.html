@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Library | IGCSE English Hub</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 
@@ -128,7 +130,6 @@ h1{
 .resource-card{
     --accent:#a9ccff;
     --wash:#e1edff;
-
     display:flex;
     align-items:center;
     gap:20px;
@@ -142,6 +143,7 @@ h1{
     text-decoration:none;
     color:inherit;
     position:relative;
+    cursor:pointer;
 }
 
 .resource-card:hover{
@@ -247,10 +249,9 @@ h1{
     font-weight:bold;
 }
 
-.empty-state{
+.status-message{
     margin-top:18px;
-    padding:28px;
-    border:1px dashed #c1d3ef;
+    padding:20px;
     border-radius:12px;
     text-align:center;
     color:#617797;
@@ -258,12 +259,51 @@ h1{
     line-height:1.6;
 }
 
-.empty-icon{font-size:36px}
-
-.empty-state h3{
-    color:#234a82;
-    margin:10px 0;
+.resource-list{
+    display:grid;
+    gap:12px;
+    margin-top:20px;
 }
+
+.file-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:16px;
+    border:1px solid #dbe7f8;
+    border-radius:12px;
+    background:#f8fbff;
+}
+
+.file-info{min-width:0}
+
+.file-info h3{
+    margin:0 0 7px;
+    color:#234a82;
+    font-size:17px;
+    overflow-wrap:anywhere;
+}
+
+.file-info p{
+    margin:0;
+    color:#71829b;
+    font-size:13px;
+}
+
+.file-open{
+    flex-shrink:0;
+    display:inline-block;
+    padding:10px 16px;
+    border-radius:22px;
+    background:#17478e;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.file-open:hover{background:#2563b9}
 
 footer{
     text-align:center;
@@ -275,7 +315,6 @@ footer{
 }
 
 @media(max-width:760px){
-
     header{flex-wrap:wrap;gap:10px}
     .logo-icon{font-size:30px}
     .brand-name{font-size:20px}
@@ -285,39 +324,34 @@ footer{
         padding-left:40px;
         font-size:13px;
     }
-
     main{
         padding:18px 10px 30px;
         background-attachment:scroll;
     }
-
     .content{
         padding:22px 14px;
         border-radius:18px;
     }
-
     .cards{
         grid-template-columns:1fr;
         gap:14px;
     }
-
     .resource-card{
         min-height:160px;
         padding:17px;
         gap:14px;
     }
-
     .card-icon{
         flex-basis:78px;
         width:78px;
         height:78px;
         font-size:39px;
     }
-
     .card-copy h2{font-size:19px}
     .card-copy p{font-size:14px}
     .heading-icon{font-size:32px}
     .intro p{font-size:15px}
+    .file-item{align-items:flex-start;flex-direction:column}
 }
 
 @media(max-width:390px){
@@ -352,7 +386,6 @@ footer{
     </a>
 
     <section class="intro">
-
         <div class="heading-row">
             <span class="heading-icon">📚</span>
             <h1>Student Library</h1>
@@ -372,7 +405,6 @@ footer{
                 aria-label="Search library sections"
             >
         </div>
-
     </section>
 
     <section class="cards" id="resourceCards">
@@ -383,16 +415,11 @@ footer{
            data-search="pdf files documents materials">
 
             <div class="card-icon">📄</div>
-
             <div class="card-copy">
                 <h2>PDF Resources</h2>
-                <p>
-                    Access useful PDF materials, guides,
-                    reference documents and extra learning resources.
-                </p>
-                <span class="tag">Available resources</span>
+                <p>Access useful PDF materials, guides, reference documents and extra learning resources.</p>
+                <span class="tag" id="count-pdf">Available resources</span>
             </div>
-
             <span class="arrow">→</span>
         </a>
 
@@ -402,16 +429,11 @@ footer{
            data-search="reading stories texts articles comprehension vocabulary">
 
             <div class="card-icon">📖</div>
-
             <div class="card-copy">
                 <h2>Reading Library</h2>
-                <p>
-                    Discover extra reading texts, stories and articles
-                    to improve your comprehension and vocabulary.
-                </p>
-                <span class="tag">Build your reading skills</span>
+                <p>Discover extra reading texts, stories and articles to improve your comprehension and vocabulary.</p>
+                <span class="tag" id="count-reading">Build your reading skills</span>
             </div>
-
             <span class="arrow">→</span>
         </a>
 
@@ -421,16 +443,11 @@ footer{
            data-search="listening audio recordings transcripts activities">
 
             <div class="card-icon">🎧</div>
-
             <div class="card-copy">
                 <h2>Listening Resources</h2>
-                <p>
-                    Find audio recordings and listening materials
-                    with transcripts and activities.
-                </p>
-                <span class="tag">Improve your listening</span>
+                <p>Find audio recordings and listening materials with transcripts and activities.</p>
+                <span class="tag" id="count-listening">Improve your listening</span>
             </div>
-
             <span class="arrow">→</span>
         </a>
 
@@ -440,16 +457,11 @@ footer{
            data-search="reference guides grammar vocabulary literary terms">
 
             <div class="card-icon">📘</div>
-
             <div class="card-copy">
                 <h2>Reference Guides</h2>
-                <p>
-                    Access grammar guides, vocabulary lists,
-                    literary terms and useful reference materials.
-                </p>
-                <span class="tag">Study smarter</span>
+                <p>Access grammar guides, vocabulary lists, literary terms and useful reference materials.</p>
+                <span class="tag" id="count-reference">Study smarter</span>
             </div>
-
             <span class="arrow">→</span>
         </a>
 
@@ -460,24 +472,18 @@ footer{
     </div>
 
     <section class="section-panel" id="sectionPanel">
-
         <div class="panel-head">
             <h2 id="panelTitle">Library Section</h2>
-
             <button class="back-button" id="backButton" type="button">
                 ← All sections
             </button>
         </div>
 
-        <div class="empty-state">
-            <div class="empty-icon" id="emptyIcon">📚</div>
-            <h3>Resources will appear here</h3>
-            <p>
-                Resources published by your teacher for your grade
-                will appear in this section.
-            </p>
+        <div id="resourceStatus" class="status-message">
+            Loading your resources...
         </div>
 
+        <div class="resource-list" id="resourceList"></div>
     </section>
 
 </div>
@@ -488,93 +494,258 @@ footer{
 </footer>
 
 <script>
-const cards = [...document.querySelectorAll('.resource-card')];
-const search = document.getElementById('resourceSearch');
-const panel = document.getElementById('sectionPanel');
-const panelTitle = document.getElementById('panelTitle');
-const emptyIcon = document.getElementById('emptyIcon');
-const noResults = document.getElementById('noResults');
-const cardsContainer = document.getElementById('resourceCards');
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const LIBRARY_FUNCTION_URL =
+    SUPABASE_URL + "/functions/v1/rapid-service?action=library";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const cards = [...document.querySelectorAll(".resource-card")];
+const search = document.getElementById("resourceSearch");
+const panel = document.getElementById("sectionPanel");
+const panelTitle = document.getElementById("panelTitle");
+const noResults = document.getElementById("noResults");
+const cardsContainer = document.getElementById("resourceCards");
+const resourceStatus = document.getElementById("resourceStatus");
+const resourceList = document.getElementById("resourceList");
+
+const introParagraph = document.querySelector(".intro p");
+const headingRow = document.querySelector(".heading-row");
+const searchWrap = search.closest(".search-wrap");
 
 const titles = {
-    'pdf-resources': ['PDF Resources','📄'],
-    'reading-library': ['Reading Library','📖'],
-    'listening-resources': ['Listening Resources','🎧'],
-    'reference-guides': ['Reference Guides','📘']
+    "pdf-resources": ["PDF Resources", "pdf"],
+    "reading-library": ["Reading Library", "reading"],
+    "listening-resources": ["Listening Resources", "listening"],
+    "reference-guides": ["Reference Guides", "reference"]
 };
 
-cards.forEach(card => {
+const categoryToSection = {
+    pdf: "pdf-resources",
+    reading: "reading-library",
+    listening: "listening-resources",
+    reference: "reference-guides"
+};
 
-    card.addEventListener('click', event => {
+let libraryFiles = [];
+let libraryLoaded = false;
+let currentSection = "";
 
-        event.preventDefault();
+function showStatus(message) {
+    resourceStatus.textContent = message;
+    resourceStatus.style.display = "block";
+}
 
-        const key = card.dataset.section;
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
 
-        panelTitle.textContent = titles[key][0];
-        emptyIcon.textContent = titles[key][1];
+async function loadLibrary() {
+    showStatus("Loading your resources...");
+    resourceList.innerHTML = "";
 
-        cardsContainer.style.display = 'none';
-        search.closest('.search-wrap').style.display = 'none';
+    const { data: sessionData, error: sessionError } =
+        await supabaseClient.auth.getSession();
 
-        document.querySelector('.intro p').style.display = 'none';
-        document.querySelector('.heading-row').style.display = 'none';
+    if (sessionError || !sessionData?.session?.access_token) {
+        showStatus("Your session has expired. Please log in again.");
+        return false;
+    }
 
-        noResults.style.display = 'none';
-        panel.classList.add('active');
+    const accessToken = sessionData.session.access_token;
 
-        history.replaceState(null, '', '#' + key);
-
-        panel.scrollIntoView({
-            behavior:'smooth',
-            block:'start'
+    try {
+        const result = await fetch(LIBRARY_FUNCTION_URL, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + accessToken,
+                "apikey": SUPABASE_KEY
+            }
         });
 
+        const data = await result.json();
+
+        if (result.status === 401) {
+            showStatus("Your session is invalid or expired. Please log in again.");
+            return false;
+        }
+
+        if (!result.ok) {
+            showStatus(data.error || "Unable to load your resources.");
+            return false;
+        }
+
+        libraryFiles = Array.isArray(data.files) ? data.files : [];
+        libraryLoaded = true;
+
+        updateSectionCounts();
+
+        return true;
+
+    } catch (error) {
+        console.error("Library loading error:", error);
+        showStatus("A connection error occurred. Please try again.");
+        return false;
+    }
+}
+
+function updateSectionCounts() {
+    Object.keys(categoryToSection).forEach(category => {
+        const count = libraryFiles.filter(file =>
+            file.category === category
+        ).length;
+
+        const countElement = document.getElementById("count-" + category);
+
+        if (countElement) {
+            countElement.textContent =
+                count + (count === 1 ? " resource" : " resources");
+        }
+    });
+}
+
+function renderSection(sectionKey) {
+    const category = titles[sectionKey]?.[1];
+
+    if (!category) return;
+
+    currentSection = sectionKey;
+    panelTitle.textContent = titles[sectionKey][0];
+    resourceList.innerHTML = "";
+
+    const files = libraryFiles.filter(file =>
+        file.category === category
+    );
+
+    if (files.length === 0) {
+        showStatus("No resources have been published in this section yet.");
+        return;
+    }
+
+    resourceStatus.style.display = "none";
+
+    files.forEach(file => {
+        const item = document.createElement("div");
+        item.className = "file-item";
+
+        const info = document.createElement("div");
+        info.className = "file-info";
+
+        const heading = document.createElement("h3");
+        heading.textContent = file.file_name || "Untitled resource";
+
+        const description = document.createElement("p");
+        description.textContent = file.description || "Learning resource";
+
+        info.appendChild(heading);
+        info.appendChild(description);
+
+        const link = document.createElement("a");
+        link.className = "file-open";
+        link.href = file.drive_view_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Open Resource";
+
+        item.appendChild(info);
+        item.appendChild(link);
+
+        resourceList.appendChild(item);
+    });
+}
+
+async function openSection(sectionKey) {
+    if (!titles[sectionKey]) return;
+
+    cardsContainer.style.display = "none";
+    searchWrap.style.display = "none";
+    introParagraph.style.display = "none";
+    headingRow.style.display = "none";
+    noResults.style.display = "none";
+
+    panel.classList.add("active");
+    panelTitle.textContent = titles[sectionKey][0];
+    resourceList.innerHTML = "";
+    showStatus("Loading your resources...");
+
+    history.replaceState(null, "", "#" + sectionKey);
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
 
+    if (!libraryLoaded) {
+        const success = await loadLibrary();
+
+        if (!success) return;
+    }
+
+    renderSection(sectionKey);
+}
+
+cards.forEach(card => {
+    card.addEventListener("click", event => {
+        event.preventDefault();
+        openSection(card.dataset.section);
+    });
 });
 
-document.getElementById('backButton').addEventListener('click', () => {
+document.getElementById("backButton").addEventListener("click", () => {
+    panel.classList.remove("active");
 
-    panel.classList.remove('active');
+    cardsContainer.style.display = "grid";
+    searchWrap.style.display = "block";
+    introParagraph.style.display = "block";
+    headingRow.style.display = "flex";
 
-    cardsContainer.style.display = 'grid';
-    search.closest('.search-wrap').style.display = 'block';
+    search.value = "";
+    cards.forEach(card => card.style.display = "flex");
 
-    document.querySelector('.intro p').style.display = 'block';
-    document.querySelector('.heading-row').style.display = 'flex';
+    resourceList.innerHTML = "";
+    resourceStatus.style.display = "block";
+    noResults.style.display = "none";
 
-    search.value = '';
+    currentSection = "";
 
-    cards.forEach(card => card.style.display = 'flex');
-
-    noResults.style.display = 'none';
-
-    history.replaceState(null, '', location.pathname);
-
+    history.replaceState(null, "", location.pathname);
 });
 
-search.addEventListener('input', () => {
-
+search.addEventListener("input", () => {
     const query = search.value.trim().toLowerCase();
     let shown = 0;
 
     cards.forEach(card => {
-
         const match =
-            (card.innerText + ' ' + card.dataset.search)
+            (card.innerText + " " + card.dataset.search)
             .toLowerCase()
             .includes(query);
 
-        card.style.display = match ? 'flex' : 'none';
+        card.style.display = match ? "flex" : "none";
 
-        if(match) shown++;
-
+        if (match) shown++;
     });
 
-    noResults.style.display = shown ? 'none' : 'block';
-
+    noResults.style.display = shown ? "none" : "block";
 });
+
+// Restore a section when the student opens a direct section link
+const initialSection = location.hash.replace("#", "");
+
+if (titles[initialSection]) {
+    openSection(initialSection);
+}
 </script>
 
 </body>
