@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -295,15 +295,18 @@ h1{
     flex-shrink:0;
     display:inline-block;
     padding:10px 16px;
+    border:0;
     border-radius:22px;
     background:#17478e;
     color:white;
     text-decoration:none;
     font-weight:bold;
     font-size:13px;
+    cursor:pointer;
 }
 
 .file-open:hover{background:#2563b9}
+.file-open:disabled{opacity:.6;cursor:wait}
 
 footer{
     text-align:center;
@@ -541,31 +544,23 @@ function showStatus(message) {
     resourceStatus.style.display = "block";
 }
 
-function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[character]);
+async function getStudentAccessToken() {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error || !data?.session?.access_token) {
+        throw new Error("Your session has expired. Please log in again.");
+    }
+
+    return data.session.access_token;
 }
 
 async function loadLibrary() {
     showStatus("Loading your resources...");
     resourceList.innerHTML = "";
 
-    const { data: sessionData, error: sessionError } =
-        await supabaseClient.auth.getSession();
-
-    if (sessionError || !sessionData?.session?.access_token) {
-        showStatus("Your session has expired. Please log in again.");
-        return false;
-    }
-
-    const accessToken = sessionData.session.access_token;
-
     try {
+        const accessToken = await getStudentAccessToken();
+
         const result = await fetch(LIBRARY_FUNCTION_URL, {
             method: "GET",
             headers: {
@@ -576,14 +571,8 @@ async function loadLibrary() {
 
         const data = await result.json();
 
-        if (result.status === 401) {
-            showStatus("Your session is invalid or expired. Please log in again.");
-            return false;
-        }
-
         if (!result.ok) {
-            showStatus(data.error || "Unable to load your resources.");
-            return false;
+            throw new Error(data.error || "Unable to load your resources.");
         }
 
         libraryFiles = Array.isArray(data.files) ? data.files : [];
@@ -595,7 +584,7 @@ async function loadLibrary() {
 
     } catch (error) {
         console.error("Library loading error:", error);
-        showStatus("A connection error occurred. Please try again.");
+        showStatus(error.message || "A connection error occurred.");
         return false;
     }
 }
@@ -613,6 +602,85 @@ function updateSectionCounts() {
                 count + (count === 1 ? " resource" : " resources");
         }
     });
+}
+
+/*
+   Opens the file through the secure Supabase Edge Function.
+   It does not use the old drive_view_url.
+*/
+async function openResource(file, button) {
+    const originalText = button.textContent;
+    let newWindow = null;
+    let objectUrl = null;
+
+    try {
+        if (!file.id) {
+            throw new Error("The file ID is missing from the library response.");
+        }
+
+        // Open the tab immediately so the browser does not block it.
+        newWindow = window.open("about:blank", "_blank");
+
+        if (!newWindow) {
+            throw new Error("Please allow pop-ups to open this resource.");
+        }
+
+        button.disabled = true;
+        button.textContent = "Opening...";
+
+        const accessToken = await getStudentAccessToken();
+
+        const fileUrl =
+            SUPABASE_URL +
+            "/functions/v1/rapid-service?action=file&id=" +
+            encodeURIComponent(file.id);
+
+        const response = await fetch(fileUrl, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + accessToken,
+                "apikey": SUPABASE_KEY
+            }
+        });
+
+        if (!response.ok) {
+            let message = "Unable to open this file.";
+
+            try {
+                const errorData = await response.json();
+                message = errorData.error || message;
+            } catch (_) {}
+
+            throw new Error(message + " (Error " + response.status + ")");
+        }
+
+        const blob = await response.blob();
+
+        if (!blob.size) {
+            throw new Error("The downloaded file is empty.");
+        }
+
+        objectUrl = URL.createObjectURL(blob);
+        newWindow.location.href = objectUrl;
+
+        // Keep the object URL available while the file is open.
+        setTimeout(() => {
+            if (objectUrl) URL.revokeObjectURL(objectUrl);
+        }, 10 * 60 * 1000);
+
+    } catch (error) {
+        console.error("File opening error:", error);
+
+        if (newWindow && !newWindow.closed) {
+            newWindow.close();
+        }
+
+        alert(error.message || "A connection error occurred.");
+
+    } finally {
+        button.disabled = false;
+        button.textContent = originalText;
+    }
 }
 
 function renderSection(sectionKey) {
@@ -651,15 +719,17 @@ function renderSection(sectionKey) {
         info.appendChild(heading);
         info.appendChild(description);
 
-        const link = document.createElement("a");
-        link.className = "file-open";
-        link.href = file.drive_view_url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "Open Resource";
+        const button = document.createElement("button");
+        button.className = "file-open";
+        button.type = "button";
+        button.textContent = "Open Resource";
+
+        button.addEventListener("click", () => {
+            openResource(file, button);
+        });
 
         item.appendChild(info);
-        item.appendChild(link);
+        item.appendChild(button);
 
         resourceList.appendChild(item);
     });
@@ -740,7 +810,7 @@ search.addEventListener("input", () => {
     noResults.style.display = shown ? "none" : "block";
 });
 
-// Restore a section when the student opens a direct section link
+// Restore a section when the student opens a direct section link.
 const initialSection = location.hash.replace("#", "");
 
 if (titles[initialSection]) {
@@ -750,3 +820,4 @@ if (titles[initialSection]) {
 
 </body>
 </html>
+```
