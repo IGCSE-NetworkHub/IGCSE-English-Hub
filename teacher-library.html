@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Library Management | IGCSE English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
@@ -42,19 +43,70 @@ textarea{min-height:110px;resize:vertical}
 .resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .publish{background:#176b38;color:white}
 .unpublish{background:#e8eef7;color:#183451}
+.edit{background:#e8f2ff;color:#17457c}
 .delete{background:#fff0f0;color:#a12626}
 .status{font-size:12px;font-weight:bold;padding:6px 10px;border-radius:20px;display:inline-block}
 .status-published{background:#e9f8ef;color:#176b38}
 .status-hidden{background:#fff4df;color:#8a5a00}
 .empty{text-align:center;padding:25px;color:#65748b;background:#f8fafd;border-radius:10px}
 footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
+
+/* Edit modal */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(10,25,45,.65);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+.modal-overlay.show{display:flex}
+.modal{
+    background:white;
+    width:100%;
+    max-width:650px;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 15px 50px #0003;
+}
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:10px;
+}
+.modal-header h2{margin:0}
+.close-modal{
+    background:#f0f3f8;
+    color:#34445c;
+    font-size:20px;
+    padding:7px 12px;
+}
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:22px;
+}
+.save-edit{background:#1769d2;color:white}
+.cancel-edit{background:#e8eef7;color:#183451}
+.modal-note{font-size:13px;color:#65748b;margin-top:8px}
+
 @media(max-width:650px){
 .grid{grid-template-columns:1fr}
 header h1{font-size:21px}
 .panel{padding:18px}
+.modal{padding:18px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -62,6 +114,7 @@ header h1{font-size:21px}
     <h1>Student Library</h1>
     <p>Teacher Management · IGCSE English Hub</p>
   </div>
+
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <a class="btn secondary" href="teacher-checkpoint-dashboard.html">Back to Dashboard</a>
     <button class="secondary" id="logoutBtn" type="button">Log Out</button>
@@ -81,6 +134,7 @@ header h1{font-size:21px}
           <label for="resourceTitle">Resource Title</label>
           <input type="text" id="resourceTitle" placeholder="Enter resource title" required>
         </div>
+
         <div>
           <label for="grade">Student Grade</label>
           <select id="grade" required>
@@ -90,6 +144,7 @@ header h1{font-size:21px}
             <option value="All Years">All Years</option>
           </select>
         </div>
+
         <div>
           <label for="category">Library Section</label>
           <select id="category" required>
@@ -100,6 +155,7 @@ header h1{font-size:21px}
             <option value="reference">Reference Guides</option>
           </select>
         </div>
+
         <div>
           <label for="fileType">Resource Type</label>
           <select id="fileType">
@@ -145,6 +201,7 @@ header h1{font-size:21px}
       </div>
       <button class="secondary" id="refreshBtn" type="button">Refresh List</button>
     </div>
+
     <div id="resourceList" class="resource-list">
       <div class="empty">Loading resources...</div>
     </div>
@@ -163,6 +220,56 @@ header h1{font-size:21px}
     </div>
   </section>
 </main>
+
+<!-- Edit Resource Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal-header">
+      <h2 id="editModalTitle">Edit Resource</h2>
+      <button class="close-modal" id="closeEditBtn" type="button" aria-label="Close">×</button>
+    </div>
+
+    <p>Update the resource information below. The original Google Drive file will not be replaced.</p>
+
+    <form id="editForm">
+      <input type="hidden" id="editResourceId">
+
+      <label for="editTitle">Resource Title</label>
+      <input type="text" id="editTitle" maxlength="255" required>
+
+      <div class="grid">
+        <div>
+          <label for="editGrade">Student Grade</label>
+          <select id="editGrade" required>
+            <option value="Year 6">Year 6</option>
+            <option value="Year 7">Year 7</option>
+            <option value="All Years">All Years</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="editCategory">Library Section</label>
+          <select id="editCategory" required>
+            <option value="pdf">PDF Resources</option>
+            <option value="reading">Reading Library</option>
+            <option value="listening">Listening Resources</option>
+            <option value="reference">Reference Guides</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="editDescription">Description</label>
+      <textarea id="editDescription" maxlength="2000" placeholder="Write a short description..."></textarea>
+
+      <div class="modal-note">Changes will be saved to the library immediately.</div>
+
+      <div class="modal-actions">
+        <button class="cancel-edit" id="cancelEditBtn" type="button">Cancel</button>
+        <button class="save-edit" id="saveEditBtn" type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
@@ -188,6 +295,10 @@ const progressWrap = document.getElementById("progressWrap");
 const progressBar = document.getElementById("progressBar");
 const progressText = document.getElementById("progressText");
 
+const editModal = document.getElementById("editModal");
+const editForm = document.getElementById("editForm");
+const saveEditBtn = document.getElementById("saveEditBtn");
+
 let teacherSession = null;
 let isUploading = false;
 let isManaging = false;
@@ -195,6 +306,7 @@ let isManaging = false;
 function showMessage(text, type = "") {
   message.textContent = text;
   message.className = "info";
+
   if (type === "success") message.classList.add("success");
   if (type === "error") message.classList.add("error");
 }
@@ -207,6 +319,7 @@ function setProgress(percent, text) {
 
 async function refreshSession() {
   const { data, error } = await db.auth.getSession();
+
   if (error) throw error;
 
   if (!data.session) {
@@ -322,6 +435,12 @@ async function loadResources() {
       const actions = document.createElement("div");
       actions.className = "resource-actions";
 
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "edit";
+      editButton.textContent = "Edit";
+      editButton.addEventListener("click", () => openEditModal(file));
+
       const publishButton = document.createElement("button");
       publishButton.type = "button";
       publishButton.className = file.is_published ? "unpublish" : "publish";
@@ -338,16 +457,18 @@ async function loadResources() {
         deleteResource(file.id, file.file_name);
       });
 
-      actions.append(publishButton, deleteButton);
+      actions.append(editButton, publishButton, deleteButton);
       card.append(top, actions);
       resourceList.appendChild(card);
     });
 
   } catch (error) {
     resourceList.innerHTML = "";
+
     const errorBox = document.createElement("div");
     errorBox.className = "empty";
     errorBox.textContent = "Could not load resources: " + error.message;
+
     resourceList.appendChild(errorBox);
   }
 }
@@ -359,14 +480,98 @@ function categoryName(category) {
     listening: "Listening Resources",
     reference: "Reference Guides"
   };
+
   return names[category] || category;
 }
 
 function formatDate(value) {
   if (!value) return "Unknown";
+
   const date = new Date(value);
-  return isNaN(date.getTime()) ? "Unknown" : date.toLocaleString();
+
+  return isNaN(date.getTime())
+    ? "Unknown"
+    : date.toLocaleString();
 }
+
+// Open edit modal
+function openEditModal(file) {
+  if (isManaging || isUploading) return;
+
+  document.getElementById("editResourceId").value = file.id;
+  document.getElementById("editTitle").value = file.file_name || "";
+  document.getElementById("editDescription").value = file.description || "";
+  document.getElementById("editGrade").value = file.grade || "Year 6";
+  document.getElementById("editCategory").value = file.category || "pdf";
+
+  editModal.classList.add("show");
+  document.getElementById("editTitle").focus();
+}
+
+function closeEditModal() {
+  editModal.classList.remove("show");
+  editForm.reset();
+}
+
+document.getElementById("closeEditBtn").addEventListener("click", closeEditModal);
+document.getElementById("cancelEditBtn").addEventListener("click", closeEditModal);
+
+editModal.addEventListener("click", event => {
+  if (event.target === editModal) closeEditModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && editModal.classList.contains("show")) {
+    closeEditModal();
+  }
+});
+
+// Save edited resource
+editForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (isManaging) return;
+
+  const id = document.getElementById("editResourceId").value;
+  const fileName = document.getElementById("editTitle").value.trim();
+  const description = document.getElementById("editDescription").value.trim();
+  const grade = document.getElementById("editGrade").value;
+  const category = document.getElementById("editCategory").value;
+
+  if (!id || !fileName || !grade || !category) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  isManaging = true;
+  saveEditBtn.disabled = true;
+  saveEditBtn.textContent = "Saving...";
+
+  try {
+    await apiRequest(API_URL + "?action=edit-file", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        file_name: fileName,
+        description,
+        grade,
+        category
+      })
+    });
+
+    closeEditModal();
+    showMessage("Resource updated successfully.", "success");
+    await loadResources();
+
+  } catch (error) {
+    showMessage("Could not update resource: " + error.message, "error");
+  } finally {
+    isManaging = false;
+    saveEditBtn.disabled = false;
+    saveEditBtn.textContent = "Save Changes";
+  }
+});
 
 async function changePublication(id, published) {
   if (isManaging) return;
@@ -390,7 +595,9 @@ async function changePublication(id, published) {
     });
 
     showMessage(
-      published ? "Resource published successfully." : "Resource unpublished successfully.",
+      published
+        ? "Resource published successfully."
+        : "Resource unpublished successfully.",
       "success"
     );
 
@@ -482,6 +689,7 @@ async function uploadFileChunks(file, uploadId) {
 
 uploadForm.addEventListener("submit", async event => {
   event.preventDefault();
+
   if (isUploading) return;
 
   const title = document.getElementById("resourceTitle").value.trim();
@@ -528,6 +736,7 @@ uploadForm.addEventListener("submit", async event => {
     }
 
     setProgress(100, "Upload completed successfully.");
+
     showMessage(
       "Resource uploaded successfully. It is currently unpublished.",
       "success"
@@ -561,5 +770,6 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 
 checkTeacher();
 </script>
+
 </body>
 </html>
