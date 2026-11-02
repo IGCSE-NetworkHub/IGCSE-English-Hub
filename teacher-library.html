@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Library Management | IGCSE English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
@@ -13,6 +13,7 @@ header{background:linear-gradient(135deg,#142b4a,#245b83);color:white;padding:25
 header h1{margin:0;font-size:25px}
 header p{margin:7px 0 0;color:#dbeafe}
 button,.btn{border:0;border-radius:9px;padding:11px 16px;font-weight:bold;cursor:pointer;text-decoration:none;font-size:14px}
+button:disabled{opacity:.55;cursor:not-allowed}
 .secondary{background:#e8eef7;color:#183451}
 main{max-width:1100px;margin:30px auto;padding:0 18px}
 .panel{background:white;border:1px solid #dce5f0;border-radius:15px;padding:25px;margin-bottom:22px;box-shadow:0 5px 18px #152b4a0a}
@@ -20,18 +21,28 @@ h2{color:#183b60;margin-top:0}
 p{line-height:1.6;color:#65748b}
 label{display:block;font-weight:bold;margin:15px 0 7px;color:#34445c}
 input[type=text],select,textarea{width:100%;padding:12px;border:1px solid #ccd7e5;border-radius:8px;font-size:15px;background:white}
+input[type=file]{width:100%;padding:12px;border:1px dashed #9aabc0;border-radius:8px;background:#f8fafd}
 textarea{min-height:110px;resize:vertical}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:15px}
-.check{display:flex;align-items:center;gap:10px;background:#f5f8fc;padding:13px;border-radius:9px;font-weight:normal}
-.check input{width:18px;height:18px}
 .primary{background:#1769d2;color:white;margin-top:18px}
 .warning{background:#fff8e8;border:1px solid #f2d99c;color:#79520b;padding:15px;border-radius:10px;line-height:1.6}
 .info{background:#e8f2ff;color:#17457c;padding:13px;border-radius:9px;margin-bottom:20px}
+.status-success{background:#e9f8ef;color:#176b38}
+.status-error{background:#fff0f0;color:#a12626}
+.progress-wrap{display:none;margin-top:20px}
+.progress-track{height:13px;background:#e5ebf3;border-radius:20px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:#1769d2;transition:width .2s}
+.progress-text{font-weight:bold;color:#183b60;margin-top:8px}
+.file-note{font-size:13px;color:#65748b;margin-top:8px}
 footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
-@media(max-width:650px){.grid,.checks{grid-template-columns:1fr}header h1{font-size:21px}.panel{padding:18px}}
+@media(max-width:650px){
+.grid{grid-template-columns:1fr}
+header h1{font-size:21px}
+.panel{padding:18px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -39,123 +50,121 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
     <h1>Student Library</h1>
     <p>Teacher Management · IGCSE English Hub</p>
   </div>
+
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <a class="btn secondary" href="teacher-checkpoint-dashboard.html">Back to Dashboard</a>
-    <button class="secondary" id="logoutBtn">Log Out</button>
+    <button class="secondary" id="logoutBtn" type="button">Log Out</button>
   </div>
 </header>
 
-<main>
+<main id="mainContent">
+
   <div id="message" class="info">Checking teacher access...</div>
 
   <section class="panel">
     <h2>Upload a New Resource</h2>
-    <p>Prepare the resource details and choose the permissions that apply to this individual file.</p>
+    <p>Complete the resource details and select the file you want to upload.</p>
 
-    <div class="grid">
-      <div>
-        <label for="resourceTitle">Resource Title</label>
-        <input type="text" id="resourceTitle" placeholder="Enter resource title">
-      </div>
-      <div>
-        <label for="grade">Student Grade</label>
-        <select id="grade">
-          <option value="">Select grade</option>
-          <option>Year 6</option>
-          <option>Year 7</option>
-          <option>Year 8</option>
-          <option>Year 9</option>
-          <option>All Grades</option>
-        </select>
-      </div>
-      <div>
-        <label for="category">Library Section</label>
-        <select id="category">
-          <option value="">Select section</option>
-          <option>PDF Resources</option>
-          <option>Reading Library</option>
-          <option>Listening Resources</option>
-          <option>Reference Guides</option>
-        </select>
-      </div>
-      <div>
-        <label for="fileType">Resource Type</label>
-        <select id="fileType">
-          <option value="">Select type</option>
-          <option>Explanation / Lesson</option>
-          <option>Exam / Past Paper</option>
-          <option>Worksheet</option>
-          <option>Reading Text</option>
-          <option>Audio</option>
-          <option>Video</option>
-          <option>Other</option>
-        </select>
-      </div>
-    </div>
+    <form id="uploadForm">
 
-    <label for="description">Description</label>
-    <textarea id="description" placeholder="Write a short description of this resource..."></textarea>
+      <div class="grid">
 
-    <label>Choose File</label>
-    <input type="file" id="resourceFile">
-    <p>File storage will be connected in the next implementation step.</p>
+        <div>
+          <label for="resourceTitle">Resource Title</label>
+          <input type="text" id="resourceTitle"
+                 placeholder="Enter resource title" required>
+        </div>
+
+        <div>
+          <label for="grade">Student Grade</label>
+          <select id="grade" required>
+            <option value="">Select grade</option>
+            <option value="Year 6">Year 6</option>
+            <option value="Year 7">Year 7</option>
+            <option value="All Years">All Years</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="category">Library Section</label>
+          <select id="category" required>
+            <option value="">Select section</option>
+            <option value="pdf">PDF Resources</option>
+            <option value="reading">Reading Library</option>
+            <option value="listening">Listening Resources</option>
+            <option value="reference">Reference Guides</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="fileType">Resource Type</label>
+          <select id="fileType">
+            <option value="">Select type</option>
+            <option>Explanation / Lesson</option>
+            <option>Exam / Past Paper</option>
+            <option>Worksheet</option>
+            <option>Reading Text</option>
+            <option>Audio</option>
+            <option>Video</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+      </div>
+
+      <label for="description">Description</label>
+      <textarea id="description"
+                placeholder="Write a short description of this resource..."></textarea>
+
+      <label for="resourceFile">Choose File</label>
+      <input type="file" id="resourceFile" required>
+
+      <div class="file-note">
+        Maximum file size: 100 MB. Files are uploaded securely to Google Drive.
+      </div>
+
+      <div class="info" style="margin-top:20px;margin-bottom:0">
+        Uploaded resources are saved as unpublished. Students will not see them until they are published.
+      </div>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-track">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Preparing upload...</div>
+      </div>
+
+      <button class="primary" id="uploadBtn" type="submit">
+        Upload Resource
+      </button>
+
+    </form>
   </section>
 
   <section class="panel">
-    <h2>File Permissions</h2>
-    <p>Select the permissions you want. Each file will have its own settings.</p>
+    <h2>Copyright and Content Protection</h2>
 
-    <div class="checks">
-      <label class="check">
-        <input type="checkbox" id="allowView" checked>
-        Allow viewing inside the website
-      </label>
-      <label class="check">
-        <input type="checkbox" id="allowDownload">
-        Allow downloading
-      </label>
-      <label class="check">
-        <input type="checkbox" id="allowPrint">
-        Allow printing
-      </label>
-      <label class="check">
-        <input type="checkbox" id="watermark" checked>
-        Add student-specific watermark
-      </label>
-      <label class="check">
-        <input type="checkbox" id="legalWarning" checked>
-        Show legal warning before opening
-      </label>
-      <label class="check">
-        <input type="checkbox" id="pdfWarning" checked>
-        Add warning page to downloaded PDF
-      </label>
-    </div>
-  </section>
-
-  <section class="panel">
-    <h2>Legal Warning</h2>
     <div class="warning">
       <strong>Copyright and Content Protection Notice</strong><br><br>
-      This file is provided exclusively for the personal educational use of the registered student on IGCSE English Hub.
 
-      Copying, sharing, distributing, publishing, reselling or making this file available to others without prior written permission is prohibited.
+      This file is provided exclusively for the personal educational use
+      of the registered student on IGCSE English Hub.
 
-      Unauthorized use or distribution may constitute a violation of intellectual property rights and may result in appropriate legal action under applicable laws.
+      Copying, sharing, distributing, publishing, reselling or making this
+      file available to others without prior written permission is prohibited.
 
-      By accessing this resource, the student acknowledges this notice and agrees to comply with its conditions.
+      Unauthorized use or distribution may constitute a violation of
+      intellectual property rights and may result in appropriate legal
+      action under applicable laws.
+
+      By accessing this resource, the student acknowledges this notice
+      and agrees to comply with its conditions.
+
       <br><br>
       <strong>IGCSE English Hub — All Rights Reserved.</strong>
     </div>
   </section>
 
-  <section class="panel">
-    <h2>Save Resource</h2>
-    <div class="info">
-      This is currently a design preview. No file will be uploaded or saved until the storage and database connection is implemented.
-    </div>
-    <button class="primary" type="button" disabled>Save Resource — Coming Next</button>
-  </section>
 </main>
 
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
@@ -165,17 +174,52 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const API_URL =
+  "https://knazqfrjzgkqavnhzjwq.supabase.co/functions/v1/rapid-service";
+
+const CHUNK_SIZE = 4 * 1024 * 1024;
+const MAX_FILE_SIZE = 100 * 1024 * 1024;
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 const message = document.getElementById("message");
+const mainContent = document.getElementById("mainContent");
+const uploadForm = document.getElementById("uploadForm");
+const uploadBtn = document.getElementById("uploadBtn");
+
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
+
+let teacherSession = null;
+let isUploading = false;
 
 function showMessage(text, type = "") {
   message.textContent = text;
-  message.className = "info" + (type ? " " + type : "");
+  message.className = "info";
+
+  if (type === "success") {
+    message.classList.add("status-success");
+  }
+
+  if (type === "error") {
+    message.classList.add("status-error");
+  }
+}
+
+function setProgress(percent, text) {
+  progressWrap.style.display = "block";
+  progressBar.style.width = percent + "%";
+  progressText.textContent = text;
 }
 
 async function checkTeacher() {
   try {
-    const {data, error} = await db.auth.getSession();
+    const { data, error } = await db.auth.getSession();
 
     if (error) throw error;
 
@@ -184,7 +228,7 @@ async function checkTeacher() {
       return;
     }
 
-    const {data: role, error: roleError} = await db
+    const { data: role, error: roleError } = await db
       .from("user_roles")
       .select("role")
       .eq("user_id", data.session.user.id)
@@ -194,23 +238,235 @@ async function checkTeacher() {
     if (roleError) throw roleError;
 
     if (!role) {
-      showMessage("Access denied. Teachers only.");
-      document.querySelector("main").style.display = "none";
+      showMessage("Access denied. Teachers only.", "error");
+      mainContent.style.display = "none";
       return;
     }
 
-    showMessage("Teacher access verified.");
+    teacherSession = data.session;
+    showMessage("Teacher access verified.", "success");
+
   } catch (error) {
-    showMessage("Could not verify access: " + error.message);
-    document.querySelector("main").style.display = "none";
+    showMessage(
+      "Could not verify access: " + error.message,
+      "error"
+    );
+
+    mainContent.style.display = "none";
   }
 }
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  const {error} = await db.auth.signOut();
+async function refreshSession() {
+  const { data, error } = await db.auth.getSession();
+
+  if (error) throw error;
+
+  if (!data.session) {
+    throw new Error("Your session has expired. Please log in again.");
+  }
+
+  teacherSession = data.session;
+  return teacherSession;
+}
+
+async function apiRequest(url, options = {}) {
+  const session = await refreshSession();
+
+  const headers = new Headers(options.headers || {});
+
+  headers.set("Authorization", "Bearer " + session.access_token);
+  headers.set("apikey", SUPABASE_KEY);
+
+  const response = await fetch(url, {
+    ...options,
+    headers
+  });
+
+  const responseText = await response.text();
+
+  let result = {};
+
+  try {
+    result = responseText ? JSON.parse(responseText) : {};
+  } catch {
+    throw new Error(
+      "The server returned an unexpected response."
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      result.error ||
+      result.message ||
+      "Server error (" + response.status + ")"
+    );
+  }
+
+  if (result.success === false) {
+    throw new Error(result.error || "The operation failed.");
+  }
+
+  return result;
+}
+
+async function startUpload(file, metadata) {
+  return await apiRequest(
+    API_URL + "?action=upload-start",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        file_name: file.name,
+        title: metadata.title,
+        description: metadata.description,
+        category: metadata.category,
+        grade: metadata.grade,
+        mime_type: file.type || "application/octet-stream",
+        file_size: file.size,
+        is_published: false
+      })
+    }
+  );
+}
+
+async function uploadFileChunks(file, uploadId) {
+  let start = 0;
+
+  while (start < file.size) {
+    const endExclusive = Math.min(
+      start + CHUNK_SIZE,
+      file.size
+    );
+
+    const chunk = file.slice(start, endExclusive);
+    const endInclusive = endExclusive - 1;
+
+    const result = await apiRequest(
+      API_URL + "?action=upload-chunk&id=" +
+      encodeURIComponent(uploadId),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "Content-Range":
+            "bytes " + start + "-" + endInclusive + "/" + file.size
+        },
+        body: chunk
+      }
+    );
+
+    start = endExclusive;
+
+    const percent = Math.round(
+      (start / file.size) * 100
+    );
+
+    setProgress(
+      percent,
+      "Uploading... " + percent + "%"
+    );
+
+    if (result.complete === true) {
+      return result;
+    }
+  }
+
+  throw new Error(
+    "The upload ended without a completion confirmation."
+  );
+}
+
+uploadForm.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  if (isUploading) return;
+
+  try {
+    const title = document.getElementById("resourceTitle").value.trim();
+    const grade = document.getElementById("grade").value;
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const file = document.getElementById("resourceFile").files[0];
+
+    if (!title || !grade || !category || !file) {
+      showMessage("Please complete all required fields.", "error");
+      return;
+    }
+
+    if (file.size === 0) {
+      showMessage("The selected file is empty.", "error");
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      showMessage("The maximum allowed file size is 100 MB.", "error");
+      return;
+    }
+
+    if (!teacherSession) {
+      await refreshSession();
+    }
+
+    isUploading = true;
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "Uploading...";
+    progressWrap.style.display = "block";
+    setProgress(0, "Preparing upload...");
+
+    showMessage("Creating a secure upload session...");
+
+    const metadata = {
+      title,
+      description,
+      grade,
+      category
+    };
+
+    const startResult = await startUpload(file, metadata);
+
+    if (!startResult.upload_id) {
+      throw new Error("The server did not return an upload ID.");
+    }
+
+    showMessage("Upload session created. Uploading your file...");
+
+    const finalResult = await uploadFileChunks(
+      file,
+      startResult.upload_id
+    );
+
+    if (finalResult.complete !== true) {
+      throw new Error("The server did not confirm the completed upload.");
+    }
+
+    setProgress(100, "Upload completed successfully.");
+
+    showMessage(
+      "Resource uploaded successfully. It is saved as unpublished and is not visible to students yet.",
+      "success"
+    );
+
+    uploadForm.reset();
+
+  } catch (error) {
+    showMessage("Upload failed: " + error.message, "error");
+
+    progressText.textContent = "Upload failed.";
+
+  } finally {
+    isUploading = false;
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = "Upload Resource";
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async function() {
+  const { error } = await db.auth.signOut();
 
   if (error) {
-    showMessage("Could not log out: " + error.message);
+    showMessage("Could not log out: " + error.message, "error");
     return;
   }
 
@@ -219,5 +475,6 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 
 checkTeacher();
 </script>
+
 </body>
 </html>
