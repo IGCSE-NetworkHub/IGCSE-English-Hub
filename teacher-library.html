@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Library Management | IGCSE English Hub</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
@@ -27,13 +27,26 @@ textarea{min-height:110px;resize:vertical}
 .primary{background:#1769d2;color:white;margin-top:18px}
 .warning{background:#fff8e8;border:1px solid #f2d99c;color:#79520b;padding:15px;border-radius:10px;line-height:1.6}
 .info{background:#e8f2ff;color:#17457c;padding:13px;border-radius:9px;margin-bottom:20px}
-.status-success{background:#e9f8ef;color:#176b38}
-.status-error{background:#fff0f0;color:#a12626}
+.success{background:#e9f8ef;color:#176b38}
+.error{background:#fff0f0;color:#a12626}
 .progress-wrap{display:none;margin-top:20px}
 .progress-track{height:13px;background:#e5ebf3;border-radius:20px;overflow:hidden}
 .progress-bar{height:100%;width:0;background:#1769d2;transition:width .2s}
 .progress-text{font-weight:bold;color:#183b60;margin-top:8px}
 .file-note{font-size:13px;color:#65748b;margin-top:8px}
+.resource-list{display:grid;gap:14px}
+.resource{border:1px solid #dce5f0;border-radius:12px;padding:17px;background:#fbfdff}
+.resource-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.resource h3{margin:0 0 8px;color:#183b60}
+.resource p{margin:5px 0;font-size:14px}
+.resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.publish{background:#176b38;color:white}
+.unpublish{background:#e8eef7;color:#183451}
+.delete{background:#fff0f0;color:#a12626}
+.status{font-size:12px;font-weight:bold;padding:6px 10px;border-radius:20px;display:inline-block}
+.status-published{background:#e9f8ef;color:#176b38}
+.status-hidden{background:#fff4df;color:#8a5a00}
+.empty{text-align:center;padding:25px;color:#65748b;background:#f8fafd;border-radius:10px}
 footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 @media(max-width:650px){
 .grid{grid-template-columns:1fr}
@@ -42,7 +55,6 @@ header h1{font-size:21px}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -50,7 +62,6 @@ header h1{font-size:21px}
     <h1>Student Library</h1>
     <p>Teacher Management · IGCSE English Hub</p>
   </div>
-
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <a class="btn secondary" href="teacher-checkpoint-dashboard.html">Back to Dashboard</a>
     <button class="secondary" id="logoutBtn" type="button">Log Out</button>
@@ -58,7 +69,6 @@ header h1{font-size:21px}
 </header>
 
 <main id="mainContent">
-
   <div id="message" class="info">Checking teacher access...</div>
 
   <section class="panel">
@@ -66,15 +76,11 @@ header h1{font-size:21px}
     <p>Complete the resource details and select the file you want to upload.</p>
 
     <form id="uploadForm">
-
       <div class="grid">
-
         <div>
           <label for="resourceTitle">Resource Title</label>
-          <input type="text" id="resourceTitle"
-                 placeholder="Enter resource title" required>
+          <input type="text" id="resourceTitle" placeholder="Enter resource title" required>
         </div>
-
         <div>
           <label for="grade">Student Grade</label>
           <select id="grade" required>
@@ -84,7 +90,6 @@ header h1{font-size:21px}
             <option value="All Years">All Years</option>
           </select>
         </div>
-
         <div>
           <label for="category">Library Section</label>
           <select id="category" required>
@@ -95,7 +100,6 @@ header h1{font-size:21px}
             <option value="reference">Reference Guides</option>
           </select>
         </div>
-
         <div>
           <label for="fileType">Resource Type</label>
           <select id="fileType">
@@ -109,22 +113,17 @@ header h1{font-size:21px}
             <option>Other</option>
           </select>
         </div>
-
       </div>
 
       <label for="description">Description</label>
-      <textarea id="description"
-                placeholder="Write a short description of this resource..."></textarea>
+      <textarea id="description" placeholder="Write a short description..."></textarea>
 
       <label for="resourceFile">Choose File</label>
       <input type="file" id="resourceFile" required>
-
-      <div class="file-note">
-        Maximum file size: 100 MB. Files are uploaded securely to Google Drive.
-      </div>
+      <div class="file-note">Maximum file size: 100 MB.</div>
 
       <div class="info" style="margin-top:20px;margin-bottom:0">
-        Uploaded resources are saved as unpublished. Students will not see them until they are published.
+        New uploads are saved as unpublished. Publish them from the Uploaded Resources section when ready.
       </div>
 
       <div class="progress-wrap" id="progressWrap">
@@ -134,37 +133,35 @@ header h1{font-size:21px}
         <div class="progress-text" id="progressText">Preparing upload...</div>
       </div>
 
-      <button class="primary" id="uploadBtn" type="submit">
-        Upload Resource
-      </button>
-
+      <button class="primary" id="uploadBtn" type="submit">Upload Resource</button>
     </form>
   </section>
 
   <section class="panel">
-    <h2>Copyright and Content Protection</h2>
+    <div class="resource-top">
+      <div>
+        <h2>Uploaded Resources</h2>
+        <p>Manage your uploaded files and control student access.</p>
+      </div>
+      <button class="secondary" id="refreshBtn" type="button">Refresh List</button>
+    </div>
+    <div id="resourceList" class="resource-list">
+      <div class="empty">Loading resources...</div>
+    </div>
+  </section>
 
+  <section class="panel">
+    <h2>Copyright and Content Protection</h2>
     <div class="warning">
       <strong>Copyright and Content Protection Notice</strong><br><br>
-
-      This file is provided exclusively for the personal educational use
-      of the registered student on IGCSE English Hub.
-
-      Copying, sharing, distributing, publishing, reselling or making this
-      file available to others without prior written permission is prohibited.
-
-      Unauthorized use or distribution may constitute a violation of
-      intellectual property rights and may result in appropriate legal
-      action under applicable laws.
-
-      By accessing this resource, the student acknowledges this notice
-      and agrees to comply with its conditions.
-
+      This file is provided exclusively for the personal educational use of the registered student on IGCSE English Hub.
+      Copying, sharing, distributing, publishing, reselling or making this file available to others without prior written permission is prohibited.
+      Unauthorized use or distribution may constitute a violation of intellectual property rights and may result in appropriate legal action under applicable laws.
+      By accessing this resource, the student acknowledges this notice and agrees to comply with its conditions.
       <br><br>
       <strong>IGCSE English Hub — All Rights Reserved.</strong>
     </div>
   </section>
-
 </main>
 
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
@@ -174,22 +171,18 @@ header h1{font-size:21px}
 
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
-
-const API_URL =
-  "https://knazqfrjzgkqavnhzjwq.supabase.co/functions/v1/rapid-service";
+const API_URL = SUPABASE_URL + "/functions/v1/rapid-service";
 
 const CHUNK_SIZE = 4 * 1024 * 1024;
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const message = document.getElementById("message");
 const mainContent = document.getElementById("mainContent");
 const uploadForm = document.getElementById("uploadForm");
 const uploadBtn = document.getElementById("uploadBtn");
+const resourceList = document.getElementById("resourceList");
 
 const progressWrap = document.getElementById("progressWrap");
 const progressBar = document.getElementById("progressBar");
@@ -197,18 +190,13 @@ const progressText = document.getElementById("progressText");
 
 let teacherSession = null;
 let isUploading = false;
+let isManaging = false;
 
 function showMessage(text, type = "") {
   message.textContent = text;
   message.className = "info";
-
-  if (type === "success") {
-    message.classList.add("status-success");
-  }
-
-  if (type === "error") {
-    message.classList.add("status-error");
-  }
+  if (type === "success") message.classList.add("success");
+  if (type === "error") message.classList.add("error");
 }
 
 function setProgress(percent, text) {
@@ -217,52 +205,13 @@ function setProgress(percent, text) {
   progressText.textContent = text;
 }
 
-async function checkTeacher() {
-  try {
-    const { data, error } = await db.auth.getSession();
-
-    if (error) throw error;
-
-    if (!data.session) {
-      window.location.replace("login.html");
-      return;
-    }
-
-    const { data: role, error: roleError } = await db
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", data.session.user.id)
-      .eq("role", "teacher")
-      .maybeSingle();
-
-    if (roleError) throw roleError;
-
-    if (!role) {
-      showMessage("Access denied. Teachers only.", "error");
-      mainContent.style.display = "none";
-      return;
-    }
-
-    teacherSession = data.session;
-    showMessage("Teacher access verified.", "success");
-
-  } catch (error) {
-    showMessage(
-      "Could not verify access: " + error.message,
-      "error"
-    );
-
-    mainContent.style.display = "none";
-  }
-}
-
 async function refreshSession() {
   const { data, error } = await db.auth.getSession();
-
   if (error) throw error;
 
   if (!data.session) {
-    throw new Error("Your session has expired. Please log in again.");
+    window.location.replace("login.html");
+    throw new Error("Your session has expired.");
   }
 
   teacherSession = data.session;
@@ -271,81 +220,244 @@ async function refreshSession() {
 
 async function apiRequest(url, options = {}) {
   const session = await refreshSession();
-
   const headers = new Headers(options.headers || {});
 
   headers.set("Authorization", "Bearer " + session.access_token);
   headers.set("apikey", SUPABASE_KEY);
 
-  const response = await fetch(url, {
+  const result = await fetch(url, {
     ...options,
     headers
   });
 
-  const responseText = await response.text();
-
-  let result = {};
+  const raw = await result.text();
+  let data = {};
 
   try {
-    result = responseText ? JSON.parse(responseText) : {};
+    data = raw ? JSON.parse(raw) : {};
   } catch {
-    throw new Error(
-      "The server returned an unexpected response."
+    throw new Error("Unexpected server response.");
+  }
+
+  if (!result.ok || data.success === false) {
+    throw new Error(data.error || data.message || "Request failed.");
+  }
+
+  return data;
+}
+
+async function checkTeacher() {
+  try {
+    const session = await refreshSession();
+
+    const { data: role, error } = await db
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", session.user.id)
+      .eq("role", "teacher")
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!role) {
+      showMessage("Access denied. Teachers only.", "error");
+      mainContent.style.display = "none";
+      return;
+    }
+
+    showMessage("Teacher access verified.", "success");
+    await loadResources();
+
+  } catch (error) {
+    showMessage("Could not verify access: " + error.message, "error");
+    mainContent.style.display = "none";
+  }
+}
+
+async function loadResources() {
+  resourceList.innerHTML = '<div class="empty">Loading resources...</div>';
+
+  try {
+    const data = await apiRequest(API_URL + "?action=teacher-files");
+
+    if (!Array.isArray(data.files) || data.files.length === 0) {
+      resourceList.innerHTML = '<div class="empty">No resources have been uploaded yet.</div>';
+      return;
+    }
+
+    resourceList.innerHTML = "";
+
+    data.files.forEach(file => {
+      const card = document.createElement("article");
+      card.className = "resource";
+
+      const top = document.createElement("div");
+      top.className = "resource-top";
+
+      const details = document.createElement("div");
+
+      const title = document.createElement("h3");
+      title.textContent = file.file_name;
+
+      const description = document.createElement("p");
+      description.textContent = file.description || "No description provided.";
+
+      const metadata = document.createElement("p");
+      metadata.textContent =
+        "Section: " + categoryName(file.category) +
+        " · Grade: " + file.grade;
+
+      const date = document.createElement("p");
+      date.textContent = "Uploaded: " + formatDate(file.created_at);
+
+      details.append(title, description, metadata, date);
+
+      const status = document.createElement("span");
+      status.className = "status " +
+        (file.is_published ? "status-published" : "status-hidden");
+      status.textContent = file.is_published ? "Published" : "Unpublished";
+
+      top.append(details, status);
+
+      const actions = document.createElement("div");
+      actions.className = "resource-actions";
+
+      const publishButton = document.createElement("button");
+      publishButton.type = "button";
+      publishButton.className = file.is_published ? "unpublish" : "publish";
+      publishButton.textContent = file.is_published ? "Unpublish" : "Publish";
+      publishButton.addEventListener("click", () => {
+        changePublication(file.id, !file.is_published);
+      });
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "delete";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => {
+        deleteResource(file.id, file.file_name);
+      });
+
+      actions.append(publishButton, deleteButton);
+      card.append(top, actions);
+      resourceList.appendChild(card);
+    });
+
+  } catch (error) {
+    resourceList.innerHTML = "";
+    const errorBox = document.createElement("div");
+    errorBox.className = "empty";
+    errorBox.textContent = "Could not load resources: " + error.message;
+    resourceList.appendChild(errorBox);
+  }
+}
+
+function categoryName(category) {
+  const names = {
+    pdf: "PDF Resources",
+    reading: "Reading Library",
+    listening: "Listening Resources",
+    reference: "Reference Guides"
+  };
+  return names[category] || category;
+}
+
+function formatDate(value) {
+  if (!value) return "Unknown";
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? "Unknown" : date.toLocaleString();
+}
+
+async function changePublication(id, published) {
+  if (isManaging) return;
+
+  const question = published
+    ? "Publish this resource? Students in the selected grade will be able to access it."
+    : "Unpublish this resource? Students will no longer be able to access it.";
+
+  if (!confirm(question)) return;
+
+  isManaging = true;
+
+  try {
+    await apiRequest(API_URL + "?action=publish-file", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: id,
+        is_published: published
+      })
+    });
+
+    showMessage(
+      published ? "Resource published successfully." : "Resource unpublished successfully.",
+      "success"
     );
-  }
 
-  if (!response.ok) {
-    throw new Error(
-      result.error ||
-      result.message ||
-      "Server error (" + response.status + ")"
-    );
-  }
+    await loadResources();
 
-  if (result.success === false) {
-    throw new Error(result.error || "The operation failed.");
+  } catch (error) {
+    showMessage("Could not update resource: " + error.message, "error");
+  } finally {
+    isManaging = false;
   }
+}
 
-  return result;
+async function deleteResource(id, name) {
+  if (isManaging) return;
+
+  const confirmed = confirm(
+    'Permanently delete "' + name + '" from Google Drive and the library? This cannot be undone.'
+  );
+
+  if (!confirmed) return;
+
+  isManaging = true;
+
+  try {
+    await apiRequest(API_URL + "?action=delete-file", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id })
+    });
+
+    showMessage("Resource deleted successfully.", "success");
+    await loadResources();
+
+  } catch (error) {
+    showMessage("Could not delete resource: " + error.message, "error");
+  } finally {
+    isManaging = false;
+  }
 }
 
 async function startUpload(file, metadata) {
-  return await apiRequest(
-    API_URL + "?action=upload-start",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        file_name: file.name,
-        title: metadata.title,
-        description: metadata.description,
-        category: metadata.category,
-        grade: metadata.grade,
-        mime_type: file.type || "application/octet-stream",
-        file_size: file.size,
-        is_published: false
-      })
-    }
-  );
+  return await apiRequest(API_URL + "?action=upload-start", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      file_name: file.name,
+      title: metadata.title,
+      description: metadata.description,
+      category: metadata.category,
+      grade: metadata.grade,
+      mime_type: file.type || "application/octet-stream",
+      file_size: file.size,
+      is_published: false
+    })
+  });
 }
 
 async function uploadFileChunks(file, uploadId) {
   let start = 0;
 
   while (start < file.size) {
-    const endExclusive = Math.min(
-      start + CHUNK_SIZE,
-      file.size
-    );
-
+    const endExclusive = Math.min(start + CHUNK_SIZE, file.size);
     const chunk = file.slice(start, endExclusive);
     const endInclusive = endExclusive - 1;
 
     const result = await apiRequest(
-      API_URL + "?action=upload-chunk&id=" +
-      encodeURIComponent(uploadId),
+      API_URL + "?action=upload-chunk&id=" + encodeURIComponent(uploadId),
       {
         method: "POST",
         headers: {
@@ -359,102 +471,74 @@ async function uploadFileChunks(file, uploadId) {
 
     start = endExclusive;
 
-    const percent = Math.round(
-      (start / file.size) * 100
-    );
+    const percent = Math.round((start / file.size) * 100);
+    setProgress(percent, "Uploading... " + percent + "%");
 
-    setProgress(
-      percent,
-      "Uploading... " + percent + "%"
-    );
-
-    if (result.complete === true) {
-      return result;
-    }
+    if (result.complete === true) return result;
   }
 
-  throw new Error(
-    "The upload ended without a completion confirmation."
-  );
+  throw new Error("The server did not confirm upload completion.");
 }
 
-uploadForm.addEventListener("submit", async function(event) {
+uploadForm.addEventListener("submit", async event => {
   event.preventDefault();
-
   if (isUploading) return;
 
+  const title = document.getElementById("resourceTitle").value.trim();
+  const grade = document.getElementById("grade").value;
+  const category = document.getElementById("category").value;
+  const description = document.getElementById("description").value.trim();
+  const file = document.getElementById("resourceFile").files[0];
+
+  if (!title || !grade || !category || !file) {
+    showMessage("Please complete all required fields.", "error");
+    return;
+  }
+
+  if (file.size === 0 || file.size > MAX_FILE_SIZE) {
+    showMessage("Choose a file between 1 byte and 100 MB.", "error");
+    return;
+  }
+
+  isUploading = true;
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = "Uploading...";
+  setProgress(0, "Preparing upload...");
+
   try {
-    const title = document.getElementById("resourceTitle").value.trim();
-    const grade = document.getElementById("grade").value;
-    const category = document.getElementById("category").value;
-    const description = document.getElementById("description").value.trim();
-    const file = document.getElementById("resourceFile").files[0];
+    showMessage("Creating secure upload session...");
 
-    if (!title || !grade || !category || !file) {
-      showMessage("Please complete all required fields.", "error");
-      return;
-    }
-
-    if (file.size === 0) {
-      showMessage("The selected file is empty.", "error");
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      showMessage("The maximum allowed file size is 100 MB.", "error");
-      return;
-    }
-
-    if (!teacherSession) {
-      await refreshSession();
-    }
-
-    isUploading = true;
-    uploadBtn.disabled = true;
-    uploadBtn.textContent = "Uploading...";
-    progressWrap.style.display = "block";
-    setProgress(0, "Preparing upload...");
-
-    showMessage("Creating a secure upload session...");
-
-    const metadata = {
+    const started = await startUpload(file, {
       title,
       description,
       grade,
       category
-    };
+    });
 
-    const startResult = await startUpload(file, metadata);
-
-    if (!startResult.upload_id) {
+    if (!started.upload_id) {
       throw new Error("The server did not return an upload ID.");
     }
 
-    showMessage("Upload session created. Uploading your file...");
+    showMessage("Uploading file to Google Drive...");
 
-    const finalResult = await uploadFileChunks(
-      file,
-      startResult.upload_id
-    );
+    const completed = await uploadFileChunks(file, started.upload_id);
 
-    if (finalResult.complete !== true) {
-      throw new Error("The server did not confirm the completed upload.");
+    if (completed.complete !== true) {
+      throw new Error("Upload completion was not confirmed.");
     }
 
     setProgress(100, "Upload completed successfully.");
-
     showMessage(
-      "Resource uploaded successfully. It is saved as unpublished and is not visible to students yet.",
+      "Resource uploaded successfully. It is currently unpublished.",
       "success"
     );
 
     uploadForm.reset();
+    await loadResources();
 
   } catch (error) {
     showMessage("Upload failed: " + error.message, "error");
-
     progressText.textContent = "Upload failed.";
-
   } finally {
     isUploading = false;
     uploadBtn.disabled = false;
@@ -462,7 +546,9 @@ uploadForm.addEventListener("submit", async function(event) {
   }
 });
 
-document.getElementById("logoutBtn").addEventListener("click", async function() {
+document.getElementById("refreshBtn").addEventListener("click", loadResources);
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
   const { error } = await db.auth.signOut();
 
   if (error) {
@@ -475,6 +561,5 @@ document.getElementById("logoutBtn").addEventListener("click", async function() 
 
 checkTeacher();
 </script>
-
 </body>
 </html>
