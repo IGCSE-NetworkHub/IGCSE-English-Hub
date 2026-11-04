@@ -155,12 +155,18 @@ button:disabled { opacity: 0.6; cursor: wait; }
                 <label for="grade">Stage / Grade</label>
                 <select id="grade" required>
                     <option value="">Select your stage</option>
+                    <option value="Year 1">Year 1</option>
+                    <option value="Year 2">Year 2</option>
+                    <option value="Year 3">Year 3</option>
                     <option value="Year 4">Year 4</option>
                     <option value="Year 5">Year 5</option>
                     <option value="Year 6">Year 6</option>
                     <option value="Year 7">Year 7</option>
                     <option value="Year 8">Year 8</option>
                     <option value="Year 9">Year 9</option>
+                    <option value="Year 10">Year 10</option>
+                    <option value="Year 11">Year 11</option>
+                    <option value="Year 12">Year 12</option>
                 </select>
             </div>
 
@@ -208,7 +214,6 @@ registrationForm.addEventListener("submit", async function(event) {
     registrationMessage.textContent = "Processing registration...";
 
     try {
-        // Check whether this email or username is already registered.
         const { data: existing, error: lookupError } = await supabaseClient
             .from("students")
             .select("email, username")
@@ -216,18 +221,24 @@ registrationForm.addEventListener("submit", async function(event) {
             .limit(10);
 
         if (lookupError) {
-            throw new Error("Could not check existing student details: " + lookupError.message);
+            throw new Error(
+                "Could not check existing student details: " +
+                lookupError.message
+            );
         }
 
         if (existing && existing.some(s => s.email === email)) {
-            throw new Error("This email already has student details. Please use the login page or contact the administrator.");
+            throw new Error(
+                "This email already has student details. Please use the login page or contact the administrator."
+            );
         }
 
         if (existing && existing.some(s => s.username === username)) {
-            throw new Error("This username is already taken. Please choose another username.");
+            throw new Error(
+                "This username is already taken. Please choose another username."
+            );
         }
 
-        // Create the authentication account.
         const { data: authData, error: authError } =
             await supabaseClient.auth.signUp({
                 email: email,
@@ -235,10 +246,11 @@ registrationForm.addEventListener("submit", async function(event) {
             });
 
         if (authError) {
-            throw new Error("Account creation failed: " + authError.message);
+            throw new Error(
+                "Account creation failed: " + authError.message
+            );
         }
 
-        // Save the student's profile.
         const { error: insertError } = await supabaseClient
             .from("students")
             .insert([{
@@ -251,6 +263,7 @@ registrationForm.addEventListener("submit", async function(event) {
 
         if (insertError) {
             console.error("STUDENT INSERT ERROR:", insertError);
+
             throw new Error(
                 "The login account may have been created, but saving student details failed: " +
                 insertError.message +
@@ -267,7 +280,8 @@ registrationForm.addEventListener("submit", async function(event) {
     } catch (error) {
         console.error("REGISTRATION ERROR:", error);
         registrationMessage.style.color = "red";
-        registrationMessage.textContent = error.message || "Registration failed. Please try again.";
+        registrationMessage.textContent =
+            error.message || "Registration failed. Please try again.";
     } finally {
         registerButton.disabled = false;
     }
