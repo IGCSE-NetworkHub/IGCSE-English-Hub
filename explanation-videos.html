@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,31 +29,152 @@ main{max-width:1320px;margin:auto;padding:38px 28px 55px}
 footer{background:white;border-top:1px solid #e0e8f3;padding:22px;text-align:center;color:#718096;font-size:13px;margin-top:40px}
 @media(max-width:900px){main{padding:32px 22px 45px}.video-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.session-tile{min-height:165px;padding-left:25px}}
 @media(max-width:600px){header{padding:20px 5%}main{padding:28px 15px 38px}.page-heading h1{font-size:27px}.page-heading p{font-size:14px}.video-grid{grid-template-columns:1fr;gap:14px}.session-tile{min-height:150px;padding:20px 48px 20px 22px}.session-name{font-size:17px}.session-arrow{right:18px}.back-button{width:100%;max-width:340px}}
-</style></head><body>
-<header><h2>IGCSE English Hub</h2><p>Cambridge Checkpoint · Preparation Course</p></header>
-<main><section class="page-heading"><h1>Discover Course</h1><p>Choose a session to open its video, PDF resources, and access details on a separate page.</p></section><div id="status" class="message">Loading published sessions...</div><div id="videoGrid" class="video-grid"></div><div class="back-container"><a class="back-button" href="preparation.html">← Back to Preparation Course</a></div></main>
+</style>
+</head>
+<body>
+
+<header>
+<h2>IGCSE English Hub</h2>
+<p>Cambridge Checkpoint · Preparation Course</p>
+</header>
+
+<main>
+<section class="page-heading">
+<h1>Discover Course</h1>
+<p>Choose a session to open its video, PDF resources, and access details on a separate page.</p>
+</section>
+
+<div id="status" class="message">Loading your sessions...</div>
+<div id="videoGrid" class="video-grid"></div>
+
+<div class="back-container">
+<a class="back-button" href="preparation.html">← Back to Preparation Course</a>
+</div>
+</main>
+
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const statusBox=document.getElementById('status'),grid=document.getElementById('videoGrid');
+const statusBox=document.getElementById('status');
+const grid=document.getElementById('videoGrid');
+
 async function load(){
+
+ // 1. Check student login
  const {data:auth,error:authError}=await db.auth.getSession();
- if(authError||!auth?.session){statusBox.textContent='Please sign in to your student account before opening preparation videos.';return;}
- const {data:videos,error}=await db.from('preparation_videos').select('id,title,category,year_group,description,created_at').eq('is_published',true).order('created_at',{ascending:false});
- if(error){console.error(error);statusBox.textContent='We could not load the sessions. Please refresh or contact your teacher.';return;}
- if(!videos?.length){statusBox.textContent='No published sessions are available yet.';return;}
- statusBox.hidden=true;grid.replaceChildren();
- const accents=[['#3478f6','#e7efff'],['#10b89b','#e0f7f2'],['#9557f6','#f0e8ff'],['#ff9500','#fff0dc'],['#08a9d1','#e0f7fc'],['#e94b9b','#fde7f2']];
- videos.forEach((v,i)=>{const b=document.createElement('button');b.type='button';b.className='session-tile';
- const [accent,soft]=accents[i%accents.length];b.style.setProperty('--accent',accent);b.style.setProperty('--soft',soft);
- const number=document.createElement('span');number.className='session-number';number.textContent='Session '+(i+1);
- const title=document.createElement('strong');title.className='session-name';title.textContent=v.title||('Session '+(i+1));
- const desc=document.createElement('span');desc.className='session-description';desc.textContent=v.description||'Open this session to view its learning content.';
- const arrow=document.createElement('span');arrow.className='session-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';
- b.append(number,title,desc,arrow);b.addEventListener('click',()=>{location.href='video-session.html?id='+encodeURIComponent(v.id)});grid.appendChild(b);
+
+ if(authError || !auth?.session){
+   statusBox.textContent='Please sign in to your student account before opening preparation videos.';
+   return;
+ }
+
+ // 2. Get the logged-in student's information
+ const {data:studentData,error:studentError}=await db.rpc('get_my_student');
+
+ if(studentError){
+   console.error('Student information error:',studentError);
+   statusBox.textContent='We could not identify your student account. Please contact your teacher.';
+   return;
+ }
+
+ // The RPC may return a single object or an array
+ const student=Array.isArray(studentData)?studentData[0]:studentData;
+
+ if(!student || !student.grade){
+   statusBox.textContent='Your registered grade could not be found. Please contact your teacher.';
+   return;
+ }
+
+ const studentGrade=student.grade.trim();
+
+ // Check that this is a Checkpoint student
+ const allowedGrades=['Year 6','Year 7','Year 8','Year 9','Year 10','Year 11','Year 12'];
+
+ if(!allowedGrades.includes(studentGrade)){
+   statusBox.textContent='This preparation course is available only to students in Year 6 to Year 12.';
+   return;
+ }
+
+ // 3. Load published videos for this student's grade only
+ const {data:videos,error}=await db
+   .from('preparation_videos')
+   .select('id,title,category,year_group,description,created_at')
+   .eq('is_published',true)
+   .eq('year_group',studentGrade)
+   .order('created_at',{ascending:false});
+
+ if(error){
+   console.error('Video loading error:',error);
+   statusBox.textContent='We could not load the sessions. Please refresh or contact your teacher.';
+   return;
+ }
+
+ // 4. Show a message if no videos are available
+ if(!videos || videos.length===0){
+   statusBox.textContent='No published sessions are available for '+studentGrade+' yet.';
+   return;
+ }
+
+ // 5. Display the matching sessions
+ statusBox.hidden=true;
+ grid.replaceChildren();
+
+ const accents=[
+   ['#3478f6','#e7efff'],
+   ['#10b89b','#e0f7f2'],
+   ['#9557f6','#f0e8ff'],
+   ['#ff9500','#fff0dc'],
+   ['#08a9d1','#e0f7fc'],
+   ['#e94b9b','#fde7f2']
+ ];
+
+ videos.forEach((v,i)=>{
+
+   const b=document.createElement('button');
+   b.type='button';
+   b.className='session-tile';
+
+   const [accent,soft]=accents[i%accents.length];
+   b.style.setProperty('--accent',accent);
+   b.style.setProperty('--soft',soft);
+
+   const number=document.createElement('span');
+   number.className='session-number';
+   number.textContent='Session '+(i+1);
+
+   const title=document.createElement('strong');
+   title.className='session-name';
+   title.textContent=v.title||('Session '+(i+1));
+
+   const desc=document.createElement('span');
+   desc.className='session-description';
+   desc.textContent=v.description||'Open this session to view its learning content.';
+
+   const arrow=document.createElement('span');
+   arrow.className='session-arrow';
+   arrow.setAttribute('aria-hidden','true');
+   arrow.textContent='›';
+
+   b.append(number,title,desc,arrow);
+
+   b.addEventListener('click',()=>{
+     location.href='video-session.html?id='+encodeURIComponent(v.id);
+   });
+
+   grid.appendChild(b);
  });
 }
-load().catch(e=>{console.error(e);statusBox.textContent='An unexpected error occurred while loading sessions.'});
-</script></body></html>
+
+load().catch(e=>{
+ console.error(e);
+ statusBox.textContent='An unexpected error occurred while loading sessions.';
+});
+</script>
+
+</body>
+</html>
