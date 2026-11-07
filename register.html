@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,6 +106,7 @@ button:disabled { opacity: 0.6; cursor: wait; }
 </head>
 
 <body>
+
 <header>
     <div class="logo">THE <span>BLUEPRINT</span></div>
     <a href="index.html" class="back-link">← Home</a>
@@ -113,6 +114,7 @@ button:disabled { opacity: 0.6; cursor: wait; }
 
 <div class="container">
     <div class="register-box">
+
         <h1>Student Registration</h1>
 
         <p class="subtitle">
@@ -120,39 +122,61 @@ button:disabled { opacity: 0.6; cursor: wait; }
         </p>
 
         <form id="registrationForm">
+
             <div class="form-group">
                 <label for="studentName">Student Name</label>
-                <input type="text" id="studentName"
-                       placeholder="Enter student's full name" required>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student's full name"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="parentPhone">Parent / Guardian WhatsApp</label>
-                <input type="tel" id="parentPhone"
-                       placeholder="Enter WhatsApp number" required>
+                <input
+                    type="tel"
+                    id="parentPhone"
+                    placeholder="Enter WhatsApp number"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username"
-                       placeholder="Choose a username" required>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Choose a username"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email"
-                       placeholder="Enter email address" required>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter email address"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password"
-                       placeholder="Create a password"
-                       minlength="6" required>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    minlength="6"
+                    required
+                >
             </div>
 
             <div class="form-group">
                 <label for="grade">Stage / Grade</label>
+
                 <select id="grade" required>
                     <option value="">Select your stage</option>
                     <option value="Year 1">Year 1</option>
@@ -170,134 +194,206 @@ button:disabled { opacity: 0.6; cursor: wait; }
                 </select>
             </div>
 
-            <button type="submit" id="registerButton">Register</button>
+            <button type="submit" id="registerButton">
+                Register
+            </button>
+
         </form>
 
-        <p id="registrationMessage"
-           role="status"
-           style="text-align:center; margin-top:15px; line-height:1.5;"></p>
+        <p
+            id="registrationMessage"
+            role="status"
+            style="text-align:center; margin-top:15px; line-height:1.5;"
+        ></p>
 
         <div class="note">
             After submitting your registration, you will receive
             a registration code from The Blueprint to activate
             your student account.
         </div>
+
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const SUPABASE_URL =
+    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
 
-const registrationForm = document.getElementById("registrationForm");
-const registrationMessage = document.getElementById("registrationMessage");
-const registerButton = document.getElementById("registerButton");
+const registrationForm =
+    document.getElementById("registrationForm");
+
+const registrationMessage =
+    document.getElementById("registrationMessage");
+
+const registerButton =
+    document.getElementById("registerButton");
+
 
 registrationForm.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
-    const studentName = document.getElementById("studentName").value.trim();
-    const parentPhone = document.getElementById("parentPhone").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const password = document.getElementById("password").value;
-    const grade = document.getElementById("grade").value;
+    const studentName =
+        document.getElementById("studentName").value.trim();
+
+    const parentPhone =
+        document.getElementById("parentPhone").value.trim();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim().toLowerCase();
+
+    const password =
+        document.getElementById("password").value;
+
+    const grade =
+        document.getElementById("grade").value;
+
+
+    if (!studentName || !parentPhone || !username || !email || !grade) {
+        registrationMessage.style.color = "red";
+        registrationMessage.textContent =
+            "Please complete all registration fields.";
+        return;
+    }
+
+    if (password.length < 6) {
+        registrationMessage.style.color = "red";
+        registrationMessage.textContent =
+            "Password must contain at least 6 characters.";
+        return;
+    }
+
 
     registerButton.disabled = true;
+    registerButton.textContent = "Registering...";
+
     registrationMessage.style.color = "#172033";
-    registrationMessage.textContent = "Processing registration...";
+    registrationMessage.textContent =
+        "Creating your student account. Please wait...";
+
 
     try {
-        // Check whether the email or username already exists.
-        const { data: existing, error: lookupError } = await supabaseClient
-            .from("students")
-            .select("email, username")
-            .or("email.eq." + email + ",username.eq." + username)
-            .limit(10);
 
-        if (lookupError) {
-            throw new Error(
-                "Could not check existing student details: " +
-                lookupError.message
-            );
-        }
+        // Create the Auth account.
+        // Student details are passed to the database trigger.
 
-        if (existing && existing.some(s => s.email === email)) {
-            throw new Error(
-                "This email already has student details. Please use the login page or contact the administrator."
-            );
-        }
-
-        if (existing && existing.some(s => s.username === username)) {
-            throw new Error(
-                "This username is already taken. Please choose another username."
-            );
-        }
-
-        // Create the Supabase Auth account.
         const { data: authData, error: authError } =
             await supabaseClient.auth.signUp({
+
                 email: email,
-                password: password
+
+                password: password,
+
+                options: {
+
+                    data: {
+
+                        account_type: "student",
+
+                        student_name: studentName,
+
+                        parent_phone: parentPhone,
+
+                        username: username,
+
+                        grade: grade
+
+                    }
+
+                }
+
             });
 
+
         if (authError) {
+
+            console.error("AUTH SIGNUP ERROR:", authError);
+
+            const errorText =
+                (authError.message || "").toLowerCase();
+
+            if (
+                errorText.includes("already registered") ||
+                errorText.includes("already exists") ||
+                errorText.includes("already been registered")
+            ) {
+                throw new Error(
+                    "This email already has an account. Please use the Student Login page or Forgot Password option."
+                );
+            }
+
+            if (
+                errorText.includes("duplicate key") ||
+                errorText.includes("students_username_unique") ||
+                errorText.includes("username")
+            ) {
+                throw new Error(
+                    "This username may already be taken. Please choose another username."
+                );
+            }
+
             throw new Error(
-                "Account creation failed: " + authError.message
+                "Registration failed. Please try again. If the problem continues, contact The Blueprint administrator."
             );
+
         }
 
-        // Make sure Supabase returned a user ID.
+
         if (!authData || !authData.user || !authData.user.id) {
-            throw new Error(
-                "The login account was not created correctly. Please contact the administrator."
-            );
-        }
-
-        // Save student details and link them to the Auth account.
-        const { error: insertError } = await supabaseClient
-            .from("students")
-            .insert([{
-                student_name: studentName,
-                parent_phone: parentPhone,
-                email: email,
-                username: username,
-                grade: grade,
-                user_id: authData.user.id
-            }]);
-
-        if (insertError) {
-            console.error("STUDENT INSERT ERROR:", insertError);
 
             throw new Error(
-                "The login account may have been created, but saving student details failed: " +
-                insertError.message +
-                ". Do not register again with this email. Contact the administrator."
+                "Supabase did not return a valid account. Please contact the administrator."
             );
+
         }
+
+
+        // The database trigger creates the student profile.
+        // Do NOT insert into the students table here.
+
 
         registrationMessage.style.color = "green";
+
         registrationMessage.textContent =
-            "Registration submitted successfully! You can now follow the instructions from The Blueprint.";
+            "Registration submitted successfully! Your student account has been created. Please follow the instructions from The Blueprint.";
 
         registrationForm.reset();
 
+
     } catch (error) {
+
         console.error("REGISTRATION ERROR:", error);
+
         registrationMessage.style.color = "red";
+
         registrationMessage.textContent =
-            error.message || "Registration failed. Please try again.";
+            error.message ||
+            "Registration failed. Please try again.";
+
     } finally {
+
         registerButton.disabled = false;
+        registerButton.textContent = "Register";
+
     }
+
 });
+
 </script>
+
 </body>
 </html>
-```
