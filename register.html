@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -214,6 +214,7 @@ registrationForm.addEventListener("submit", async function(event) {
     registrationMessage.textContent = "Processing registration...";
 
     try {
+        // Check whether the email or username already exists.
         const { data: existing, error: lookupError } = await supabaseClient
             .from("students")
             .select("email, username")
@@ -239,6 +240,7 @@ registrationForm.addEventListener("submit", async function(event) {
             );
         }
 
+        // Create the Supabase Auth account.
         const { data: authData, error: authError } =
             await supabaseClient.auth.signUp({
                 email: email,
@@ -251,6 +253,14 @@ registrationForm.addEventListener("submit", async function(event) {
             );
         }
 
+        // Make sure Supabase returned a user ID.
+        if (!authData || !authData.user || !authData.user.id) {
+            throw new Error(
+                "The login account was not created correctly. Please contact the administrator."
+            );
+        }
+
+        // Save student details and link them to the Auth account.
         const { error: insertError } = await supabaseClient
             .from("students")
             .insert([{
@@ -258,7 +268,8 @@ registrationForm.addEventListener("submit", async function(event) {
                 parent_phone: parentPhone,
                 email: email,
                 username: username,
-                grade: grade
+                grade: grade,
+                user_id: authData.user.id
             }]);
 
         if (insertError) {
@@ -267,7 +278,7 @@ registrationForm.addEventListener("submit", async function(event) {
             throw new Error(
                 "The login account may have been created, but saving student details failed: " +
                 insertError.message +
-                ". Do not keep registering with this email. Contact the administrator to repair the incomplete registration."
+                ". Do not register again with this email. Contact the administrator."
             );
         }
 
@@ -289,3 +300,4 @@ registrationForm.addEventListener("submit", async function(event) {
 </script>
 </body>
 </html>
+```
