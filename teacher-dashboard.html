@@ -1,234 +1,180 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Dashboard | IGCSE English Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | IGCSE English Hub</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7fc;
-    color: #222;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-header {
-    background: linear-gradient(135deg, #102a56, #244d85);
-    color: white;
-    text-align: center;
-    padding: 38px 20px;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #243247;
+        }
 
-.header-top {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-}
+        header {
+            background: #102a56;
+            color: white;
+            padding: 22px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
 
-header h1 {
-    margin: 0;
-    font-size: clamp(25px, 4vw, 36px);
-}
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
 
-header p {
-    color: #e1eaf8;
-    margin: 12px 0 0;
-    line-height: 1.6;
-}
+        .logout-btn {
+            background: #ffffff;
+            color: #102a56;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-.logout {
-    border: 1px solid rgba(255,255,255,.6);
-    background: transparent;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
+        .logout-btn:hover {
+            background: #e7edf5;
+        }
 
-.logout:hover {
-    background: rgba(255,255,255,.12);
-}
+        .container {
+            max-width: 1150px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-.container {
-    max-width: 1100px;
-    margin: 42px auto;
-    padding: 20px;
-}
+        .intro {
+            margin-bottom: 30px;
+        }
 
-.intro {
-    text-align: center;
-    margin-bottom: 32px;
-}
+        .intro h2 {
+            color: #102a56;
+            margin-bottom: 8px;
+        }
 
-.intro h2 {
-    color: #102a56;
-    margin-bottom: 10px;
-}
+        .intro p {
+            color: #64748b;
+            line-height: 1.6;
+        }
 
-.intro p {
-    color: #64748b;
-    line-height: 1.7;
-}
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+        }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px;
-}
+        .card {
+            display: block;
+            background: white;
+            padding: 28px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #e1e7ef;
+            box-shadow: 0 4px 12px rgba(16, 42, 86, 0.06);
+            transition: 0.2s ease;
+        }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 290px;
-    padding: 30px 22px;
-    background: white;
-    border: 1px solid #e5eaf2;
-    border-radius: 18px;
-    box-shadow: 0 5px 18px rgba(16,42,86,.07);
-    text-decoration: none;
-    text-align: center;
-    transition: transform .2s, box-shadow .2s;
-}
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(16, 42, 86, 0.12);
+        }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(16,42,86,.13);
-}
+        .icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
 
-.icon {
-    width: 88px;
-    height: 88px;
-    border-radius: 24px;
-    background: #edf3fc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 46px;
-    margin-bottom: 20px;
-}
+        .card h3 {
+            color: #102a56;
+            margin: 0 0 10px;
+            font-size: 19px;
+        }
 
-.card h3 {
-    color: #102a56;
-    font-size: 21px;
-    margin: 0 0 12px;
-}
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 14px;
+        }
 
-.card p {
-    color: #64748b;
-    font-size: 15px;
-    line-height: 1.7;
-    margin: 0;
-}
+        .message {
+            text-align: center;
+            padding: 35px 15px;
+            color: #64748b;
+        }
 
-#status {
-    text-align: center;
-    color: #64748b;
-    padding: 25px;
-}
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            color: #8793a5;
+            font-size: 13px;
+        }
 
-#error {
-    display: none;
-    color: #b00020;
-    background: #fff0f1;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-}
-
-footer {
-    margin-top: 45px;
-    padding: 24px 15px;
-    text-align: center;
-    color: #64748b;
-    background: white;
-    border-top: 1px solid #e5eaf2;
-    font-size: 13px;
-}
-
-@media (max-width: 850px) {
-    .cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 550px) {
-    .header-top {
-        flex-direction: column;
-    }
-
-    .container {
-        margin: 25px auto;
-        padding: 16px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .card {
-        min-height: 240px;
-    }
-}
-</style>
+        [hidden] {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <div class="header-top">
-        <div>
-            <h1>IGCSE English Hub</h1>
-            <p>Teacher Administration Panel</p>
-        </div>
-
-        <button class="logout" id="logoutButton">
-            Log Out
-        </button>
-    </div>
+    <h1>Teacher Dashboard</h1>
+    <button class="logout-btn" id="logoutBtn">Log Out</button>
 </header>
 
 <main class="container">
-    <div class="intro">
-        <h2>Welcome, Teacher!</h2>
-        <p>Choose the learning area you want to manage.</p>
+
+    <section class="intro">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>
+            Choose the section you want to manage.
+        </p>
+    </section>
+
+    <div class="message" id="loadingMessage">
+        Checking teacher access...
     </div>
 
-    <p id="status">Checking your account permissions...</p>
-    <p id="error"></p>
+    <div class="message" id="errorMessage" hidden>
+        You are not authorized to access this page.
+    </div>
 
     <div class="cards" id="dashboardCards" hidden>
 
+        <!-- My Course -->
         <a class="card" href="teacher-my-course.html">
             <div class="icon">📚</div>
             <h3>My Course</h3>
             <p>
-                Manage your regular courses, lessons, homework,
-                tests and student progress.
+                Manage course units, lessons and learning materials.
             </p>
         </a>
 
+        <!-- Cambridge Checkpoint -->
         <a class="card" href="teacher-checkpoint-dashboard.html">
             <div class="icon">🎓</div>
             <h3>Cambridge Checkpoint</h3>
             <p>
-                Manage Preparation Course, Classified Papers,
-                Past Papers and Mock.
+                Manage Cambridge Checkpoint learning resources
+                and preparation materials.
             </p>
         </a>
 
+        <!-- Student Device Management -->
         <a class="card" href="teacher-devices.html">
             <div class="icon">🔐</div>
             <h3>Student Device Management</h3>
@@ -238,90 +184,105 @@ footer {
             </p>
         </a>
 
+        <!-- English Skills Management -->
+        <a class="card" href="teacher-english-skills.html">
+            <div class="icon">📝</div>
+            <h3>English Skills Management</h3>
+            <p>
+                Manage Reading, Writing, Speaking, Listening
+                and Grammar units and learning materials.
+            </p>
+        </a>
+
     </div>
+
 </main>
 
 <footer>
-    &copy; 2026 IGCSE English Hub — All Rights Reserved
+    © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL =
-    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+    const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+    // ضع هنا نفس Supabase Anon / Publishable Key
+    // الموجود في ملفك الأصلي.
+    const SUPABASE_ANON_KEY = "PASTE_YOUR_EXISTING_SUPABASE_KEY_HERE";
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
-async function checkTeacherAccess() {
-    const status = document.getElementById("status");
-    const errorElement = document.getElementById("error");
-    const cards = document.getElementById("dashboardCards");
+    const loadingMessage = document.getElementById("loadingMessage");
+    const errorMessage = document.getElementById("errorMessage");
+    const dashboardCards = document.getElementById("dashboardCards");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    try {
-        const {
-            data: { session },
-            error: sessionError
-        } = await supabaseClient.auth.getSession();
+    async function checkTeacherAccess() {
+        loadingMessage.hidden = false;
+        errorMessage.hidden = true;
+        dashboardCards.hidden = true;
 
-        if (sessionError) throw sessionError;
+        try {
+            const { data: sessionData, error: sessionError } =
+                await supabaseClient.auth.getSession();
 
-        if (!session) {
-            window.location.href = "login.html";
-            return;
+            if (sessionError) {
+                throw sessionError;
+            }
+
+            const session = sessionData.session;
+
+            if (!session) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            const { data: roleData, error: roleError } =
+                await supabaseClient
+                    .from("user_roles")
+                    .select("role")
+                    .eq("user_id", session.user.id)
+                    .eq("role", "teacher")
+                    .maybeSingle();
+
+            if (roleError) {
+                throw roleError;
+            }
+
+            if (!roleData) {
+                loadingMessage.hidden = true;
+                errorMessage.hidden = false;
+                return;
+            }
+
+            loadingMessage.hidden = true;
+            dashboardCards.hidden = false;
+
+        } catch (error) {
+            console.error("Teacher access error:", error);
+
+            loadingMessage.hidden = true;
+            errorMessage.textContent =
+                "Unable to verify teacher access. Please try again.";
+            errorMessage.hidden = false;
         }
-
-        const {
-            data: teacherRole,
-            error: roleError
-        } = await supabaseClient
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", session.user.id)
-            .eq("role", "teacher")
-            .maybeSingle();
-
-        if (roleError) throw roleError;
-
-        if (!teacherRole) {
-            await supabaseClient.auth.signOut();
-            window.location.href = "login.html";
-            return;
-        }
-
-        status.style.display = "none";
-        cards.hidden = false;
-
-    } catch (error) {
-        console.error("Teacher access error:", error);
-        status.style.display = "none";
-        errorElement.style.display = "block";
-        errorElement.textContent =
-            "Unable to verify your teacher account. Please refresh the page or log in again.";
     }
-}
 
-document.getElementById("logoutButton").addEventListener(
-    "click",
-    async function() {
+    logoutBtn.addEventListener("click", async function () {
         const { error } = await supabaseClient.auth.signOut();
 
         if (error) {
             alert("Unable to log out. Please try again.");
+            console.error(error);
             return;
         }
 
         window.location.href = "login.html";
-    }
-);
+    });
 
-checkTeacherAccess();
+    checkTeacherAccess();
 </script>
 
 </body>
