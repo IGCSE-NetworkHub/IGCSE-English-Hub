@@ -15,8 +15,8 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            color: #243247;
+            background: #f4f7fc;
+            color: #222;
         }
 
         header {
@@ -26,8 +26,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
             flex-wrap: wrap;
+            gap: 15px;
         }
 
         header h1 {
@@ -36,17 +36,17 @@
         }
 
         .logout-btn {
-            background: #ffffff;
+            background: white;
             color: #102a56;
             border: none;
-            padding: 10px 18px;
-            border-radius: 7px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
         }
 
         .logout-btn:hover {
-            background: #e7edf5;
+            background: #e5eaf2;
         }
 
         .container {
@@ -65,7 +65,7 @@
         }
 
         .intro p {
-            color: #64748b;
+            color: #667085;
             line-height: 1.6;
         }
 
@@ -81,7 +81,7 @@
             padding: 28px 24px;
             border-radius: 12px;
             text-decoration: none;
-            color: inherit;
+            color: #222;
             border: 1px solid #e1e7ef;
             box-shadow: 0 4px 12px rgba(16, 42, 86, 0.06);
             transition: 0.2s ease;
@@ -104,7 +104,7 @@
         }
 
         .card p {
-            color: #64748b;
+            color: #667085;
             line-height: 1.6;
             margin: 0;
             font-size: 14px;
@@ -113,7 +113,7 @@
         .message {
             text-align: center;
             padding: 35px 15px;
-            color: #64748b;
+            color: #667085;
         }
 
         footer {
@@ -203,30 +203,44 @@
 </footer>
 
 <script>
-    const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-    // ضع هنا نفس Supabase Anon / Publishable Key
-    // الموجود في ملفك الأصلي.
-    const SUPABASE_ANON_KEY = "PASTE_YOUR_EXISTING_SUPABASE_KEY_HERE";
+    const SUPABASE_URL =
+        "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+        "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
     const supabaseClient = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY
     );
 
-    const loadingMessage = document.getElementById("loadingMessage");
-    const errorMessage = document.getElementById("errorMessage");
-    const dashboardCards = document.getElementById("dashboardCards");
-    const logoutBtn = document.getElementById("logoutBtn");
+    const loadingMessage =
+        document.getElementById("loadingMessage");
 
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const dashboardCards =
+        document.getElementById("dashboardCards");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    // Check teacher login and permissions
     async function checkTeacherAccess() {
+
         loadingMessage.hidden = false;
         errorMessage.hidden = true;
         dashboardCards.hidden = true;
 
         try {
-            const { data: sessionData, error: sessionError } =
-                await supabaseClient.auth.getSession();
+
+            const {
+                data: sessionData,
+                error: sessionError
+            } = await supabaseClient.auth.getSession();
 
             if (sessionError) {
                 throw sessionError;
@@ -239,21 +253,25 @@
                 return;
             }
 
-            const { data: roleData, error: roleError } =
-                await supabaseClient
-                    .from("user_roles")
-                    .select("role")
-                    .eq("user_id", session.user.id)
-                    .eq("role", "teacher")
-                    .maybeSingle();
+            const {
+                data: roleData,
+                error: roleError
+            } = await supabaseClient
+                .from("user_roles")
+                .select("role")
+                .eq("user_id", session.user.id)
+                .eq("role", "teacher")
+                .maybeSingle();
 
             if (roleError) {
                 throw roleError;
             }
 
             if (!roleData) {
-                loadingMessage.hidden = true;
-                errorMessage.hidden = false;
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href = "login.html";
                 return;
             }
 
@@ -261,28 +279,42 @@
             dashboardCards.hidden = false;
 
         } catch (error) {
+
             console.error("Teacher access error:", error);
 
             loadingMessage.hidden = true;
+
             errorMessage.textContent =
                 "Unable to verify teacher access. Please try again.";
+
             errorMessage.hidden = false;
         }
     }
 
+
+    // Logout
     logoutBtn.addEventListener("click", async function () {
-        const { error } = await supabaseClient.auth.signOut();
+
+        const { error } =
+            await supabaseClient.auth.signOut();
 
         if (error) {
+
             alert("Unable to log out. Please try again.");
+
             console.error(error);
+
             return;
         }
 
         window.location.href = "login.html";
+
     });
 
+
+    // Start access check
     checkTeacherAccess();
+
 </script>
 
 </body>
