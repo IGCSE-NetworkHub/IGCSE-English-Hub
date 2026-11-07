@@ -2,137 +2,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Skills Development Centre - IGCSE English Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Skills Development Centre - IGCSE English Hub</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f7fa;
-            color: #263445;
-        }
+:root {
+    --navy: #102a56;
+    --blue: #2864b4;
+    --light: #f5f7fa;
+    --text: #263445;
+}
 
-        header {
-            background: #102a56;
-            color: white;
-            padding: 22px 20px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: var(--light);
+    color: var(--text);
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 26px;
-        }
+header {
+    background: linear-gradient(120deg, #102a56, #174b83, #2864b4);
+    color: white;
+    padding: 18px 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
 
-        header p {
-            margin: 8px 0 0;
-            color: #dce5f2;
-        }
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
 
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+.brand {
+    font-size: 19px;
+    font-weight: bold;
+    letter-spacing: .3px;
+}
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 22px;
-            color: #102a56;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.header-tag {
+    font-size: 12px;
+    color: #dbeafe;
+}
 
-        .intro {
-            margin-bottom: 28px;
-            line-height: 1.7;
-        }
+.container {
+    max-width: 1050px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
 
-        .section-title {
-            color: #102a56;
-            margin: 30px 0 18px;
-            font-size: 22px;
-        }
+.back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 18px;
-        }
+.back-link:hover {
+    color: #397bc5;
+}
 
-        .card {
-            background: white;
-            padding: 24px;
-            border-radius: 10px;
-            box-shadow: 0 2px 9px rgba(0,0,0,0.07);
-            border-top: 4px solid #102a56;
-        }
+.hero {
+    background: linear-gradient(120deg, #102a56, #1d5590);
+    color: white;
+    border-radius: 18px;
+    padding: 48px 38px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(16,42,86,.16);
+}
 
-        .card h3 {
-            color: #102a56;
-            margin-top: 0;
-        }
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border: 35px solid rgba(255,255,255,.08);
+    border-radius: 50%;
+    right: -65px;
+    top: -90px;
+}
 
-        .card p {
-            line-height: 1.6;
-            color: #526174;
-        }
+.hero-label {
+    display: inline-block;
+    background: rgba(255,255,255,.14);
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
 
-        .live-section {
-            background: white;
-            padding: 25px;
-            margin-top: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 9px rgba(0,0,0,0.07);
-        }
+.hero h1 {
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 15px;
+    max-width: 650px;
+}
 
-        .live-section h2 {
-            color: #102a56;
-            margin-top: 0;
-        }
+.hero p {
+    color: #e2ecfa;
+    line-height: 1.8;
+    max-width: 620px;
+    font-size: 15px;
+    margin: 0;
+}
 
-        .live-section p {
-            line-height: 1.7;
-        }
+.section-heading {
+    margin: 38px 0 20px;
+}
 
-        .notice {
-            background: #eef3fa;
-            border-left: 4px solid #102a56;
-            padding: 14px;
-            margin-top: 18px;
-            line-height: 1.6;
-        }
+.section-heading h2 {
+    color: var(--navy);
+    font-size: 25px;
+    margin: 0 0 8px;
+}
 
-        footer {
-            text-align: center;
-            padding: 22px;
-            color: #687588;
-            font-size: 13px;
-            margin-top: 35px;
-        }
+.section-heading p {
+    color: #718096;
+    font-size: 14px;
+    margin: 0;
+}
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 22px;
-            }
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
 
-            .container {
-                margin-top: 20px;
-            }
-        }
-    </style>
+.skill-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #e8edf4;
+    box-shadow: 0 4px 13px rgba(0,0,0,.045);
+    transition: transform .25s ease, box-shadow .25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(16,42,86,.11);
+}
+
+.skill-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--accent);
+}
+
+.skill-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    background: var(--soft);
+    margin-bottom: 18px;
+}
+
+.skill-card h3 {
+    color: var(--navy);
+    font-size: 20px;
+    margin: 0 0 10px;
+}
+
+.skill-card p {
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 14px;
+    margin: 0;
+}
+
+.skill-number {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.reading {
+    --accent: #2874bd;
+    --soft: #eaf3ff;
+}
+
+.writing {
+    --accent: #8b5bc7;
+    --soft: #f3edff;
+}
+
+.speaking {
+    --accent: #159b8a;
+    --soft: #e6f8f4;
+}
+
+.listening {
+    --accent: #d18a27;
+    --soft: #fff5e5;
+}
+
+.live-section {
+    margin-top: 38px;
+    padding: 30px;
+    border-radius: 17px;
+    background: linear-gradient(120deg, #102a56, #174b83);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 8px 22px rgba(16,42,86,.15);
+}
+
+.live-content {
+    max-width: 650px;
+}
+
+.live-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #a9d6ff;
+    font-weight: bold;
+}
+
+.live-section h2 {
+    font-size: 25px;
+    margin: 12px 0;
+}
+
+.live-section p {
+    color: #e0eafa;
+    line-height: 1.7;
+    font-size: 14px;
+    margin: 0;
+}
+
+.live-icon {
+    font-size: 55px;
+    opacity: .9;
+    padding: 10px;
+}
+
+.notice {
+    background: #eef4fb;
+    border: 1px solid #dce8f6;
+    border-radius: 12px;
+    padding: 17px 20px;
+    margin-top: 18px;
+    color: #40546d;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+.notice strong {
+    color: var(--navy);
+}
+
+footer {
+    text-align: center;
+    padding: 25px 15px;
+    color: #7b8797;
+    font-size: 12px;
+    margin-top: 35px;
+    border-top: 1px solid #e6ebf1;
+}
+
+@media (max-width: 650px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero {
+        padding: 35px 24px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .live-section {
+        padding: 25px;
+    }
+
+    .live-icon {
+        display: none;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>English Skills Development Centre</h1>
-    <p>Build your English skills. Improve your confidence. Achieve more.</p>
+    <div class="header-inner">
+        <div class="brand">IGCSE ENGLISH HUB</div>
+        <div class="header-tag">LEARN · DEVELOP · EXCEL</div>
+    </div>
 </header>
 
 <div class="container">
@@ -141,70 +329,84 @@
         ← Back to My Learning Hub
     </a>
 
-    <div class="intro">
-        <h2>Welcome to Skills Development</h2>
+    <section class="hero">
+        <div class="hero-label">YOUR ENGLISH JOURNEY STARTS HERE</div>
+        <h1>English Skills Development Centre</h1>
         <p>
-            This centre is designed for students who want to improve
-            specific English skills. Choose the skill you want to develop
-            and follow a structured learning programme at your own level.
+            Go beyond the classroom. Build your English skills,
+            strengthen your confidence and become a more effective
+            communicator through focused learning and practice.
         </p>
-        <p>
-            You can join one programme or develop several skills
-            independently of your school year.
-        </p>
+    </section>
+
+    <div class="section-heading">
+        <h2>Explore Your Skills</h2>
+        <p>Choose the area you want to improve and start developing your abilities.</p>
     </div>
 
-    <h2 class="section-title">Choose Your Skill</h2>
+    <div class="skills-grid">
 
-    <div class="cards">
-
-        <div class="card">
+        <div class="skill-card reading">
+            <div class="skill-icon">📖</div>
             <h3>Reading Development</h3>
             <p>
                 Improve reading comprehension, vocabulary in context,
                 inference, analysis and answering techniques.
             </p>
+            <span class="skill-number">SKILL 01</span>
         </div>
 
-        <div class="card">
+        <div class="skill-card writing">
+            <div class="skill-icon">✍️</div>
             <h3>Writing Development</h3>
             <p>
                 Develop sentence structure, paragraph organisation,
                 grammar accuracy and different writing styles.
             </p>
+            <span class="skill-number">SKILL 02</span>
         </div>
 
-        <div class="card">
+        <div class="skill-card speaking">
+            <div class="skill-icon">🎤</div>
             <h3>Speaking Development</h3>
             <p>
                 Improve pronunciation, fluency, communication,
                 vocabulary and confidence when speaking English.
             </p>
+            <span class="skill-number">SKILL 03</span>
         </div>
 
-        <div class="card">
+        <div class="skill-card listening">
+            <div class="skill-icon">🎧</div>
             <h3>Listening Development</h3>
             <p>
                 Improve listening comprehension, identifying key
                 information, understanding details and note-taking.
             </p>
+            <span class="skill-number">SKILL 04</span>
         </div>
 
     </div>
 
-    <div class="live-section">
-        <h2>Live Sessions</h2>
-
-        <p>
-            Take part in interactive live sessions designed to help
-            you practise English with your teacher and other students.
-        </p>
-
-        <div class="notice">
-            Live session access links will be displayed after
-            registration and administrative approval.
-            Sessions will be delivered through an external meeting platform.
+    <section class="live-section">
+        <div class="live-content">
+            <div class="live-label">LEARN TOGETHER</div>
+            <h2>Live English Sessions</h2>
+            <p>
+                Join interactive live sessions, practise English
+                and develop your communication skills with your
+                teacher and fellow students.
+            </p>
         </div>
+
+        <div class="live-icon">🌐</div>
+    </section>
+
+    <div class="notice">
+        <strong>Live Session Access:</strong>
+        Session links will be displayed after registration
+        and administrative approval. Live sessions will be
+        delivered through an external meeting platform.
     </div>
 
 </div>
