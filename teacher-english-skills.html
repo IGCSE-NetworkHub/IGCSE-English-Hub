@@ -9,9 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -72,185 +70,149 @@ header p {
 .container {
     width: 92%;
     max-width: 1150px;
-    margin: 30px auto;
+    margin: 40px auto;
 }
 
-.intro {
-    margin-bottom: 25px;
+.page-heading {
+    margin-bottom: 30px;
 }
 
-.intro h2 {
+.page-heading h2 {
     color: #102a56;
-    margin-bottom: 8px;
+    font-size: 27px;
+    margin: 0 0 10px;
 }
 
-.intro p {
-    color: #666;
+.page-heading p {
+    color: #6b7280;
     line-height: 1.6;
+    margin: 0;
 }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 16px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 20px;
 }
 
 .skill-card {
     background: white;
     border: 2px solid transparent;
-    border-radius: 12px;
-    padding: 22px 15px;
+    border-radius: 13px;
+    padding: 30px 18px;
     text-align: center;
     cursor: pointer;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 15px rgba(16,42,86,0.07);
     transition: 0.2s;
+    min-height: 180px;
 }
 
 .skill-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     border-color: #2864b4;
-}
-
-.skill-card.active {
-    border-color: #2864b4;
-    background: #edf4ff;
+    box-shadow: 0 8px 22px rgba(16,42,86,0.12);
 }
 
 .skill-icon {
-    font-size: 34px;
-    margin-bottom: 10px;
+    font-size: 42px;
+    margin-bottom: 16px;
 }
 
 .skill-card h3 {
     margin: 0;
     color: #102a56;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .skill-card p {
     color: #777;
-    font-size: 12px;
-    margin: 8px 0 0;
+    font-size: 13px;
+    margin: 10px 0 0;
 }
 
-.management-panel {
+.dashboard-panel {
+    display: none;
     background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    border-radius: 13px;
+    padding: 28px;
+    box-shadow: 0 4px 15px rgba(16,42,86,0.07);
 }
 
-.panel-header {
+.panel-top {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 15px;
     border-bottom: 1px solid #e5eaf1;
-    padding-bottom: 18px;
-    margin-bottom: 20px;
-}
-
-.panel-header h2 {
-    color: #102a56;
-    margin: 0;
-}
-
-.student-link {
-    background: #2864b4;
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.structure-title {
-    color: #102a56;
-    margin: 20px 0 15px;
-}
-
-.structure {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
+    padding-bottom: 20px;
     margin-bottom: 25px;
 }
 
-.structure-item {
-    background: #edf3fc;
-    border: 1px solid #cbd9ed;
-    color: #173b70;
-    border-radius: 8px;
-    padding: 13px 17px;
-    font-weight: bold;
-    font-size: 14px;
+.panel-top h2 {
+    color: #102a56;
+    margin: 0;
+    font-size: 25px;
 }
 
-.arrow {
-    color: #8293aa;
-    font-size: 20px;
-    font-weight: bold;
+.panel-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.notice {
-    background: #fff8e8;
-    border-left: 4px solid #e5a52e;
+.panel-button {
+    border: none;
     border-radius: 7px;
-    padding: 15px;
-    color: #6c531d;
-    line-height: 1.6;
+    padding: 11px 17px;
+    cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
 }
 
-.notice strong {
-    display: block;
-    margin-bottom: 5px;
+.return-button {
+    background: #edf3fc;
+    color: #173b70;
 }
 
-.status {
-    text-align: center;
+.student-button {
+    background: #2864b4;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.panel-content {
+    min-height: 230px;
+    background: #f8faff;
+    border: 1px solid #e4eaf4;
+    border-radius: 10px;
     padding: 25px;
-    color: #666;
+}
+
+.panel-content h3 {
+    color: #102a56;
+    margin-top: 0;
+}
+
+.panel-content p {
+    color: #6b7280;
+    line-height: 1.7;
 }
 
 footer {
     text-align: center;
-    padding: 25px;
+    padding: 30px 15px;
     color: #888;
     font-size: 13px;
 }
 
 @media (max-width: 600px) {
-    header {
-        padding: 20px;
-    }
-
-    .container {
-        width: 94%;
-        margin: 20px auto;
-    }
-
-    .management-panel {
-        padding: 18px;
-    }
-
-    .structure {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .structure-item {
-        text-align: center;
-    }
-
-    .arrow {
-        text-align: center;
-        transform: rotate(90deg);
-    }
+    header { padding: 20px; }
+    .container { margin: 25px auto; }
+    .dashboard-panel { padding: 18px; }
+    .panel-top { align-items: flex-start; }
+    .panel-actions { width: 100%; }
 }
 </style>
 </head>
@@ -271,72 +233,69 @@ footer {
 
 <main class="container">
 
-    <section class="intro">
-        <h2>English Skills Management</h2>
-        <p>
-            Select a skill to manage its learning content and organise
-            the material into units, lessons and activities.
-        </p>
+    <section id="skillsHome">
+        <div class="page-heading">
+            <h2>English Skills Management</h2>
+            <p>Select a skill to open its management dashboard.</p>
+        </div>
+
+        <div class="skills-grid">
+
+            <div class="skill-card" onclick="openSkill('reading')">
+                <div class="skill-icon">📖</div>
+                <h3>Reading</h3>
+                <p>Manage Reading Content</p>
+            </div>
+
+            <div class="skill-card" onclick="openSkill('writing')">
+                <div class="skill-icon">✍️</div>
+                <h3>Writing</h3>
+                <p>Manage Writing Content</p>
+            </div>
+
+            <div class="skill-card" onclick="openSkill('speaking')">
+                <div class="skill-icon">🗣️</div>
+                <h3>Speaking</h3>
+                <p>Manage Speaking Content</p>
+            </div>
+
+            <div class="skill-card" onclick="openSkill('listening')">
+                <div class="skill-icon">🎧</div>
+                <h3>Listening</h3>
+                <p>Manage Listening Content</p>
+            </div>
+
+            <div class="skill-card" onclick="openSkill('grammar')">
+                <div class="skill-icon">📝</div>
+                <h3>Grammar</h3>
+                <p>Manage Grammar Content</p>
+            </div>
+
+        </div>
     </section>
 
-    <section class="skills-grid">
+    <section id="dashboardPanel" class="dashboard-panel">
 
-        <div class="skill-card active" data-skill="reading" onclick="selectSkill('reading')">
-            <div class="skill-icon">📖</div>
-            <h3>Reading</h3>
-            <p>Texts and Questions</p>
+        <div class="panel-top">
+            <h2 id="panelTitle">Reading Management</h2>
+
+            <div class="panel-actions">
+                <button class="panel-button return-button" onclick="backToSkills()">
+                    ← All Skills
+                </button>
+
+                <a id="studentPageLink" class="panel-button student-button"
+                   href="reading.html" target="_blank">
+                    Student Page
+                </a>
+            </div>
         </div>
 
-        <div class="skill-card" data-skill="writing" onclick="selectSkill('writing')">
-            <div class="skill-icon">✍️</div>
-            <h3>Writing</h3>
-            <p>Writing Skills and Tasks</p>
-        </div>
-
-        <div class="skill-card" data-skill="speaking" onclick="selectSkill('speaking')">
-            <div class="skill-icon">🗣️</div>
-            <h3>Speaking</h3>
-            <p>Topics and Activities</p>
-        </div>
-
-        <div class="skill-card" data-skill="listening" onclick="selectSkill('listening')">
-            <div class="skill-icon">🎧</div>
-            <h3>Listening</h3>
-            <p>Audio and Questions</p>
-        </div>
-
-        <div class="skill-card" data-skill="grammar" onclick="selectSkill('grammar')">
-            <div class="skill-icon">📝</div>
-            <h3>Grammar</h3>
-            <p>Topics and Exercises</p>
-        </div>
-
-    </section>
-
-    <section class="management-panel">
-
-        <div class="panel-header">
-            <h2 id="selectedSkillTitle">Reading Management</h2>
-            <a id="studentPageLink" class="student-link" href="reading.html" target="_blank">
-                View Student Page
-            </a>
-        </div>
-
-        <h3 class="structure-title">Content Structure</h3>
-
-        <div class="structure" id="contentStructure">
-            <div class="structure-item">Units</div>
-            <div class="arrow">→</div>
-            <div class="structure-item">Texts</div>
-            <div class="arrow">→</div>
-            <div class="structure-item">Questions</div>
-        </div>
-
-        <div class="notice">
-            <strong>Next implementation step</strong>
-            This panel currently displays the approved content structure.
-            The next step is to connect it to the database and build the
-            tools for adding, editing, publishing and organising content.
+        <div class="panel-content">
+            <h3 id="panelSubtitle">Reading Dashboard</h3>
+            <p id="panelDescription">
+                Manage the learning content for this skill.
+            </p>
         </div>
 
     </section>
@@ -349,7 +308,6 @@ footer {
 
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
 const supabaseClient = window.supabase.createClient(
@@ -360,81 +318,59 @@ const supabaseClient = window.supabase.createClient(
 const skills = {
     reading: {
         title: "Reading Management",
-        page: "reading.html",
-        structure: ["Units", "Texts", "Questions"]
+        subtitle: "Reading Dashboard",
+        description: "Manage Reading Units, Texts and Questions.",
+        page: "reading.html"
     },
-
     writing: {
         title: "Writing Management",
-        page: "writing.html",
-        structure: ["Units", "Writing Skills", "Tasks"]
+        subtitle: "Writing Dashboard",
+        description: "Manage Writing Units, Writing Skills and Tasks.",
+        page: "writing.html"
     },
-
     speaking: {
         title: "Speaking Management",
-        page: "speaking.html",
-        structure: ["Units", "Topics", "Activities"]
+        subtitle: "Speaking Dashboard",
+        description: "Manage Speaking Units, Topics and Activities.",
+        page: "speaking.html"
     },
-
     listening: {
         title: "Listening Management",
-        page: "listening.html",
-        structure: ["Units", "Audio", "Questions"]
+        subtitle: "Listening Dashboard",
+        description: "Manage Listening Units, Audio and Questions.",
+        page: "listening.html"
     },
-
     grammar: {
         title: "Grammar Management",
-        page: "grammar.html",
-        structure: ["Units", "Topics", "Explanations", "Exercises"]
+        subtitle: "Grammar Dashboard",
+        description: "Manage Grammar Units, Topics, Explanations and Exercises.",
+        page: "grammar.html"
     }
 };
 
-function selectSkill(skillName) {
-
+function openSkill(skillName) {
     const skill = skills[skillName];
-
     if (!skill) return;
 
-    document.getElementById("selectedSkillTitle").textContent = skill.title;
+    document.getElementById("skillsHome").style.display = "none";
+    document.getElementById("dashboardPanel").style.display = "block";
 
+    document.getElementById("panelTitle").textContent = skill.title;
+    document.getElementById("panelSubtitle").textContent = skill.subtitle;
+    document.getElementById("panelDescription").textContent = skill.description;
     document.getElementById("studentPageLink").href = skill.page;
 
-    const structureContainer = document.getElementById("contentStructure");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-    structureContainer.innerHTML = "";
+function backToSkills() {
+    document.getElementById("dashboardPanel").style.display = "none";
+    document.getElementById("skillsHome").style.display = "block";
 
-    skill.structure.forEach((item, index) => {
-
-        const element = document.createElement("div");
-
-        element.className = "structure-item";
-        element.textContent = item;
-
-        structureContainer.appendChild(element);
-
-        if (index < skill.structure.length - 1) {
-
-            const arrow = document.createElement("div");
-
-            arrow.className = "arrow";
-            arrow.textContent = "→";
-
-            structureContainer.appendChild(arrow);
-        }
-    });
-
-    document.querySelectorAll(".skill-card").forEach(card => {
-
-        card.classList.toggle(
-            "active",
-            card.dataset.skill === skillName
-        );
-
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 async function checkTeacherAccess() {
-
     const { data: sessionData, error: sessionError } =
         await supabaseClient.auth.getSession();
 
@@ -460,7 +396,6 @@ async function checkTeacherAccess() {
 }
 
 async function logout() {
-
     const { error } = await supabaseClient.auth.signOut();
 
     if (error) {
