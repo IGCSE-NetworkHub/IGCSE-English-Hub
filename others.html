@@ -140,6 +140,9 @@ header {
 }
 
 .skill-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
     background: white;
     border-radius: 15px;
     padding: 25px;
@@ -153,6 +156,11 @@ header {
 .skill-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 12px 24px rgba(16,42,86,.11);
+}
+
+.skill-card:focus-visible {
+    outline: 3px solid #2864b4;
+    outline-offset: 3px;
 }
 
 .skill-card::before {
@@ -217,6 +225,11 @@ header {
 .listening {
     --accent: #d18a27;
     --soft: #fff5e5;
+}
+
+.grammar {
+    --accent: #c15a72;
+    --soft: #fff0f3;
 }
 
 .live-section {
@@ -346,7 +359,7 @@ footer {
 
     <div class="skills-grid">
 
-        <div class="skill-card reading">
+        <a href="reading.html" class="skill-card reading">
             <div class="skill-icon">📖</div>
             <h3>Reading Development</h3>
             <p>
@@ -354,9 +367,9 @@ footer {
                 inference, analysis and answering techniques.
             </p>
             <span class="skill-number">SKILL 01</span>
-        </div>
+        </a>
 
-        <div class="skill-card writing">
+        <a href="writing.html" class="skill-card writing">
             <div class="skill-icon">✍️</div>
             <h3>Writing Development</h3>
             <p>
@@ -364,9 +377,9 @@ footer {
                 grammar accuracy and different writing styles.
             </p>
             <span class="skill-number">SKILL 02</span>
-        </div>
+        </a>
 
-        <div class="skill-card speaking">
+        <a href="speaking.html" class="skill-card speaking">
             <div class="skill-icon">🎤</div>
             <h3>Speaking Development</h3>
             <p>
@@ -374,9 +387,9 @@ footer {
                 vocabulary and confidence when speaking English.
             </p>
             <span class="skill-number">SKILL 03</span>
-        </div>
+        </a>
 
-        <div class="skill-card listening">
+        <a href="listening.html" class="skill-card listening">
             <div class="skill-icon">🎧</div>
             <h3>Listening Development</h3>
             <p>
@@ -384,7 +397,17 @@ footer {
                 information, understanding details and note-taking.
             </p>
             <span class="skill-number">SKILL 04</span>
-        </div>
+        </a>
+
+        <a href="grammar.html" class="skill-card grammar">
+            <div class="skill-icon">📝</div>
+            <h3>Grammar Development</h3>
+            <p>
+                Strengthen your grammar accuracy, understand language
+                structures and practise essential English rules.
+            </p>
+            <span class="skill-number">SKILL 05</span>
+        </a>
 
     </div>
 
