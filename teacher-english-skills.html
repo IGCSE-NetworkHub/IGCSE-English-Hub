@@ -4,7 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Dashboard | IGCSE English Hub</title>
+<title>English Skills Management | IGCSE English Hub</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * {
@@ -19,167 +21,235 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #102a56, #244d85);
+    background: #102a56;
     color: white;
-    text-align: center;
-    padding: 38px 20px;
-}
-
-.header-top {
-    max-width: 1100px;
-    margin: auto;
+    padding: 22px 6%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     gap: 15px;
 }
 
 header h1 {
     margin: 0;
-    font-size: clamp(25px, 4vw, 36px);
+    font-size: 23px;
 }
 
 header p {
-    color: #e1eaf8;
-    margin: 12px 0 0;
-    line-height: 1.6;
-}
-
-.logout {
-    border: 1px solid rgba(255,255,255,.6);
-    background: transparent;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
+    margin: 7px 0 0;
+    color: #dce7f8;
     font-size: 14px;
 }
 
-.logout:hover {
-    background: rgba(255,255,255,.12);
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.header-buttons a,
+.header-buttons button {
+    border: none;
+    border-radius: 7px;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.back-btn {
+    background: white;
+    color: #102a56;
+}
+
+.logout-btn {
+    background: #d9534f;
+    color: white;
 }
 
 .container {
-    max-width: 1100px;
-    margin: 42px auto;
-    padding: 20px;
+    width: 92%;
+    max-width: 1150px;
+    margin: 30px auto;
 }
 
 .intro {
-    text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 25px;
 }
 
 .intro h2 {
     color: #102a56;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .intro p {
-    color: #64748b;
-    line-height: 1.7;
+    color: #666;
+    line-height: 1.6;
 }
 
-.cards {
+.skills-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 290px;
-    padding: 30px 22px;
+.skill-card {
     background: white;
-    border: 1px solid #e5eaf2;
-    border-radius: 18px;
-    box-shadow: 0 5px 18px rgba(16,42,86,.07);
-    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 22px 15px;
     text-align: center;
-    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    transition: 0.2s;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 28px rgba(16,42,86,.13);
+.skill-card:hover {
+    transform: translateY(-3px);
+    border-color: #2864b4;
 }
 
-.icon {
-    width: 88px;
-    height: 88px;
-    border-radius: 24px;
-    background: #edf3fc;
+.skill-card.active {
+    border-color: #2864b4;
+    background: #edf4ff;
+}
+
+.skill-icon {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.skill-card h3 {
+    margin: 0;
+    color: #102a56;
+    font-size: 18px;
+}
+
+.skill-card p {
+    color: #777;
+    font-size: 12px;
+    margin: 8px 0 0;
+}
+
+.management-panel {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+.panel-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    font-size: 46px;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-bottom: 1px solid #e5eaf1;
+    padding-bottom: 18px;
     margin-bottom: 20px;
 }
 
-.card h3 {
+.panel-header h2 {
     color: #102a56;
-    font-size: 21px;
-    margin: 0 0 12px;
-}
-
-.card p {
-    color: #64748b;
-    font-size: 15px;
-    line-height: 1.7;
     margin: 0;
 }
 
-#status {
-    text-align: center;
-    color: #64748b;
-    padding: 25px;
+.student-link {
+    background: #2864b4;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-#error {
-    display: none;
-    color: #b00020;
-    background: #fff0f1;
-    border-radius: 10px;
+.structure-title {
+    color: #102a56;
+    margin: 20px 0 15px;
+}
+
+.structure {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.structure-item {
+    background: #edf3fc;
+    border: 1px solid #cbd9ed;
+    color: #173b70;
+    border-radius: 8px;
+    padding: 13px 17px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.arrow {
+    color: #8293aa;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.notice {
+    background: #fff8e8;
+    border-left: 4px solid #e5a52e;
+    border-radius: 7px;
     padding: 15px;
+    color: #6c531d;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.notice strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.status {
     text-align: center;
+    padding: 25px;
+    color: #666;
 }
 
 footer {
-    margin-top: 45px;
-    padding: 24px 15px;
     text-align: center;
-    color: #64748b;
-    background: white;
-    border-top: 1px solid #e5eaf2;
+    padding: 25px;
+    color: #888;
     font-size: 13px;
 }
 
-@media (max-width: 850px) {
-    .cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 550px) {
-    .header-top {
-        flex-direction: column;
+@media (max-width: 600px) {
+    header {
+        padding: 20px;
     }
 
     .container {
-        margin: 25px auto;
-        padding: 16px;
+        width: 94%;
+        margin: 20px auto;
     }
 
-    .cards {
-        grid-template-columns: 1fr;
-        gap: 18px;
+    .management-panel {
+        padding: 18px;
     }
 
-    .card {
-        min-height: 240px;
+    .structure {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .structure-item {
+        text-align: center;
+    }
+
+    .arrow {
+        text-align: center;
+        transform: rotate(90deg);
     }
 }
 </style>
@@ -188,147 +258,218 @@ footer {
 <body>
 
 <header>
-    <div class="header-top">
-        <div>
-            <h1>IGCSE English Hub</h1>
-            <p>Teacher Administration Panel</p>
-        </div>
+    <div>
+        <h1>IGCSE English Hub</h1>
+        <p>English Skills Management Panel</p>
+    </div>
 
-        <button class="logout" id="logoutButton">
-            Log Out
-        </button>
+    <div class="header-buttons">
+        <a href="teacher-dashboard.html" class="back-btn">Teacher Dashboard</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 </header>
 
 <main class="container">
-    <div class="intro">
-        <h2>Welcome, Teacher!</h2>
-        <p>Choose the learning area you want to manage.</p>
-    </div>
 
-    <p id="status">Checking your account permissions...</p>
-    <p id="error"></p>
+    <section class="intro">
+        <h2>English Skills Management</h2>
+        <p>
+            Select a skill to manage its learning content and organise
+            the material into units, lessons and activities.
+        </p>
+    </section>
 
-    <div class="cards" id="dashboardCards" hidden>
+    <section class="skills-grid">
 
-        <a class="card" href="teacher-my-course.html">
-            <div class="icon">📚</div>
-            <h3>My Course</h3>
-            <p>
-                Manage your regular courses, lessons, homework,
-                tests and student progress.
-            </p>
-        </a>
+        <div class="skill-card active" data-skill="reading" onclick="selectSkill('reading')">
+            <div class="skill-icon">📖</div>
+            <h3>Reading</h3>
+            <p>Texts and Questions</p>
+        </div>
 
-        <a class="card" href="teacher-checkpoint-dashboard.html">
-            <div class="icon">🎓</div>
-            <h3>Cambridge Checkpoint</h3>
-            <p>
-                Manage Preparation Course, Classified Papers,
-                Past Papers and Mock.
-            </p>
-        </a>
+        <div class="skill-card" data-skill="writing" onclick="selectSkill('writing')">
+            <div class="skill-icon">✍️</div>
+            <h3>Writing</h3>
+            <p>Writing Skills and Tasks</p>
+        </div>
 
-        <a class="card" href="teacher-devices.html">
-            <div class="icon">🔐</div>
-            <h3>Student Device Management</h3>
-            <p>
-                View registered student devices and approve
-                device changes when needed.
-            </p>
-        </a>
+        <div class="skill-card" data-skill="speaking" onclick="selectSkill('speaking')">
+            <div class="skill-icon">🗣️</div>
+            <h3>Speaking</h3>
+            <p>Topics and Activities</p>
+        </div>
 
-        <a class="card" href="teacher-english-skills.html">
-            <div class="icon">📝</div>
-            <h3>English Skills Management</h3>
-            <p>
-                Manage Reading, Writing, Speaking, Listening
-                and Grammar units and learning materials.
-            </p>
-        </a>
+        <div class="skill-card" data-skill="listening" onclick="selectSkill('listening')">
+            <div class="skill-icon">🎧</div>
+            <h3>Listening</h3>
+            <p>Audio and Questions</p>
+        </div>
 
-    </div>
+        <div class="skill-card" data-skill="grammar" onclick="selectSkill('grammar')">
+            <div class="skill-icon">📝</div>
+            <h3>Grammar</h3>
+            <p>Topics and Exercises</p>
+        </div>
+
+    </section>
+
+    <section class="management-panel">
+
+        <div class="panel-header">
+            <h2 id="selectedSkillTitle">Reading Management</h2>
+            <a id="studentPageLink" class="student-link" href="reading.html" target="_blank">
+                View Student Page
+            </a>
+        </div>
+
+        <h3 class="structure-title">Content Structure</h3>
+
+        <div class="structure" id="contentStructure">
+            <div class="structure-item">Units</div>
+            <div class="arrow">→</div>
+            <div class="structure-item">Texts</div>
+            <div class="arrow">→</div>
+            <div class="structure-item">Questions</div>
+        </div>
+
+        <div class="notice">
+            <strong>Next implementation step</strong>
+            This panel currently displays the approved content structure.
+            The next step is to connect it to the database and build the
+            tools for adding, editing, publishing and organising content.
+        </div>
+
+    </section>
+
 </main>
 
 <footer>
-    &copy; 2026 IGCSE English Hub — All Rights Reserved
+    © 2026 IGCSE English Hub — All Rights Reserved
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL =
-    "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const supabaseClient = supabase.createClient(
+const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_ANON_KEY
+    SUPABASE_KEY
 );
 
+const skills = {
+    reading: {
+        title: "Reading Management",
+        page: "reading.html",
+        structure: ["Units", "Texts", "Questions"]
+    },
+
+    writing: {
+        title: "Writing Management",
+        page: "writing.html",
+        structure: ["Units", "Writing Skills", "Tasks"]
+    },
+
+    speaking: {
+        title: "Speaking Management",
+        page: "speaking.html",
+        structure: ["Units", "Topics", "Activities"]
+    },
+
+    listening: {
+        title: "Listening Management",
+        page: "listening.html",
+        structure: ["Units", "Audio", "Questions"]
+    },
+
+    grammar: {
+        title: "Grammar Management",
+        page: "grammar.html",
+        structure: ["Units", "Topics", "Explanations", "Exercises"]
+    }
+};
+
+function selectSkill(skillName) {
+
+    const skill = skills[skillName];
+
+    if (!skill) return;
+
+    document.getElementById("selectedSkillTitle").textContent = skill.title;
+
+    document.getElementById("studentPageLink").href = skill.page;
+
+    const structureContainer = document.getElementById("contentStructure");
+
+    structureContainer.innerHTML = "";
+
+    skill.structure.forEach((item, index) => {
+
+        const element = document.createElement("div");
+
+        element.className = "structure-item";
+        element.textContent = item;
+
+        structureContainer.appendChild(element);
+
+        if (index < skill.structure.length - 1) {
+
+            const arrow = document.createElement("div");
+
+            arrow.className = "arrow";
+            arrow.textContent = "→";
+
+            structureContainer.appendChild(arrow);
+        }
+    });
+
+    document.querySelectorAll(".skill-card").forEach(card => {
+
+        card.classList.toggle(
+            "active",
+            card.dataset.skill === skillName
+        );
+
+    });
+}
+
 async function checkTeacherAccess() {
-    const status = document.getElementById("status");
-    const errorElement = document.getElementById("error");
-    const cards = document.getElementById("dashboardCards");
 
-    try {
-        const {
-            data: { session },
-            error: sessionError
-        } = await supabaseClient.auth.getSession();
+    const { data: sessionData, error: sessionError } =
+        await supabaseClient.auth.getSession();
 
-        if (sessionError) throw sessionError;
+    if (sessionError || !sessionData.session) {
+        window.location.href = "login.html";
+        return;
+    }
 
-        if (!session) {
-            window.location.href = "login.html";
-            return;
-        }
+    const userId = sessionData.session.user.id;
 
-        const {
-            data: teacherRole,
-            error: roleError
-        } = await supabaseClient
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", session.user.id)
-            .eq("role", "teacher")
-            .maybeSingle();
+    const { data: teacher, error } = await supabaseClient
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "teacher")
+        .maybeSingle();
 
-        if (roleError) throw roleError;
-
-        if (!teacherRole) {
-            await supabaseClient.auth.signOut();
-            window.location.href = "login.html";
-            return;
-        }
-
-        status.style.display = "none";
-        cards.hidden = false;
-
-    } catch (error) {
-        console.error("Teacher access error:", error);
-        status.style.display = "none";
-        errorElement.style.display = "block";
-        errorElement.textContent =
-            "Unable to verify your teacher account. Please refresh the page or log in again.";
+    if (error || !teacher) {
+        alert("Access denied. Teachers only.");
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
     }
 }
 
-document.getElementById("logoutButton").addEventListener(
-    "click",
-    async function() {
-        const { error } = await supabaseClient.auth.signOut();
+async function logout() {
 
-        if (error) {
-            alert("Unable to log out. Please try again.");
-            return;
-        }
+    const { error } = await supabaseClient.auth.signOut();
 
-        window.location.href = "login.html";
+    if (error) {
+        alert("Could not log out. Please try again.");
+        return;
     }
-);
+
+    window.location.href = "login.html";
+}
 
 checkTeacherAccess();
 </script>
