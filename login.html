@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,6 +140,36 @@ button:disabled {
 }
 
 .hidden { display: none !important; }
+
+/* Password recovery panel */
+.recovery-panel {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f5f7fb;
+    border-radius: 9px;
+}
+
+.recovery-panel h2 {
+    color: #102a56;
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.recovery-panel p {
+    color: #657084;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.recovery-back {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: #1f4b91;
+    font-weight: bold;
+    text-decoration: none;
+}
 
 /* Device notice */
 .modal-overlay {
@@ -288,8 +318,40 @@ button:disabled {
             </button>
         </form>
 
-        <div class="note hidden" id="forgotNote">
+        <div class="note" id="forgotNote">
             <a href="#" id="forgotPassword">Forgot your password?</a>
+        </div>
+
+        <div id="recoveryPanel" class="recovery-panel hidden">
+            <h2>Reset Your Password</h2>
+
+            <p id="recoveryDescription">
+                Enter your registered username. We will send a password reset link to the email address connected to your account.
+            </p>
+
+            <form id="recoveryForm">
+                <div class="form-group">
+                    <label for="recoveryId" id="recoveryLabel">
+                        Student Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recoveryId"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="submit" id="recoveryButton">
+                    Send Reset Link
+                </button>
+            </form>
+
+            <a href="#" id="cancelRecovery" class="recovery-back">
+                Back to Login
+            </a>
         </div>
 
         <div class="note" id="registerNote">
@@ -368,8 +430,15 @@ const pageTitle = document.getElementById("pageTitle");
 const subtitle = document.getElementById("subtitle");
 const loginLabel = document.getElementById("loginLabel");
 const registerNote = document.getElementById("registerNote");
-const forgotNote = document.getElementById("forgotNote");
 const forgotPassword = document.getElementById("forgotPassword");
+
+const recoveryPanel = document.getElementById("recoveryPanel");
+const recoveryForm = document.getElementById("recoveryForm");
+const recoveryId = document.getElementById("recoveryId");
+const recoveryLabel = document.getElementById("recoveryLabel");
+const recoveryDescription = document.getElementById("recoveryDescription");
+const recoveryButton = document.getElementById("recoveryButton");
+const cancelRecovery = document.getElementById("cancelRecovery");
 
 const deviceNoticeModal = document.getElementById("deviceNoticeModal");
 const agreeDeviceNotice = document.getElementById("agreeDeviceNotice");
@@ -394,6 +463,9 @@ function setMode(mode) {
     loginMode = mode;
     clearError();
 
+    recoveryPanel.classList.add("hidden");
+    recoveryForm.reset();
+
     const isStudent = mode === "student";
 
     studentTab.classList.toggle("active", isStudent);
@@ -411,8 +483,22 @@ function setMode(mode) {
     loginId.type = isStudent ? "text" : "email";
     loginId.autocomplete = isStudent ? "username" : "email";
 
+    recoveryLabel.textContent = isStudent
+        ? "Student Username"
+        : "Teacher Email";
+
+    recoveryId.type = isStudent ? "text" : "email";
+    recoveryId.placeholder = isStudent
+        ? "Enter your username"
+        : "Enter your teacher email";
+
+    recoveryId.autocomplete = isStudent ? "username" : "email";
+
+    recoveryDescription.textContent = isStudent
+        ? "Enter your registered username. We will send a password reset link to the email address connected to your account."
+        : "Enter the email address registered to your teacher account. We will send you a password reset link.";
+
     registerNote.classList.toggle("hidden", !isStudent);
-    forgotNote.classList.toggle("hidden", isStudent);
 }
 
 studentTab.addEventListener("click", () => setMode("student"));
@@ -509,7 +595,6 @@ async function registerAndCheckStudentDevice(userId) {
                 }
             }
 
-            // Submit a pending request while the student is still authenticated.
             const { data: requestData, error: requestError } =
                 await supabaseClient.rpc("request_student_device_change");
 
@@ -538,50 +623,111 @@ async function registerAndCheckStudentDevice(userId) {
     }
 }
 
-forgotPassword.addEventListener("click", async function(event) {
+/* Open password recovery */
+forgotPassword.addEventListener("click", function(event) {
     event.preventDefault();
     clearError();
 
-    const email = loginId.value.trim();
+    recoveryPanel.classList.remove("hidden");
 
-    if (!email) {
-        showError("Enter your teacher email in the email field first.");
-        loginId.focus();
+    if (loginId.value.trim()) {
+        recoveryId.value = loginId.value.trim();
+    }
+
+    recoveryId.focus();
+});
+
+/* Return to login */
+cancelRecovery.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    recoveryPanel.classList.add("hidden");
+    recoveryForm.reset();
+    clearError();
+});
+
+/* Request password recovery */
+recoveryForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    clearError();
+
+    const enteredValue = recoveryId.value.trim();
+
+    if (!enteredValue) {
+        showError(
+            loginMode === "student"
+                ? "Please enter your registered username."
+                : "Please enter your teacher email."
+        );
+        recoveryId.focus();
         return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showError("Please enter a valid email address.");
-        loginId.focus();
-        return;
-    }
-
-    forgotPassword.style.pointerEvents = "none";
-    forgotPassword.textContent = "Sending reset link...";
+    recoveryButton.disabled = true;
+    recoveryButton.textContent = "Sending...";
 
     try {
-        const redirectTo =
-            "https://igcse-networkhub.github.io/IGCSE-English-Hub/reset-password.html";
+        let email = "";
 
-        const { error } =
-            await supabaseClient.auth.resetPasswordForEmail(email, {
-                redirectTo: redirectTo
-            });
+        if (loginMode === "student") {
+            const { data, error } = await supabaseClient.rpc(
+                "get_student_login",
+                { p_username: enteredValue }
+            );
 
-        if (error) throw error;
+            if (error) {
+                throw new Error(
+                    "Unable to process the recovery request. Please try again."
+                );
+            }
+
+            if (data && data.length > 0 && data[0].email) {
+                email = data[0].email;
+            }
+
+        } else {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enteredValue)) {
+                throw new Error("Please enter a valid teacher email address.");
+            }
+
+            email = enteredValue.toLowerCase();
+        }
+
+        if (email) {
+            const redirectTo =
+                "https://igcse-networkhub.github.io/IGCSE-English-Hub/reset-password.html";
+
+            const { error } =
+                await supabaseClient.auth.resetPasswordForEmail(email, {
+                    redirectTo: redirectTo
+                });
+
+            if (error) {
+                throw error;
+            }
+        }
 
         showError(
-            "If this email belongs to an account, a password reset email has been requested. Check your inbox and spam folder.",
+            "If the details match an account, a password reset email has been requested. Please check your inbox and spam folder.",
             true
         );
+
+        recoveryForm.reset();
+
     } catch (error) {
-        showError("Could not request a password reset: " + error.message);
+        console.error("PASSWORD RESET ERROR:", error);
+
+        showError(
+            error.message || "Could not request a password reset. Please try again."
+        );
+
     } finally {
-        forgotPassword.style.pointerEvents = "";
-        forgotPassword.textContent = "Forgot your password?";
+        recoveryButton.disabled = false;
+        recoveryButton.textContent = "Send Reset Link";
     }
 });
 
+/* Login */
 loginForm.addEventListener("submit", async function(event) {
     event.preventDefault();
     clearError();
@@ -719,3 +865,4 @@ loginForm.addEventListener("submit", async function(event) {
 
 </body>
 </html>
+```
