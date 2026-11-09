@@ -51,6 +51,97 @@ textarea{min-height:110px;resize:vertical}
 .empty{text-align:center;padding:25px;color:#65748b;background:#f8fafd;border-radius:10px}
 footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 
+/* Grade filters */
+.grade-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+.grade-toolbar p{
+    margin:0;
+    font-size:14px;
+}
+.all-grades-btn{
+    background:#1769d2;
+    color:white;
+}
+.all-grades-btn.active{
+    background:#123f76;
+    box-shadow:0 0 0 3px #1769d226;
+}
+.grade-groups{
+    display:grid;
+    gap:12px;
+}
+.grade-group{
+    border:1px solid #dce5f0;
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+}
+.grade-group summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background:#f8fafd;
+    color:#183b60;
+    font-weight:bold;
+}
+.grade-group summary::-webkit-details-marker{
+    display:none;
+}
+.grade-group summary::after{
+    content:"＋";
+    font-size:19px;
+    color:#1769d2;
+    margin-left:auto;
+}
+.grade-group[open] summary::after{
+    content:"−";
+}
+.grade-group summary:hover{
+    background:#eef4fb;
+}
+.grade-heading{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.grade-count{
+    background:#e8eef7;
+    color:#183451;
+    border-radius:20px;
+    padding:5px 10px;
+    font-size:12px;
+    white-space:nowrap;
+}
+.grade-group-content{
+    padding:14px;
+    display:grid;
+    gap:12px;
+    border-top:1px solid #e5ebf3;
+}
+.grade-group-content .empty{
+    padding:18px;
+}
+.all-files-view{
+    display:grid;
+    gap:14px;
+}
+.view-heading{
+    color:#183b60;
+    font-size:15px;
+    font-weight:bold;
+    margin:0 0 2px;
+}
+
 /* Edit modal */
 .modal-overlay{
     display:none;
@@ -103,6 +194,7 @@ footer{text-align:center;padding:25px;color:#65748b;font-size:13px}
 header h1{font-size:21px}
 .panel{padding:18px}
 .modal{padding:18px}
+.grade-group summary{padding:14px}
 }
 </style>
 </head>
@@ -212,6 +304,13 @@ header h1{font-size:21px}
       <button class="secondary" id="refreshBtn" type="button">Refresh List</button>
     </div>
 
+    <div class="grade-toolbar">
+      <p id="resourceSummary">Resources are grouped by student grade.</p>
+      <button class="all-grades-btn" id="allGradesBtn" type="button">
+        All Grades
+      </button>
+    </div>
+
     <div id="resourceList" class="resource-list">
       <div class="empty">Loading resources...</div>
     </div>
@@ -303,6 +402,22 @@ const API_URL = SUPABASE_URL + "/functions/v1/rapid-service";
 const CHUNK_SIZE = 4 * 1024 * 1024;
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
+const GRADES = [
+  "Year 1",
+  "Year 2",
+  "Year 3",
+  "Year 4",
+  "Year 5",
+  "Year 6",
+  "Year 7",
+  "Year 8",
+  "Year 9",
+  "Year 10",
+  "Year 11",
+  "Year 12",
+  "All Years"
+];
+
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const message = document.getElementById("message");
@@ -310,6 +425,8 @@ const mainContent = document.getElementById("mainContent");
 const uploadForm = document.getElementById("uploadForm");
 const uploadBtn = document.getElementById("uploadBtn");
 const resourceList = document.getElementById("resourceList");
+const allGradesBtn = document.getElementById("allGradesBtn");
+const resourceSummary = document.getElementById("resourceSummary");
 
 const progressWrap = document.getElementById("progressWrap");
 const progressBar = document.getElementById("progressBar");
@@ -322,6 +439,12 @@ const saveEditBtn = document.getElementById("saveEditBtn");
 let teacherSession = null;
 let isUploading = false;
 let isManaging = false;
+
+/* false = grouped by grade, true = show all files together */
+let showingAllGrades = false;
+
+/* Keeps the latest server data available for rendering */
+let loadedResources = [];
 
 function showMessage(text, type = "") {
   message.textContent = text;
@@ -407,80 +530,20 @@ async function checkTeacher() {
   }
 }
 
+/* Load resources from the existing API */
 async function loadResources() {
   resourceList.innerHTML = '<div class="empty">Loading resources...</div>';
 
   try {
     const data = await apiRequest(API_URL + "?action=teacher-files");
 
-    if (!Array.isArray(data.files) || data.files.length === 0) {
-      resourceList.innerHTML = '<div class="empty">No resources have been uploaded yet.</div>';
-      return;
+    if (!Array.isArray(data.files)) {
+      throw new Error("The server returned an invalid resources list.");
     }
 
-    resourceList.innerHTML = "";
+    loadedResources = data.files;
 
-    data.files.forEach(file => {
-      const card = document.createElement("article");
-      card.className = "resource";
-
-      const top = document.createElement("div");
-      top.className = "resource-top";
-
-      const details = document.createElement("div");
-
-      const title = document.createElement("h3");
-      title.textContent = file.file_name;
-
-      const description = document.createElement("p");
-      description.textContent = file.description || "No description provided.";
-
-      const metadata = document.createElement("p");
-      metadata.textContent =
-        "Section: " + categoryName(file.category) +
-        " · Grade: " + file.grade;
-
-      const date = document.createElement("p");
-      date.textContent = "Uploaded: " + formatDate(file.created_at);
-
-      details.append(title, description, metadata, date);
-
-      const status = document.createElement("span");
-      status.className = "status " +
-        (file.is_published ? "status-published" : "status-hidden");
-      status.textContent = file.is_published ? "Published" : "Unpublished";
-
-      top.append(details, status);
-
-      const actions = document.createElement("div");
-      actions.className = "resource-actions";
-
-      const editButton = document.createElement("button");
-      editButton.type = "button";
-      editButton.className = "edit";
-      editButton.textContent = "Edit";
-      editButton.addEventListener("click", () => openEditModal(file));
-
-      const publishButton = document.createElement("button");
-      publishButton.type = "button";
-      publishButton.className = file.is_published ? "unpublish" : "publish";
-      publishButton.textContent = file.is_published ? "Unpublish" : "Publish";
-      publishButton.addEventListener("click", () => {
-        changePublication(file.id, !file.is_published);
-      });
-
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.className = "delete";
-      deleteButton.textContent = "Delete";
-      deleteButton.addEventListener("click", () => {
-        deleteResource(file.id, file.file_name);
-      });
-
-      actions.append(editButton, publishButton, deleteButton);
-      card.append(top, actions);
-      resourceList.appendChild(card);
-    });
+    renderResources();
 
   } catch (error) {
     resourceList.innerHTML = "";
@@ -490,7 +553,208 @@ async function loadResources() {
     errorBox.textContent = "Could not load resources: " + error.message;
 
     resourceList.appendChild(errorBox);
+    resourceSummary.textContent = "Unable to load resource counts.";
   }
+}
+
+/* Render the resource list in the selected view */
+function renderResources() {
+  resourceList.innerHTML = "";
+
+  const total = loadedResources.length;
+
+  if (total === 0) {
+    resourceList.innerHTML =
+      '<div class="empty">No resources have been uploaded yet.</div>';
+
+    resourceSummary.textContent = "0 resources uploaded.";
+    updateAllGradesButton();
+    return;
+  }
+
+  if (showingAllGrades) {
+    renderAllGradesView();
+  } else {
+    renderGroupedView();
+  }
+
+  updateAllGradesButton();
+}
+
+/* Update All Grades button and summary */
+function updateAllGradesButton() {
+  allGradesBtn.classList.toggle("active", showingAllGrades);
+
+  allGradesBtn.textContent = showingAllGrades
+    ? "Show Grade Groups"
+    : "All Grades";
+
+  const total = loadedResources.length;
+
+  if (showingAllGrades) {
+    resourceSummary.textContent =
+      "Showing all " + total + " resource(s) in one list.";
+  } else {
+    resourceSummary.textContent =
+      "Showing resources grouped by grade. Total: " + total + ".";
+  }
+}
+
+/* Show every resource together */
+function renderAllGradesView() {
+  const wrapper = document.createElement("div");
+  wrapper.className = "all-files-view";
+
+  const heading = document.createElement("div");
+  heading.className = "view-heading";
+  heading.textContent = "All Uploaded Resources (" +
+    loadedResources.length + ")";
+
+  wrapper.appendChild(heading);
+
+  loadedResources.forEach(file => {
+    wrapper.appendChild(createResourceCard(file));
+  });
+
+  resourceList.appendChild(wrapper);
+}
+
+/* Show one collapsible group for every grade */
+function renderGroupedView() {
+  const groups = {};
+
+  GRADES.forEach(grade => {
+    groups[grade] = [];
+  });
+
+  loadedResources.forEach(file => {
+    const grade = file.grade || "Unknown";
+
+    if (!groups[grade]) {
+      groups[grade] = [];
+    }
+
+    groups[grade].push(file);
+  });
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "grade-groups";
+
+  GRADES.forEach(grade => {
+    const files = groups[grade] || [];
+    wrapper.appendChild(createGradeGroup(grade, files));
+  });
+
+  /* Preserve visibility of any unexpected grade returned by the API.
+     This does not add new grade options to the upload or edit forms. */
+  Object.keys(groups).forEach(grade => {
+    if (!GRADES.includes(grade) && groups[grade].length > 0) {
+      wrapper.appendChild(createGradeGroup(grade, groups[grade]));
+    }
+  });
+
+  resourceList.appendChild(wrapper);
+}
+
+/* Create a collapsible grade section */
+function createGradeGroup(grade, files) {
+  const details = document.createElement("details");
+  details.className = "grade-group";
+
+  const summary = document.createElement("summary");
+
+  const heading = document.createElement("span");
+  heading.className = "grade-heading";
+  heading.textContent = grade;
+
+  const count = document.createElement("span");
+  count.className = "grade-count";
+  count.textContent = files.length + (files.length === 1 ? " file" : " files");
+
+  summary.append(heading, count);
+
+  const content = document.createElement("div");
+  content.className = "grade-group-content";
+
+  if (files.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No resources uploaded for this grade yet.";
+    content.appendChild(empty);
+  } else {
+    files.forEach(file => {
+      content.appendChild(createResourceCard(file));
+    });
+  }
+
+  details.append(summary, content);
+
+  return details;
+}
+
+/* Build one resource card.
+   The Edit, Publish/Unpublish and Delete actions remain unchanged. */
+function createResourceCard(file) {
+  const card = document.createElement("article");
+  card.className = "resource";
+
+  const top = document.createElement("div");
+  top.className = "resource-top";
+
+  const details = document.createElement("div");
+
+  const title = document.createElement("h3");
+  title.textContent = file.file_name;
+
+  const description = document.createElement("p");
+  description.textContent = file.description || "No description provided.";
+
+  const metadata = document.createElement("p");
+  metadata.textContent =
+    "Section: " + categoryName(file.category) +
+    " · Grade: " + file.grade;
+
+  const date = document.createElement("p");
+  date.textContent = "Uploaded: " + formatDate(file.created_at);
+
+  details.append(title, description, metadata, date);
+
+  const status = document.createElement("span");
+  status.className = "status " +
+    (file.is_published ? "status-published" : "status-hidden");
+  status.textContent = file.is_published ? "Published" : "Unpublished";
+
+  top.append(details, status);
+
+  const actions = document.createElement("div");
+  actions.className = "resource-actions";
+
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "edit";
+  editButton.textContent = "Edit";
+  editButton.addEventListener("click", () => openEditModal(file));
+
+  const publishButton = document.createElement("button");
+  publishButton.type = "button";
+  publishButton.className = file.is_published ? "unpublish" : "publish";
+  publishButton.textContent = file.is_published ? "Unpublish" : "Publish";
+  publishButton.addEventListener("click", () => {
+    changePublication(file.id, !file.is_published);
+  });
+
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.className = "delete";
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", () => {
+    deleteResource(file.id, file.file_name);
+  });
+
+  actions.append(editButton, publishButton, deleteButton);
+  card.append(top, actions);
+
+  return card;
 }
 
 function categoryName(category) {
@@ -514,7 +778,7 @@ function formatDate(value) {
     : date.toLocaleString();
 }
 
-// Open edit modal
+/* Open edit modal */
 function openEditModal(file) {
   if (isManaging || isUploading) return;
 
@@ -546,7 +810,7 @@ document.addEventListener("keydown", event => {
   }
 });
 
-// Save edited resource
+/* Save edited resource */
 editForm.addEventListener("submit", async event => {
   event.preventDefault();
 
@@ -773,6 +1037,12 @@ uploadForm.addEventListener("submit", async event => {
     uploadBtn.disabled = false;
     uploadBtn.textContent = "Upload Resource";
   }
+});
+
+/* Switch between grouped view and All Grades view */
+allGradesBtn.addEventListener("click", () => {
+  showingAllGrades = !showingAllGrades;
+  renderResources();
 });
 
 document.getElementById("refreshBtn").addEventListener("click", loadResources);
