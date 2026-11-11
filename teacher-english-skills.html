@@ -4,410 +4,417 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>English Skills Management | IGCSE English Hub</title>
-
+<title>English Skills Management | The Blueprint</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7fc;
-    color: #222;
-}
-
-header {
-    background: #102a56;
-    color: white;
-    padding: 22px 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 23px;
-}
-
-header p {
-    margin: 7px 0 0;
-    color: #dce7f8;
-    font-size: 14px;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.header-buttons a,
-.header-buttons button {
-    border: none;
-    border-radius: 7px;
-    padding: 10px 16px;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.back-btn {
-    background: white;
-    color: #102a56;
-}
-
-.logout-btn {
-    background: #d9534f;
-    color: white;
-}
-
-.container {
-    width: 92%;
-    max-width: 1150px;
-    margin: 40px auto;
-}
-
-.page-heading {
-    margin-bottom: 30px;
-}
-
-.page-heading h2 {
-    color: #102a56;
-    font-size: 27px;
-    margin: 0 0 10px;
-}
-
-.page-heading p {
-    color: #6b7280;
-    line-height: 1.6;
-    margin: 0;
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 20px;
-}
-
-.skill-card {
-    background: white;
-    border: 2px solid transparent;
-    border-radius: 13px;
-    padding: 30px 18px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(16,42,86,0.07);
-    transition: 0.2s;
-    min-height: 180px;
-}
-
-.skill-card:hover {
-    transform: translateY(-5px);
-    border-color: #2864b4;
-    box-shadow: 0 8px 22px rgba(16,42,86,0.12);
-}
-
-.skill-icon {
-    font-size: 42px;
-    margin-bottom: 16px;
-}
-
-.skill-card h3 {
-    margin: 0;
-    color: #102a56;
-    font-size: 20px;
-}
-
-.skill-card p {
-    color: #777;
-    font-size: 13px;
-    margin: 10px 0 0;
-}
-
-.dashboard-panel {
-    display: none;
-    background: white;
-    border-radius: 13px;
-    padding: 28px;
-    box-shadow: 0 4px 15px rgba(16,42,86,0.07);
-}
-
-.panel-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    border-bottom: 1px solid #e5eaf1;
-    padding-bottom: 20px;
-    margin-bottom: 25px;
-}
-
-.panel-top h2 {
-    color: #102a56;
-    margin: 0;
-    font-size: 25px;
-}
-
-.panel-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.panel-button {
-    border: none;
-    border-radius: 7px;
-    padding: 11px 17px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.return-button {
-    background: #edf3fc;
-    color: #173b70;
-}
-
-.student-button {
-    background: #2864b4;
-    color: white;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.panel-content {
-    min-height: 230px;
-    background: #f8faff;
-    border: 1px solid #e4eaf4;
-    border-radius: 10px;
-    padding: 25px;
-}
-
-.panel-content h3 {
-    color: #102a56;
-    margin-top: 0;
-}
-
-.panel-content p {
-    color: #6b7280;
-    line-height: 1.7;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 15px;
-    color: #888;
-    font-size: 13px;
-}
-
-@media (max-width: 600px) {
-    header { padding: 20px; }
-    .container { margin: 25px auto; }
-    .dashboard-panel { padding: 18px; }
-    .panel-top { align-items: flex-start; }
-    .panel-actions { width: 100%; }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#222}
+header{background:#102a56;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+header h1{margin:0;font-size:22px}
+header p{margin:6px 0 0;color:#dce7f8;font-size:13px}
+button,a{cursor:pointer}
+.header-buttons{display:flex;gap:10px}
+.header-buttons a,.header-buttons button{padding:10px 15px;border:0;border-radius:7px;font-weight:bold;text-decoration:none}
+.back{background:white;color:#102a56}
+.logout{background:#d9534f;color:white}
+.container{width:92%;max-width:1150px;margin:35px auto}
+h2,h3{color:#102a56}
+.muted{color:#6b7280;line-height:1.6}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:25px 0}
+.skill-card{background:white;border:2px solid transparent;border-radius:12px;padding:24px 15px;text-align:center;cursor:pointer;box-shadow:0 4px 15px #102a5610}
+.skill-card:hover{border-color:#2864b4;transform:translateY(-2px)}
+.skill-card strong{display:block;color:#102a56;font-size:19px;margin-top:10px}
+.skill-card span{font-size:35px}
+.panel{display:none;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 15px #102a5610}
+.panel-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #e5eaf1;padding-bottom:15px;margin-bottom:20px}
+.panel-top h2{margin:0}
+.btn{border:0;border-radius:7px;padding:10px 15px;font-weight:bold}
+.primary{background:#2864b4;color:white}
+.secondary{background:#edf3fc;color:#173b70}
+.danger{background:#d9534f;color:white}
+.form-box{background:#f8faff;border:1px solid #e4eaf4;border-radius:10px;padding:20px;margin:20px 0}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+label{display:block;font-size:13px;font-weight:bold;color:#334155;margin-bottom:6px}
+input,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:white}
+textarea{min-height:75px;resize:vertical}
+.form-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.level-list{display:grid;gap:12px;margin-top:18px}
+.level-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.level-item h3{margin:0 0 6px;font-size:17px}
+.level-meta{font-size:13px;color:#64748b;line-height:1.6}
+.item-actions{display:flex;gap:8px;flex-wrap:wrap}
+.status{display:inline-block;padding:4px 9px;border-radius:20px;font-size:12px;font-weight:bold}
+.active{background:#dcfce7;color:#166534}
+.inactive{background:#fee2e2;color:#991b1b}
+#message{display:none;padding:12px 15px;border-radius:7px;margin:15px 0;line-height:1.5}
+.success{display:block!important;background:#dcfce7;color:#166534}
+.error{display:block!important;background:#fee2e2;color:#991b1b}
+.empty{padding:22px;text-align:center;color:#64748b;background:#f8fafc;border-radius:8px}
+footer{text-align:center;padding:25px;color:#888;font-size:13px}
+@media(max-width:600px){.container{margin:22px auto}.panel{padding:16px}.level-item{align-items:flex-start}}
 </style>
 </head>
-
 <body>
 
 <header>
-    <div>
-        <h1>IGCSE English Hub</h1>
-        <p>English Skills Management Panel</p>
-    </div>
-
-    <div class="header-buttons">
-        <a href="teacher-dashboard.html" class="back-btn">Teacher Dashboard</a>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
+ <div>
+  <h1>IGCSE English Hub</h1>
+  <p>English Skills Management</p>
+ </div>
+ <div class="header-buttons">
+  <a href="teacher-dashboard.html" class="back">Teacher Dashboard</a>
+  <button class="logout" onclick="logout()">Logout</button>
+ </div>
 </header>
 
 <main class="container">
+ <section id="skillsHome">
+  <h2>English Skills Management</h2>
+  <p class="muted">Choose a skill to manage its levels and registration fees.</p>
+  <div class="skills-grid" id="skillsGrid">
+   <div class="empty">Loading skills...</div>
+  </div>
+ </section>
 
-    <section id="skillsHome">
-        <div class="page-heading">
-            <h2>English Skills Management</h2>
-            <p>Select a skill to open its management dashboard.</p>
-        </div>
+ <section id="levelsPanel" class="panel">
+  <div class="panel-top">
+   <div>
+    <h2 id="skillHeading">Levels Management</h2>
+    <p class="muted">Add, edit, activate or deactivate levels.</p>
+   </div>
+   <button class="btn secondary" onclick="backToSkills()">← All Skills</button>
+  </div>
 
-        <div class="skills-grid">
+  <div id="message"></div>
 
-            <div class="skill-card" onclick="openSkill('reading')">
-                <div class="skill-icon">📖</div>
-                <h3>Reading</h3>
-                <p>Manage Reading Content</p>
-            </div>
+  <div class="form-box">
+   <h3 id="formHeading">Add New Level</h3>
+   <form id="levelForm">
+    <div class="form-grid">
+     <div>
+      <label for="levelName">Level Name</label>
+      <input id="levelName" required maxlength="100" placeholder="e.g. Beginner">
+     </div>
+     <div>
+      <label for="levelNumber">Level Number</label>
+      <input id="levelNumber" type="number" min="1" step="1" required>
+     </div>
+     <div>
+      <label for="levelFee">Registration Fee</label>
+      <input id="levelFee" type="number" min="0" step="0.01" required value="0">
+     </div>
+     <div>
+      <label for="levelOrder">Display Order</label>
+      <input id="levelOrder" type="number" min="1" step="1" value="1" required>
+     </div>
+    </div>
+    <div style="margin-top:14px">
+     <label for="levelDescription">Description (optional)</label>
+     <textarea id="levelDescription" placeholder="Describe this level..."></textarea>
+    </div>
+    <div class="form-actions">
+     <button class="btn primary" id="saveButton" type="submit">Save Level</button>
+     <button class="btn secondary" type="button" onclick="resetForm()">Clear</button>
+    </div>
+   </form>
+  </div>
 
-            <div class="skill-card" onclick="openSkill('writing')">
-                <div class="skill-icon">✍️</div>
-                <h3>Writing</h3>
-                <p>Manage Writing Content</p>
-            </div>
-
-            <div class="skill-card" onclick="openSkill('speaking')">
-                <div class="skill-icon">🗣️</div>
-                <h3>Speaking</h3>
-                <p>Manage Speaking Content</p>
-            </div>
-
-            <div class="skill-card" onclick="openSkill('listening')">
-                <div class="skill-icon">🎧</div>
-                <h3>Listening</h3>
-                <p>Manage Listening Content</p>
-            </div>
-
-            <div class="skill-card" onclick="openSkill('grammar')">
-                <div class="skill-icon">📝</div>
-                <h3>Grammar</h3>
-                <p>Manage Grammar Content</p>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="dashboardPanel" class="dashboard-panel">
-
-        <div class="panel-top">
-            <h2 id="panelTitle">Reading Management</h2>
-
-            <div class="panel-actions">
-                <button class="panel-button return-button" onclick="backToSkills()">
-                    ← All Skills
-                </button>
-
-                <a id="studentPageLink" class="panel-button student-button"
-                   href="reading.html" target="_blank">
-                    Student Page
-                </a>
-            </div>
-        </div>
-
-        <div class="panel-content">
-            <h3 id="panelSubtitle">Reading Dashboard</h3>
-            <p id="panelDescription">
-                Manage the learning content for this skill.
-            </p>
-        </div>
-
-    </section>
-
+  <h3>Existing Levels</h3>
+  <div id="levelsList" class="level-list">
+   <div class="empty">Select a skill.</div>
+  </div>
+ </section>
 </main>
 
-<footer>
-    © 2026 IGCSE English Hub — All Rights Reserved
-</footer>
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
 const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const skills = {
-    reading: {
-        title: "Reading Management",
-        subtitle: "Reading Dashboard",
-        description: "Manage Reading Units, Texts and Questions.",
-        page: "reading.html"
-    },
-    writing: {
-        title: "Writing Management",
-        subtitle: "Writing Dashboard",
-        description: "Manage Writing Units, Writing Skills and Tasks.",
-        page: "writing.html"
-    },
-    speaking: {
-        title: "Speaking Management",
-        subtitle: "Speaking Dashboard",
-        description: "Manage Speaking Units, Topics and Activities.",
-        page: "speaking.html"
-    },
-    listening: {
-        title: "Listening Management",
-        subtitle: "Listening Dashboard",
-        description: "Manage Listening Units, Audio and Questions.",
-        page: "listening.html"
-    },
-    grammar: {
-        title: "Grammar Management",
-        subtitle: "Grammar Dashboard",
-        description: "Manage Grammar Units, Topics, Explanations and Exercises.",
-        page: "grammar.html"
-    }
+let currentSkill = null;
+let editingLevelId = null;
+let skillRecords = [];
+
+const icons = {
+ reading:"📖",
+ writing:"✍️",
+ speaking:"🗣️",
+ listening:"🎧",
+ grammar:"📝"
 };
 
-function openSkill(skillName) {
-    const skill = skills[skillName];
-    if (!skill) return;
-
-    document.getElementById("skillsHome").style.display = "none";
-    document.getElementById("dashboardPanel").style.display = "block";
-
-    document.getElementById("panelTitle").textContent = skill.title;
-    document.getElementById("panelSubtitle").textContent = skill.subtitle;
-    document.getElementById("panelDescription").textContent = skill.description;
-    document.getElementById("studentPageLink").href = skill.page;
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+function showMessage(message,type="success"){
+ const box=document.getElementById("message");
+ box.textContent=message;
+ box.className=type;
+ box.style.display="block";
 }
 
-function backToSkills() {
-    document.getElementById("dashboardPanel").style.display = "none";
-    document.getElementById("skillsHome").style.display = "block";
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
+function clearMessage(){
+ const box=document.getElementById("message");
+ box.textContent="";
+ box.className="";
+ box.style.display="none";
 }
 
-async function checkTeacherAccess() {
-    const { data: sessionData, error: sessionError } =
-        await supabaseClient.auth.getSession();
+async function checkTeacherAccess(){
+ const {data,error}=await db.auth.getSession();
 
-    if (sessionError || !sessionData.session) {
-        window.location.href = "login.html";
-        return;
-    }
+ if(error || !data.session){
+  location.href="login.html";
+  return false;
+ }
 
-    const userId = sessionData.session.user.id;
+ const {data:teacher,error:roleError}=await db
+  .from("user_roles")
+  .select("role")
+  .eq("user_id",data.session.user.id)
+  .eq("role","teacher")
+  .maybeSingle();
 
-    const { data: teacher, error } = await supabaseClient
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .eq("role", "teacher")
-        .maybeSingle();
-
-    if (error || !teacher) {
-        alert("Access denied. Teachers only.");
-        await supabaseClient.auth.signOut();
-        window.location.href = "login.html";
-    }
+ if(roleError || !teacher){
+  alert("Access denied. Teachers only.");
+  await db.auth.signOut();
+  location.href="login.html";
+  return false;
+ }
+ return true;
 }
 
-async function logout() {
-    const { error } = await supabaseClient.auth.signOut();
+async function loadSkills(){
+ const {data,error}=await db
+  .from("skills")
+  .select("id,skill_code,skill_name,is_active,sort_order")
+  .order("sort_order");
 
-    if (error) {
-        alert("Could not log out. Please try again.");
-        return;
-    }
+ if(error){
+  document.getElementById("skillsGrid").textContent="Could not load skills: "+error.message;
+  return;
+ }
 
-    window.location.href = "login.html";
+ skillRecords=data||[];
+ const grid=document.getElementById("skillsGrid");
+ grid.replaceChildren();
+
+ skillRecords.forEach(skill=>{
+  const card=document.createElement("div");
+  card.className="skill-card";
+  card.innerHTML="<span>"+(icons[skill.skill_code]||"📚")+"</span>";
+
+  const name=document.createElement("strong");
+  name.textContent=skill.skill_name;
+  card.appendChild(name);
+
+  const state=document.createElement("p");
+  state.className="muted";
+  state.textContent=skill.is_active?"Active":"Inactive";
+  card.appendChild(state);
+
+  card.addEventListener("click",()=>openSkill(skill));
+  grid.appendChild(card);
+ });
+
+ if(!skillRecords.length){
+  grid.textContent="No skills found.";
+ }
 }
 
-checkTeacherAccess();
+async function openSkill(skill){
+ currentSkill=skill;
+ document.getElementById("skillsHome").style.display="none";
+ document.getElementById("levelsPanel").style.display="block";
+ document.getElementById("skillHeading").textContent=skill.skill_name+" — Levels";
+ resetForm();
+ clearMessage();
+ await loadLevels();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function backToSkills(){
+ document.getElementById("levelsPanel").style.display="none";
+ document.getElementById("skillsHome").style.display="block";
+ currentSkill=null;
+ resetForm();
+ clearMessage();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function loadLevels(){
+ const list=document.getElementById("levelsList");
+ list.textContent="Loading levels...";
+
+ const {data,error}=await db
+  .from("skill_levels")
+  .select("id,skill_id,level_name,level_number,description,fee,is_active,sort_order")
+  .eq("skill_id",currentSkill.id)
+  .order("sort_order");
+
+ if(error){
+  list.textContent="Could not load levels: "+error.message;
+  return;
+ }
+
+ list.replaceChildren();
+
+ if(!data || data.length===0){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="No levels have been created for this skill yet.";
+  list.appendChild(empty);
+  return;
+ }
+
+ data.forEach(level=>{
+  const item=document.createElement("div");
+  item.className="level-item";
+
+  const info=document.createElement("div");
+  const heading=document.createElement("h3");
+  heading.textContent=level.level_number+". "+level.level_name;
+
+  const meta=document.createElement("div");
+  meta.className="level-meta";
+  meta.textContent="Registration fee: "+Number(level.fee).toFixed(2)+" | Order: "+level.sort_order;
+
+  const status=document.createElement("span");
+  status.className="status "+(level.is_active?"active":"inactive");
+  status.textContent=level.is_active?"Active":"Inactive";
+
+  info.append(heading,meta,status);
+
+  const actions=document.createElement("div");
+  actions.className="item-actions";
+
+  const edit=document.createElement("button");
+  edit.className="btn secondary";
+  edit.textContent="Edit";
+  edit.onclick=()=>editLevel(level);
+
+  const toggle=document.createElement("button");
+  toggle.className="btn "+(level.is_active?"danger":"primary");
+  toggle.textContent=level.is_active?"Deactivate":"Activate";
+  toggle.onclick=()=>toggleLevel(level);
+
+  actions.append(edit,toggle);
+  item.append(info,actions);
+  list.appendChild(item);
+ });
+}
+
+document.getElementById("levelForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ clearMessage();
+
+ if(!currentSkill)return;
+
+ const levelName=document.getElementById("levelName").value.trim();
+ const levelNumber=Number(document.getElementById("levelNumber").value);
+ const fee=Number(document.getElementById("levelFee").value);
+ const sortOrder=Number(document.getElementById("levelOrder").value);
+ const description=document.getElementById("levelDescription").value.trim();
+
+ if(!levelName || !Number.isInteger(levelNumber) || levelNumber<1 ||
+    !Number.isFinite(fee) || fee<0 ||
+    !Number.isInteger(sortOrder) || sortOrder<1){
+  showMessage("Please check the level name, number, fee and display order.","error");
+  return;
+ }
+
+ const payload={
+  skill_id:currentSkill.id,
+  level_name:levelName,
+  level_number:levelNumber,
+  fee:fee,
+  sort_order:sortOrder,
+  description:description||null
+ };
+
+ const button=document.getElementById("saveButton");
+ button.disabled=true;
+ button.textContent="Saving...";
+
+ let result;
+
+ if(editingLevelId){
+  result=await db.from("skill_levels")
+   .update(payload)
+   .eq("id",editingLevelId)
+   .eq("skill_id",currentSkill.id);
+ }else{
+  result=await db.from("skill_levels").insert(payload);
+ }
+
+ button.disabled=false;
+ button.textContent="Save Level";
+
+ if(result.error){
+  showMessage("Could not save level: "+result.error.message,"error");
+  return;
+ }
+
+ showMessage(editingLevelId?"Level updated successfully.":"Level created successfully.");
+ resetForm();
+ await loadLevels();
+});
+
+function editLevel(level){
+ editingLevelId=level.id;
+ document.getElementById("formHeading").textContent="Edit Level";
+ document.getElementById("levelName").value=level.level_name;
+ document.getElementById("levelNumber").value=level.level_number;
+ document.getElementById("levelFee").value=level.fee;
+ document.getElementById("levelOrder").value=level.sort_order;
+ document.getElementById("levelDescription").value=level.description||"";
+ document.getElementById("saveButton").textContent="Update Level";
+ clearMessage();
+ document.getElementById("levelName").focus();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function toggleLevel(level){
+ const action=level.is_active?"deactivate":"activate";
+
+ if(!confirm("Are you sure you want to "+action+" this level?"))return;
+
+ const {error}=await db.from("skill_levels")
+  .update({is_active:!level.is_active})
+  .eq("id",level.id)
+  .eq("skill_id",currentSkill.id);
+
+ if(error){
+  showMessage("Could not change level status: "+error.message,"error");
+  return;
+ }
+
+ showMessage("Level status updated.");
+ await loadLevels();
+}
+
+function resetForm(){
+ editingLevelId=null;
+ document.getElementById("levelForm").reset();
+ document.getElementById("levelFee").value="0";
+ document.getElementById("levelOrder").value="1";
+ document.getElementById("formHeading").textContent="Add New Level";
+ document.getElementById("saveButton").textContent="Save Level";
+}
+
+async function logout(){
+ const {error}=await db.auth.signOut();
+ if(error){
+  alert("Could not log out: "+error.message);
+  return;
+ }
+ location.href="login.html";
+}
+
+(async()=>{
+ const allowed=await checkTeacherAccess();
+ if(allowed)await loadSkills();
+})();
 </script>
-
 </body>
 </html>
