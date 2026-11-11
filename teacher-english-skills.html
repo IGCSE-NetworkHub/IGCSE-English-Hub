@@ -12,7 +12,6 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#222}
 header{background:#102a56;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 header h1{margin:0;font-size:22px}
 header p{margin:6px 0 0;color:#dce7f8;font-size:13px}
-button,a{cursor:pointer}
 .header-buttons{display:flex;gap:10px}
 .header-buttons a,.header-buttons button{padding:10px 15px;border:0;border-radius:7px;font-weight:bold;text-decoration:none}
 .back{background:white;color:#102a56}
@@ -28,7 +27,7 @@ h2,h3{color:#102a56}
 .panel{display:none;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 15px #102a5610}
 .panel-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #e5eaf1;padding-bottom:15px;margin-bottom:20px}
 .panel-top h2{margin:0}
-.btn{border:0;border-radius:7px;padding:10px 15px;font-weight:bold}
+.btn{border:0;border-radius:7px;padding:10px 15px;font-weight:bold;cursor:pointer}
 .primary{background:#2864b4;color:white}
 .secondary{background:#edf3fc;color:#173b70}
 .danger{background:#d9534f;color:white}
@@ -38,20 +37,22 @@ label{display:block;font-size:13px;font-weight:bold;color:#334155;margin-bottom:
 input,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:white}
 textarea{min-height:75px;resize:vertical}
 .form-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
-.level-list{display:grid;gap:12px;margin-top:18px}
-.level-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-.level-item h3{margin:0 0 6px;font-size:17px}
+.level-list,.unit-list{display:grid;gap:12px;margin-top:18px}
+.level-item,.unit-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.level-item h3,.unit-item h3{margin:0 0 6px;font-size:17px}
 .level-meta{font-size:13px;color:#64748b;line-height:1.6}
 .item-actions{display:flex;gap:8px;flex-wrap:wrap}
-.status{display:inline-block;padding:4px 9px;border-radius:20px;font-size:12px;font-weight:bold}
-.active{background:#dcfce7;color:#166534}
-.inactive{background:#fee2e2;color:#991b1b}
+.status{display:inline-block;padding:4px 9px;border-radius:20px;font-size:12px;font-weight:bold;margin-top:7px}
+.active,.published{background:#dcfce7;color:#166534}
+.inactive,.unpublished{background:#fee2e2;color:#991b1b}
 #message{display:none;padding:12px 15px;border-radius:7px;margin:15px 0;line-height:1.5}
 .success{display:block!important;background:#dcfce7;color:#166534}
 .error{display:block!important;background:#fee2e2;color:#991b1b}
 .empty{padding:22px;text-align:center;color:#64748b;background:#f8fafc;border-radius:8px}
+.units-section{display:none;border-top:2px solid #e5eaf1;margin-top:30px;padding-top:25px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 footer{text-align:center;padding:25px;color:#888;font-size:13px}
-@media(max-width:600px){.container{margin:22px auto}.panel{padding:16px}.level-item{align-items:flex-start}}
+@media(max-width:600px){.container{margin:22px auto}.panel{padding:16px}.level-item,.unit-item{align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -68,77 +69,118 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
 </header>
 
 <main class="container">
- <section id="skillsHome">
-  <h2>English Skills Management</h2>
-  <p class="muted">Choose a skill to manage its levels and registration fees.</p>
-  <div class="skills-grid" id="skillsGrid">
-   <div class="empty">Loading skills...</div>
-  </div>
- </section>
 
- <section id="levelsPanel" class="panel">
-  <div class="panel-top">
-   <div>
-    <h2 id="skillHeading">Levels Management</h2>
-    <p class="muted">Add, edit, activate or deactivate levels.</p>
+<section id="skillsHome">
+ <h2>English Skills Management</h2>
+ <p class="muted">Choose a skill to manage its levels, units and learning content.</p>
+ <div class="skills-grid" id="skillsGrid">
+  <div class="empty">Loading skills...</div>
+ </div>
+</section>
+
+<section id="levelsPanel" class="panel">
+ <div class="panel-top">
+  <div>
+   <h2 id="skillHeading">Levels Management</h2>
+   <p class="muted">Manage levels and their registration fees.</p>
+  </div>
+  <button class="btn secondary" onclick="backToSkills()">← All Skills</button>
+ </div>
+
+ <div id="message"></div>
+
+ <div class="form-box">
+  <h3 id="levelFormHeading">Add New Level</h3>
+  <form id="levelForm">
+   <div class="form-grid">
+    <div>
+     <label for="levelName">Level Name</label>
+     <input id="levelName" required maxlength="100" placeholder="e.g. Beginner">
+    </div>
+    <div>
+     <label for="levelNumber">Level Number</label>
+     <input id="levelNumber" type="number" min="1" step="1" required>
+    </div>
+    <div>
+     <label for="levelFee">Registration Fee</label>
+     <input id="levelFee" type="number" min="0" step="0.01" required value="0">
+    </div>
+    <div>
+     <label for="levelOrder">Display Order</label>
+     <input id="levelOrder" type="number" min="1" step="1" value="1" required>
+    </div>
    </div>
-   <button class="btn secondary" onclick="backToSkills()">← All Skills</button>
-  </div>
+   <div style="margin-top:14px">
+    <label for="levelDescription">Description (optional)</label>
+    <textarea id="levelDescription"></textarea>
+   </div>
+   <div class="form-actions">
+    <button class="btn primary" id="saveLevelButton" type="submit">Save Level</button>
+    <button class="btn secondary" type="button" onclick="resetLevelForm()">Clear</button>
+   </div>
+  </form>
+ </div>
 
-  <div id="message"></div>
+ <h3>Existing Levels</h3>
+ <div id="levelsList" class="level-list">
+  <div class="empty">Loading...</div>
+ </div>
+
+ <section id="unitsSection" class="units-section">
+  <div class="section-heading">
+   <div>
+    <h2 id="unitsHeading">Units Management</h2>
+    <p class="muted" id="unitsSubtitle">Manage units in this level.</p>
+   </div>
+   <button class="btn secondary" onclick="closeUnits()">Close Units</button>
+  </div>
 
   <div class="form-box">
-   <h3 id="formHeading">Add New Level</h3>
-   <form id="levelForm">
+   <h3 id="unitFormHeading">Add New Unit</h3>
+   <form id="unitForm">
     <div class="form-grid">
      <div>
-      <label for="levelName">Level Name</label>
-      <input id="levelName" required maxlength="100" placeholder="e.g. Beginner">
+      <label for="unitTitle">Unit Title</label>
+      <input id="unitTitle" required maxlength="200" placeholder="e.g. Unit 1: Introduction">
      </div>
      <div>
-      <label for="levelNumber">Level Number</label>
-      <input id="levelNumber" type="number" min="1" step="1" required>
-     </div>
-     <div>
-      <label for="levelFee">Registration Fee</label>
-      <input id="levelFee" type="number" min="0" step="0.01" required value="0">
-     </div>
-     <div>
-      <label for="levelOrder">Display Order</label>
-      <input id="levelOrder" type="number" min="1" step="1" value="1" required>
+      <label for="unitOrder">Display Order</label>
+      <input id="unitOrder" type="number" min="1" step="1" value="1" required>
      </div>
     </div>
     <div style="margin-top:14px">
-     <label for="levelDescription">Description (optional)</label>
-     <textarea id="levelDescription" placeholder="Describe this level..."></textarea>
+     <label for="unitDescription">Unit Description (optional)</label>
+     <textarea id="unitDescription"></textarea>
     </div>
     <div class="form-actions">
-     <button class="btn primary" id="saveButton" type="submit">Save Level</button>
-     <button class="btn secondary" type="button" onclick="resetForm()">Clear</button>
+     <button class="btn primary" id="saveUnitButton" type="submit">Save Unit</button>
+     <button class="btn secondary" type="button" onclick="resetUnitForm()">Clear</button>
     </div>
    </form>
   </div>
 
-  <h3>Existing Levels</h3>
-  <div id="levelsList" class="level-list">
-   <div class="empty">Select a skill.</div>
+  <h3>Existing Units</h3>
+  <div id="unitsList" class="unit-list">
+   <div class="empty">Loading...</div>
   </div>
  </section>
+</section>
+
 </main>
 
 <footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
 
 <script>
-const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentSkill=null;
+let currentLevel=null;
+let editingLevelId=null;
+let editingUnitId=null;
 
-let currentSkill = null;
-let editingLevelId = null;
-let skillRecords = [];
-
-const icons = {
+const icons={
  reading:"📖",
  writing:"✍️",
  speaking:"🗣️",
@@ -152,7 +194,6 @@ function showMessage(message,type="success"){
  box.className=type;
  box.style.display="block";
 }
-
 function clearMessage(){
  const box=document.getElementById("message");
  box.textContent="";
@@ -162,20 +203,17 @@ function clearMessage(){
 
 async function checkTeacherAccess(){
  const {data,error}=await db.auth.getSession();
-
- if(error || !data.session){
+ if(error||!data.session){
   location.href="login.html";
   return false;
  }
-
  const {data:teacher,error:roleError}=await db
   .from("user_roles")
   .select("role")
   .eq("user_id",data.session.user.id)
   .eq("role","teacher")
   .maybeSingle();
-
- if(roleError || !teacher){
+ if(roleError||!teacher){
   alert("Access denied. Teachers only.");
   await db.auth.signOut();
   location.href="login.html";
@@ -185,108 +223,98 @@ async function checkTeacherAccess(){
 }
 
 async function loadSkills(){
- const {data,error}=await db
-  .from("skills")
+ const grid=document.getElementById("skillsGrid");
+ grid.textContent="Loading skills...";
+ const {data,error}=await db.from("skills")
   .select("id,skill_code,skill_name,is_active,sort_order")
   .order("sort_order");
-
  if(error){
-  document.getElementById("skillsGrid").textContent="Could not load skills: "+error.message;
+  grid.textContent="Could not load skills: "+error.message;
   return;
  }
-
- skillRecords=data||[];
- const grid=document.getElementById("skillsGrid");
  grid.replaceChildren();
-
- skillRecords.forEach(skill=>{
+ (data||[]).forEach(skill=>{
   const card=document.createElement("div");
   card.className="skill-card";
-  card.innerHTML="<span>"+(icons[skill.skill_code]||"📚")+"</span>";
-
+  const icon=document.createElement("span");
+  icon.textContent=icons[skill.skill_code]||"📚";
   const name=document.createElement("strong");
   name.textContent=skill.skill_name;
-  card.appendChild(name);
-
   const state=document.createElement("p");
   state.className="muted";
   state.textContent=skill.is_active?"Active":"Inactive";
-  card.appendChild(state);
-
-  card.addEventListener("click",()=>openSkill(skill));
+  card.append(icon,name,state);
+  card.onclick=()=>openSkill(skill);
   grid.appendChild(card);
  });
-
- if(!skillRecords.length){
-  grid.textContent="No skills found.";
- }
+ if(!data||!data.length)grid.textContent="No skills found.";
 }
 
 async function openSkill(skill){
  currentSkill=skill;
+ currentLevel=null;
  document.getElementById("skillsHome").style.display="none";
  document.getElementById("levelsPanel").style.display="block";
  document.getElementById("skillHeading").textContent=skill.skill_name+" — Levels";
- resetForm();
+ document.getElementById("unitsSection").style.display="none";
  clearMessage();
+ resetLevelForm();
  await loadLevels();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function backToSkills(){
+ currentSkill=null;
+ currentLevel=null;
  document.getElementById("levelsPanel").style.display="none";
  document.getElementById("skillsHome").style.display="block";
- currentSkill=null;
- resetForm();
+ document.getElementById("unitsSection").style.display="none";
  clearMessage();
+ resetLevelForm();
+ resetUnitForm();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 async function loadLevels(){
  const list=document.getElementById("levelsList");
  list.textContent="Loading levels...";
-
- const {data,error}=await db
-  .from("skill_levels")
+ const {data,error}=await db.from("skill_levels")
   .select("id,skill_id,level_name,level_number,description,fee,is_active,sort_order")
   .eq("skill_id",currentSkill.id)
   .order("sort_order");
-
  if(error){
   list.textContent="Could not load levels: "+error.message;
   return;
  }
-
  list.replaceChildren();
-
- if(!data || data.length===0){
+ if(!data||!data.length){
   const empty=document.createElement("div");
   empty.className="empty";
   empty.textContent="No levels have been created for this skill yet.";
   list.appendChild(empty);
   return;
  }
-
  data.forEach(level=>{
   const item=document.createElement("div");
   item.className="level-item";
-
   const info=document.createElement("div");
   const heading=document.createElement("h3");
   heading.textContent=level.level_number+". "+level.level_name;
-
   const meta=document.createElement("div");
   meta.className="level-meta";
   meta.textContent="Registration fee: "+Number(level.fee).toFixed(2)+" | Order: "+level.sort_order;
-
   const status=document.createElement("span");
   status.className="status "+(level.is_active?"active":"inactive");
   status.textContent=level.is_active?"Active":"Inactive";
-
   info.append(heading,meta,status);
 
   const actions=document.createElement("div");
   actions.className="item-actions";
+
+  const units=document.createElement("button");
+  units.className="btn primary";
+  units.textContent="Manage Units";
+  units.onclick=()=>openUnits(level);
 
   const edit=document.createElement("button");
   edit.className="btn secondary";
@@ -298,7 +326,7 @@ async function loadLevels(){
   toggle.textContent=level.is_active?"Deactivate":"Activate";
   toggle.onclick=()=>toggleLevel(level);
 
-  actions.append(edit,toggle);
+  actions.append(units,edit,toggle);
   item.append(info,actions);
   list.appendChild(item);
  });
@@ -307,45 +335,38 @@ async function loadLevels(){
 document.getElementById("levelForm").addEventListener("submit",async event=>{
  event.preventDefault();
  clearMessage();
-
  if(!currentSkill)return;
 
- const levelName=document.getElementById("levelName").value.trim();
- const levelNumber=Number(document.getElementById("levelNumber").value);
+ const name=document.getElementById("levelName").value.trim();
+ const number=Number(document.getElementById("levelNumber").value);
  const fee=Number(document.getElementById("levelFee").value);
- const sortOrder=Number(document.getElementById("levelOrder").value);
+ const order=Number(document.getElementById("levelOrder").value);
  const description=document.getElementById("levelDescription").value.trim();
 
- if(!levelName || !Number.isInteger(levelNumber) || levelNumber<1 ||
-    !Number.isFinite(fee) || fee<0 ||
-    !Number.isInteger(sortOrder) || sortOrder<1){
-  showMessage("Please check the level name, number, fee and display order.","error");
+ if(!name||!Number.isInteger(number)||number<1||
+    !Number.isFinite(fee)||fee<0||
+    !Number.isInteger(order)||order<1){
+  showMessage("Please check the level details.","error");
   return;
  }
 
  const payload={
   skill_id:currentSkill.id,
-  level_name:levelName,
-  level_number:levelNumber,
-  fee:fee,
-  sort_order:sortOrder,
+  level_name:name,
+  level_number:number,
+  fee,
+  sort_order:order,
   description:description||null
  };
 
- const button=document.getElementById("saveButton");
+ const button=document.getElementById("saveLevelButton");
  button.disabled=true;
  button.textContent="Saving...";
 
- let result;
-
- if(editingLevelId){
-  result=await db.from("skill_levels")
-   .update(payload)
-   .eq("id",editingLevelId)
-   .eq("skill_id",currentSkill.id);
- }else{
-  result=await db.from("skill_levels").insert(payload);
- }
+ const result=editingLevelId
+  ?await db.from("skill_levels").update(payload)
+    .eq("id",editingLevelId).eq("skill_id",currentSkill.id)
+  :await db.from("skill_levels").insert(payload);
 
  button.disabled=false;
  button.textContent="Save Level";
@@ -354,52 +375,215 @@ document.getElementById("levelForm").addEventListener("submit",async event=>{
   showMessage("Could not save level: "+result.error.message,"error");
   return;
  }
-
  showMessage(editingLevelId?"Level updated successfully.":"Level created successfully.");
- resetForm();
+ resetLevelForm();
  await loadLevels();
 });
 
 function editLevel(level){
  editingLevelId=level.id;
- document.getElementById("formHeading").textContent="Edit Level";
+ document.getElementById("levelFormHeading").textContent="Edit Level";
  document.getElementById("levelName").value=level.level_name;
  document.getElementById("levelNumber").value=level.level_number;
  document.getElementById("levelFee").value=level.fee;
  document.getElementById("levelOrder").value=level.sort_order;
  document.getElementById("levelDescription").value=level.description||"";
- document.getElementById("saveButton").textContent="Update Level";
+ document.getElementById("saveLevelButton").textContent="Update Level";
  clearMessage();
  document.getElementById("levelName").focus();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-async function toggleLevel(level){
- const action=level.is_active?"deactivate":"activate";
-
- if(!confirm("Are you sure you want to "+action+" this level?"))return;
-
- const {error}=await db.from("skill_levels")
-  .update({is_active:!level.is_active})
-  .eq("id",level.id)
-  .eq("skill_id",currentSkill.id);
-
- if(error){
-  showMessage("Could not change level status: "+error.message,"error");
-  return;
- }
-
- showMessage("Level status updated.");
- await loadLevels();
-}
-
-function resetForm(){
+function resetLevelForm(){
  editingLevelId=null;
  document.getElementById("levelForm").reset();
  document.getElementById("levelFee").value="0";
  document.getElementById("levelOrder").value="1";
- document.getElementById("formHeading").textContent="Add New Level";
- document.getElementById("saveButton").textContent="Save Level";
+ document.getElementById("levelFormHeading").textContent="Add New Level";
+ document.getElementById("saveLevelButton").textContent="Save Level";
+}
+
+async function toggleLevel(level){
+ const action=level.is_active?"deactivate":"activate";
+ if(!confirm("Are you sure you want to "+action+" this level?"))return;
+ const {error}=await db.from("skill_levels")
+  .update({is_active:!level.is_active})
+  .eq("id",level.id).eq("skill_id",currentSkill.id);
+ if(error){
+  showMessage("Could not change level status: "+error.message,"error");
+  return;
+ }
+ showMessage("Level status updated.");
+ await loadLevels();
+}
+
+/* UNITS MANAGEMENT */
+
+async function openUnits(level){
+ currentLevel=level;
+ editingUnitId=null;
+ document.getElementById("unitsSection").style.display="block";
+ document.getElementById("unitsHeading").textContent="Units — "+level.level_name;
+ document.getElementById("unitsSubtitle").textContent=
+  "Manage the units belonging to "+currentSkill.skill_name+" / "+level.level_name;
+ resetUnitForm();
+ clearMessage();
+ await loadUnits();
+ document.getElementById("unitsSection").scrollIntoView({behavior:"smooth"});
+}
+
+function closeUnits(){
+ currentLevel=null;
+ document.getElementById("unitsSection").style.display="none";
+ resetUnitForm();
+}
+
+async function loadUnits(){
+ const list=document.getElementById("unitsList");
+ list.textContent="Loading units...";
+
+ const {data,error}=await db.from("skill_units")
+  .select("id,level_id,unit_title,unit_description,sort_order,is_published")
+  .eq("level_id",currentLevel.id)
+  .order("sort_order");
+
+ if(error){
+  list.textContent="Could not load units: "+error.message;
+  return;
+ }
+
+ list.replaceChildren();
+
+ if(!data||!data.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="No units have been created for this level yet.";
+  list.appendChild(empty);
+  return;
+ }
+
+ data.forEach(unit=>{
+  const item=document.createElement("div");
+  item.className="unit-item";
+
+  const info=document.createElement("div");
+  const heading=document.createElement("h3");
+  heading.textContent=unit.sort_order+". "+unit.unit_title;
+
+  const description=document.createElement("div");
+  description.className="level-meta";
+  description.textContent=unit.unit_description||"No description";
+
+  const status=document.createElement("span");
+  status.className="status "+(unit.is_published?"published":"unpublished");
+  status.textContent=unit.is_published?"Published":"Not Published";
+
+  info.append(heading,description,status);
+
+  const actions=document.createElement("div");
+  actions.className="item-actions";
+
+  const edit=document.createElement("button");
+  edit.className="btn secondary";
+  edit.textContent="Edit";
+  edit.onclick=()=>editUnit(unit);
+
+  const toggle=document.createElement("button");
+  toggle.className="btn "+(unit.is_published?"danger":"primary");
+  toggle.textContent=unit.is_published?"Unpublish":"Publish";
+  toggle.onclick=()=>toggleUnit(unit);
+
+  actions.append(edit,toggle);
+  item.append(info,actions);
+  list.appendChild(item);
+ });
+}
+
+document.getElementById("unitForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ clearMessage();
+ if(!currentLevel)return;
+
+ const title=document.getElementById("unitTitle").value.trim();
+ const order=Number(document.getElementById("unitOrder").value);
+ const description=document.getElementById("unitDescription").value.trim();
+
+ if(!title||!Number.isInteger(order)||order<1){
+  showMessage("Please enter a valid unit title and display order.","error");
+  return;
+ }
+
+ const payload={
+  level_id:currentLevel.id,
+  unit_title:title,
+  unit_description:description||null,
+  sort_order:order
+ };
+
+ const button=document.getElementById("saveUnitButton");
+ button.disabled=true;
+ button.textContent="Saving...";
+
+ const result=editingUnitId
+  ?await db.from("skill_units").update({
+    unit_title:payload.unit_title,
+    unit_description:payload.unit_description,
+    sort_order:payload.sort_order,
+    updated_at:new Date().toISOString()
+   }).eq("id",editingUnitId).eq("level_id",currentLevel.id)
+  :await db.from("skill_units").insert(payload);
+
+ button.disabled=false;
+ button.textContent="Save Unit";
+
+ if(result.error){
+  showMessage("Could not save unit: "+result.error.message,"error");
+  return;
+ }
+
+ showMessage(editingUnitId?"Unit updated successfully.":"Unit created successfully.");
+ resetUnitForm();
+ await loadUnits();
+});
+
+function editUnit(unit){
+ editingUnitId=unit.id;
+ document.getElementById("unitFormHeading").textContent="Edit Unit";
+ document.getElementById("unitTitle").value=unit.unit_title;
+ document.getElementById("unitOrder").value=unit.sort_order;
+ document.getElementById("unitDescription").value=unit.unit_description||"";
+ document.getElementById("saveUnitButton").textContent="Update Unit";
+ clearMessage();
+ document.getElementById("unitTitle").focus();
+ document.getElementById("unitsSection").scrollIntoView({behavior:"smooth"});
+}
+
+function resetUnitForm(){
+ editingUnitId=null;
+ document.getElementById("unitForm").reset();
+ document.getElementById("unitOrder").value="1";
+ document.getElementById("unitFormHeading").textContent="Add New Unit";
+ document.getElementById("saveUnitButton").textContent="Save Unit";
+}
+
+async function toggleUnit(unit){
+ const action=unit.is_published?"unpublish":"publish";
+ if(!confirm("Are you sure you want to "+action+" this unit?"))return;
+
+ const {error}=await db.from("skill_units")
+  .update({
+   is_published:!unit.is_published,
+   updated_at:new Date().toISOString()
+  })
+  .eq("id",unit.id).eq("level_id",currentLevel.id);
+
+ if(error){
+  showMessage("Could not change unit status: "+error.message,"error");
+  return;
+ }
+
+ showMessage("Unit status updated.");
+ await loadUnits();
 }
 
 async function logout(){
