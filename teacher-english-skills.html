@@ -12,9 +12,10 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#222}
 header{background:#102a56;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 header h1{margin:0;font-size:22px}
 header p{margin:6px 0 0;color:#dce7f8;font-size:13px}
-.header-buttons{display:flex;gap:10px}
-.header-buttons a,.header-buttons button{padding:10px 15px;border:0;border-radius:7px;font-weight:bold;text-decoration:none}
+.header-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.header-buttons a,.header-buttons button{padding:10px 15px;border:0;border-radius:7px;font-weight:bold;text-decoration:none;cursor:pointer}
 .back{background:white;color:#102a56}
+.payments-link{background:#f0c14b;color:#102a56}
 .logout{background:#d9534f;color:white}
 .container{width:92%;max-width:1150px;margin:35px auto}
 h2,h3{color:#102a56}
@@ -70,6 +71,7 @@ textarea{min-height:75px;resize:vertical}
  </div>
  <div class="header-buttons">
   <a href="teacher-dashboard.html" class="back">Teacher Dashboard</a>
+  <a href="teacher-skill-payments.html" class="payments-link">Lesson Payments</a>
   <button class="logout" onclick="logout()">Logout</button>
  </div>
 </header>
