@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Lesson Payments | IGCSE English Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#17243a}
+header{background:#102a56;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h1{font-size:21px;margin:0}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+nav a,nav button{border:0;border-radius:7px;padding:10px 14px;text-decoration:none;font-weight:bold;cursor:pointer}
+nav a{background:white;color:#102a56}
+nav button{background:#dce6f5;color:#102a56}
+main{max-width:1150px;margin:30px auto;padding:0 18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.top h2{margin:0;color:#102a56}
+#refresh{background:#102a56;color:white;border:0;padding:11px 18px;border-radius:7px;cursor:pointer}
+#status{margin:15px 0;padding:12px;border-radius:7px;display:none}
+.error{background:#fee2e2;color:#991b1b}
+.success{background:#dcfce7;color:#166534}
+.info{background:#dbeafe;color:#1e40af}
+.payment{background:white;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 3px 12px #102a5610;border:1px solid #e2e8f0}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:18px}
+.field small{display:block;color:#64748b;margin-bottom:5px}
+.field strong{overflow-wrap:anywhere}
+.receipt{margin:12px 0 18px}
+.receipt a{color:#1d4ed8;font-weight:bold}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.actions button{border:0;padding:11px 18px;border-radius:7px;color:white;font-weight:bold;cursor:pointer}
+.approve{background:#15803d}
+.reject{background:#b91c1c}
+button:disabled{opacity:.55;cursor:not-allowed}
+.empty{text-align:center;background:white;padding:35px;border-radius:12px;color:#64748b}
+#loading{text-align:center;padding:30px;color:#64748b}
+@media(max-width:600px){header{align-items:flex-start}header h1{width:100%}.payment{padding:15px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IGCSE English Hub – Skill Payments</h1>
+  <nav>
+    <a href="teacher-dashboard.html">Teacher Dashboard</a>
+    <button id="logout">Logout</button>
+  </nav>
+</header>
+
+<main>
+  <div class="top">
+    <h2>Pending Lesson Payments</h2>
+    <button id="refresh">Refresh Requests</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="loading">Loading payment requests...</div>
+  <div id="payments"></div>
+</main>
+
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const paymentsContainer = document.getElementById("payments");
+const loading = document.getElementById("loading");
+const statusBox = document.getElementById("status");
+
+let busy = false;
+
+function showStatus(message, type = "info") {
+  statusBox.textContent = message;
+  statusBox.className = type;
+  statusBox.style.display = "block";
+}
+
+function hideStatus() {
+  statusBox.style.display = "none";
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+
+  return new Date(value).toLocaleString("en-GB", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+}
+
+async function checkTeacher() {
+  const { data: sessionData, error: sessionError } =
+    await supabaseClient.auth.getSession();
+
+  if (sessionError || !sessionData.session) {
+    location.replace("login.html");
+    return false;
+  }
+
+  const { data: teacher, error } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", sessionData.session.user.id)
+    .eq("role", "teacher")
+    .maybeSingle();
+
+  if (error || !teacher) {
+    await supabaseClient.auth.signOut();
+    location.replace("login.html");
+    return false;
+  }
+
+  return true;
+}
+
+async function openReceipt(path, linkElement) {
+  linkElement.textContent = "Preparing receipt...";
+  linkElement.style.pointerEvents = "none";
+
+  const { data, error } = await supabaseClient.storage
+    .from("skill-lesson-receipts")
+    .createSignedUrl(path, 600);
+
+  if (error || !data?.signedUrl) {
+    showStatus(
+      "Could not open receipt: " + (error?.message || "Unknown error"),
+      "error"
+    );
+    linkElement.textContent = "Open Receipt";
+    linkElement.style.pointerEvents = "auto";
+    return;
+  }
+
+  window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  linkElement.textContent = "Open Receipt";
+  linkElement.style.pointerEvents = "auto";
+}
+
+async function loadPayments() {
+  if (busy) return;
+
+  hideStatus();
+  loading.style.display = "block";
+  paymentsContainer.innerHTML = "";
+
+  const { data, error } = await supabaseClient.rpc(
+    "get_pending_skill_lesson_payments"
+  );
+
+  loading.style.display = "none";
+
+  if (error) {
+    showStatus("Could not load requests: " + error.message, "error");
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    paymentsContainer.innerHTML =
+      '<div class="empty">There are no pending lesson payment requests.</div>';
+    return;
+  }
+
+  data.forEach(payment => {
+    const card = document.createElement("section");
+    card.className = "payment";
+
+    card.innerHTML = `
+      <div class="details">
+        <div class="field">
+          <small>Payment Request</small>
+          <strong>#${escapeHTML(payment.payment_id)}</strong>
+        </div>
+        <div class="field">
+          <small>Student</small>
+          <strong>${escapeHTML(payment.student_name)}</strong>
+        </div>
+        <div class="field">
+          <small>Lesson</small>
+          <strong>${escapeHTML(payment.lesson_title)}</strong>
+        </div>
+        <div class="field">
+          <small>Amount</small>
+          <strong>${escapeHTML(payment.amount)}</strong>
+        </div>
+        <div class="field">
+          <small>Submitted At</small>
+          <strong>${escapeHTML(formatDate(payment.created_at))}</strong>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <a href="#" class="receipt-link">Open Receipt</a>
+      </div>
+
+      <div class="actions">
+        <button class="approve">Approve & Issue Code</button>
+        <button class="reject">Reject Request</button>
+      </div>
+    `;
+
+    const receiptLink = card.querySelector(".receipt-link");
+    receiptLink.addEventListener("click", event => {
+      event.preventDefault();
+      openReceipt(payment.receipt_path, receiptLink);
+    });
+
+    card.querySelector(".approve").addEventListener("click", () => {
+      approvePayment(payment.payment_id);
+    });
+
+    card.querySelector(".reject").addEventListener("click", () => {
+      rejectPayment(payment.payment_id);
+    });
+
+    paymentsContainer.appendChild(card);
+  });
+}
+
+async function approvePayment(paymentId) {
+  if (busy) return;
+
+  const note = prompt("Optional teacher note:", "");
+  if (note === null) return;
+
+  if (!confirm("Approve this payment and generate a lesson activation code?")) {
+    return;
+  }
+
+  busy = true;
+  setButtonsDisabled(true);
+  showStatus("Approving payment and generating code...", "info");
+
+  const { data: code, error } = await supabaseClient.rpc(
+    "approve_skill_lesson_payment",
+    {
+      p_payment_id: paymentId,
+      p_teacher_note: note.trim() || null
+    }
+  );
+
+  busy = false;
+  setButtonsDisabled(false);
+
+  if (error) {
+    showStatus("Approval failed: " + error.message, "error");
+    return;
+  }
+
+  showStatus(
+    "Payment approved. Activation code: " + code,
+    "success"
+  );
+
+  alert(
+    "Payment approved successfully.\n\n" +
+    "Lesson activation code:\n\n" + code +
+    "\n\nCopy and send this code to the student."
+  );
+
+  await loadPayments();
+}
+
+async function rejectPayment(paymentId) {
+  if (busy) return;
+
+  const note = prompt("Enter the reason for rejecting this payment:");
+  if (note === null) return;
+
+  if (!note.trim()) {
+    showStatus("Please enter a rejection reason.", "error");
+    return;
+  }
+
+  if (!confirm("Are you sure you want to reject this payment?")) {
+    return;
+  }
+
+  busy = true;
+  setButtonsDisabled(true);
+  showStatus("Rejecting payment...", "info");
+
+  const { error } = await supabaseClient.rpc(
+    "reject_skill_lesson_payment",
+    {
+      p_payment_id: paymentId,
+      p_teacher_note: note.trim()
+    }
+  );
+
+  busy = false;
+  setButtonsDisabled(false);
+
+  if (error) {
+    showStatus("Rejection failed: " + error.message, "error");
+    return;
+  }
+
+  showStatus("Payment rejected successfully.", "success");
+  await loadPayments();
+}
+
+function setButtonsDisabled(disabled) {
+  document.querySelectorAll(".actions button").forEach(button => {
+    button.disabled = disabled;
+  });
+}
+
+document.getElementById("refresh").addEventListener("click", loadPayments);
+
+document.getElementById("logout").addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  location.replace("login.html");
+});
+
+(async function init() {
+  const allowed = await checkTeacher();
+  if (allowed) await loadPayments();
+})();
+</script>
+
+</body>
+</html>
