@@ -224,7 +224,6 @@ textarea{min-height:75px;resize:vertical}
     <div class="empty">Select a unit to load its lessons.</div>
    </div>
 
-   <!-- NEW: FILE MANAGER FOR THE SELECTED LESSON -->
    <section id="fileManager" class="file-manager">
     <div class="section-heading">
      <div>
@@ -289,6 +288,7 @@ let currentContentLesson=null;
 let editingLevelId=null;
 let editingUnitId=null;
 let editingLessonId=null;
+let isUploadingLessonFiles=false;
 
 const icons={
  reading:"📖",
@@ -304,11 +304,18 @@ function showMessage(message,type="success"){
  box.className=type;
  box.style.display="block";
 }
+
 function clearMessage(){
  const box=document.getElementById("message");
  box.textContent="";
  box.className="";
  box.style.display="none";
+}
+
+function preventNavigationDuringUpload(){
+ if(!isUploadingLessonFiles)return false;
+ alert("A file upload is currently in progress. Please wait until it finishes.");
+ return true;
 }
 
 async function checkTeacherAccess(){
@@ -317,12 +324,14 @@ async function checkTeacherAccess(){
   location.href="login.html";
   return false;
  }
+
  const {data:teacher,error:roleError}=await db
   .from("user_roles")
   .select("role")
   .eq("user_id",data.session.user.id)
   .eq("role","teacher")
   .maybeSingle();
+
  if(roleError||!teacher){
   alert("Access denied. Teachers only.");
   await db.auth.signOut();
@@ -335,42 +344,55 @@ async function checkTeacherAccess(){
 async function loadSkills(){
  const grid=document.getElementById("skillsGrid");
  grid.textContent="Loading skills...";
+
  const {data,error}=await db.from("skills")
   .select("id,skill_code,skill_name,is_active,sort_order")
   .order("sort_order");
+
  if(error){
   grid.textContent="Could not load skills: "+error.message;
   return;
  }
+
  grid.replaceChildren();
+
  (data||[]).forEach(skill=>{
   const card=document.createElement("div");
   card.className="skill-card";
+
   const icon=document.createElement("span");
   icon.textContent=icons[skill.skill_code]||"📚";
+
   const name=document.createElement("strong");
   name.textContent=skill.skill_name;
+
   const state=document.createElement("p");
   state.className="muted";
   state.textContent=skill.is_active?"Active":"Inactive";
+
   card.append(icon,name,state);
   card.onclick=()=>openSkill(skill);
   grid.appendChild(card);
  });
+
  if(!data||!data.length)grid.textContent="No skills found.";
 }
 
 async function openSkill(skill){
+ if(preventNavigationDuringUpload())return;
+
  currentSkill=skill;
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+
  document.getElementById("skillsHome").style.display="none";
  document.getElementById("levelsPanel").style.display="block";
  document.getElementById("skillHeading").textContent=skill.skill_name+" — Levels";
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
+
  clearMessage();
  resetLevelForm();
  await loadLevels();
@@ -378,15 +400,19 @@ async function openSkill(skill){
 }
 
 function backToSkills(){
+ if(preventNavigationDuringUpload())return;
+
  currentSkill=null;
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+
  document.getElementById("levelsPanel").style.display="none";
  document.getElementById("skillsHome").style.display="block";
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
+
  clearMessage();
  resetLevelForm();
  resetUnitForm();
@@ -397,15 +423,19 @@ function backToSkills(){
 async function loadLevels(){
  const list=document.getElementById("levelsList");
  list.textContent="Loading levels...";
+
  const {data,error}=await db.from("skill_levels")
   .select("id,skill_id,level_name,level_number,description,is_active,sort_order")
   .eq("skill_id",currentSkill.id)
   .order("sort_order");
+
  if(error){
   list.textContent="Could not load levels: "+error.message;
   return;
  }
+
  list.replaceChildren();
+
  if(!data||!data.length){
   const empty=document.createElement("div");
   empty.className="empty";
@@ -413,18 +443,24 @@ async function loadLevels(){
   list.appendChild(empty);
   return;
  }
+
  data.forEach(level=>{
   const item=document.createElement("div");
   item.className="level-item";
+
   const info=document.createElement("div");
+
   const heading=document.createElement("h3");
   heading.textContent=level.level_number+". "+level.level_name;
+
   const meta=document.createElement("div");
   meta.className="level-meta";
   meta.textContent="Order: "+level.sort_order;
+
   const status=document.createElement("span");
   status.className="status "+(level.is_active?"active":"inactive");
   status.textContent=level.is_active?"Active":"Inactive";
+
   info.append(heading,meta,status);
 
   const actions=document.createElement("div");
@@ -492,6 +528,7 @@ document.getElementById("levelForm").addEventListener("submit",async event=>{
   showMessage("Could not save level: "+result.error.message,"error");
   return;
  }
+
  showMessage(editingLevelId?"Level updated successfully.":"Level created successfully.");
  resetLevelForm();
  await loadLevels();
@@ -521,13 +558,16 @@ function resetLevelForm(){
 async function toggleLevel(level){
  const action=level.is_active?"deactivate":"activate";
  if(!confirm("Are you sure you want to "+action+" this level?"))return;
+
  const {error}=await db.from("skill_levels")
   .update({is_active:!level.is_active})
   .eq("id",level.id).eq("skill_id",currentSkill.id);
+
  if(error){
   showMessage("Could not change level status: "+error.message,"error");
   return;
  }
+
  showMessage("Level status updated.");
  await loadLevels();
 }
@@ -535,15 +575,19 @@ async function toggleLevel(level){
 /* UNITS MANAGEMENT */
 
 async function openUnits(level){
+ if(preventNavigationDuringUpload())return;
+
  currentLevel=level;
  currentUnit=null;
  currentContentLesson=null;
+
  document.getElementById("unitsSection").style.display="block";
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
  document.getElementById("unitsHeading").textContent="Units — "+level.level_name;
  document.getElementById("unitsSubtitle").textContent=
   "Manage the units belonging to "+currentSkill.skill_name+" / "+level.level_name;
+
  resetUnitForm();
  resetLessonForm();
  clearMessage();
@@ -552,12 +596,16 @@ async function openUnits(level){
 }
 
 function closeUnits(){
+ if(preventNavigationDuringUpload())return;
+
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
+
  resetUnitForm();
  resetLessonForm();
 }
@@ -591,6 +639,7 @@ async function loadUnits(){
   item.className="unit-item";
 
   const info=document.createElement("div");
+
   const heading=document.createElement("h3");
   heading.textContent=unit.sort_order+". "+unit.unit_title;
 
@@ -718,6 +767,8 @@ async function toggleUnit(unit){
 /* LESSONS MANAGEMENT */
 
 async function openLessons(unit){
+ if(preventNavigationDuringUpload())return;
+
  currentUnit=unit;
  currentContentLesson=null;
  editingLessonId=null;
@@ -736,10 +787,14 @@ async function openLessons(unit){
 }
 
 function closeLessons(){
+ if(preventNavigationDuringUpload())return;
+
  currentUnit=null;
  currentContentLesson=null;
+
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
+
  resetLessonForm();
 }
 
@@ -793,7 +848,6 @@ async function loadLessons(){
   const actions=document.createElement("div");
   actions.className="item-actions";
 
-  /* NEW: MANAGE FILES BUTTON */
   const files=document.createElement("button");
   files.className="btn primary";
   files.textContent="Manage Files";
@@ -906,20 +960,22 @@ async function toggleLesson(lesson){
 
 /* =====================================================
    LESSON FILE MANAGEMENT
-   Uses the existing rapid-service Google Drive endpoints
-   and skill_lesson_content table.
+   Google Drive resumable upload through rapid-service.
 ===================================================== */
 
 async function getCurrentAccessToken(){
  const {data,error}=await db.auth.getSession();
+
  if(error||!data.session||!data.session.access_token){
   throw new Error("Your session has expired. Please log in again.");
  }
+
  return data.session.access_token;
 }
 
 async function callRapidService(action,options={}){
  const token=await getCurrentAccessToken();
+
  const response=await fetch(
   RAPID_SERVICE_URL+"?action="+encodeURIComponent(action)+(options.query||""),
   {
@@ -935,18 +991,24 @@ async function callRapidService(action,options={}){
  );
 
  let result={};
- try{result=await response.json()}catch(error){}
+ try{
+  result=await response.json();
+ }catch(error){}
 
  if(!response.ok){
   throw new Error(result.error||result.message||"Request failed ("+response.status+").");
  }
+
  if(result.success===false){
   throw new Error(result.error||result.message||"The request was not successful.");
  }
+
  return result;
 }
 
 async function openFileManager(lesson){
+ if(preventNavigationDuringUpload())return;
+
  currentContentLesson=lesson;
 
  document.getElementById("fileManager").style.display="block";
@@ -967,6 +1029,8 @@ async function openFileManager(lesson){
 }
 
 function closeFileManager(){
+ if(preventNavigationDuringUpload())return;
+
  currentContentLesson=null;
  document.getElementById("fileManager").style.display="none";
 }
@@ -974,14 +1038,17 @@ function closeFileManager(){
 async function loadLessonFiles(){
  if(!currentContentLesson)return;
 
+ const lessonId=currentContentLesson.id;
  const list=document.getElementById("lessonFilesList");
  list.textContent="Loading lesson files...";
 
  const {data,error}=await db.from("skill_lesson_content")
   .select("id,lesson_id,content_type,title,file_name,mime_type,sort_order,is_published,created_at")
-  .eq("lesson_id",currentContentLesson.id)
+  .eq("lesson_id",lessonId)
   .eq("content_type","file")
   .order("sort_order");
+
+ if(currentContentLesson?.id!==lessonId)return;
 
  if(error){
   list.textContent="Could not load lesson files: "+error.message;
@@ -1053,15 +1120,19 @@ async function loadLessonFiles(){
 }
 
 async function editLessonFile(file){
- if(!currentContentLesson)return;
+ if(!currentContentLesson||isUploadingLessonFiles)return;
+
+ const lessonId=currentContentLesson.id;
 
  const newTitle=prompt(
   "Enter the title that students will see:",
   file.title||file.file_name||""
  );
+
  if(newTitle===null)return;
 
  const title=newTitle.trim();
+
  if(!title||title.length>255){
   showMessage("The file title is required and must not exceed 255 characters.","error");
   return;
@@ -1071,9 +1142,11 @@ async function editLessonFile(file){
   "Enter the display order (positive whole number):",
   String(file.sort_order)
  );
+
  if(newOrder===null)return;
 
  const sortOrder=Number(newOrder);
+
  if(!Number.isInteger(sortOrder)||sortOrder<1){
   showMessage("Display order must be a positive whole number.","error");
   return;
@@ -1082,7 +1155,7 @@ async function editLessonFile(file){
  const {error}=await db.from("skill_lesson_content")
   .update({title:title,sort_order:sortOrder})
   .eq("id",file.id)
-  .eq("lesson_id",currentContentLesson.id);
+  .eq("lesson_id",lessonId);
 
  if(error){
   showMessage("Could not update file details: "+error.message,"error");
@@ -1090,19 +1163,24 @@ async function editLessonFile(file){
  }
 
  showMessage("File details updated successfully.");
- await loadLessonFiles();
+
+ if(currentContentLesson?.id===lessonId){
+  await loadLessonFiles();
+ }
 }
 
 async function toggleLessonFile(file){
- if(!currentContentLesson)return;
+ if(!currentContentLesson||isUploadingLessonFiles)return;
 
+ const lessonId=currentContentLesson.id;
  const action=file.is_published?"unpublish":"publish";
+
  if(!confirm("Are you sure you want to "+action+" this file?"))return;
 
  const {error}=await db.from("skill_lesson_content")
   .update({is_published:!file.is_published})
   .eq("id",file.id)
-  .eq("lesson_id",currentContentLesson.id);
+  .eq("lesson_id",lessonId);
 
  if(error){
   showMessage("Could not change file publication status: "+error.message,"error");
@@ -1110,7 +1188,10 @@ async function toggleLessonFile(file){
  }
 
  showMessage(file.is_published?"File unpublished successfully.":"File published successfully.");
- await loadLessonFiles();
+
+ if(currentContentLesson?.id===lessonId){
+  await loadLessonFiles();
+ }
 }
 
 function updateFileProgress(percent,message){
@@ -1120,8 +1201,8 @@ function updateFileProgress(percent,message){
  document.getElementById("fileProgressText").textContent=message;
 }
 
-async function uploadOneLessonFile(file,title,sortOrder){
- if(!currentContentLesson)throw new Error("No lesson is currently selected.");
+async function uploadOneLessonFile(file,title,sortOrder,lessonId){
+ if(!lessonId)throw new Error("No lesson was selected.");
 
  if(file.size<1||file.size>MAX_FILE_SIZE){
   throw new Error(file.name+" exceeds the 100 MB file size limit or is empty.");
@@ -1131,7 +1212,7 @@ async function uploadOneLessonFile(file,title,sortOrder){
  const startResult=await callRapidService("skill-lesson-upload-start",{
   method:"POST",
   json:{
-   lesson_id:currentContentLesson.id,
+   lesson_id:lessonId,
    file_name:file.name,
    title:title,
    mime_type:file.type||"application/octet-stream",
@@ -1170,7 +1251,9 @@ async function uploadOneLessonFile(file,title,sortOrder){
   );
 
   let result={};
-  try{result=await response.json()}catch(error){}
+  try{
+   result=await response.json();
+  }catch(error){}
 
   if(!response.ok||result.success===false||result.error){
    throw new Error(result.error||"Upload failed for "+file.name+" ("+response.status+").");
@@ -1201,6 +1284,11 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
   return;
  }
 
+ if(isUploadingLessonFiles)return;
+
+ /* Capture the lesson ID once. Every selected file uses this same ID. */
+ const selectedLessonId=currentContentLesson.id;
+
  const files=Array.from(document.getElementById("lessonFilesInput").files||[]);
  const startOrder=Number(document.getElementById("filesStartOrder").value);
 
@@ -1215,6 +1303,7 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
  }
 
  const oversized=files.find(file=>file.size<1||file.size>MAX_FILE_SIZE);
+
  if(oversized){
   showMessage("The file '"+oversized.name+"' is empty or exceeds the 100 MB limit.","error");
   return;
@@ -1223,16 +1312,14 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
  const button=document.getElementById("uploadFilesButton");
  button.disabled=true;
  button.textContent="Uploading...";
+ isUploadingLessonFiles=true;
 
  let completed=0;
  const total=files.length;
  let nextOrder=startOrder;
- const uploadedNames=[];
 
  try{
   for(let i=0;i<files.length;i++){
-   if(!currentContentLesson)throw new Error("The selected lesson was changed.");
-
    const file=files[i];
    const title=file.name.replace(/\.[^/.]+$/,"").trim()||file.name;
 
@@ -1241,7 +1328,12 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
     "Uploading file "+(i+1)+" of "+total+": "+file.name
    );
 
-   await uploadOneLessonFile(file,title,nextOrder);
+   await uploadOneLessonFile(
+    file,
+    title,
+    nextOrder,
+    selectedLessonId
+   );
 
    completed++;
    nextOrder++;
@@ -1250,42 +1342,53 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
     Math.round((completed/total)*100),
     "Uploaded "+completed+" of "+total+" files."
    );
-
-   uploadedNames.push(file.name);
   }
 
   updateFileProgress(100,"All selected files uploaded successfully.");
+
   showMessage(
    completed+" file(s) uploaded successfully. All new files are unpublished until you publish them."
   );
 
   document.getElementById("lessonFilesForm").reset();
-  document.getElementById("filesStartOrder").value=String(nextOrder);
 
-  await loadLessonFiles();
+  if(currentContentLesson?.id===selectedLessonId){
+   document.getElementById("filesStartOrder").value=String(nextOrder);
+  }
 
  }catch(error){
   showMessage(
    "Upload stopped after "+completed+" of "+total+" file(s). "+error.message,
    "error"
   );
+
   document.getElementById("fileProgressText").textContent=
    "Some files may already have uploaded. Refresh the file list before retrying.";
-  await loadLessonFiles();
+
  }finally{
+  isUploadingLessonFiles=false;
   button.disabled=false;
   button.textContent="Upload Selected Files";
+
+  /* Refresh only the lesson that was originally selected for this upload. */
+  if(currentContentLesson?.id===selectedLessonId){
+   await loadLessonFiles();
+  }
  }
 });
 
 /* LOGOUT */
 
 async function logout(){
+ if(preventNavigationDuringUpload())return;
+
  const {error}=await db.auth.signOut();
+
  if(error){
   alert("Could not log out: "+error.message);
   return;
  }
+
  location.href="login.html";
 }
 
