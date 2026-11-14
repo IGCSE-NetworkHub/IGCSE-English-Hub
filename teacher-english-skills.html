@@ -74,6 +74,24 @@ textarea{min-height:75px;resize:vertical}
  .level-item,.unit-item,.lesson-item,.file-item{align-items:flex-start}
  .file-manager-box{padding:14px}
 }
+
+/* SCREEN NAVIGATION REDESIGN */
+.breadcrumb-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 22px;padding:13px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 3px 12px #102a5608}
+.breadcrumb-bar button{border:0;background:transparent;color:#2864b4;font:inherit;font-size:14px;font-weight:700;cursor:pointer;padding:4px 2px}
+.breadcrumb-bar button:hover{text-decoration:underline}
+.breadcrumb-bar button[aria-current="page"]{color:#102a56;cursor:default;text-decoration:none}
+.breadcrumb-separator{color:#94a3b8}
+body[data-view="units"] #levelsPanel>.form-box,body[data-view="units"] #levelsPanel>h3,body[data-view="units"] #levelsList,
+body[data-view="lessons"] #levelsPanel>.form-box,body[data-view="lessons"] #levelsPanel>h3,body[data-view="lessons"] #levelsList,
+body[data-view="files"] #levelsPanel>.form-box,body[data-view="files"] #levelsPanel>h3,body[data-view="files"] #levelsList{display:none}
+body[data-view="lessons"] #unitsSection>.form-box,body[data-view="lessons"] #unitsSection>h3,body[data-view="lessons"] #unitsList,
+body[data-view="files"] #unitsSection>.form-box,body[data-view="files"] #unitsSection>h3,body[data-view="files"] #unitsList{display:none}
+body[data-view="files"] #lessonsSection>.form-box,body[data-view="files"] #lessonsSection>h3,body[data-view="files"] #lessonsList{display:none}
+body[data-view="units"] #levelsPanel>.panel-top,body[data-view="lessons"] #levelsPanel>.panel-top,body[data-view="files"] #levelsPanel>.panel-top{display:none}
+body[data-view="lessons"] #unitsSection>.section-heading,body[data-view="files"] #unitsSection>.section-heading{display:none}
+body[data-view="files"] #lessonsSection>.section-heading{display:none}
+@media(max-width:600px){.breadcrumb-bar{padding:10px 12px;gap:6px}.breadcrumb-bar button{font-size:13px}}
+
 </style>
 </head>
 <body>
@@ -90,7 +108,7 @@ textarea{min-height:75px;resize:vertical}
  </div>
 </header>
 
-<main class="container">
+<main class="container">\n <nav id="managementBreadcrumb" class="breadcrumb-bar" aria-label="Management path" style="display:none"></nav>
 
 <section id="skillsHome">
  <h2>English Skills Management</h2>
@@ -298,6 +316,31 @@ const icons={
  grammar:"📝"
 };
 
+
+/* SCREEN / BREADCRUMB CONTROLLER */
+function setManagementView(view){
+ document.body.dataset.view=view;
+ const crumb=document.getElementById("managementBreadcrumb");
+ if(!crumb)return;
+ const parts=[];
+ const add=(label,action,current=false)=>{
+  const button=document.createElement("button");
+  button.type="button";button.textContent=label;
+  if(current)button.setAttribute("aria-current","page");
+  else button.addEventListener("click",action);
+  parts.push(button);
+ };
+ const sep=()=>{const span=document.createElement("span");span.className="breadcrumb-separator";span.textContent="›";parts.push(span);};
+ if(view==="skills"){crumb.style.display="none";crumb.replaceChildren();return;}
+ crumb.style.display="flex";
+ add("All Skills",()=>backToSkills(),false);
+ if(currentSkill){sep();add(currentSkill.skill_name,()=>openSkill(currentSkill),view==="levels");}
+ if(["units","lessons","files"].includes(view)&&currentLevel){sep();add(currentLevel.level_name,()=>openUnits(currentLevel),view==="units");}
+ if(["lessons","files"].includes(view)&&currentUnit){sep();add(currentUnit.unit_title,()=>openLessons(currentUnit),view==="lessons");}
+ if(view==="files"&&currentContentLesson){sep();add(currentContentLesson.lesson_title,()=>openFileManager(currentContentLesson),true);}
+ crumb.replaceChildren(...parts);
+}
+
 function showMessage(message,type="success"){
  const box=document.getElementById("message");
  box.textContent=message;
@@ -385,6 +428,7 @@ async function openSkill(skill){
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+ setManagementView("levels");
 
  document.getElementById("skillsHome").style.display="none";
  document.getElementById("levelsPanel").style.display="block";
@@ -406,6 +450,7 @@ function backToSkills(){
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+ setManagementView("skills");
 
  document.getElementById("levelsPanel").style.display="none";
  document.getElementById("skillsHome").style.display="block";
@@ -580,6 +625,7 @@ async function openUnits(level){
  currentLevel=level;
  currentUnit=null;
  currentContentLesson=null;
+ setManagementView("units");
 
  document.getElementById("unitsSection").style.display="block";
  document.getElementById("lessonsSection").style.display="none";
@@ -601,6 +647,7 @@ function closeUnits(){
  currentLevel=null;
  currentUnit=null;
  currentContentLesson=null;
+ setManagementView("levels");
 
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
@@ -772,6 +819,7 @@ async function openLessons(unit){
  currentUnit=unit;
  currentContentLesson=null;
  editingLessonId=null;
+ setManagementView("lessons");
 
  document.getElementById("lessonsSection").style.display="block";
  document.getElementById("fileManager").style.display="none";
@@ -791,6 +839,7 @@ function closeLessons(){
 
  currentUnit=null;
  currentContentLesson=null;
+ setManagementView("units");
 
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
@@ -1010,6 +1059,7 @@ async function openFileManager(lesson){
  if(preventNavigationDuringUpload())return;
 
  currentContentLesson=lesson;
+ setManagementView("files");
 
  document.getElementById("fileManager").style.display="block";
  document.getElementById("fileManagerHeading").textContent="Files — "+lesson.lesson_title;
@@ -1032,6 +1082,7 @@ function closeFileManager(){
  if(preventNavigationDuringUpload())return;
 
  currentContentLesson=null;
+ setManagementView("lessons");
  document.getElementById("fileManager").style.display="none";
 }
 
@@ -1394,7 +1445,7 @@ async function logout(){
 
 (async()=>{
  const allowed=await checkTeacherAccess();
- if(allowed)await loadSkills();
+ if(allowed){setManagementView("skills");await loadSkills();}
 })();
 </script>
 </body>
