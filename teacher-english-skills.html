@@ -55,10 +55,24 @@ textarea{min-height:75px;resize:vertical}
 .lessons-section{border-top:1px solid #e5eaf1;margin-top:25px}
 .section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .price{font-weight:bold;color:#173b70}
+
+/* LESSON FILES */
+.file-manager{display:none;border-top:1px solid #e5eaf1;margin-top:25px;padding-top:25px}
+.file-manager-box{background:#f8faff;border:1px solid #e4eaf4;border-radius:10px;padding:20px;margin:18px 0}
+.file-list{display:grid;gap:12px;margin-top:18px}
+.file-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;background:white}
+.file-info{flex:1;min-width:200px}
+.file-info h4{margin:0 0 7px;color:#173b70;overflow-wrap:anywhere}
+.file-actions{display:flex;gap:8px;flex-wrap:wrap}
+.file-hint{font-size:13px;color:#64748b;line-height:1.6}
+.file-progress{display:none;margin-top:15px;background:#e5eaf1;border-radius:20px;height:12px;overflow:hidden}
+.file-progress-bar{height:100%;width:0;background:#2864b4;transition:width .2s}
+.file-progress-text{font-size:13px;color:#475569;margin-top:8px;line-height:1.5}
 @media(max-width:600px){
  .container{margin:22px auto}
  .panel{padding:16px}
- .level-item,.unit-item,.lesson-item{align-items:flex-start}
+ .level-item,.unit-item,.lesson-item,.file-item{align-items:flex-start}
+ .file-manager-box{padding:14px}
 }
 </style>
 </head>
@@ -209,6 +223,50 @@ textarea{min-height:75px;resize:vertical}
    <div id="lessonsList" class="lesson-list">
     <div class="empty">Select a unit to load its lessons.</div>
    </div>
+
+   <!-- NEW: FILE MANAGER FOR THE SELECTED LESSON -->
+   <section id="fileManager" class="file-manager">
+    <div class="section-heading">
+     <div>
+      <h2 id="fileManagerHeading">Lesson Files</h2>
+      <p class="muted">Upload and manage the files belonging to this lesson.</p>
+     </div>
+     <button class="btn secondary" type="button" onclick="closeFileManager()">Close Files</button>
+    </div>
+
+    <div class="file-manager-box">
+     <h3>Upload Files to This Lesson</h3>
+     <form id="lessonFilesForm">
+      <div class="form-grid">
+       <div>
+        <label for="lessonFilesInput">Select Files</label>
+        <input id="lessonFilesInput" type="file" multiple required>
+       </div>
+       <div>
+        <label for="filesStartOrder">Starting Display Order</label>
+        <input id="filesStartOrder" type="number" min="1" step="1" value="1" required>
+       </div>
+      </div>
+      <p class="file-hint">
+       You can select multiple files. Each file will be uploaded separately to Google Drive.
+       The file title will initially use its filename and can be edited afterward.
+       Maximum size: 100 MB per file.
+      </p>
+      <div class="form-actions">
+       <button class="btn primary" id="uploadFilesButton" type="submit">Upload Selected Files</button>
+      </div>
+      <div id="fileProgress" class="file-progress">
+       <div id="fileProgressBar" class="file-progress-bar"></div>
+      </div>
+      <div id="fileProgressText" class="file-progress-text"></div>
+     </form>
+    </div>
+
+    <h3>Files Attached to This Lesson</h3>
+    <div id="lessonFilesList" class="file-list">
+     <div class="empty">Select a lesson to view its files.</div>
+    </div>
+   </section>
   </section>
  </section>
 </section>
@@ -220,11 +278,14 @@ textarea{min-height:75px;resize:vertical}
 <script>
 const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
 const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const RAPID_SERVICE_URL=SUPABASE_URL+"/functions/v1/rapid-service";
+const MAX_FILE_SIZE=100*1024*1024;
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let currentSkill=null;
 let currentLevel=null;
 let currentUnit=null;
+let currentContentLesson=null;
 let editingLevelId=null;
 let editingUnitId=null;
 let editingLessonId=null;
@@ -303,11 +364,13 @@ async function openSkill(skill){
  currentSkill=skill;
  currentLevel=null;
  currentUnit=null;
+ currentContentLesson=null;
  document.getElementById("skillsHome").style.display="none";
  document.getElementById("levelsPanel").style.display="block";
  document.getElementById("skillHeading").textContent=skill.skill_name+" — Levels";
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
+ document.getElementById("fileManager").style.display="none";
  clearMessage();
  resetLevelForm();
  await loadLevels();
@@ -318,10 +381,12 @@ function backToSkills(){
  currentSkill=null;
  currentLevel=null;
  currentUnit=null;
+ currentContentLesson=null;
  document.getElementById("levelsPanel").style.display="none";
  document.getElementById("skillsHome").style.display="block";
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
+ document.getElementById("fileManager").style.display="none";
  clearMessage();
  resetLevelForm();
  resetUnitForm();
@@ -472,8 +537,10 @@ async function toggleLevel(level){
 async function openUnits(level){
  currentLevel=level;
  currentUnit=null;
+ currentContentLesson=null;
  document.getElementById("unitsSection").style.display="block";
  document.getElementById("lessonsSection").style.display="none";
+ document.getElementById("fileManager").style.display="none";
  document.getElementById("unitsHeading").textContent="Units — "+level.level_name;
  document.getElementById("unitsSubtitle").textContent=
   "Manage the units belonging to "+currentSkill.skill_name+" / "+level.level_name;
@@ -487,8 +554,10 @@ async function openUnits(level){
 function closeUnits(){
  currentLevel=null;
  currentUnit=null;
+ currentContentLesson=null;
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
+ document.getElementById("fileManager").style.display="none";
  resetUnitForm();
  resetLessonForm();
 }
@@ -650,9 +719,11 @@ async function toggleUnit(unit){
 
 async function openLessons(unit){
  currentUnit=unit;
+ currentContentLesson=null;
  editingLessonId=null;
 
  document.getElementById("lessonsSection").style.display="block";
+ document.getElementById("fileManager").style.display="none";
  document.getElementById("lessonsHeading").textContent="Lessons — "+unit.unit_title;
  document.getElementById("lessonsSubtitle").textContent=
   "Set an independent price for every lesson in this unit.";
@@ -666,7 +737,9 @@ async function openLessons(unit){
 
 function closeLessons(){
  currentUnit=null;
+ currentContentLesson=null;
  document.getElementById("lessonsSection").style.display="none";
+ document.getElementById("fileManager").style.display="none";
  resetLessonForm();
 }
 
@@ -720,6 +793,12 @@ async function loadLessons(){
   const actions=document.createElement("div");
   actions.className="item-actions";
 
+  /* NEW: MANAGE FILES BUTTON */
+  const files=document.createElement("button");
+  files.className="btn primary";
+  files.textContent="Manage Files";
+  files.onclick=()=>openFileManager(lesson);
+
   const edit=document.createElement("button");
   edit.className="btn secondary";
   edit.textContent="Edit";
@@ -730,7 +809,7 @@ async function loadLessons(){
   toggle.textContent=lesson.is_published?"Unpublish":"Publish";
   toggle.onclick=()=>toggleLesson(lesson);
 
-  actions.append(edit,toggle);
+  actions.append(files,edit,toggle);
   item.append(info,actions);
   list.appendChild(item);
  });
@@ -824,6 +903,382 @@ async function toggleLesson(lesson){
  showMessage("Lesson status updated.");
  await loadLessons();
 }
+
+/* =====================================================
+   LESSON FILE MANAGEMENT
+   Uses the existing rapid-service Google Drive endpoints
+   and skill_lesson_content table.
+===================================================== */
+
+async function getCurrentAccessToken(){
+ const {data,error}=await db.auth.getSession();
+ if(error||!data.session||!data.session.access_token){
+  throw new Error("Your session has expired. Please log in again.");
+ }
+ return data.session.access_token;
+}
+
+async function callRapidService(action,options={}){
+ const token=await getCurrentAccessToken();
+ const response=await fetch(
+  RAPID_SERVICE_URL+"?action="+encodeURIComponent(action)+(options.query||""),
+  {
+   method:options.method||"GET",
+   headers:{
+    "apikey":SUPABASE_KEY,
+    "Authorization":"Bearer "+token,
+    ...(options.json?{"Content-Type":"application/json"}:{}),
+    ...(options.headers||{})
+   },
+   body:options.json?JSON.stringify(options.json):options.body
+  }
+ );
+
+ let result={};
+ try{result=await response.json()}catch(error){}
+
+ if(!response.ok){
+  throw new Error(result.error||result.message||"Request failed ("+response.status+").");
+ }
+ if(result.success===false){
+  throw new Error(result.error||result.message||"The request was not successful.");
+ }
+ return result;
+}
+
+async function openFileManager(lesson){
+ currentContentLesson=lesson;
+
+ document.getElementById("fileManager").style.display="block";
+ document.getElementById("fileManagerHeading").textContent="Files — "+lesson.lesson_title;
+ document.getElementById("lessonFilesList").innerHTML=
+  '<div class="empty">Loading lesson files...</div>';
+
+ document.getElementById("lessonFilesInput").value="";
+ document.getElementById("filesStartOrder").value="1";
+ document.getElementById("fileProgress").style.display="none";
+ document.getElementById("fileProgressBar").style.width="0";
+ document.getElementById("fileProgressText").textContent="";
+
+ clearMessage();
+ await loadLessonFiles();
+
+ document.getElementById("fileManager").scrollIntoView({behavior:"smooth"});
+}
+
+function closeFileManager(){
+ currentContentLesson=null;
+ document.getElementById("fileManager").style.display="none";
+}
+
+async function loadLessonFiles(){
+ if(!currentContentLesson)return;
+
+ const list=document.getElementById("lessonFilesList");
+ list.textContent="Loading lesson files...";
+
+ const {data,error}=await db.from("skill_lesson_content")
+  .select("id,lesson_id,content_type,title,file_name,mime_type,sort_order,is_published,created_at")
+  .eq("lesson_id",currentContentLesson.id)
+  .eq("content_type","file")
+  .order("sort_order");
+
+ if(error){
+  list.textContent="Could not load lesson files: "+error.message;
+  showMessage("Could not load lesson files: "+error.message,"error");
+  return;
+ }
+
+ list.replaceChildren();
+
+ if(!data||!data.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="No files have been uploaded for this lesson yet.";
+  list.appendChild(empty);
+  document.getElementById("filesStartOrder").value="1";
+  return;
+ }
+
+ const maxOrder=Math.max(...data.map(file=>Number(file.sort_order)||0));
+ document.getElementById("filesStartOrder").value=String(maxOrder+1);
+
+ data.forEach(file=>{
+  const item=document.createElement("div");
+  item.className="file-item";
+
+  const info=document.createElement("div");
+  info.className="file-info";
+
+  const title=document.createElement("h4");
+  title.textContent=file.title||file.file_name||"Lesson file";
+
+  const filename=document.createElement("div");
+  filename.className="level-meta";
+  filename.textContent="File: "+(file.file_name||"Unknown");
+
+  const order=document.createElement("div");
+  order.className="level-meta";
+  order.textContent="Display order: "+file.sort_order;
+
+  const mime=document.createElement("div");
+  mime.className="level-meta";
+  mime.textContent="Type: "+(file.mime_type||"Unknown");
+
+  const status=document.createElement("span");
+  status.className="status "+(file.is_published?"published":"unpublished");
+  status.textContent=file.is_published?"Published":"Not Published";
+
+  info.append(title,filename,order,mime,status);
+
+  const actions=document.createElement("div");
+  actions.className="file-actions";
+
+  const edit=document.createElement("button");
+  edit.type="button";
+  edit.className="btn secondary";
+  edit.textContent="Edit Details";
+  edit.onclick=()=>editLessonFile(file);
+
+  const toggle=document.createElement("button");
+  toggle.type="button";
+  toggle.className="btn "+(file.is_published?"danger":"primary");
+  toggle.textContent=file.is_published?"Unpublish":"Publish";
+  toggle.onclick=()=>toggleLessonFile(file);
+
+  actions.append(edit,toggle);
+  item.append(info,actions);
+  list.appendChild(item);
+ });
+}
+
+async function editLessonFile(file){
+ if(!currentContentLesson)return;
+
+ const newTitle=prompt(
+  "Enter the title that students will see:",
+  file.title||file.file_name||""
+ );
+ if(newTitle===null)return;
+
+ const title=newTitle.trim();
+ if(!title||title.length>255){
+  showMessage("The file title is required and must not exceed 255 characters.","error");
+  return;
+ }
+
+ const newOrder=prompt(
+  "Enter the display order (positive whole number):",
+  String(file.sort_order)
+ );
+ if(newOrder===null)return;
+
+ const sortOrder=Number(newOrder);
+ if(!Number.isInteger(sortOrder)||sortOrder<1){
+  showMessage("Display order must be a positive whole number.","error");
+  return;
+ }
+
+ const {error}=await db.from("skill_lesson_content")
+  .update({title:title,sort_order:sortOrder})
+  .eq("id",file.id)
+  .eq("lesson_id",currentContentLesson.id);
+
+ if(error){
+  showMessage("Could not update file details: "+error.message,"error");
+  return;
+ }
+
+ showMessage("File details updated successfully.");
+ await loadLessonFiles();
+}
+
+async function toggleLessonFile(file){
+ if(!currentContentLesson)return;
+
+ const action=file.is_published?"unpublish":"publish";
+ if(!confirm("Are you sure you want to "+action+" this file?"))return;
+
+ const {error}=await db.from("skill_lesson_content")
+  .update({is_published:!file.is_published})
+  .eq("id",file.id)
+  .eq("lesson_id",currentContentLesson.id);
+
+ if(error){
+  showMessage("Could not change file publication status: "+error.message,"error");
+  return;
+ }
+
+ showMessage(file.is_published?"File unpublished successfully.":"File published successfully.");
+ await loadLessonFiles();
+}
+
+function updateFileProgress(percent,message){
+ document.getElementById("fileProgress").style.display="block";
+ document.getElementById("fileProgressBar").style.width=
+  Math.max(0,Math.min(100,percent))+"%";
+ document.getElementById("fileProgressText").textContent=message;
+}
+
+async function uploadOneLessonFile(file,title,sortOrder){
+ if(!currentContentLesson)throw new Error("No lesson is currently selected.");
+
+ if(file.size<1||file.size>MAX_FILE_SIZE){
+  throw new Error(file.name+" exceeds the 100 MB file size limit or is empty.");
+ }
+
+ /* STEP 1: CREATE GOOGLE DRIVE RESUMABLE UPLOAD SESSION */
+ const startResult=await callRapidService("skill-lesson-upload-start",{
+  method:"POST",
+  json:{
+   lesson_id:currentContentLesson.id,
+   file_name:file.name,
+   title:title,
+   mime_type:file.type||"application/octet-stream",
+   file_size:file.size,
+   sort_order:sortOrder
+  }
+ });
+
+ if(!startResult.success||!startResult.upload_id){
+  throw new Error("Could not create an upload session for "+file.name);
+ }
+
+ const uploadId=startResult.upload_id;
+ const chunkSize=Number(startResult.chunk_size)||4*1024*1024;
+
+ /* STEP 2: UPLOAD FILE IN CHUNKS */
+ let offset=0;
+ let finalResult=null;
+
+ while(offset<file.size){
+  const end=Math.min(offset+chunkSize,file.size);
+  const chunk=file.slice(offset,end);
+  const token=await getCurrentAccessToken();
+
+  const response=await fetch(
+   RAPID_SERVICE_URL+"?action=skill-lesson-upload-chunk&id="+encodeURIComponent(uploadId),
+   {
+    method:"POST",
+    headers:{
+     "apikey":SUPABASE_KEY,
+     "Authorization":"Bearer "+token,
+     "Content-Range":"bytes "+offset+"-"+(end-1)+"/"+file.size
+    },
+    body:chunk
+   }
+  );
+
+  let result={};
+  try{result=await response.json()}catch(error){}
+
+  if(!response.ok||result.success===false||result.error){
+   throw new Error(result.error||"Upload failed for "+file.name+" ("+response.status+").");
+  }
+
+  offset=end;
+
+  if(offset===file.size){
+   if(!result.complete){
+    throw new Error("The server did not confirm completion for "+file.name+".");
+   }
+   finalResult=result;
+  }
+ }
+
+ if(!finalResult||!finalResult.complete){
+  throw new Error("Upload completion could not be confirmed for "+file.name+".");
+ }
+
+ return finalResult;
+}
+
+document.getElementById("lessonFilesForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+
+ if(!currentContentLesson){
+  showMessage("Please select a lesson first.","error");
+  return;
+ }
+
+ const files=Array.from(document.getElementById("lessonFilesInput").files||[]);
+ const startOrder=Number(document.getElementById("filesStartOrder").value);
+
+ if(!files.length){
+  showMessage("Please select at least one file.","error");
+  return;
+ }
+
+ if(!Number.isInteger(startOrder)||startOrder<1){
+  showMessage("Starting display order must be a positive whole number.","error");
+  return;
+ }
+
+ const oversized=files.find(file=>file.size<1||file.size>MAX_FILE_SIZE);
+ if(oversized){
+  showMessage("The file '"+oversized.name+"' is empty or exceeds the 100 MB limit.","error");
+  return;
+ }
+
+ const button=document.getElementById("uploadFilesButton");
+ button.disabled=true;
+ button.textContent="Uploading...";
+
+ let completed=0;
+ const total=files.length;
+ let nextOrder=startOrder;
+ const uploadedNames=[];
+
+ try{
+  for(let i=0;i<files.length;i++){
+   if(!currentContentLesson)throw new Error("The selected lesson was changed.");
+
+   const file=files[i];
+   const title=file.name.replace(/\.[^/.]+$/,"").trim()||file.name;
+
+   updateFileProgress(
+    Math.round((completed/total)*100),
+    "Uploading file "+(i+1)+" of "+total+": "+file.name
+   );
+
+   await uploadOneLessonFile(file,title,nextOrder);
+
+   completed++;
+   nextOrder++;
+
+   updateFileProgress(
+    Math.round((completed/total)*100),
+    "Uploaded "+completed+" of "+total+" files."
+   );
+
+   uploadedNames.push(file.name);
+  }
+
+  updateFileProgress(100,"All selected files uploaded successfully.");
+  showMessage(
+   completed+" file(s) uploaded successfully. All new files are unpublished until you publish them."
+  );
+
+  document.getElementById("lessonFilesForm").reset();
+  document.getElementById("filesStartOrder").value=String(nextOrder);
+
+  await loadLessonFiles();
+
+ }catch(error){
+  showMessage(
+   "Upload stopped after "+completed+" of "+total+" file(s). "+error.message,
+   "error"
+  );
+  document.getElementById("fileProgressText").textContent=
+   "Some files may already have uploaded. Refresh the file list before retrying.";
+  await loadLessonFiles();
+ }finally{
+  button.disabled=false;
+  button.textContent="Upload Selected Files";
+ }
+});
+
+/* LOGOUT */
 
 async function logout(){
  const {error}=await db.auth.signOut();
