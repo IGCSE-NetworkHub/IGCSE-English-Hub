@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Enrollments | The Blueprint</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#1f2937}
+header{background:#102a56;color:#fff;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+header h1{font-size:22px;margin:0}header p{margin:6px 0 0;color:#dce7f8;font-size:13px}
+nav{display:flex;gap:9px;flex-wrap:wrap}
+nav a,nav button{border:0;border-radius:7px;padding:10px 14px;font-weight:bold;text-decoration:none;cursor:pointer}
+.back{background:#fff;color:#102a56}.logout{background:#d9534f;color:#fff}
+main{width:92%;max-width:1150px;margin:30px auto;min-height:65vh}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h2,h3{color:#102a56}.muted{color:#64748b;line-height:1.6}
+.btn{border:0;border-radius:7px;padding:10px 14px;font-weight:bold;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.primary{background:#2864b4;color:white}.secondary{background:#edf3fc;color:#173b70}
+.danger{background:#d9534f;color:white}
+#message{display:none;padding:12px 15px;border-radius:8px;margin:18px 0;line-height:1.5;white-space:pre-wrap}
+#message.success{display:block;background:#dcfce7;color:#166534}
+#message.error{display:block;background:#fee2e2;color:#991b1b}
+#list{display:grid;gap:16px;margin-top:22px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px;box-shadow:0 4px 15px #102a560c}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;border-bottom:1px solid #e5eaf1;padding-bottom:13px;margin-bottom:14px}
+.card h3{margin:0 0 5px;font-size:19px}.student{font-weight:bold;color:#173b70}
+.pill{display:inline-block;background:#fff7dd;color:#8a5a00;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:bold}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px}
+.detail{background:#f8fafc;border-radius:8px;padding:11px}
+.detail small{display:block;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.detail strong{overflow-wrap:anywhere}
+.feedback{margin-top:14px;padding:13px;background:#f8faff;border-left:3px solid #2864b4;border-radius:5px;white-space:pre-wrap}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+.empty{background:#fff;padding:28px;text-align:center;color:#64748b;border-radius:10px}
+footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
+@media(max-width:600px){main{margin:20px auto}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+ <div><h1>IGCSE English Hub</h1><p>Student Skill Enrollment Approvals</p></div>
+ <nav>
+  <a class="back" href="teacher-dashboard.html">Teacher Dashboard</a>
+  <a class="back" href="teacher-english-skills.html">English Skills Management</a>
+  <button class="logout" type="button" onclick="logout()">Logout</button>
+ </nav>
+</header>
+<main>
+ <div class="top">
+  <div><h2>Pending Enrollment Requests</h2><p class="muted">Review students who accepted their recommended level. Approval activates the enrollment; rejection records a reason and leaves any existing active enrollment unchanged.</p></div>
+  <button class="btn primary" id="refreshButton" type="button" onclick="loadRequests()">Refresh Requests</button>
+ </div>
+ <div id="message" role="status" aria-live="polite"></div>
+ <section id="list"><div class="empty">Checking teacher access...</div></section>
+</main>
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+<script>
+const SUPABASE_URL="https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY="sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+function showMessage(message,type="success"){
+ const box=document.getElementById("message");
+ box.textContent=message;box.className=type;
+}
+function clearMessage(){
+ const box=document.getElementById("message");
+ box.textContent="";box.className="";
+}
+function addDetail(parent,label,value){
+ const wrap=document.createElement("div");wrap.className="detail";
+ const small=document.createElement("small");small.textContent=label;
+ const strong=document.createElement("strong");
+ strong.textContent=(value===null||value===undefined||value==="")?"—":String(value);
+ wrap.append(small,strong);parent.appendChild(wrap);
+}
+function formatDate(value){
+ if(!value)return "—";
+ const date=new Date(value);
+ return Number.isNaN(date.getTime())?String(value):date.toLocaleString();
+}
+function formatScore(value){
+ return value===null||value===undefined?"Not recorded":String(value);
+}
+async function checkTeacherAccess(){
+ const {data,error}=await db.auth.getSession();
+ if(error||!data.session){location.href="login.html";return false;}
+ const {data:teacher,error:roleError}=await db.from("user_roles")
+  .select("role").eq("user_id",data.session.user.id).eq("role","teacher").maybeSingle();
+ if(roleError||!teacher){
+  alert("Access denied. Teachers only.");
+  await db.auth.signOut();location.href="login.html";return false;
+ }
+ return true;
+}
+function makeAction(label,className,handler){
+ const button=document.createElement("button");
+ button.type="button";button.className="btn "+className;
+ button.textContent=label;button.addEventListener("click",handler);
+ return button;
+}
+function renderRequests(rows){
+ const list=document.getElementById("list");
+ list.replaceChildren();
+ if(!rows||rows.length===0){
+  const empty=document.createElement("div");empty.className="empty";
+  empty.textContent="There are no pending enrollment requests.";
+  list.appendChild(empty);return;
+ }
+ rows.forEach(row=>{
+  const card=document.createElement("article");card.className="card";
+  const head=document.createElement("div");head.className="card-head";
+  const identity=document.createElement("div");
+  const name=document.createElement("h3");name.className="student";
+  name.textContent=row.student_name||"Unnamed student";
+  const subtitle=document.createElement("div");subtitle.className="muted";
+  subtitle.textContent=(row.student_grade||"Grade not specified")+" · "+(row.student_email||"No email");
+  identity.append(name,subtitle);
+  const status=document.createElement("span");status.className="pill";status.textContent="Awaiting teacher approval";
+  head.append(identity,status);card.appendChild(head);
+
+  const details=document.createElement("div");details.className="details";
+  addDetail(details,"Skill",row.skill_name);
+  addDetail(details,"Recommended level",(row.level_name||"")+" (Level "+(row.level_number??"—")+")");
+  addDetail(details,"Placement test",row.test_title);
+  addDetail(details,"Automatic score",formatScore(row.auto_score));
+  addDetail(details,"Teacher score",formatScore(row.teacher_score));
+  addDetail(details,"Total score",formatScore(row.total_score)+" / "+formatScore(row.total_marks));
+  addDetail(details,"Reviewed at",formatDate(row.reviewed_at));
+  addDetail(details,"Request received",formatDate(row.enrollment_created_at));
+  addDetail(details,"Student ID",row.student_id);
+  addDetail(details,"Placement attempt",row.placement_attempt_id);
+  card.appendChild(details);
+
+  if(row.teacher_feedback){
+   const feedback=document.createElement("div");feedback.className="feedback";
+   const label=document.createElement("strong");label.textContent="Teacher feedback: ";
+   feedback.append(label,document.createTextNode(row.teacher_feedback));card.appendChild(feedback);
+  }
+  const actions=document.createElement("div");actions.className="actions";
+  const approve=makeAction("Approve & Activate","primary",()=>approveEnrollment(row,approve));
+  const reject=makeAction("Reject Request","danger",()=>rejectEnrollment(row,reject));
+  actions.append(approve,reject);card.appendChild(actions);list.appendChild(card);
+ });
+}
+async function loadRequests(){
+ clearMessage();
+ const button=document.getElementById("refreshButton");
+ button.disabled=true;button.textContent="Loading...";
+ const list=document.getElementById("list");list.innerHTML='<div class="empty">Loading pending requests...</div>';
+ try{
+  const {data,error}=await db.rpc("get_pending_student_skill_enrollments");
+  if(error)throw error;
+  renderRequests(data||[]);
+ }catch(error){
+  list.innerHTML='<div class="empty">Could not load enrollment requests.</div>';
+  showMessage("Loading failed: "+(error.message||String(error)),"error");
+ }finally{
+  button.disabled=false;button.textContent="Refresh Requests";
+ }
+}
+async function approveEnrollment(row,button){
+ const student=row.student_name||"this student";
+ const level=row.level_name||"the recommended level";
+ if(!confirm("Approve "+student+" for "+row.skill_name+" — "+level+"?\n\nThis will activate the new enrollment and complete the student's previous active enrollment in this skill, if one exists."))return;
+ button.disabled=true;button.textContent="Approving...";
+ try{
+  const {data,error}=await db.rpc("approve_student_skill_enrollment",{p_enrollment_id:row.enrollment_id});
+  if(error)throw error;
+  showMessage(data||"Enrollment approved and activated successfully.","success");
+  await loadRequests();
+ }catch(error){
+  showMessage("Approval failed: "+(error.message||String(error)),"error");
+  button.disabled=false;button.textContent="Approve & Activate";
+ }
+}
+async function rejectEnrollment(row,button){
+ const reason=prompt("Enter the reason for rejecting this enrollment request. This reason will be recorded:");
+ if(reason===null)return;
+ if(!reason.trim()){alert("A rejection reason is required.");return;}
+ button.disabled=true;button.textContent="Rejecting...";
+ try{
+  const {data,error}=await db.rpc("reject_student_skill_enrollment",{
+   p_enrollment_id:row.enrollment_id,p_teacher_note:reason.trim()
+  });
+  if(error)throw error;
+  showMessage(data||"Enrollment rejected and rejection details recorded.","success");
+  await loadRequests();
+ }catch(error){
+  showMessage("Rejection failed: "+(error.message||String(error)),"error");
+  button.disabled=false;button.textContent="Reject Request";
+ }
+}
+async function logout(){
+ const {error}=await db.auth.signOut();
+ if(error){alert("Could not log out: "+error.message);return;}
+ location.href="login.html";
+}
+(async()=>{
+ const allowed=await checkTeacherAccess();
+ if(allowed)await loadRequests();
+})();
+</script>
+</body>
+</html>
