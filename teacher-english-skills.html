@@ -91,7 +91,6 @@ body[data-view="units"] #levelsPanel>.panel-top,body[data-view="lessons"] #level
 body[data-view="lessons"] #unitsSection>.section-heading,body[data-view="files"] #unitsSection>.section-heading{display:none}
 body[data-view="files"] #lessonsSection>.section-heading{display:none}
 @media(max-width:600px){.breadcrumb-bar{padding:10px 12px;gap:6px}.breadcrumb-bar button{font-size:13px}}
-
 </style>
 </head>
 <body>
@@ -108,7 +107,8 @@ body[data-view="files"] #lessonsSection>.section-heading{display:none}
  </div>
 </header>
 
-<main class="container">\n <nav id="managementBreadcrumb" class="breadcrumb-bar" aria-label="Management path" style="display:none"></nav>
+<main class="container">
+ <nav id="managementBreadcrumb" class="breadcrumb-bar" aria-label="Management path" style="display:none"></nav>
 
 <section id="skillsHome">
  <h2>English Skills Management</h2>
@@ -128,6 +128,27 @@ body[data-view="files"] #lessonsSection>.section-heading{display:none}
  </div>
 
  <div id="message"></div>
+
+ <!-- PLACEMENT ASSESSMENT FEE -->
+ <div class="form-box" id="placementFeeBox">
+  <h3>Placement Assessment Fee</h3>
+  <p class="muted">
+   Set the fee students must pay before accessing this skill's placement assessment.
+  </p>
+
+  <div class="form-grid">
+   <div>
+    <label for="placementFee">Assessment Fee</label>
+    <input id="placementFee" type="number" min="0" step="0.01" required value="0">
+   </div>
+  </div>
+
+  <div class="form-actions">
+   <button class="btn primary" type="button" id="savePlacementFeeButton" onclick="savePlacementFee()">
+    Save Assessment Fee
+   </button>
+  </div>
+ </div>
 
  <div class="form-box">
   <h3 id="levelFormHeading">Add New Level</h3>
@@ -316,7 +337,6 @@ const icons={
  grammar:"📝"
 };
 
-
 /* SCREEN / BREADCRUMB CONTROLLER */
 function setManagementView(view){
  document.body.dataset.view=view;
@@ -389,7 +409,7 @@ async function loadSkills(){
  grid.textContent="Loading skills...";
 
  const {data,error}=await db.from("skills")
-  .select("id,skill_code,skill_name,is_active,sort_order")
+  .select("id,skill_code,skill_name,is_active,sort_order,placement_fee")
   .order("sort_order");
 
  if(error){
@@ -421,6 +441,49 @@ async function loadSkills(){
  if(!data||!data.length)grid.textContent="No skills found.";
 }
 
+/* PLACEMENT ASSESSMENT FEE MANAGEMENT */
+async function savePlacementFee(){
+ if(!currentSkill)return;
+
+ const input=document.getElementById("placementFee");
+ const button=document.getElementById("savePlacementFeeButton");
+ const fee=Number(input.value);
+
+ clearMessage();
+
+ if(input.value.trim()===""||!Number.isFinite(fee)||fee<0){
+  showMessage("Please enter a valid assessment fee of zero or more.","error");
+  input.focus();
+  return;
+ }
+
+ button.disabled=true;
+ button.textContent="Saving...";
+
+ try{
+  const {data,error}=await db.from("skills")
+   .update({placement_fee:fee})
+   .eq("id",currentSkill.id)
+   .select("id,placement_fee")
+   .single();
+
+  if(error)throw error;
+
+  currentSkill.placement_fee=Number(data.placement_fee);
+  input.value=Number(data.placement_fee).toFixed(2);
+
+  showMessage(
+   "Placement assessment fee saved successfully: "+Number(data.placement_fee).toFixed(2)
+  );
+
+ }catch(error){
+  showMessage("Could not save assessment fee: "+error.message,"error");
+ }finally{
+  button.disabled=false;
+  button.textContent="Save Assessment Fee";
+ }
+}
+
 async function openSkill(skill){
  if(preventNavigationDuringUpload())return;
 
@@ -436,6 +499,9 @@ async function openSkill(skill){
  document.getElementById("unitsSection").style.display="none";
  document.getElementById("lessonsSection").style.display="none";
  document.getElementById("fileManager").style.display="none";
+
+ document.getElementById("placementFee").value=
+  Number(skill.placement_fee||0).toFixed(2);
 
  clearMessage();
  resetLevelForm();
@@ -618,7 +684,6 @@ async function toggleLevel(level){
 }
 
 /* UNITS MANAGEMENT */
-
 async function openUnits(level){
  if(preventNavigationDuringUpload())return;
 
@@ -812,7 +877,6 @@ async function toggleUnit(unit){
 }
 
 /* LESSONS MANAGEMENT */
-
 async function openLessons(unit){
  if(preventNavigationDuringUpload())return;
 
@@ -1429,7 +1493,6 @@ document.getElementById("lessonFilesForm").addEventListener("submit",async event
 });
 
 /* LOGOUT */
-
 async function logout(){
  if(preventNavigationDuringUpload())return;
 
