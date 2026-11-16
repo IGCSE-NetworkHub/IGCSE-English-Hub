@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placement Test Management | The Blueprint</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f6fb;color:#172033}
+header{background:#172b4d;color:white;padding:22px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+header h2{margin:0;font-size:21px}
+header p{margin:5px 0 0;color:#d6e0ef;font-size:13px}
+main{max-width:1150px;margin:28px auto;padding:0 16px 45px}
+.top-links{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+a,.button{display:inline-block;text-decoration:none;border:0;border-radius:7px;padding:11px 16px;background:#244b7a;color:white;font-weight:bold;cursor:pointer;font-size:14px}
+button:disabled{opacity:.55;cursor:not-allowed}
+.secondary{background:#e7edf5;color:#243b5b}
+.danger{background:#a83232}
+.panel{background:white;border:1px solid #e0e6ef;border-radius:12px;padding:22px;margin-bottom:22px;box-shadow:0 3px 12px #172b4d0a}
+h1{font-size:27px;margin:0 0 8px}
+h2{font-size:20px;margin:0 0 16px}
+h3{font-size:16px;margin:0 0 12px}
+.muted{color:#64748b;font-size:14px;line-height:1.6}
+label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:white;color:#172033}
+textarea{min-height:105px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+.message{padding:12px 14px;border-radius:8px;margin-bottom:17px;display:none;line-height:1.5}
+.message.success{display:block;background:#e8f6ed;color:#17633a}
+.message.error{display:block;background:#fff0f0;color:#9b2424}
+.message.info{display:block;background:#edf4ff;color:#244b7a}
+.hidden{display:none!important}
+.option-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin:8px 0}
+.option-row input[type=radio]{width:auto}
+.option-row button{padding:8px 11px}
+.option-row .correct-label{font-size:12px;color:#17633a;display:flex;align-items:center;gap:5px}
+.list-item{border:1px solid #e1e7ef;border-radius:9px;padding:14px;margin:10px 0}
+.list-item p{margin:7px 0;color:#64748b;font-size:13px}
+.tag{display:inline-block;background:#edf2f8;color:#334b68;border-radius:20px;padding:4px 9px;font-size:12px;margin:3px}
+.list-item .actions{margin-top:10px}
+hr{border:0;border-top:1px solid #e5eaf1;margin:20px 0}
+footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}.option-row{grid-template-columns:1fr auto}.option-row .correct-label{grid-column:1/-1}}
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+  <h2>IGCSE English Hub — The Blueprint</h2>
+  <p>Teacher Placement Assessment Management</p>
+ </div>
+ <button id="logoutButton" class="secondary">Log Out</button>
+</header>
+
+<main>
+ <div class="top-links">
+  <a href="teacher-dashboard.html">← Teacher Dashboard</a>
+  <a class="secondary" href="teacher-english-skills.html">English Skills Management</a>
+ </div>
+
+ <div id="status" class="message info">Checking teacher access...</div>
+
+ <div id="pageContent" class="hidden">
+  <h1>Placement Test Management</h1>
+  <p class="muted">Create a question bank, build placement tests, and control the question distribution for each level.</p>
+
+  <div id="message" class="message"></div>
+
+  <section class="panel">
+   <h2>1. Question Bank</h2>
+   <p class="muted">Add questions to a specific skill and level. MCQ choices are flexible: add or remove as many choices as the question requires.</p>
+
+   <div class="grid">
+    <div>
+     <label for="qSkill">Skill</label>
+     <select id="qSkill"></select>
+    </div>
+    <div>
+     <label for="qLevel">Level</label>
+     <select id="qLevel"></select>
+    </div>
+    <div>
+     <label for="qType">Question Type</label>
+     <select id="qType"></select>
+    </div>
+    <div>
+     <label for="qDifficulty">Difficulty</label>
+     <select id="qDifficulty">
+      <option value="easy">Easy</option>
+      <option value="moderate" selected>Moderate</option>
+      <option value="hard">Hard</option>
+     </select>
+    </div>
+    <div>
+     <label for="qMarks">Marks</label>
+     <input id="qMarks" type="number" min="0.5" step="0.5" value="1">
+    </div>
+    <div>
+     <label for="qTopic">Topic (optional)</label>
+     <input id="qTopic" type="text" placeholder="e.g. Inference, Tenses">
+    </div>
+   </div>
+
+   <label for="qText">Question Text / Instructions</label>
+   <textarea id="qText" placeholder="Write the question or task here..."></textarea>
+
+   <div id="mcqArea" class="hidden">
+    <hr>
+    <h3>Answer Choices</h3>
+    <p class="muted">Add as many choices as you need. Select the correct answer using the radio button.</p>
+    <div id="optionsList"></div>
+    <button type="button" class="secondary" id="addOptionButton">+ Add Choice</button>
+   </div>
+
+   <div id="answerArea">
+    <label for="answerKey">Answer Key (JSON)</label>
+    <textarea id="answerKey" placeholder='For example: {"correct":"your-answer"}'></textarea>
+    <p class="muted">For questions requiring teacher marking, you can leave this empty and use the question instructions and marking rubric.</p>
+   </div>
+
+   <label for="qRubric">Marking Rubric / Teacher Guidance (optional)</label>
+   <textarea id="qRubric" placeholder="Explain how this question should be marked, including acceptable answers or criteria..."></textarea>
+
+   <div class="actions">
+    <button id="saveQuestionButton">Save Question</button>
+    <button type="button" class="secondary" id="resetQuestionButton">Clear Form</button>
+   </div>
+  </section>
+
+  <section class="panel">
+   <h2>2. Existing Question Bank</h2>
+   <div class="grid">
+    <div>
+     <label for="filterSkill">Filter by Skill</label>
+     <select id="filterSkill"></select>
+    </div>
+    <div>
+     <label for="filterLevel">Filter by Level</label>
+     <select id="filterLevel"></select>
+    </div>
+   </div>
+   <div id="questionList" class="muted">Loading questions...</div>
+  </section>
+
+  <section class="panel">
+   <h2>3. Create a Placement Test</h2>
+   <p class="muted">Create the test first, then add its question-distribution rules below.</p>
+   <div class="grid">
+    <div>
+     <label for="testSkill">Skill</label>
+     <select id="testSkill"></select>
+    </div>
+    <div>
+     <label for="testTitle">Test Title</label>
+     <input id="testTitle" placeholder="e.g. Reading Placement Test">
+    </div>
+    <div>
+     <label for="testDuration">Duration (minutes)</label>
+     <input id="testDuration" type="number" min="1" value="45">
+    </div>
+    <div>
+     <label for="testMarks">Total Marks</label>
+     <input id="testMarks" type="number" min="1" step="0.5" value="30">
+    </div>
+   </div>
+   <label for="testDescription">Description (optional)</label>
+   <textarea id="testDescription" placeholder="Instructions or information about this assessment..."></textarea>
+   <div class="actions">
+    <button id="createTestButton">Create Test</button>
+   </div>
+  </section>
+
+  <section class="panel">
+   <h2>4. Test Distribution Rules</h2>
+   <p class="muted">Choose how many questions the system should select for each level, difficulty and question type. The selected questions will come from the matching active question bank.</p>
+
+   <div class="grid">
+    <div>
+     <label for="ruleTest">Placement Test</label>
+     <select id="ruleTest"></select>
+    </div>
+    <div>
+     <label for="ruleLevel">Level</label>
+     <select id="ruleLevel"></select>
+    </div>
+    <div>
+     <label for="ruleDifficulty">Difficulty</label>
+     <select id="ruleDifficulty">
+      <option value="easy">Easy</option>
+      <option value="moderate">Moderate</option>
+      <option value="hard">Hard</option>
+     </select>
+    </div>
+    <div>
+     <label for="ruleType">Question Type</label>
+     <select id="ruleType"></select>
+    </div>
+    <div>
+     <label for="ruleCount">Number of Questions</label>
+     <input id="ruleCount" type="number" min="1" value="5">
+    </div>
+   </div>
+   <div class="actions">
+    <button id="addRuleButton">Add Distribution Rule</button>
+   </div>
+   <div id="rulesList" class="muted">Select a test to view its rules.</div>
+  </section>
+
+  <section class="panel">
+   <h2>5. Your Placement Tests</h2>
+   <div id="testList" class="muted">Loading tests...</div>
+  </section>
+ </div>
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+const SUPABASE_URL = "https://knazqfrjzgkqavnhzjwq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const $ = id => document.getElementById(id);
+let skills = [];
+let levels = [];
+let tests = [];
+let optionCounter = 0;
+
+const questionTypes = [
+ ["mcq","Multiple Choice (Single Answer)"],
+ ["multiple_select","Multiple Select"],
+ ["true_false","True / False"],
+ ["matching","Matching"],
+ ["ordering","Ordering"],
+ ["fill_blank","Fill in the Blank"],
+ ["cloze","Cloze"],
+ ["dropdown","Dropdown"],
+ ["error_correction","Error Correction"],
+ ["sentence_transformation","Sentence Transformation"],
+ ["reading_comprehension","Reading Comprehension"],
+ ["short_answer","Short Answer"],
+ ["inference","Inference"],
+ ["extended_writing","Extended Writing"],
+ ["guided_writing","Guided Writing"],
+ ["sentence_construction","Sentence Construction"],
+ ["audio_listening","Audio Listening"],
+ ["speaking_recording","Speaking Recording"],
+ ["picture_description","Picture Description"]
+];
+
+function showMessage(message,type="success"){
+ const box=$("message");
+ box.textContent=message;
+ box.className="message "+type;
+ box.style.display="block";
+ box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function clearMessage(){
+ $("message").textContent="";
+ $("message").className="message";
+ $("message").style.display="none";
+}
+function setStatus(message,type="info"){
+ $("status").textContent=message;
+ $("status").className="message "+type;
+ $("status").style.display="block";
+}
+function fillSelect(select,items,placeholder="Select..."){
+ select.replaceChildren();
+ const first=document.createElement("option");
+ first.value="";
+ first.textContent=placeholder;
+ select.appendChild(first);
+ items.forEach(item=>{
+  const option=document.createElement("option");
+  option.value=String(item.id);
+  option.textContent=item.label;
+  select.appendChild(option);
+ });
+}
+function skillLabel(skill){return skill.skill_name||skill.skill_code||("Skill "+skill.id)}
+function levelLabel(level){return level.level_name||("Level "+level.level_number)}
+function typeLabel(type){return questionTypes.find(x=>x[0]===type)?.[1]||type}
+
+async function checkTeacherAccess(){
+ try{
+  const {data,error}=await db.auth.getSession();
+  if(error)throw error;
+  if(!data.session){
+   location.replace("login.html");
+   return false;
+  }
+  const {data:teacher,error:roleError}=await db.from("user_roles")
+   .select("role").eq("user_id",data.session.user.id)
+   .eq("role","teacher").maybeSingle();
+  if(roleError)throw roleError;
+  if(!teacher){
+   await db.auth.signOut();
+   location.replace("login.html");
+   return false;
+  }
+  return true;
+ }catch(error){
+  setStatus("Unable to verify teacher access: "+error.message,"error");
+  return false;
+ }
+}
+
+async function loadSkillsAndLevels(){
+ const [skillResult,levelResult]=await Promise.all([
+  db.from("skills").select("id,skill_code,skill_name,is_active,sort_order").eq("is_active",true).order("sort_order"),
+  db.from("skill_levels").select("id,skill_id,level_name,level_number,is_active,sort_order").eq("is_active",true).order("sort_order")
+ ]);
+ if(skillResult.error)throw skillResult.error;
+ if(levelResult.error)throw levelResult.error;
+ skills=skillResult.data||[];
+ levels=levelResult.data||[];
+
+ const skillItems=skills.map(s=>({id:s.id,label:skillLabel(s)}));
+ fillSelect($("qSkill"),skillItems);
+ fillSelect($("filterSkill"),skillItems,"All skills");
+ fillSelect($("testSkill"),skillItems);
+ fillSelect($("ruleTest"),[]);
+ updateQuestionLevels();
+ updateFilterLevels();
+ updateRuleLevels();
+}
+
+function updateQuestionLevels(){
+ const skillId=Number($("qSkill").value);
+ const filtered=levels.filter(l=>!skillId||Number(l.skill_id)===skillId);
+ fillSelect($("qLevel"),filtered.map(l=>({id:l.id,label:levelLabel(l)})));
+}
+function updateFilterLevels(){
+ const skillId=Number($("filterSkill").value);
+ const filtered=levels.filter(l=>!skillId||Number(l.skill_id)===skillId);
+ fillSelect($("filterLevel"),filtered.map(l=>({id:l.id,label:levelLabel(l)})),"All levels");
+}
+function updateRuleLevels(){
+ const testId=Number($("ruleTest").value);
+ const test=tests.find(t=>Number(t.id)===testId);
+ const filtered=levels.filter(l=>!test||Number(l.skill_id)===Number(test.skill_id));
+ fillSelect($("ruleLevel"),filtered.map(l=>({id:l.id,label:levelLabel(l)})));
+}
+
+function addOption(value=""){
+ optionCounter++;
+ const id="choice_"+optionCounter;
+ const row=document.createElement("div");
+ row.className="option-row";
+ const input=document.createElement("input");
+ input.type="text";
+ input.placeholder="Choice text";
+ input.value=value;
+ input.dataset.optionText="true";
+ const correctLabel=document.createElement("label");
+ correctLabel.className="correct-label";
+ const radio=document.createElement("input");
+ radio.type="radio";
+ radio.name="correctChoice";
+ radio.value=id;
+ correctLabel.append(radio,document.createTextNode("Correct answer"));
+ const remove=document.createElement("button");
+ remove.type="button";
+ remove.className="danger";
+ remove.textContent="Remove";
+ remove.onclick=()=>{
+  if($("optionsList").children.length<=2){
+   showMessage("An MCQ must have at least two choices.","error");
+   return;
+  }
+  row.remove();
+  if(radio.checked){
+   const first=$("optionsList").querySelector('input[name="correctChoice"]');
+   if(first)first.checked=true;
+  }
+ };
+ row.dataset.choiceId=id;
+ row.append(input,correctLabel,remove);
+ $("optionsList").appendChild(row);
+}
+function resetOptions(){
+ $("optionsList").replaceChildren();
+ optionCounter=0;
+ addOption();addOption();addOption();addOption();
+}
+function updateQuestionTypeUI(){
+ const type=$("qType").value;
+ $("mcqArea").classList.toggle("hidden",type!=="mcq");
+ $("answerArea").classList.toggle("hidden",type==="mcq");
+ if(type==="mcq"&&!$("optionsList").children.length)resetOptions();
+}
+function getMcqData(){
+ const rows=[...$("optionsList").children];
+ const options=rows.map(row=>({
+  id:row.dataset.choiceId,
+  text:row.querySelector('[data-option-text]').value.trim()
+ }));
+ if(options.some(o=>!o.text))throw new Error("Please complete every choice.");
+ if(options.length<2)throw new Error("An MCQ needs at least two choices.");
+ const selected=$("optionsList").querySelector('input[name="correctChoice"]:checked');
+ if(!selected)throw new Error("Please select the correct answer.");
+ return {options,answerKey:{correct:selected.value}};
+}
+
+async function saveQuestion(){
+ clearMessage();
+ const button=$("saveQuestionButton");
+ button.disabled=true;
+ try{
+  const skillId=Number($("qSkill").value);
+  const levelId=Number($("qLevel").value);
+  const type=$("qType").value;
+  const questionText=$("qText").value.trim();
+  const marks=Number($("qMarks").value);
+  if(!skillId||!levelId)throw new Error("Select a skill and a level.");
+  if(!questionText)throw new Error("Enter the question text.");
+  if(!(marks>0))throw new Error("Marks must be greater than zero.");
+
+  let options=[];
+  let answerKey=null;
+  if(type==="mcq"){
+   const result=getMcqData();
+   options=result.options;
+   answerKey=result.answerKey;
+  }else{
+   const raw=$("answerKey").value.trim();
+   if(raw){
+    try{answerKey=JSON.parse(raw);}
+    catch{throw new Error("Answer Key must contain valid JSON.");}
+   }
+  }
+
+  const rubric=$("qRubric").value.trim();
+  const payload={
+   skill_id:skillId,
+   level_id:levelId,
+   question_text:questionText,
+   question_type:type,
+   options:options,
+   correct_answer:null,
+   marks:marks,
+   difficulty:$("qDifficulty").value,
+   topic:$("qTopic").value.trim()||null,
+   explanation:null,
+   is_active:true,
+   created_by:(await db.auth.getUser()).data.user.id,
+   question_data:{},
+   answer_key:answerKey,
+   scoring_rubric:rubric?{instructions:rubric}:null
+  };
+
+  const {error}=await db.from("skill_placement_question_bank").insert(payload);
+  if(error)throw error;
+  showMessage("Question saved successfully.");
+  resetQuestionForm();
+  await loadQuestions();
+ }catch(error){
+  showMessage("Could not save question: "+error.message,"error");
+ }finally{
+  button.disabled=false;
+ }
+}
+
+function resetQuestionForm(){
+ $("qText").value="";
+ $("qMarks").value="1";
+ $("qTopic").value="";
+ $("answerKey").value="";
+ $("qRubric").value="";
+ $("qDifficulty").value="moderate";
+ resetOptions();
+ updateQuestionTypeUI();
+}
+
+async function loadQuestions(){
+ const list=$("questionList");
+ list.textContent="Loading questions...";
+ let query=db.from("skill_placement_question_bank")
+  .select("id,skill_id,level_id,question_text,question_type,marks,difficulty,topic,is_active,created_at")
+  .order("created_at",{ascending:false}).limit(150);
+ const skillId=Number($("filterSkill").value);
+ const levelId=Number($("filterLevel").value);
+ if(skillId)query=query.eq("skill_id",skillId);
+ if(levelId)query=query.eq("level_id",levelId);
+ const {data,error}=await query;
+ if(error){list.textContent="Could not load questions: "+error.message;return;}
+ list.replaceChildren();
+ if(!data?.length){list.textContent="No questions found for this filter.";return;}
+ data.forEach(q=>{
+  const skill=skills.find(s=>Number(s.id)===Number(q.skill_id));
+  const level=levels.find(l=>Number(l.id)===Number(q.level_id));
+  const item=document.createElement("div");
+  item.className="list-item";
+  const title=document.createElement("strong");
+  title.textContent=q.question_text;
+  const details=document.createElement("p");
+  details.textContent=[skill?skillLabel(skill):"Skill "+q.skill_id,level?levelLabel(level):"Level "+q.level_id,typeLabel(q.question_type),q.difficulty,q.marks+" marks"].join(" · ");
+  const state=document.createElement("span");
+  state.className="tag";
+  state.textContent=q.is_active?"Active":"Inactive";
+  const actions=document.createElement("div");
+  actions.className="actions";
+  const toggle=document.createElement("button");
+  toggle.className=q.is_active?"danger":"secondary";
+  toggle.textContent=q.is_active?"Deactivate":"Activate";
+  toggle.onclick=()=>toggleQuestion(q);
+  actions.appendChild(toggle);
+  item.append(title,details,state,actions);
+  list.appendChild(item);
+ });
+}
+
+async function toggleQuestion(question){
+ const {error}=await db.from("skill_placement_question_bank")
+  .update({is_active:!question.is_active}).eq("id",question.id);
+ if(error){showMessage("Could not update question: "+error.message,"error");return;}
+ showMessage("Question status updated.");
+ await loadQuestions();
+}
+
+async function createTest(){
+ clearMessage();
+ const button=$("createTestButton");
+ button.disabled=true;
+ try{
+  const skillId=Number($("testSkill").value);
+  const title=$("testTitle").value.trim();
+  const duration=Number($("testDuration").value);
+  const marks=Number($("testMarks").value);
+  if(!skillId||!title)throw new Error("Select a skill and enter a test title.");
+  if(!(duration>0)||!(marks>0))throw new Error("Duration and total marks must be greater than zero.");
+
+  const {data,error}=await db.from("skill_placement_tests").insert({
+   skill_id:skillId,
+   title:title,
+   description:$("testDescription").value.trim()||null,
+   duration_minutes:duration,
+   total_marks:marks,
+   is_published:false
+  }).select("id,skill_id,title,description,duration_minutes,total_marks,is_published,created_at").single();
+  if(error)throw error;
+  $("testTitle").value="";
+  $("testDescription").value="";
+  showMessage("Test created as a draft. Add distribution rules before publishing.");
+  await loadTests();
+  $("ruleTest").value=String(data.id);
+  updateRuleLevels();
+  await loadRules();
+ }catch(error){
+  showMessage("Could not create test: "+error.message,"error");
+ }finally{
+  button.disabled=false;
+ }
+}
+
+async function loadTests(){
+ const list=$("testList");
+ list.textContent="Loading tests...";
+ const {data,error}=await db.from("skill_placement_tests")
+  .select("id,skill_id,title,description,duration_minutes,total_marks,is_published,created_at")
+  .order("created_at",{ascending:false});
+ if(error){list.textContent="Could not load tests: "+error.message;return;}
+ tests=data||[];
+ fillSelect($("ruleTest"),tests.map(t=>({id:t.id,label:t.title+" (ID "+t.id+")"})));
+ updateRuleLevels();
+ list.replaceChildren();
+ if(!tests.length){list.textContent="No placement tests have been created yet.";return;}
+ tests.forEach(test=>{
+  const skill=skills.find(s=>Number(s.id)===Number(test.skill_id));
+  const item=document.createElement("div");
+  item.className="list-item";
+  const title=document.createElement("strong");
+  title.textContent=test.title;
+  const details=document.createElement("p");
+  details.textContent=(skill?skillLabel(skill):"Skill "+test.skill_id)+" · "+test.duration_minutes+" minutes · "+test.total_marks+" marks";
+  const state=document.createElement("span");
+  state.className="tag";
+  state.textContent=test.is_published?"Published":"Draft";
+  const actions=document.createElement("div");
+  actions.className="actions";
+  const selectButton=document.createElement("button");
+  selectButton.className="secondary";
+  selectButton.textContent="Manage Rules";
+  selectButton.onclick=()=>{
+   $("ruleTest").value=String(test.id);
+   updateRuleLevels();
+   loadRules();
+   $("ruleTest").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+  const publishButton=document.createElement("button");
+  publishButton.textContent=test.is_published?"Unpublish":"Publish";
+  publishButton.className=test.is_published?"danger":"";
+  publishButton.onclick=()=>toggleTest(test);
+  actions.append(selectButton,publishButton);
+  item.append(title,details,state,actions);
+  list.appendChild(item);
+ });
+}
+
+async function toggleTest(test){
+ const next=!test.is_published;
+ if(next){
+  const {data:rules,error}=await db.from("skill_placement_test_rules")
+   .select("id").eq("test_id",test.id);
+  if(error){showMessage("Could not check test rules: "+error.message,"error");return;}
+  if(!rules?.length){
+   showMessage("Add at least one distribution rule before publishing this test.","error");
+   return;
+  }
+  if(!confirm("Publish this placement test? Students may be able to access it when their payment and access conditions are satisfied."))return;
+ }else{
+  if(!confirm("Unpublish this test?"))return;
+ }
+ const {error}=await db.from("skill_placement_tests")
+  .update({is_published:next}).eq("id",test.id);
+ if(error){showMessage("Could not update test: "+error.message,"error");return;}
+ showMessage(next?"Test published.":"Test unpublished.");
+ await loadTests();
+}
+
+async function addRule(){
+ clearMessage();
+ const button=$("addRuleButton");
+ button.disabled=true;
+ try{
+  const testId=Number($("ruleTest").value);
+  const levelId=Number($("ruleLevel").value);
+  const difficulty=$("ruleDifficulty").value;
+  const type=$("ruleType").value;
+  const count=Number($("ruleCount").value);
+  if(!testId||!levelId||!type)throw new Error("Select a test, level and question type.");
+  if(!(count>0)||!Number.isInteger(count))throw new Error("Question count must be a positive whole number.");
+  const test=tests.find(t=>Number(t.id)===testId);
+  const level=levels.find(l=>Number(l.id)===levelId);
+  if(!test||!level||Number(test.skill_id)!==Number(level.skill_id)){
+   throw new Error("The selected level does not belong to this test's skill.");
+  }
+
+  const {data:existing,error:existingError}=await db.from("skill_placement_test_rules")
+   .select("id").eq("test_id",testId).eq("level_id",levelId)
+   .eq("difficulty",difficulty).eq("question_type",type).maybeSingle();
+  if(existingError)throw existingError;
+  if(existing)throw new Error("A rule with this test, level, difficulty and question type already exists.");
+
+  const {error}=await db.from("skill_placement_test_rules").insert({
+   test_id:testId,
+   level_id:levelId,
+   difficulty:difficulty,
+   question_type:type,
+   question_count:count
+  });
+  if(error)throw error;
+  showMessage("Distribution rule added.");
+  await loadRules();
+ }catch(error){
+  showMessage("Could not add rule: "+error.message,"error");
+ }finally{
+  button.disabled=false;
+ }
+}
+
+async function loadRules(){
+ const list=$("rulesList");
+ const testId=Number($("ruleTest").value);
+ if(!testId){list.textContent="Select a test to view its rules.";return;}
+ list.textContent="Loading rules...";
+ const {data,error}=await db.from("skill_placement_test_rules")
+  .select("id,test_id,level_id,difficulty,question_type,question_count")
+  .eq("test_id",testId).order("level_id");
+ if(error){list.textContent="Could not load rules: "+error.message;return;}
+ list.replaceChildren();
+ if(!data?.length){list.textContent="No distribution rules have been added to this test.";return;}
+ data.forEach(rule=>{
+  const level=levels.find(l=>Number(l.id)===Number(rule.level_id));
+  const item=document.createElement("div");
+  item.className="list-item";
+  const title=document.createElement("strong");
+  title.textContent=(level?levelLabel(level):"Level "+rule.level_id)+" · "+typeLabel(rule.question_type);
+  const details=document.createElement("p");
+  details.textContent=rule.difficulty+" · "+rule.question_count+" questions";
+  const remove=document.createElement("button");
+  remove.className="danger";
+  remove.textContent="Delete Rule";
+  remove.onclick=async()=>{
+   if(!confirm("Delete this distribution rule?"))return;
+   const {error}=await db.from("skill_placement_test_rules").delete().eq("id",rule.id);
+   if(error){showMessage("Could not delete rule: "+error.message,"error");return;}
+   showMessage("Rule deleted.");
+   await loadRules();
+  };
+  item.append(title,details,remove);
+  list.appendChild(item);
+ });
+}
+
+async function initialize(){
+ $("logoutButton").addEventListener("click",async()=>{
+  const {error}=await db.auth.signOut();
+  if(error){setStatus("Could not log out: "+error.message,"error");return;}
+  location.replace("login.html");
+ });
+
+ const allowed=await checkTeacherAccess();
+ if(!allowed)return;
+
+ try{
+  await loadSkillsAndLevels();
+  $("qType").replaceChildren(...questionTypes.map(([value,label])=>{
+   const option=document.createElement("option");
+   option.value=value;option.textContent=label;return option;
+  }));
+  $("ruleType").replaceChildren(...questionTypes.map(([value,label])=>{
+   const option=document.createElement("option");
+   option.value=value;option.textContent=label;return option;
+  }));
+  resetOptions();
+  updateQuestionTypeUI();
+  await Promise.all([loadQuestions(),loadTests()]);
+  $("status").style.display="none";
+  $("pageContent").classList.remove("hidden");
+ }catch(error){
+  setStatus("The page could not load its setup data: "+error.message,"error");
+ }
+}
+
+$("qSkill").addEventListener("change",updateQuestionLevels);
+$("qType").addEventListener("change",updateQuestionTypeUI);
+$("addOptionButton").addEventListener("click",()=>addOption());
+$("saveQuestionButton").addEventListener("click",saveQuestion);
+$("resetQuestionButton").addEventListener("click",resetQuestionForm);
+$("filterSkill").addEventListener("change",()=>{updateFilterLevels();loadQuestions();});
+$("filterLevel").addEventListener("change",loadQuestions);
+$("createTestButton").addEventListener("click",createTest);
+$("ruleTest").addEventListener("change",()=>{updateRuleLevels();loadRules();});
+$("addRuleButton").addEventListener("click",addRule);
+
+initialize();
+</script>
+</body>
+</html>
