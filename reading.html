@@ -2,108 +2,1045 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Skills | IGCSE English Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Placement Assessment - The Blueprint</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f7fa;
-            color: #263238;
-        }
-
-        header {
-            background: #172554;
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
-
-        .content {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-            text-align: center;
-        }
-
-        .content h2 {
-            color: #172554;
-            margin-top: 0;
-            font-size: 26px;
-        }
-
-        .content p {
-            font-size: 17px;
-            line-height: 1.7;
-            color: #52606d;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 24px;
-            background: #172554;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .back-link:hover {
-            background: #263f83;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #718096;
-            font-size: 14px;
-        }
-    </style>
+<style>
+:root {
+  --primary:#173b65;
+  --primary-light:#eaf1f8;
+  --accent:#d7a84b;
+  --bg:#f4f6f9;
+  --text:#202938;
+  --muted:#687386;
+  --border:#dce2ea;
+  --success:#18794e;
+  --danger:#b42318;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+header{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:20px;
+  text-align:center;
+}
+header h1{margin:0;color:var(--primary)}
+header p{margin:5px 0 0;color:var(--muted)}
+.container{
+  width:min(950px,94%);
+  margin:30px auto;
+}
+.panel{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:25px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.035);
+}
+h2,h3{color:var(--primary)}
+h2{margin-top:0}
+.muted{color:var(--muted)}
+.notice{
+  padding:13px 16px;
+  border-radius:8px;
+  background:var(--primary-light);
+  margin:15px 0;
+}
+.notice.success{background:#eaf7ef;color:var(--success)}
+.notice.error{background:#fff0ef;color:var(--danger)}
+.notice.warning{background:#fff7e6;color:#855b12}
+button,.button{
+  border:0;
+  border-radius:8px;
+  padding:12px 19px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--primary);
+  color:white;
+}
+button.secondary{
+  background:#e9edf2;
+  color:var(--text);
+}
+button.danger{background:#a52a2a}
+button:disabled{opacity:.55;cursor:not-allowed}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  font:inherit;
+  margin-top:6px;
+}
+label{font-weight:700;display:block;margin-top:15px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.test-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  margin:15px 0;
+}
+.test-card h3{margin-top:0}
+.meta{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:14px;
+}
+.question{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px;
+  margin:18px 0;
+}
+.question h3{margin-top:0}
+.question-number{font-weight:700;color:var(--accent)}
+.option{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px;
+  margin:8px 0;
+  border:1px solid var(--border);
+  border-radius:7px;
+  cursor:pointer;
+}
+.option input{
+  width:auto;
+  margin:5px 0 0;
+}
+.option span{flex:1}
+.timer-box{
+  position:sticky;
+  top:8px;
+  z-index:5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  background:var(--primary);
+  color:white;
+  padding:13px 18px;
+  border-radius:10px;
+  margin-bottom:18px;
+}
+#timer{
+  font-size:22px;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+.hidden{display:none!important}
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  font-size:14px;
+}
+.back-link{
+  display:inline-block;
+  margin-bottom:15px;
+  color:var(--primary);
+  text-decoration:none;
+  font-weight:700;
+}
+@media(max-width:600px){
+  .panel{padding:17px}
+  .timer-box{padding:10px}
+  #timer{font-size:19px}
+}
+</style>
 </head>
 
 <body>
 
-    <header>
-        <h1>IGCSE English Hub</h1>
-    </header>
+<header>
+  <h1>The Blueprint</h1>
+  <p>Reading Placement Assessment</p>
+</header>
 
-    <main>
-        <div class="content">
-            <h2>Reading Skills</h2>
+<main class="container">
 
-            <p>
-                Welcome to the Reading section.
-                Reading lessons, practice activities and
-                IGCSE-style questions will appear here.
-            </p>
+<a class="back-link" href="others.html">← Back</a>
 
-            <a href="others.html" class="back-link">
-                Back to English Skills
-            </a>
-        </div>
-    </main>
+<div id="globalMessage" class="notice">Loading your Reading assessment...</div>
 
-    <footer>
-        © 2026 IGCSE English Hub — All Rights Reserved
-    </footer>
+<section id="mainPanel" class="panel hidden">
 
+  <div id="overviewSection">
+    <h2>Reading Placement Assessment</h2>
+    <p>
+      Complete the placement assessment to help your teacher
+      determine your appropriate Reading level.
+    </p>
+
+    <div id="testInformation"></div>
+
+    <div id="paymentInformation"></div>
+
+    <div id="paymentFormSection" class="hidden">
+      <h3>Submit Your Payment Receipt</h3>
+      <p class="muted">
+        Upload a clear image or PDF of your payment receipt.
+        Your request will be reviewed by your teacher.
+      </p>
+
+      <label for="receiptFile">Payment receipt</label>
+      <input
+        type="file"
+        id="receiptFile"
+        accept="image/jpeg,image/png,image/webp,application/pdf"
+      >
+
+      <div class="actions">
+        <button id="uploadReceiptBtn" type="button">
+          Upload Receipt
+        </button>
+      </div>
+    </div>
+
+    <div id="startSection" class="hidden">
+      <div class="notice warning">
+        Important: Your timer starts immediately after you begin.
+        If time expires before you submit, your attempt will fail
+        and a new paid attempt will be required.
+        Closing the browser will not stop the timer.
+      </div>
+
+      <div class="actions">
+        <button id="startBtn" type="button">Start Assessment</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="attemptSection" class="hidden">
+    <div class="timer-box">
+      <strong>Time Remaining</strong>
+      <span id="timer">--:--</span>
+    </div>
+
+    <h2 id="attemptTitle">Reading Assessment</h2>
+    <p class="muted">
+      Your answers are saved automatically.
+      Submit your assessment before the timer reaches zero.
+    </p>
+
+    <div id="questionsContainer"></div>
+
+    <div class="actions">
+      <button id="submitBtn" type="button">Submit Assessment</button>
+    </div>
+  </div>
+
+  <div id="statusSection" class="hidden">
+    <h2 id="statusTitle">Assessment Status</h2>
+    <div id="statusDetails"></div>
+    <div class="actions">
+      <button class="secondary" id="refreshBtn" type="button">
+        Refresh Status
+      </button>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>© 2026 IGCSE English Hub — All Rights Reserved</footer>
+
+<script>
+"use strict";
+
+/* SUPABASE CONFIGURATION */
+const SUPABASE_URL =
+  "https://knazqfrjzgkqavnhzjwq.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hkbQPEZcBQ1nq6j9WxIXaA_4wc89YEV";
+
+const RECEIPT_BUCKET = "skill-placement-receipts";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+/* PAGE STATE */
+let currentUser = null;
+let readingSkill = null;
+let placementOptions = [];
+let paymentRecords = [];
+let currentAttemptId = null;
+let currentDeadline = null;
+let currentQuestions = [];
+let answers = {};
+let timerInterval = null;
+let saveTimer = null;
+let saveQueue = Promise.resolve();
+let isSubmitting = false;
+
+/* ELEMENTS */
+const $ = id => document.getElementById(id);
+
+function showMessage(message, type = "") {
+  const box = $("globalMessage");
+  box.textContent = message;
+  box.className = "notice" + (type ? " " + type : "");
+  box.classList.remove("hidden");
+}
+
+function hideMessage() {
+  $("globalMessage").classList.add("hidden");
+}
+
+function showMain() {
+  $("mainPanel").classList.remove("hidden");
+}
+
+function showSection(name) {
+  $("overviewSection").classList.toggle(
+    "hidden", name !== "overview"
+  );
+  $("attemptSection").classList.toggle(
+    "hidden", name !== "attempt"
+  );
+  $("statusSection").classList.toggle(
+    "hidden", name !== "status"
+  );
+}
+
+function formatMoney(value) {
+  return Number(value).toLocaleString("en-EG", {
+    style:"currency",
+    currency:"EGP"
+  });
+}
+
+function formatTime(seconds) {
+  const safe = Math.max(0, Number(seconds) || 0);
+  const minutes = Math.floor(safe / 60);
+  const remaining = safe % 60;
+  return String(minutes).padStart(2,"0") + ":" +
+         String(remaining).padStart(2,"0");
+}
+
+function showError(error, fallback) {
+  console.error(error);
+  showMessage(
+    error && error.message ? error.message : fallback,
+    "error"
+  );
+}
+
+async function callRpc(name, params = {}) {
+  const {data,error} = await db.rpc(name,params);
+  if(error) throw error;
+  return data;
+}
+
+/* INITIALIZATION */
+async function initializePage() {
+  try {
+    const {data,error} = await db.auth.getSession();
+    if(error) throw error;
+
+    if(!data.session) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    currentUser = data.session.user;
+
+    const {data:skill,error:skillError} = await db
+      .from("skills")
+      .select("id,skill_name,placement_fee")
+      .eq("skill_code","reading")
+      .eq("is_active",true)
+      .single();
+
+    if(skillError) throw skillError;
+    if(!skill) throw new Error("Reading skill is unavailable.");
+
+    readingSkill = skill;
+
+    showMain();
+    hideMessage();
+
+    await refreshPageData();
+
+  } catch(error) {
+    showError(error,"Could not load the Reading assessment.");
+  }
+}
+
+/* LOAD PAYMENT AND ATTEMPT INFORMATION */
+async function refreshPageData() {
+  try {
+    const results = await Promise.all([
+      callRpc("get_my_reading_placement_options"),
+      callRpc("get_my_reading_placement_payment_status"),
+      callRpc("get_my_reading_placement_attempt")
+    ]);
+
+    placementOptions = results[0] || [];
+    paymentRecords = results[1] || [];
+
+    const latestAttempt = results[2] && results[2].length
+      ? results[2][0]
+      : null;
+
+    if(latestAttempt) {
+      currentAttemptId = latestAttempt.attempt_id;
+
+      if(latestAttempt.attempt_status === "in_progress") {
+        await loadAttempt(currentAttemptId);
+        return;
+      }
+
+      displayAttemptStatus(latestAttempt);
+      return;
+    }
+
+    renderOverview();
+
+  } catch(error) {
+    showError(error,"Could not retrieve your assessment information.");
+  }
+}
+
+/* PAYMENT AND TEST OVERVIEW */
+function renderOverview() {
+  showSection("overview");
+
+  const publishedTests = placementOptions.filter(
+    item => item.test_id !== null
+  );
+
+  if(!publishedTests.length) {
+    $("testInformation").textContent =
+      "The Reading placement assessment is not available yet. Please check again later.";
+
+    $("paymentInformation").replaceChildren();
+    $("paymentFormSection").classList.add("hidden");
+    $("startSection").classList.add("hidden");
+    return;
+  }
+
+  const selectedTest = publishedTests[0];
+
+  $("testInformation").innerHTML = `
+    <div class="test-card">
+      <h3>${escapeHtml(selectedTest.test_title || "Reading Assessment")}</h3>
+      <div class="meta">
+        <span>Duration: ${Number(selectedTest.duration_minutes)} minutes</span>
+        <span>Total marks: ${Number(selectedTest.total_marks || 0)}</span>
+        <span>Placement fee: ${formatMoney(selectedTest.placement_fee)}</span>
+      </div>
+      <p>${escapeHtml(selectedTest.test_description || "")}</p>
+    </div>
+  `;
+
+  const latestPayment = paymentRecords.length
+    ? paymentRecords[0]
+    : null;
+
+  const pendingPayment = latestPayment &&
+    latestPayment.payment_status === "pending";
+
+  const approvedOption = publishedTests.find(
+    item => item.payment_id !== null
+  );
+
+  $("paymentInformation").replaceChildren();
+
+  if(pendingPayment) {
+    const box = document.createElement("div");
+    box.className = "notice warning";
+    box.textContent =
+      "Your payment receipt has been submitted and is awaiting teacher approval.";
+    $("paymentInformation").append(box);
+
+    $("paymentFormSection").classList.add("hidden");
+    $("startSection").classList.add("hidden");
+    return;
+  }
+
+  if(approvedOption) {
+    const box = document.createElement("div");
+    box.className = "notice success";
+    box.textContent =
+      "Your payment has been approved. You can now start your assessment.";
+    $("paymentInformation").append(box);
+
+    $("paymentFormSection").classList.add("hidden");
+    $("startSection").classList.remove("hidden");
+
+    $("startBtn").onclick = () => startAssessment(
+      approvedOption.test_id,
+      approvedOption.payment_id
+    );
+    return;
+  }
+
+  if(latestPayment && latestPayment.payment_status === "rejected") {
+    const box = document.createElement("div");
+    box.className = "notice error";
+    box.textContent =
+      "Your previous payment request was rejected. " +
+      (latestPayment.teacher_note || "You may submit a new receipt.");
+    $("paymentInformation").append(box);
+  } else if(latestPayment &&
+            latestPayment.payment_status === "approved") {
+    const box = document.createElement("div");
+    box.className = "notice warning";
+    box.textContent =
+      "Your previous approved payment has already been used for an assessment. " +
+      "A new paid attempt requires a new payment.";
+    $("paymentInformation").append(box);
+  }
+
+  $("paymentFormSection").classList.remove("hidden");
+  $("startSection").classList.add("hidden");
+}
+
+/* HTML ESCAPING */
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[char]);
+}
+
+/* RECEIPT UPLOAD */
+$("uploadReceiptBtn").addEventListener("click", uploadReceipt);
+
+async function uploadReceipt() {
+  const button = $("uploadReceiptBtn");
+  const file = $("receiptFile").files[0];
+
+  if(!file) {
+    showMessage("Please select your payment receipt first.","error");
+    return;
+  }
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "application/pdf"
+  ];
+
+  if(!allowedTypes.includes(file.type)) {
+    showMessage("Only JPG, PNG, WEBP and PDF files are allowed.","error");
+    return;
+  }
+
+  if(file.size > 10 * 1024 * 1024) {
+    showMessage("The receipt file must not exceed 10 MB.","error");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Uploading...";
+
+  try {
+    const safeName = file.name
+      .replace(/[^a-zA-Z0-9._-]/g,"_")
+      .slice(-100);
+
+    const path =
+      currentUser.id + "/" +
+      Date.now() + "-" + safeName;
+
+    const {error:uploadError} = await db.storage
+      .from(RECEIPT_BUCKET)
+      .upload(path,file,{
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type
+      });
+
+    if(uploadError) throw uploadError;
+
+    await callRpc(
+      "create_skill_placement_payment_request",
+      {
+        p_skill_id:readingSkill.id,
+        p_receipt_path:path
+      }
+    );
+
+    $("receiptFile").value = "";
+    showMessage(
+      "Your receipt has been uploaded and your payment request has been submitted.",
+      "success"
+    );
+
+    await refreshPageData();
+
+  } catch(error) {
+    showError(error,"Could not submit your payment receipt.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Upload Receipt";
+  }
+}
+
+/* START ASSESSMENT */
+async function startAssessment(testId,paymentId) {
+  const button = $("startBtn");
+  button.disabled = true;
+  button.textContent = "Starting...";
+
+  try {
+    if(!confirm(
+      "Your assessment timer will start immediately. " +
+      "If time expires before submission, this attempt will fail " +
+      "and a new payment will be required. Continue?"
+    )) {
+      return;
+    }
+
+    const attemptId = await callRpc(
+      "start_skill_placement_test",
+      {
+        p_test_id:testId,
+        p_payment_id:paymentId
+      }
+    );
+
+    currentAttemptId = attemptId;
+
+    await loadAttempt(attemptId);
+
+  } catch(error) {
+    showError(error,"Could not start the assessment.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Start Assessment";
+  }
+}
+
+/* LOAD / RESUME ATTEMPT */
+async function loadAttempt(attemptId) {
+  try {
+    currentAttemptId = attemptId;
+
+    const statusRows = await callRpc(
+      "get_my_skill_placement_attempt_status",
+      {p_attempt_id:attemptId}
+    );
+
+    const status = statusRows && statusRows.length
+      ? statusRows[0]
+      : null;
+
+    if(!status) throw new Error("Attempt status is unavailable.");
+
+    if(status.attempt_status !== "in_progress") {
+      displayAttemptStatus({
+        attempt_id:attemptId,
+        attempt_status:status.attempt_status
+      });
+      return;
+    }
+
+    currentDeadline = new Date(status.deadline_at).getTime();
+
+    const [questions,savedAnswers] = await Promise.all([
+      callRpc(
+        "get_my_skill_placement_questions",
+        {p_attempt_id:attemptId}
+      ),
+      callRpc(
+        "get_my_skill_placement_answers",
+        {p_attempt_id:attemptId}
+      )
+    ]);
+
+    if(!questions || !questions.length) {
+      throw new Error("No questions are available for this assessment.");
+    }
+
+    currentQuestions = questions;
+    answers = savedAnswers || {};
+
+    renderQuestions();
+
+    $("overviewSection").classList.add("hidden");
+    $("statusSection").classList.add("hidden");
+    $("attemptSection").classList.remove("hidden");
+
+    $("attemptTitle").textContent = "Reading Placement Assessment";
+
+    startTimer();
+
+  } catch(error) {
+    showError(error,"Could not resume your assessment.");
+  }
+}
+
+/* RENDER QUESTIONS */
+function renderQuestions() {
+  const container = $("questionsContainer");
+  container.replaceChildren();
+
+  currentQuestions.forEach((question,index) => {
+    const card = document.createElement("article");
+    card.className = "question";
+
+    const heading = document.createElement("h3");
+    heading.textContent =
+      "Question " + (question.sort_order || index + 1);
+
+    const marks = document.createElement("p");
+    marks.className = "muted";
+    marks.textContent = Number(question.marks) + " marks";
+
+    const prompt = document.createElement("p");
+    prompt.textContent = question.question_text || "";
+
+    card.append(heading,marks,prompt);
+
+    const type = question.question_type;
+    const savedValue = answers[String(question.question_id)] ?? "";
+
+    if(type === "mcq") {
+      renderMCQ(card,question,savedValue);
+    } else if(type === "true_false") {
+      renderTrueFalse(card,question,savedValue);
+    } else if(type === "short_answer") {
+      renderTextAnswer(card,question,savedValue,false);
+    } else if(type === "writing") {
+      renderTextAnswer(card,question,savedValue,true);
+    } else {
+      const warning = document.createElement("p");
+      warning.className = "notice error";
+      warning.textContent =
+        "This question type is not supported by this assessment page.";
+      card.append(warning);
+    }
+
+    container.append(card);
+  });
+}
+
+function addAnswerListener(element,questionId) {
+  element.addEventListener("input",() => {
+    answers[String(questionId)] = element.value;
+    scheduleSave();
+  });
+
+  element.addEventListener("change",() => {
+    answers[String(questionId)] = element.value;
+    scheduleSave();
+  });
+}
+
+function renderMCQ(card,question,savedValue) {
+  let options = question.options || {};
+
+  if(Array.isArray(options)) {
+    options = Object.fromEntries(
+      options.map((value,index) => [
+        String.fromCharCode(65 + index),value
+      ])
+    );
+  }
+
+  Object.entries(options).forEach(([key,value]) => {
+    const label = document.createElement("label");
+    label.className = "option";
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "question_" + question.question_id;
+    input.value = key;
+    input.checked = String(savedValue) === key;
+
+    const text = document.createElement("span");
+    text.textContent = key + ". " + String(value);
+
+    addAnswerListener(input,question.question_id);
+
+    label.append(input,text);
+    card.append(label);
+  });
+}
+
+function renderTrueFalse(card,question,savedValue) {
+  ["True","False"].forEach(value => {
+    const label = document.createElement("label");
+    label.className = "option";
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "question_" + question.question_id;
+    input.value = value;
+    input.checked =
+      String(savedValue).toLowerCase() === value.toLowerCase();
+
+    const text = document.createElement("span");
+    text.textContent = value;
+
+    addAnswerListener(input,question.question_id);
+
+    label.append(input,text);
+    card.append(label);
+  });
+}
+
+function renderTextAnswer(card,question,savedValue,isWriting) {
+  const input = document.createElement("textarea");
+
+  input.rows = isWriting ? 10 : 3;
+  input.placeholder = isWriting
+    ? "Write your answer here..."
+    : "Enter your answer here...";
+  input.value = String(savedValue);
+
+  addAnswerListener(input,question.question_id);
+  card.append(input);
+}
+
+/* AUTO SAVE */
+function scheduleSave() {
+  clearTimeout(saveTimer);
+
+  saveTimer = setTimeout(() => {
+    queueSave();
+  },700);
+}
+
+function queueSave() {
+  const snapshot = {...answers};
+  const attemptId = currentAttemptId;
+
+  saveQueue = saveQueue.then(async () => {
+    if(!attemptId || isSubmitting) return;
+
+    const result = await callRpc(
+      "save_skill_placement_answers",
+      {
+        p_attempt_id:attemptId,
+        p_answers:snapshot
+      }
+    );
+
+    if(result === "expired") {
+      stopTimer();
+      displayAttemptStatus({
+        attempt_id:attemptId,
+        attempt_status:"failed"
+      });
+      throw new Error("The assessment time has expired.");
+    }
+  });
+
+  return saveQueue;
+}
+
+/* TIMER */
+function startTimer() {
+  stopTimer();
+
+  function update() {
+    const remaining = Math.max(
+      0,
+      Math.ceil((currentDeadline - Date.now()) / 1000)
+    );
+
+    $("timer").textContent = formatTime(remaining);
+
+    if(remaining <= 0) {
+      stopTimer();
+      checkExpiredAttempt();
+    }
+  }
+
+  update();
+  timerInterval = setInterval(update,1000);
+}
+
+function stopTimer() {
+  if(timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+async function checkExpiredAttempt() {
+  try {
+    const rows = await callRpc(
+      "get_my_skill_placement_attempt_status",
+      {p_attempt_id:currentAttemptId}
+    );
+
+    const status = rows && rows.length
+      ? rows[0].attempt_status
+      : "failed";
+
+    if(status === "in_progress") {
+      startTimer();
+      return;
+    }
+
+    displayAttemptStatus({
+      attempt_id:currentAttemptId,
+      attempt_status:status
+    });
+
+  } catch(error) {
+    showError(error,"Could not verify the assessment deadline.");
+  }
+}
+
+/* SUBMIT ASSESSMENT */
+$("submitBtn").addEventListener("click",submitAssessment);
+
+async function submitAssessment() {
+  if(isSubmitting || !currentAttemptId) return;
+
+  if(!confirm(
+    "Are you sure you want to submit your assessment? " +
+    "You cannot change your answers after submission."
+  )) return;
+
+  isSubmitting = true;
+  $("submitBtn").disabled = true;
+  $("submitBtn").textContent = "Submitting...";
+
+  try {
+    clearTimeout(saveTimer);
+
+    await saveQueue;
+
+    const snapshot = {...answers};
+
+    const saveResult = await callRpc(
+      "save_skill_placement_answers",
+      {
+        p_attempt_id:currentAttemptId,
+        p_answers:snapshot
+      }
+    );
+
+    if(saveResult === "expired") {
+      displayAttemptStatus({
+        attempt_id:currentAttemptId,
+        attempt_status:"failed"
+      });
+      return;
+    }
+
+    const score = await callRpc(
+      "submit_skill_placement_test",
+      {p_attempt_id:currentAttemptId}
+    );
+
+    stopTimer();
+
+    if(score === null) {
+      displayAttemptStatus({
+        attempt_id:currentAttemptId,
+        attempt_status:"failed"
+      });
+      return;
+    }
+
+    displayAttemptStatus({
+      attempt_id:currentAttemptId,
+      attempt_status:"submitted"
+    });
+
+  } catch(error) {
+    showError(error,"Could not submit your assessment.");
+  } finally {
+    isSubmitting = false;
+    $("submitBtn").disabled = false;
+    $("submitBtn").textContent = "Submit Assessment";
+  }
+}
+
+/* ATTEMPT STATUS */
+function displayAttemptStatus(attempt) {
+  stopTimer();
+
+  showSection("status");
+
+  const status = attempt.attempt_status;
+
+  const titles = {
+    failed:"Assessment Attempt Failed",
+    submitted:"Assessment Submitted",
+    reviewed:"Assessment Reviewed",
+    in_progress:"Assessment In Progress"
+  };
+
+  const messages = {
+    failed:
+      "Your assessment attempt has expired or failed. " +
+      "A new paid attempt is required. Contact your teacher if you believe there was an exceptional reason.",
+    submitted:
+      "Your assessment has been submitted successfully. " +
+      "Your teacher will review your answers and recommend your Reading level.",
+    reviewed:
+      "Your teacher has reviewed your assessment. " +
+      "Please follow the next instructions provided by your teacher.",
+    in_progress:
+      "Your assessment is still in progress."
+  };
+
+  $("statusTitle").textContent =
+    titles[status] || "Assessment Status";
+
+  const box = document.createElement("div");
+  box.className = "notice " +
+    (status === "failed" ? "error" :
+     status === "submitted" ? "success" : "");
+
+  box.textContent =
+    messages[status] || "Your assessment status is " + status + ".";
+
+  $("statusDetails").replaceChildren(box);
+}
+
+$("refreshBtn").addEventListener("click",async () => {
+  $("refreshBtn").disabled = true;
+
+  try {
+    await refreshPageData();
+  } catch(error) {
+    showError(error,"Could not refresh assessment status.");
+  } finally {
+    $("refreshBtn").disabled = false;
+  }
+});
+
+/* CLEANUP */
+window.addEventListener("beforeunload",() => {
+  clearTimeout(saveTimer);
+  stopTimer();
+});
+
+/* START */
+initializePage();
+
+</script>
 </body>
 </html>
