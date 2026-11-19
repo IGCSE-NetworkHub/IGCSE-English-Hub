@@ -66,7 +66,6 @@ hr{border:0;border-top:1px solid #e5eaf1;margin:20px 0}
 .bucket h3{margin-bottom:5px}
 .manual-question{display:flex;gap:10px;align-items:flex-start;border-top:1px solid #edf0f5;padding:10px 0;font-size:13px}
 .manual-question input{margin-top:3px;flex-shrink:0;width:auto}
-.manual-question span{line-height:1.5}
 .rule-row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
 @media(max-width:650px){
@@ -101,7 +100,6 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
 
  <div id="pageContent" class="hidden">
 
-  <!-- STEP 1: SELECT A SKILL -->
   <section id="skillHome">
    <div class="eyebrow">Placement assessment</div>
    <h1>Choose a Skill</h1>
@@ -109,7 +107,6 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
    <div id="skillCards" class="skill-grid"></div>
   </section>
 
-  <!-- STEP 2: SELECT TEST BANK OR PLACEMENT TEST -->
   <section id="skillOptions" class="hidden">
    <button id="backToSkills" class="back-button">← All Skills</button>
    <div class="eyebrow">Selected skill</div>
@@ -127,7 +124,6 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
    </div>
   </section>
 
-  <!-- TEST BANK -->
   <section id="skillWorkspace" class="hidden">
    <button id="backFromBank" class="back-button">← Back to Skill Options</button>
    <div class="current-skill">
@@ -154,7 +150,7 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
      <div>
       <div class="eyebrow">New question</div>
       <h2>Add a Question</h2>
-      <p class="muted">Choose the level and question details, then save.</p>
+      <p class="muted">Choose the teaching level, CEFR assessment level and question details, then save.</p>
      </div>
      <button type="button" id="closeQuestionFormButton" class="secondary">Close</button>
     </div>
@@ -163,9 +159,14 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
 
     <div class="grid">
      <div>
-      <label for="qLevel">Level of this question</label>
+      <label for="qLevel">Teaching Level</label>
       <select id="qLevel"></select>
-      <div class="small-note">The question will be saved under this level.</div>
+      <div class="small-note">The teaching level controls the course level. It is separate from CEFR.</div>
+     </div>
+     <div>
+      <label for="qAssessmentLevel">CEFR Assessment Level</label>
+      <select id="qAssessmentLevel"></select>
+      <div class="small-note">Choose the CEFR level this question assesses.</div>
      </div>
      <div>
       <label for="qType">Question Type</label>
@@ -219,7 +220,6 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
    </section>
   </section>
 
-  <!-- PLACEMENT TESTS FOR THE SELECTED SKILL -->
   <section id="testsWorkspace" class="hidden">
    <button id="backFromTests" class="back-button">← Back to Skill Options</button>
    <div class="eyebrow">Placement Test</div>
@@ -252,7 +252,7 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
 
    <section class="panel">
     <h2>2. Question Distribution</h2>
-    <p class="muted">First divide the total questions between Easy, Moderate and Hard. Then distribute each difficulty across question types. The available count is taken from this skill's active question bank across all its levels.</p>
+    <p class="muted">Distribute the required questions across CEFR assessment levels, difficulty and question types. Availability is counted separately for each CEFR level in this skill's active question bank.</p>
     <div class="grid">
      <div>
       <label for="ruleTest">Placement Test</label>
@@ -271,7 +271,7 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
     <div class="actions">
      <button id="saveDistributionButton">Validate Distribution</button>
     </div>
-    <p class="small-note">The system does not ask you to choose levels here. The generated rules will record the actual levels from which the selected questions came.</p>
+    <p class="small-note">Teaching Level remains attached to each question independently. CEFR is the assessment classification used for the test distribution.</p>
    </section>
 
    <section class="panel">
@@ -290,7 +290,7 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
     <div id="manualSelectionArea" class="hidden">
      <hr>
      <h3>Choose Questions Manually</h3>
-     <p class="muted">Select exactly the required number of questions in every difficulty/type group.</p>
+     <p class="muted">Select exactly the required number of questions in every CEFR/difficulty/type group.</p>
      <div id="manualQuestionLists"></div>
     </div>
 
@@ -304,6 +304,9 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
    <section class="panel">
     <h2>4. Your Placement Tests</h2>
     <div id="testList" class="muted">Loading tests...</div>
+    <hr>
+    <h3>Generated Rules</h3>
+    <div id="rulesList" class="muted">Select a test to view its generated rules.</div>
    </section>
   </section>
  </div>
@@ -320,6 +323,7 @@ const $ = id => document.getElementById(id);
 
 let skills = [];
 let levels = [];
+let assessmentLevels = [];
 let questionTypes = [];
 let materials = [];
 let tests = [];
@@ -377,11 +381,15 @@ function skillLabel(skill){
 function levelLabel(level){
  return level.level_name||("Level "+level.level_number);
 }
+function assessmentLevelLabel(level){
+ return level.level_name||level.assessment_level_name||level.cefr_level||
+  level.level_code||level.code||level.name||("CEFR level "+level.id);
+}
 function typeLabel(type){
  return questionTypes.find(x=>x.code===type)?.name||type;
 }
-function makeDistributionKey(difficulty,type){
- return difficulty+"|"+type;
+function makeDistributionKey(assessmentLevelId,difficulty,type){
+ return Number(assessmentLevelId)+"|"+difficulty+"|"+type;
 }
 function currentTest(){
  return tests.find(t=>Number(t.id)===Number($("ruleTest").value));
@@ -425,17 +433,19 @@ async function checkTeacherAccess(){
 }
 
 async function loadSkillsAndLevels(){
- const [skillResult,levelResult,typeResult]=await Promise.all([
+ const [skillResult,levelResult,assessmentResult,typeResult]=await Promise.all([
   db.from("skills")
    .select("id,skill_code,skill_name,is_active,sort_order")
    .eq("is_active",true)
    .order("sort_order"),
-  // skill_levels has no skill_id column. Levels are shared catalogue entries;
-  // the question bank connects each skill to a level through its own rows.
   db.from("skill_levels")
    .select("id,level_name,level_number,is_active,sort_order")
    .eq("is_active",true)
    .order("sort_order"),
+  // Load the CEFR catalogue dynamically. The interface does not hardcode CEFR IDs.
+  db.from("skill_placement_assessment_levels")
+   .select("*")
+   .order("id"),
   db.from("skill_placement_question_types")
    .select("code,name,is_active")
    .eq("is_active",true)
@@ -443,10 +453,15 @@ async function loadSkillsAndLevels(){
  ]);
  if(skillResult.error)throw skillResult.error;
  if(levelResult.error)throw levelResult.error;
+ if(assessmentResult.error)throw assessmentResult.error;
  if(typeResult.error)throw typeResult.error;
  skills=skillResult.data||[];
  levels=levelResult.data||[];
+ assessmentLevels=(assessmentResult.data||[])
+  .filter(level=>level.is_active!==false)
+  .sort((a,b)=>Number(a.sort_order??a.level_number??a.id)-Number(b.sort_order??b.level_number??b.id));
  questionTypes=typeResult.data||[];
+ if(!assessmentLevels.length)throw new Error("No active CEFR assessment levels were found in skill_placement_assessment_levels.");
  renderSkillCards();
 }
 function renderSkillCards(){
@@ -475,7 +490,8 @@ async function openSkill(skill){
  $("selectedSkillTitle").textContent=skillLabel(skill);
  $("testsSkillTitle").textContent=skillLabel(skill);
  $("qSkill").value=String(skill.id);
- fillSelect($("qLevel"),levels.map(l=>({id:l.id,label:levelLabel(l)})),"Choose question level");
+ fillSelect($("qLevel"),levels.map(l=>({id:l.id,label:levelLabel(l)})),"Choose teaching level");
+ fillSelect($("qAssessmentLevel"),assessmentLevels.map(l=>({id:l.id,label:assessmentLevelLabel(l)})),"Choose CEFR level");
  try{
   await loadMaterials();
   showSection("skillOptions");
@@ -586,17 +602,18 @@ async function saveQuestion(){
  try{
   const skillId=Number(selectedSkillId);
   const levelId=Number($("qLevel").value);
+  const assessmentLevelId=Number($("qAssessmentLevel").value);
   const type=$("qType").value;
   const questionText=$("qText").value.trim();
   const marks=Number($("qMarks").value);
   if(!skillId)throw new Error("Choose a skill first.");
-  if(!levelId)throw new Error("Choose the level of this question.");
+  if(!levelId)throw new Error("Choose the Teaching Level of this question.");
+  if(!assessmentLevelId)throw new Error("Choose the CEFR Assessment Level of this question.");
   if(!type)throw new Error("Choose a question type.");
   if(!questionText)throw new Error("Enter the question text.");
   if(!(marks>0))throw new Error("Marks must be greater than zero.");
-  if(!levels.some(l=>Number(l.id)===levelId)){
-   throw new Error("Choose a valid active level.");
-  }
+  if(!levels.some(l=>Number(l.id)===levelId))throw new Error("Choose a valid active Teaching Level.");
+  if(!assessmentLevels.some(l=>Number(l.id)===assessmentLevelId))throw new Error("Choose a valid active CEFR Assessment Level.");
 
   let options=[];
   let answerKey={};
@@ -621,6 +638,7 @@ async function saveQuestion(){
   const payload={
    skill_id:skillId,
    level_id:levelId,
+   assessment_level_id:assessmentLevelId,
    material_id:materialId,
    question_text:questionText,
    question_type:type,
@@ -667,7 +685,7 @@ async function loadQuestions(){
  }
  list.textContent="Loading questions...";
  const {data,error}=await db.from("skill_placement_question_bank")
-  .select("id,skill_id,level_id,question_text,question_type,marks,difficulty,topic,is_active,material_id,created_at")
+  .select("id,skill_id,level_id,assessment_level_id,question_text,question_type,marks,difficulty,topic,is_active,material_id,created_at")
   .eq("skill_id",selectedSkillId)
   .order("created_at",{ascending:false})
   .limit(150);
@@ -685,6 +703,7 @@ async function loadQuestions(){
  }
  data.forEach(q=>{
   const level=levels.find(l=>Number(l.id)===Number(q.level_id));
+  const assessmentLevel=assessmentLevels.find(l=>Number(l.id)===Number(q.assessment_level_id));
   const material=materials.find(m=>Number(m.id)===Number(q.material_id));
   const item=document.createElement("div");
   item.className="list-item";
@@ -692,7 +711,8 @@ async function loadQuestions(){
   title.textContent=q.question_text;
   const details=document.createElement("p");
   details.textContent=[
-   level?levelLabel(level):"Level "+q.level_id,
+   "Teaching: "+(level?levelLabel(level):"Level "+q.level_id),
+   "CEFR: "+(assessmentLevel?assessmentLevelLabel(assessmentLevel):"ID "+q.assessment_level_id),
    typeLabel(q.question_type),q.difficulty,q.marks+" marks",
    q.topic||"",material?("Material: "+material.title):""
   ].filter(Boolean).join(" · ");
@@ -825,6 +845,7 @@ function getDistributionFromUI(){
   const count=Number(input.value||0);
   if(count>0){
    rows.push({
+    assessment_level_id:Number(input.dataset.assessmentLevelId),
     difficulty:input.dataset.difficulty,
     question_type:input.dataset.type,
     question_count:count
@@ -845,18 +866,21 @@ function updateDistributionSummary(){
 async function loadAvailability(){
  availability={};
  const tasks=[];
- for(const difficulty of ["easy","moderate","hard"]){
-  for(const type of questionTypes){
-   tasks.push((async()=>{
-    const {count,error}=await db.from("skill_placement_question_bank")
-     .select("id",{count:"exact",head:true})
-     .eq("skill_id",selectedSkillId)
-     .eq("is_active",true)
-     .eq("difficulty",difficulty)
-     .eq("question_type",type.code);
-    if(error)throw error;
-    availability[makeDistributionKey(difficulty,type.code)]=count||0;
-   })());
+ for(const assessmentLevel of assessmentLevels){
+  for(const difficulty of ["easy","moderate","hard"]){
+   for(const type of questionTypes){
+    tasks.push((async()=>{
+     const {count,error}=await db.from("skill_placement_question_bank")
+      .select("id",{count:"exact",head:true})
+      .eq("skill_id",selectedSkillId)
+      .eq("is_active",true)
+      .eq("assessment_level_id",assessmentLevel.id)
+      .eq("difficulty",difficulty)
+      .eq("question_type",type.code);
+     if(error)throw error;
+     availability[makeDistributionKey(assessmentLevel.id,difficulty,type.code)]=count||0;
+    })());
+   }
   }
  }
  await Promise.all(tasks);
@@ -876,45 +900,58 @@ async function loadDistribution(){
   await loadAvailability();
   const wrap=$("distributionTableWrap");
   wrap.replaceChildren();
-  const table=document.createElement("table");
-  table.className="distribution-table";
-  const thead=document.createElement("thead");
-  thead.innerHTML="<tr><th>Question Type</th><th>Easy</th><th>Moderate</th><th>Hard</th></tr>";
-  table.appendChild(thead);
-  const tbody=document.createElement("tbody");
-  questionTypes.forEach(type=>{
-   const tr=document.createElement("tr");
-   const name=document.createElement("td");
-   name.textContent=type.name;
-   tr.appendChild(name);
-   ["easy","moderate","hard"].forEach(difficulty=>{
-    const td=document.createElement("td");
-    const input=document.createElement("input");
-    input.type="number";
-    input.min="0";
-    input.step="1";
-    input.value="0";
-    input.dataset.distInput="true";
-    input.dataset.difficulty=difficulty;
-    input.dataset.type=type.code;
-    input.setAttribute("aria-label",type.name+" "+difficulty+" question count");
-    input.addEventListener("input",()=>{
-     updateDistributionSummary();
-     manualSelectionLoadedFor=null;
+  assessmentLevels.forEach(assessmentLevel=>{
+   const details=document.createElement("details");
+   details.className="bucket";
+   details.open=false;
+   const summary=document.createElement("summary");
+   summary.style.cursor="pointer";
+   summary.style.fontWeight="bold";
+   summary.textContent=assessmentLevelLabel(assessmentLevel);
+   details.appendChild(summary);
+
+   const table=document.createElement("table");
+   table.className="distribution-table";
+   const thead=document.createElement("thead");
+   thead.innerHTML="<tr><th>Question Type</th><th>Easy</th><th>Moderate</th><th>Hard</th></tr>";
+   table.appendChild(thead);
+   const tbody=document.createElement("tbody");
+   questionTypes.forEach(type=>{
+    const tr=document.createElement("tr");
+    const name=document.createElement("td");
+    name.textContent=type.name;
+    tr.appendChild(name);
+    ["easy","moderate","hard"].forEach(difficulty=>{
+     const td=document.createElement("td");
+     const input=document.createElement("input");
+     input.type="number";
+     input.min="0";
+     input.step="1";
+     input.value="0";
+     input.dataset.distInput="true";
+     input.dataset.assessmentLevelId=String(assessmentLevel.id);
+     input.dataset.difficulty=difficulty;
+     input.dataset.type=type.code;
+     input.setAttribute("aria-label",assessmentLevelLabel(assessmentLevel)+" "+type.name+" "+difficulty+" question count");
+     input.addEventListener("input",()=>{
+      updateDistributionSummary();
+      manualSelectionLoadedFor=null;
+     });
+     const note=document.createElement("span");
+     note.className="availability";
+     note.textContent=(availability[makeDistributionKey(assessmentLevel.id,difficulty,type.code)]||0)+" available";
+     td.append(input,note);
+     tr.appendChild(td);
     });
-    const note=document.createElement("span");
-    note.className="availability";
-    note.textContent=(availability[makeDistributionKey(difficulty,type.code)]||0)+" available";
-    td.append(input,note);
-    tr.appendChild(td);
+    tbody.appendChild(tr);
    });
-   tbody.appendChild(tr);
+   table.appendChild(tbody);
+   details.appendChild(table);
+   wrap.appendChild(details);
   });
-  table.appendChild(tbody);
-  wrap.appendChild(table);
   const note=document.createElement("p");
   note.className="small-note";
-  note.textContent="Availability is counted for this selected skill across all active levels. A question type can be used once per difficulty.";
+  note.textContent="Enter the required number for each CEFR × difficulty × question type group. A zero means that no questions will be selected from that group.";
   wrap.appendChild(note);
   updateDistributionSummary();
  }catch(error){
@@ -935,9 +972,10 @@ function validateDistribution(){
   throw new Error("The distribution contains "+total+" questions, but this test requires "+test.total_questions+".");
  }
  for(const row of rows){
-  const available=availability[makeDistributionKey(row.difficulty,row.question_type)]||0;
+  const available=availability[makeDistributionKey(row.assessment_level_id,row.difficulty,row.question_type)]||0;
   if(row.question_count>available){
-   throw new Error("Not enough active "+row.difficulty+" questions for "+typeLabel(row.question_type)+". Available: "+available+", required: "+row.question_count+".");
+   const cefr=assessmentLevels.find(l=>Number(l.id)===Number(row.assessment_level_id));
+   throw new Error("Not enough active "+assessmentLevelLabel(cefr||{id:row.assessment_level_id})+" "+row.difficulty+" questions for "+typeLabel(row.question_type)+". Available: "+available+", required: "+row.question_count+".");
   }
  }
  return rows;
@@ -962,11 +1000,12 @@ async function loadManualQuestions(){
   $("manualQuestionLists").replaceChildren();
   $("manualSelectionArea").classList.remove("hidden");
   for(const row of distribution){
-   const key=makeDistributionKey(row.difficulty,row.question_type);
+   const key=makeDistributionKey(row.assessment_level_id,row.difficulty,row.question_type);
    const {data,error}=await db.from("skill_placement_question_bank")
-    .select("id,question_text,question_type,difficulty,marks,level_id,topic")
+    .select("id,question_text,question_type,difficulty,marks,level_id,assessment_level_id,topic")
     .eq("skill_id",selectedSkillId)
     .eq("is_active",true)
+    .eq("assessment_level_id",row.assessment_level_id)
     .eq("difficulty",row.difficulty)
     .eq("question_type",row.question_type)
     .order("id")
@@ -974,8 +1013,9 @@ async function loadManualQuestions(){
    if(error)throw error;
    const group=document.createElement("div");
    group.className="bucket";
+   const cefr=assessmentLevels.find(l=>Number(l.id)===Number(row.assessment_level_id));
    const heading=document.createElement("h3");
-   heading.textContent=row.difficulty.toUpperCase()+" · "+typeLabel(row.question_type);
+   heading.textContent=assessmentLevelLabel(cefr||{id:row.assessment_level_id})+" · "+row.difficulty.toUpperCase()+" · "+typeLabel(row.question_type);
    const instruction=document.createElement("p");
    instruction.className="muted";
    instruction.textContent="Select exactly "+row.question_count+" question(s).";
@@ -1001,7 +1041,7 @@ async function loadManualQuestions(){
     });
     const level=levels.find(l=>Number(l.id)===Number(question.level_id));
     const text=document.createElement("span");
-    text.textContent="#"+question.id+" · "+question.question_text+" · "+(level?levelLabel(level):"Level "+question.level_id)+" · "+question.marks+" marks";
+    text.textContent="#"+question.id+" · "+question.question_text+" · Teaching: "+(level?levelLabel(level):"Level "+question.level_id)+" · "+assessmentLevelLabel(cefr||{id:row.assessment_level_id})+" · "+question.marks+" marks";
     label.append(checkbox,text);
     choices.appendChild(label);
    });
@@ -1028,10 +1068,11 @@ function getManualQuestionIds(){
  }
  const ids=[];
  for(const row of distribution){
-  const key=makeDistributionKey(row.difficulty,row.question_type);
+  const key=makeDistributionKey(row.assessment_level_id,row.difficulty,row.question_type);
   const selected=manualSelections[key]||[];
   if(selected.length!==row.question_count){
-   throw new Error("Select exactly "+row.question_count+" questions for "+row.difficulty+" · "+typeLabel(row.question_type)+".");
+   const cefr=assessmentLevels.find(l=>Number(l.id)===Number(row.assessment_level_id));
+   throw new Error("Select exactly "+row.question_count+" questions for "+assessmentLevelLabel(cefr||{id:row.assessment_level_id})+" · "+row.difficulty+" · "+typeLabel(row.question_type)+".");
   }
   ids.push(...selected);
  }
@@ -1090,9 +1131,9 @@ async function loadRules(){
  }
  list.textContent="Loading generated rules...";
  const {data,error}=await db.from("skill_placement_test_rules")
-  .select("id,test_id,level_id,difficulty,question_type,question_count")
+  .select("id,test_id,level_id,assessment_level_id,difficulty,question_type,question_count")
   .eq("test_id",testId)
-  .order("level_id");
+  .order("assessment_level_id");
  if(error){
   list.textContent="Could not load generated rules: "+error.message;
   return;
@@ -1104,17 +1145,18 @@ async function loadRules(){
  }
  const intro=document.createElement("p");
  intro.className="muted";
- intro.textContent="These are read-only records of the actual levels used in the generated paper.";
+ intro.textContent="These are read-only records of the CEFR assessment levels and Teaching Levels represented in the generated paper.";
  list.appendChild(intro);
  data.forEach(rule=>{
   const level=levels.find(l=>Number(l.id)===Number(rule.level_id));
+  const assessmentLevel=assessmentLevels.find(l=>Number(l.id)===Number(rule.assessment_level_id));
   const item=document.createElement("div");
   item.className="list-item rule-row";
   const text=document.createElement("div");
   const title=document.createElement("strong");
-  title.textContent=(level?levelLabel(level):"Level "+rule.level_id)+" · "+typeLabel(rule.question_type);
+  title.textContent=(assessmentLevel?assessmentLevelLabel(assessmentLevel):"CEFR ID "+rule.assessment_level_id)+" · "+typeLabel(rule.question_type);
   const details=document.createElement("p");
-  details.textContent=rule.difficulty+" · "+rule.question_count+" questions";
+  details.textContent="Teaching: "+(level?levelLabel(level):rule.level_id==null?"Multiple Teaching Levels":"Level "+rule.level_id)+" · "+rule.difficulty+" · "+rule.question_count+" questions";
   text.append(title,details);
   item.appendChild(text);
   list.appendChild(item);
@@ -1149,7 +1191,7 @@ async function toggleTest(test){
   }
   const ruleTotal=(rules||[]).reduce((sum,rule)=>sum+Number(rule.question_count||0),0);
   if(!rules?.length||ruleTotal!==Number(test.total_questions)){
-   showMessage("Cannot publish. Generated level-based rules must exist and add up to exactly "+test.total_questions+" questions. Current rule total: "+ruleTotal+".","error");
+   showMessage("Cannot publish. Generated CEFR-based rules must exist and add up to exactly "+test.total_questions+" questions. Current rule total: "+ruleTotal+".","error");
    return;
   }
   if(!(Number(test.total_marks)>0)){
