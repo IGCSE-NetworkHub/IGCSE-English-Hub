@@ -18,6 +18,10 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .secondary{background:#e8edf4;color:#243b5b}
 .danger{background:#a83232}
 .panel{background:white;border:1px solid #e1e7ef;border-radius:13px;padding:23px;margin-bottom:20px;box-shadow:0 3px 12px #172b4d08}
+#questionFormPanel:not(.hidden){position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;margin:0;background:rgba(15,27,45,.62);overflow-y:auto;border:0;border-radius:0;box-shadow:none}
+#questionFormPanel .question-modal-dialog{width:min(900px,100%);max-height:calc(100vh - 40px);overflow-y:auto;background:#fff;border:1px solid #dbe3ee;border-radius:14px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+body.modal-open{overflow:hidden}
+@media(max-width:650px){#questionFormPanel:not(.hidden){padding:10px}#questionFormPanel .question-modal-dialog{max-height:calc(100vh - 20px);padding:16px}}
 h1{font-size:27px;margin:0 0 8px}
 h2{font-size:20px;margin:0 0 12px}
 h3{font-size:16px;margin:0 0 10px}
@@ -145,11 +149,12 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
     <div id="questionList" class="muted">Loading questions...</div>
    </div>
 
-   <section id="questionFormPanel" class="panel hidden">
+   <section id="questionFormPanel" class="panel hidden" role="dialog" aria-modal="true" aria-labelledby="questionFormTitle">
+   <div class="question-modal-dialog">
     <div class="section-heading">
      <div>
       <div class="eyebrow">New question</div>
-      <h2>Add a Question</h2>
+      <h2 id="questionFormTitle">Add a Question</h2>
       <p class="muted">Choose the CEFR assessment level and question details, then save.</p>
      </div>
      <button type="button" id="closeQuestionFormButton" class="secondary">Close</button>
@@ -221,7 +226,8 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
      <button id="saveQuestionButton">Save Question</button>
      <button type="button" class="secondary" id="resetQuestionButton">Clear Form</button>
     </div>
-   </section>
+   </div>
+  </section>
   </section>
 
   <section id="testsWorkspace" class="hidden">
@@ -535,10 +541,13 @@ function openTestsWorkspace(){
 function showQuestionForm(){
  if(!selectedSkillId)return;
  $("questionFormPanel").classList.remove("hidden");
- $("questionFormPanel").scrollIntoView({behavior:"smooth",block:"start"});
+ document.body.classList.add("modal-open");
+ $("qAssessmentLevel").focus();
 }
 function closeQuestionForm(){
  $("questionFormPanel").classList.add("hidden");
+ document.body.classList.remove("modal-open");
+ $("showQuestionFormButton").focus();
 }
 
 function addOption(value=""){
@@ -1263,6 +1272,12 @@ $("openPlacementButton").addEventListener("click",openTestsWorkspace);
 /* Test Bank */
 $("showQuestionFormButton").addEventListener("click",showQuestionForm);
 $("closeQuestionFormButton").addEventListener("click",closeQuestionForm);
+$("questionFormPanel").addEventListener("click",event=>{
+ if(event.target===$("questionFormPanel"))closeQuestionForm();
+});
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape"&&!$("questionFormPanel").classList.contains("hidden"))closeQuestionForm();
+});
 $("qType").addEventListener("change",updateQuestionTypeUI);
 $("addOptionButton").addEventListener("click",()=>addOption());
 $("saveQuestionButton").addEventListener("click",saveQuestion);
