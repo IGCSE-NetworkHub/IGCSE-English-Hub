@@ -81,6 +81,34 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
  .distribution-table{font-size:12px}
  .distribution-table th,.distribution-table td{padding:6px}
 }
+
+/* Placement manager: compact, step-based layout */
+.manager-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin:8px 0 22px}
+.manager-heading h1{font-size:30px;margin-bottom:5px}
+.test-list-panel{padding:22px}
+.step-label{font-size:11px;font-weight:700;letter-spacing:1px;color:#71839a;background:#f1f5f9;padding:7px 10px;border-radius:20px}
+.modal-overlay:not(.hidden){position:fixed;inset:0;z-index:1100;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(15,27,45,.58);overflow:auto}
+.modal-card{width:min(680px,100%);max-height:calc(100vh - 36px);overflow:auto;background:#fff;border:1px solid #dce4ef;border-radius:16px;padding:25px;box-shadow:0 22px 70px rgba(15,27,45,.22)}
+.selected-test-banner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:#edf3fa;border:1px solid #dce6f1;border-radius:13px;padding:18px 20px;margin:0 0 18px}
+.selected-test-banner h2{margin:0 0 5px;font-size:21px;color:#1b3555}
+.selected-test-banner p{margin:0}
+.workflow-panel{padding:22px;margin-bottom:16px}
+.step-heading{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px}
+.step-heading h2{margin:1px 0 5px}
+.step-heading p{margin:0}
+.step-number{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border-radius:50%;background:#e8eff8;color:#244b7a;font-weight:700}
+.test-picker{max-width:380px;margin:10px 0 14px}
+.test-picker label{margin-top:0}
+#selectedTestWorkspace .distribution-table{min-width:560px}
+#selectedTestWorkspace .bucket{overflow-x:auto}
+#testList .list-item{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px;margin:10px 0}
+#testList .list-item>strong{font-size:15px;flex:1 1 220px;color:#1d3553}
+#testList .list-item>p{flex:1 1 200px;margin:0}
+#testList .list-item .tag{margin:0}
+#testList .list-item .actions{margin:0}
+#testList .list-item .actions button{padding:9px 12px}
+@media(max-width:650px){.manager-heading{align-items:stretch}.manager-heading>button{width:100%}.modal-card{padding:17px}.selected-test-banner{padding:15px}.workflow-panel{padding:16px}#testList .list-item{align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -232,91 +260,73 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:12px}
 
   <section id="testsWorkspace" class="hidden">
    <button id="backFromTests" class="back-button">← Back to Skill Options</button>
-   <div class="eyebrow">Placement Test</div>
-   <h1 id="testsSkillTitle">Reading</h1>
-   <p class="muted">Create and manage placement tests for this skill using questions from its Test Bank.</p>
-
-   <section class="panel">
-    <h2>1. Create a Test</h2>
-    <div class="grid">
-     <div>
-      <label for="testTitle">Test Title</label>
-      <input id="testTitle" placeholder="e.g. Reading Placement Test">
-     </div>
-     <div>
-      <label for="testDuration">Duration (minutes)</label>
-      <input id="testDuration" type="number" min="1" value="45">
-     </div>
-     <div>
-      <label for="testTotalQuestions">Total Number of Questions</label>
-      <input id="testTotalQuestions" type="number" min="1" step="1" value="30">
-     </div>
+   <div class="manager-heading">
+    <div>
+     <div class="eyebrow">Placement assessment manager</div>
+     <h1 id="testsSkillTitle">Reading</h1>
+     <p class="muted">Manage your placement tests in a few clear steps.</p>
     </div>
-    <label for="testDescription">Description (optional)</label>
-    <textarea id="testDescription" placeholder="Instructions or information about this assessment..."></textarea>
-    <div class="actions">
-     <button id="createTestButton">Create Test</button>
-    </div>
-    <p class="small-note">Total marks are calculated automatically from the questions selected for the generated paper.</p>
-   </section>
+    <button type="button" id="showCreateTestButton">+ Create New Test</button>
+   </div>
 
-   <section class="panel">
-    <h2>2. Question Distribution</h2>
-    <p class="muted">Distribute the required questions across CEFR assessment levels, difficulty and question types. Availability is counted separately for each CEFR level in this skill's active question bank.</p>
-    <div class="grid">
-     <div>
-      <label for="ruleTest">Placement Test</label>
-      <select id="ruleTest"></select>
-     </div>
+   <section class="panel test-list-panel">
+    <div class="section-heading">
+     <div><h2>Your Placement Tests</h2><p class="muted">Choose a test to configure, generate or publish it.</p></div>
+     <span class="step-label">TEST LIBRARY</span>
     </div>
-
-    <div id="distributionSummary" class="summary-grid">
-     <div class="summary-box"><strong id="easyTotal">0</strong><span>Easy questions</span></div>
-     <div class="summary-box"><strong id="moderateTotal">0</strong><span>Moderate questions</span></div>
-     <div class="summary-box"><strong id="hardTotal">0</strong><span>Hard questions</span></div>
-     <div class="summary-box"><strong id="distributionTotal">0</strong><span>Distributed questions</span></div>
-    </div>
-
-    <div id="distributionTableWrap" class="muted">Select a test to configure its distribution.</div>
-    <div class="actions">
-     <button id="saveDistributionButton">Validate Distribution</button>
-    </div>
-    <p class="small-note">CEFR is the only level classification used for placement-test distribution and question selection.</p>
-   </section>
-
-   <section class="panel">
-    <h2>3. Generate the Question Paper</h2>
-    <p class="muted">Choose random selection or select the exact questions manually.</p>
-    <div class="grid">
-     <div>
-      <label for="selectionMode">Selection Method</label>
-      <select id="selectionMode">
-       <option value="random">Random Selection</option>
-       <option value="manual">Manual Selection</option>
-      </select>
-     </div>
-    </div>
-
-    <div id="manualSelectionArea" class="hidden">
-     <hr>
-     <h3>Choose Questions Manually</h3>
-     <p class="muted">Select exactly the required number of questions in every CEFR/difficulty/type group.</p>
-     <div id="manualQuestionLists"></div>
-    </div>
-
-    <div class="actions">
-     <button id="loadManualQuestionsButton" class="secondary">Load Manual Selection</button>
-     <button id="generatePaperButton">Generate Question Paper</button>
-    </div>
-    <div id="generationResult" class="message"></div>
-   </section>
-
-   <section class="panel">
-    <h2>4. Your Placement Tests</h2>
     <div id="testList" class="muted">Loading tests...</div>
-    <hr>
-    <h3>Generated Rules</h3>
-    <div id="rulesList" class="muted">Select a test to view its generated rules.</div>
+   </section>
+
+   <section id="createTestPanel" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="createTestHeading">
+    <div class="modal-card">
+     <div class="section-heading">
+      <div><div class="eyebrow">New assessment</div><h2 id="createTestHeading">Create a Placement Test</h2></div>
+      <button type="button" id="closeCreateTestButton" class="secondary">Close</button>
+     </div>
+     <div class="grid">
+      <div><label for="testTitle">Test Title</label><input id="testTitle" placeholder="e.g. Reading Placement Test"></div>
+      <div><label for="testDuration">Duration (minutes)</label><input id="testDuration" type="number" min="1" value="45"></div>
+      <div><label for="testTotalQuestions">Total Number of Questions</label><input id="testTotalQuestions" type="number" min="1" step="1" value="30"></div>
+     </div>
+     <label for="testDescription">Description (optional)</label>
+     <textarea id="testDescription" placeholder="Instructions or information about this assessment..."></textarea>
+     <p class="small-note">Total marks are calculated automatically from the questions selected for the generated paper.</p>
+     <div class="actions"><button id="createTestButton">Create Test</button></div>
+    </div>
+   </section>
+
+   <section id="selectedTestWorkspace" class="hidden">
+    <div class="selected-test-banner">
+     <div><div class="eyebrow">Selected placement test</div><h2 id="selectedTestTitle">Configure your test</h2><p class="muted">Complete the steps below in order. You can return to the test list at any time.</p></div>
+     <button type="button" id="closeTestConfigurationButton" class="secondary">← Back to Tests</button>
+    </div>
+
+    <section class="panel workflow-panel">
+     <div class="step-heading"><span class="step-number">1</span><div><h2>Question Distribution</h2><p class="muted">Set the number of questions for each CEFR level, difficulty and question type.</p></div></div>
+     <div class="test-picker"><label for="ruleTest">Placement Test</label><select id="ruleTest"></select></div>
+     <div id="distributionSummary" class="summary-grid">
+      <div class="summary-box"><strong id="easyTotal">0</strong><span>Easy questions</span></div>
+      <div class="summary-box"><strong id="moderateTotal">0</strong><span>Moderate questions</span></div>
+      <div class="summary-box"><strong id="hardTotal">0</strong><span>Hard questions</span></div>
+      <div class="summary-box"><strong id="distributionTotal">0</strong><span>Distributed questions</span></div>
+     </div>
+     <div id="distributionTableWrap" class="muted">Select a test to configure its distribution.</div>
+     <div class="actions"><button id="saveDistributionButton">Validate Distribution</button></div>
+     <p class="small-note">CEFR is the only level classification used for placement-test distribution and question selection.</p>
+    </section>
+
+    <section class="panel workflow-panel">
+     <div class="step-heading"><span class="step-number">2</span><div><h2>Generate the Question Paper</h2><p class="muted">Choose random selection or select the exact questions manually.</p></div></div>
+     <div class="grid"><div><label for="selectionMode">Selection Method</label><select id="selectionMode"><option value="random">Random Selection</option><option value="manual">Manual Selection</option></select></div></div>
+     <div id="manualSelectionArea" class="hidden"><hr><h3>Choose Questions Manually</h3><p class="muted">Select exactly the required number of questions in every CEFR/difficulty/type group.</p><div id="manualQuestionLists"></div></div>
+     <div class="actions"><button id="loadManualQuestionsButton" class="secondary">Load Manual Selection</button><button id="generatePaperButton">Generate Question Paper</button></div>
+     <div id="generationResult" class="message"></div>
+    </section>
+
+    <section class="panel workflow-panel">
+     <div class="step-heading"><span class="step-number">3</span><div><h2>Generated Rules & Publishing</h2><p class="muted">Review the generated CEFR rules, then publish the completed test from the test list.</p></div></div>
+     <div id="rulesList" class="muted">Generate the question paper to view its rules.</div>
+    </section>
    </section>
   </section>
  </div>
@@ -536,7 +546,29 @@ function openQuestionBank(){
 function openTestsWorkspace(){
  if(!selectedSkillId)return;
  showSection("testsWorkspace");
+ $("selectedTestWorkspace").classList.add("hidden");
+ $("createTestPanel").classList.add("hidden");
  loadTests();
+}
+function openCreateTest(){
+ $("createTestPanel").classList.remove("hidden");
+ document.body.classList.add("modal-open");
+ $("testTitle").focus();
+}
+function closeCreateTest(){
+ $("createTestPanel").classList.add("hidden");
+ document.body.classList.remove("modal-open");
+ $("showCreateTestButton").focus();
+}
+async function openTestConfiguration(testId){
+ const test=tests.find(item=>Number(item.id)===Number(testId));
+ if(!test)return;
+ $("ruleTest").value=String(test.id);
+ $("selectedTestTitle").textContent=test.title;
+ $("selectedTestWorkspace").classList.remove("hidden");
+ await loadDistribution();
+ await loadRules();
+ $("selectedTestWorkspace").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function showQuestionForm(){
  if(!selectedSkillId)return;
@@ -800,20 +832,18 @@ async function createTest(){
 
   $("testTitle").value="";
   $("testDescription").value="";
+  closeCreateTest();
   showMessage("Test created as a draft. Configure its distribution and generate the paper.");
-  await loadTests();
-  $("ruleTest").value=String(data.id);
-  await loadDistribution();
+  await loadTests(data.id);
+  await openTestConfiguration(data.id);
  }catch(error){
   showMessage("Could not create test: "+error.message,"error");
  }finally{
   button.disabled=false;
  }
 }
-async function loadTests(){
+async function loadTests(preserveTestId=null){
  const list=$("testList");
- // Keep the currently selected test when the list is refreshed.
- const previouslySelectedTestId=$("ruleTest").value;
  if(!selectedSkillId){
   list.textContent="Choose a skill first.";
   return;
@@ -828,13 +858,12 @@ async function loadTests(){
   return;
  }
  tests=data||[];
+ const testToRestore=preserveTestId??$("ruleTest").value;
  fillSelect($("ruleTest"),tests.map(t=>({
   id:t.id,label:t.title+" ("+t.total_questions+" questions)"
  })),"Select placement test");
- // Restoring this value is essential after generation: otherwise loadRules()
- // receives an empty test ID and the Generated Rules panel stays blank.
- if(tests.some(t=>String(t.id)===previouslySelectedTestId)){
-  $("ruleTest").value=previouslySelectedTestId;
+ if(testToRestore&&tests.some(t=>String(t.id)===String(testToRestore))){
+  $("ruleTest").value=String(testToRestore);
  }
  $("distributionTableWrap").textContent="Select a test to configure its distribution.";
  $("rulesList").textContent="Select a test to view its generated rules.";
@@ -858,12 +887,7 @@ async function loadTests(){
   const selectButton=document.createElement("button");
   selectButton.className="secondary";
   selectButton.textContent="Configure / Generate";
-  selectButton.onclick=async()=>{
-   $("ruleTest").value=String(test.id);
-   await loadDistribution();
-   await loadRules();
-   $("ruleTest").scrollIntoView({behavior:"smooth",block:"center"});
-  };
+  selectButton.onclick=()=>openTestConfiguration(test.id);
   const publishButton=document.createElement("button");
   publishButton.textContent=test.is_published?"Unpublish":"Publish";
   publishButton.className=test.is_published?"danger":"";
@@ -1147,7 +1171,7 @@ async function generatePaper(){
    " questions · "+data.total_marks+" total marks · "+data.selection_mode+" selection.",
    "success"
   );
-  await loadTests();
+  await loadTests(test.id);
   await loadRules();
  }catch(error){
   showGeneration("Could not generate the paper: "+error.message,"error");
@@ -1291,8 +1315,22 @@ $("saveQuestionButton").addEventListener("click",saveQuestion);
 $("resetQuestionButton").addEventListener("click",resetQuestionForm);
 
 /* Placement Test */
+$("showCreateTestButton").addEventListener("click",openCreateTest);
+$("closeCreateTestButton").addEventListener("click",closeCreateTest);
+$("closeTestConfigurationButton").addEventListener("click",()=>{
+ $("selectedTestWorkspace").classList.add("hidden");
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+$("createTestPanel").addEventListener("click",event=>{
+ if(event.target===$("createTestPanel"))closeCreateTest();
+});
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape"&&!$("createTestPanel").classList.contains("hidden"))closeCreateTest();
+});
 $("createTestButton").addEventListener("click",createTest);
 $("ruleTest").addEventListener("change",async()=>{
+ const test=currentTest();
+ if(test)$("selectedTestTitle").textContent=test.title;
  await loadDistribution();
  await loadRules();
 });
