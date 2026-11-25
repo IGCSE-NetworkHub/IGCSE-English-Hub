@@ -812,6 +812,8 @@ async function createTest(){
 }
 async function loadTests(){
  const list=$("testList");
+ // Keep the currently selected test when the list is refreshed.
+ const previouslySelectedTestId=$("ruleTest").value;
  if(!selectedSkillId){
   list.textContent="Choose a skill first.";
   return;
@@ -829,6 +831,11 @@ async function loadTests(){
  fillSelect($("ruleTest"),tests.map(t=>({
   id:t.id,label:t.title+" ("+t.total_questions+" questions)"
  })),"Select placement test");
+ // Restoring this value is essential after generation: otherwise loadRules()
+ // receives an empty test ID and the Generated Rules panel stays blank.
+ if(tests.some(t=>String(t.id)===previouslySelectedTestId)){
+  $("ruleTest").value=previouslySelectedTestId;
+ }
  $("distributionTableWrap").textContent="Select a test to configure its distribution.";
  $("rulesList").textContent="Select a test to view its generated rules.";
  list.replaceChildren();
